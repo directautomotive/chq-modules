@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dropdowns Side By Side</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+/* Every dropdown in CollisionHQ 5.197, drawn as it is in the app, open at the same time. Click rows, type in Search, scroll, type in Add Status. App pixels. */
+:root{ color-scheme:light; --ink:#16181D; --gray:#6C6C73; --soft:#8A919C; --line:#ECECF0; --fill:#F2F2F7; --orange:#E8792B; --tint:rgba(232,121,43,.10);
+  --word:Inter, -apple-system, "Segoe UI", Arial, sans-serif; --num:"Courier New", Courier, monospace; }
+*{ box-sizing:border-box; }
+body{ margin:0; background:#E4E4EA; color:var(--ink); font-family:var(--word); -webkit-font-smoothing:antialiased; padding:24px 16px 64px; }
+h1{ font:800 22px var(--word); margin:0 0 4px; }
+h2{ font:800 17px var(--word); margin:28px 0 10px; }
+.ver{ font:700 13px var(--num); color:var(--orange); }
+.lead{ margin:6px 0 0; color:#4A4D55; font-size:14px; line-height:1.5; max-width:90ch; }
+.row{ display:flex; gap:18px; align-items:flex-start; overflow-x:auto; padding:6px 2px 18px; }
+.col{ flex:none; display:flex; flex-direction:column; gap:8px; }
+.cap{ font:600 12.5px var(--word); color:#5B6472; padding-left:4px; }
+.cap b{ color:var(--ink); }
+button{ font-family:var(--word); color:var(--ink); border:0; background:none; padding:0; cursor:pointer; text-align:left; }
+button:focus-visible, input:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
+
+/* the pill / box each menu hangs from */
+.pill{ height:40px; border-radius:20px; background:var(--fill); display:flex; align-items:center; gap:8px; padding:0 14px 0 16px; font:500 14px var(--word); box-shadow:0 0 0 2px var(--orange); width:100%; }
+.pill svg{ margin-left:auto; width:14px; height:14px; fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; transform:rotate(180deg); flex:none; }
+.pill .sq{ width:14px; height:14px; border-radius:7px; }
+
+/* menu card: board 300 wide (search row), Details = the box's width, no search */
+.menu{ position:relative; background:#fff; border-radius:22px; padding:10px; box-shadow:0 0 0 .5px rgba(0,0,0,.10), 0 14px 36px rgba(0,0,0,.16); width:300px; }
+.menu.wide{ width:424px; }
+.srch{ display:flex; gap:8px; margin-bottom:8px; }
+.srch .bx{ flex:1; height:44px; border-radius:22px; background:var(--fill); display:flex; align-items:center; gap:8px; padding:0 14px; color:var(--soft); }
+.srch .bx svg{ width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:2; flex:none; }
+.srch .bx input{ flex:1; min-width:0; border:0; background:transparent; outline:none; font:400 15px var(--word); color:var(--ink); }
+.srch .bx input::placeholder{ color:var(--soft); }
+.srch .x{ width:44px; height:44px; border-radius:22px; background:var(--fill); display:grid; place-items:center; flex:none; }
+.srch .x svg{ width:14px; height:14px; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round; fill:none; }
+.list{ display:flex; flex-direction:column; max-height:346px; overflow-y:auto; scrollbar-width:none; }
+.list::-webkit-scrollbar{ display:none; }
+.menu.wide .list{ max-height:296px; }
+.list.chips{ gap:6px; }
+.sb{ position:absolute; right:3px; width:4px; border-radius:999px; background:#C7C7CE; pointer-events:none; }
+.menu:hover .sb{ width:6px; right:2px; background:#AEAEB6; }
+
+/* plain rows (Source, Status, Location, Board Month): 43 tall, fully round, hairline between */
+.r{ position:relative; flex:none; display:flex; align-items:center; gap:9px; height:43px; padding:0 12px; border-radius:22px; font:500 15px var(--word); width:100%; white-space:nowrap; }
+.menu.wide .r{ padding:0 16px; gap:10px; }
+.r + .r::before{ content:""; position:absolute; left:14px; right:14px; top:0; height:1px; background:var(--line); }
+.r.on::before, .r.on + .r::before, .r:hover::before, .r:hover + .r::before{ display:none; }
+.r:hover{ background:var(--fill); }
+.r.on{ background:var(--tint); font-weight:700; }
+.r .ic{ width:20px; height:20px; flex:none; display:grid; place-items:center; }
+.r .ic svg{ width:20px; height:20px; }
+.r .unk{ width:20px; height:20px; flex:none; border-radius:50%; border:1.5px dashed #B9BCC4; }
+.r .plus{ width:20px; height:20px; flex:none; border-radius:50%; background:linear-gradient(#3A3F47,#3A3F47) center / 10px 2px no-repeat, linear-gradient(#3A3F47,#3A3F47) center / 2px 10px no-repeat, #E6E6EC; }
+.r .ck{ margin-left:auto; width:16px; height:16px; fill:none; stroke:var(--orange); stroke-width:2; stroke-linecap:round; stroke-linejoin:round; flex:none; }
+.r.add{ margin-top:2px; } .r.add::before{ content:""; position:absolute; left:14px; right:14px; top:0; height:1px; background:var(--line); display:block !important; }
+.r .sq{ width:14px; height:14px; border-radius:7px; flex:none; box-shadow:inset 0 0 0 1px rgba(0,0,0,.10); }
+.r.fut{ color:#9A9AA2; }
+/* chips (Insurance): 38 tall, 6 apart, company color, logo circle 26 at 6 in */
+.c{ position:relative; flex:none; display:flex; align-items:center; gap:10px; height:38px; padding:0 10px 0 6px; border-radius:19px; font:500 14px var(--word); width:100%; background:color-mix(in srgb, var(--cc) 14%, #fff); color:color-mix(in srgb, var(--cc) 72%, #000); white-space:nowrap; }
+.c .ci{ width:26px; height:26px; border-radius:13px; background:var(--cc); color:#fff; display:grid; place-items:center; font:700 12px var(--word); flex:none; }
+.c:hover{ filter:brightness(.97); }
+.c.on{ box-shadow:inset 0 0 0 2px var(--orange); font-weight:700; }
+.c .ck{ margin-left:auto; width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.c.unk{ background:#E6E6EC; color:var(--ink); } .c.unk .ci{ background:transparent; border:1.5px dashed #9AA1AB; }
+.c.add{ background:transparent; color:var(--ink); margin-top:2px; }
+.c.add::after{ content:""; position:absolute; left:14px; right:14px; top:0; height:1px; background:var(--line); }
+.c.add:hover{ background:var(--fill); filter:none; }
+.c.add .ci{ background:linear-gradient(#3A3F47,#3A3F47) center / 12px 2px no-repeat, linear-gradient(#3A3F47,#3A3F47) center / 2px 12px no-repeat, #E6E6EC; }
+/* Whose Move pills (38 tall, 6 apart, own color, white dot circle) */
+.w{ flex:none; display:flex; align-items:center; gap:10px; height:38px; padding:0 12px 0 6px; border-radius:19px; font:600 14px var(--word); width:100%; }
+.w .dot{ width:26px; height:26px; border-radius:13px; background:#fff; display:grid; place-items:center; flex:none; } .w .dot i{ width:10px; height:10px; border-radius:5px; }
+.w.on{ box-shadow:inset 0 0 0 2px var(--orange); } .w .ck{ margin-left:auto; width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.w:hover{ filter:brightness(.97); }
+/* Add Status typing box (5.193) */
+.tadd{ position:relative; padding-top:8px; margin-top:2px; }
+.tadd::before{ content:""; position:absolute; left:14px; right:14px; top:0; height:1px; background:var(--line); }
+.tadd input{ width:100%; height:44px; border-radius:22px; border:0; outline:none; background:var(--fill); padding:0 16px; font:500 15px var(--word); color:var(--ink); }
+.tadd input::placeholder{ color:var(--soft); } .tadd input:focus{ background:#fff; box-shadow:0 0 0 2px var(--orange); }
+.tadd .b{ display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px; }
+.tadd .b button{ height:40px; border-radius:20px; font:600 14px var(--word); display:flex; flex-direction:column; align-items:center; justify-content:center; line-height:1.1; }
+.tadd .b button small{ font:500 11px var(--word); opacity:.75; margin-top:2px; }
+.tadd .b .j{ background:var(--fill); } .tadd .b .l{ background:var(--orange); color:#fff; }
+/* Board Month rows (Details, 5.192): three even columns, year in Courier, filled count */
+.menu.wide .r.mon{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:0; }
+.r.mon .m{ display:flex; align-items:center; gap:8px; } .r.mon .y{ justify-self:center; font:700 14px var(--num); } .r.mon.fut .y{ color:#9A9AA2; }
+.r.mon .n{ justify-self:end; height:24px; min-width:34px; padding:0 9px; border-radius:12px; background:#E6E6EC; color:#3A3F47; font:700 13px/24px var(--num); text-align:center; }
+.r.mon.on .n{ background:var(--orange); color:#fff; } .r.mon.fut .n{ background:#F1F1F4; color:#B4B4BC; }
+/* board month menu (5.185): grows out of the pill; year bar; counts plain */
+.r.bm{ display:flex; } .r.bm .n2{ margin-left:auto; font:700 14px var(--num); color:var(--gray); } .r.bm.on .n2{ color:var(--orange); } .r.bm.fut .n2{ color:#C9C9CF; }
+.yb{ display:flex; align-items:center; gap:6px; margin-bottom:6px; } .yb .y{ flex:1; height:44px; border-radius:22px; background:var(--fill); display:flex; align-items:center; justify-content:center; font:800 22px var(--word); gap:10px; }
+.yb .y svg, .yb .a svg{ width:14px; height:14px; fill:none; stroke:var(--ink); stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
+.yb .a{ width:44px; height:44px; display:grid; place-items:center; }
+.note{ font-size:12.5px; color:var(--soft); padding:10px 14px 2px; }
+</style>
+</head>
+<body>
+<h1>Dropdowns Side By Side</h1>
+<span class="ver">Version 1 · Oct 8, 2026, 1:48 PM · drawn from app 5.197</span>
+<p class="lead">Every dropdown open at once, drawn the way 5.197 draws it. They work: click a row to pick it, type in Search to filter, scroll the long lists, type in the Add Status box. Insurance logos are letter circles here (the app uses the real logos). Scroll sideways if the row is wider than your screen.</p>
+
+<h2>Board (Ledger header 3 and the month pill)</h2>
+<div class="row" id="board"></div>
+
+<h2>Details › Customer Details</h2>
+<div class="row" id="details"></div>
+
+<script>
+var CK = '<svg class="ck" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+var CHEV = '<svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>';
+var SRCH = '<div class="srch"><div class="bx"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4 4"/></svg><input placeholder="Search" data-s></div><div class="x"><svg viewBox="0 0 14 14"><path d="M3 3l8 8M11 3l-8 8"/></svg></div></div>';
+var ICON = {
+  "Walk-in":'<svg viewBox="0 0 20 20"><circle cx="11" cy="4" r="2" fill="#3A3F47"/><path d="M10 7l-2 5 3 2v4M8 12l-2 5M10 7l3 3 3 1" fill="none" stroke="#3A3F47" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  "Referral":'<svg viewBox="0 0 20 20"><g fill="#1E7B34"><circle cx="7" cy="6.5" r="2.6"/><circle cx="13.5" cy="7.5" r="2.2"/><path d="M2 16c0-3 2.2-5 5-5s5 2 5 5z"/><path d="M11 16c.3-2.6 1.4-4 2.8-4 2 0 3.7 1.6 3.7 4z"/></g></svg>',
+  "Repeat Customer":'<svg viewBox="0 0 20 20"><path d="M15.5 8A6 6 0 004.6 6.5M4.5 12a6 6 0 0010.9 1.5" fill="none" stroke="#16A39A" stroke-width="1.8" stroke-linecap="round"/><path d="M4 3v4h4M16 17v-4h-4" fill="none" stroke="#16A39A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  "Google Ads":'<svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="#4285F4"/><text x="10" y="14" font-size="11" font-weight="700" fill="#fff" text-anchor="middle" font-family="Arial">G</text></svg>',
+  "Facebook Ads":'<svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8.5" fill="#1877F2"/><text x="10.5" y="15" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" font-family="Arial">f</text></svg>',
+  "Instagram":'<svg viewBox="0 0 20 20"><rect x="2" y="2" width="16" height="16" rx="5" fill="#E1306C"/><circle cx="10" cy="10" r="3.6" fill="none" stroke="#fff" stroke-width="1.6"/><circle cx="14.3" cy="5.7" r="1" fill="#fff"/></svg>',
+  "Yelp":'<svg viewBox="0 0 20 20"><rect x="2" y="2" width="16" height="16" rx="4" fill="#D32323"/><path d="M10 5l1.6 4.2 4.4.3-3.4 2.8 1.1 4.3L10 14.3l-3.7 2.3 1.1-4.3L4 9.5l4.4-.3z" fill="#fff"/></svg>',
+  "Tow Truck":'<svg viewBox="0 0 20 20"><path d="M3 13V9l3-3h5l2 3h3v4" fill="none" stroke="#8A5A2B" stroke-width="1.7" stroke-linejoin="round"/><circle cx="6" cy="14" r="1.8" fill="#8A5A2B"/><circle cx="14" cy="14" r="1.8" fill="#8A5A2B"/></svg>',
+  "Dealership":'<svg viewBox="0 0 20 20"><path d="M2.5 8l7.5-4.5L17.5 8" fill="none" stroke="#4A5578" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="8" width="12" height="8.5" rx="1" fill="none" stroke="#4A5578" stroke-width="1.7"/><rect x="8" y="11" width="4" height="5.5" fill="#4A5578"/></svg>',
+  "Insurance Referral":'<svg viewBox="0 0 20 20"><path d="M10 2l7 2.5v5c0 4-3 7-7 8.5-4-1.5-7-4.5-7-8.5v-5z" fill="#7C3AED"/><path d="M7 10l2 2 4-4" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+};
+var SOURCES = Object.keys(ICON);
+var INS = [["21st Century","#3E4651"],["AAA","#C8102E"],["Allstate","#0033A0"],["Farmers","#C0392B"],["GEICO","#1B5E9E"],["Kemper","#1F3A93"],["Liberty Mutual","#F5B400"],["Mercury","#C8102E"],["Nationwide","#1C4E80"],["Progressive","#1E5BB0"],["Root","#F15A22"],["SafeAuto","#D71920"],["Safeco","#D4A017"],["State Farm","#C8102E"],["USAA","#12395B"],["Victoria Insurance","#3E4651"],["Viking Insurance","#1E5BB0"],["Wawanesa","#5B7FDB"],["Western General","#111"],["Workmen's Auto","#3E4651"],["Customer Pay","#5B6472"]];
+var STATUS = ["Potential Job","Waiting for Parts","In Repair","In Paint","In Reassembly","Quality Check","Repair Completed","Ready for Pickup","Completed / Delivered","On Hold","Total Loss","Claim Denied"];
+var LOC = ["Front Lot","Shop Bay","Paint Booth","Parts Hold","Ready for Pickup","Sublet","Back Lot","Storage"];
+var WM = [["Direct","Shop","#F3CFCA","#8A2E22"],["Insurance","Insurance","#D8EADC","#1F5E2E"],["Customer","Customer","#F7E4BC","#7A5310"],["Completed","Completed","#D5D5D5","#3A3A3E"]];
+var MN = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+var CNT = { "2025":[22,25,27,24,26,23,25,28,24,27,26,21], "2026":[29,27,29,25,24,26,24,24,28,26,0,0] };
+var S = { bsrc:"Referral", bins:"Kemper", bwm:"Direct", bst:"In Repair", bloc:"Shop Bay", bmon:"2026-10", dsrc:"Walk-in", dst:"Quality Check", dloc:"Shop Bay", dins:"State Farm", dmon:"2026-10", q:{}, add:{} };
+function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/"/g,"&quot;"); }
+function hit(key, name){ var q = (S.q[key] || "").toLowerCase(); return !q || name.toLowerCase().indexOf(q) >= 0; }
+
+function srcList(key, picked){ var h = "";
+  SOURCES.forEach(function(n){ if(!hit(key, n)) return; var on = n === picked; h += '<button class="r' + (on ? " on" : "") + '" data-k="' + key + '" data-v="' + esc(n) + '"><span class="ic">' + ICON[n] + '</span>' + n + (on ? CK : "") + '</button>'; });
+  if(hit(key, "Unknown")) h += '<button class="r' + (picked === "" ? " on" : "") + '" data-k="' + key + '" data-v=""><span class="unk"></span>Unknown' + (picked === "" ? CK : "") + '</button>';
+  return h; }
+function insList(key, picked){ var h = "";
+  INS.forEach(function(c){ if(!hit(key, c[0])) return; var on = c[0] === picked; h += '<button class="c' + (on ? " on" : "") + '" style="--cc:' + c[1] + '" data-k="' + key + '" data-v="' + esc(c[0]) + '"><span class="ci">' + c[0].charAt(0) + '</span>' + c[0] + (on ? CK : "") + '</button>'; });
+  if(hit(key, "Unknown")) h += '<button class="c unk' + (picked === "Unknown" ? " on" : "") + '" data-k="' + key + '" data-v="Unknown"><span class="ci"></span>Unknown' + (picked === "Unknown" ? CK : "") + '</button>';
+  return h; }
+function plainList(key, items, picked, extra){ var h = "";
+  items.forEach(function(n){ if(!hit(key, n)) return; var on = n === picked; h += '<button class="r' + (on ? " on" : "") + '" data-k="' + key + '" data-v="' + esc(n) + '">' + n + (on ? CK : "") + '</button>'; });
+  (S.add[key] || []).forEach(function(n){ var on = n === picked; h += '<button class="r' + (on ? " on" : "") + '" data-k="' + key + '" data-v="' + esc(n) + '">' + n + (on ? CK : "") + '</button>'; });
+  return h; }
+function wmList(key, picked){ return WM.map(function(w){ var on = w[0] === picked; return '<button class="w' + (on ? " on" : "") + '" style="background:' + w[2] + ';color:' + w[3] + '" data-k="' + key + '" data-v="' + w[0] + '"><span class="dot"><i style="background:' + w[3] + '"></i></span>' + w[1] + (on ? CK : "") + '</button>'; }).join(""); }
+function monList(key, picked, wide){ var h = "";
+  ["2025","2026"].forEach(function(y){ MN.forEach(function(m, i){ var k = y + "-" + String(i + 1).padStart(2, "0"), on = k === picked, fut = y === "2026" && i > 9, c = CNT[y][i];
+    if(wide) h += '<button class="r mon' + (on ? " on" : "") + (fut ? " fut" : "") + '" data-k="' + key + '" data-v="' + k + '"><span class="m">' + m + (on ? CK : "") + '</span><span class="y">' + y + '</span><span class="n">' + c + '</span></button>';
+    else if(y === "2026") h += '<button class="r bm' + (on ? " on" : "") + (fut ? " fut" : "") + '" data-k="' + key + '" data-v="' + k + '">' + m + (on ? CK : "") + '<span class="n2">' + (c || "") + '</span></button>'; }); });
+  return h; }
+function addRow(key, what){ return '<button class="r add" data-add="' + key + '"><span class="plus"></span>Add ' + what + '</button>'; }
+function addChip(key){ return '<button class="c add" data-add="' + key + '"><span class="ci"></span>Add Insurance Company</button>'; }
+function addBox(key, what){ var v = S.q["t" + key] || ""; return '<div class="tadd"><input placeholder="Add ' + what + '" data-t="' + key + '" value="' + esc(v) + '" spellcheck="false">' + (v.trim() ? '<div class="b"><button class="j" data-ok="job" data-k="' + key + '">This Job Only<small>not saved to the list</small></button><button class="l" data-ok="list" data-k="' + key + '">Add to List<small>for every job</small></button></div>' : '') + '</div>'; }
+function monLabel(k){ var p = k.split("-"); return MN[+p[1] - 1] + " " + p[0]; }
+
+function menu(o){ /* o: key, cap, pill, search, wide, list, foot, chips */
+  return '<div class="col" style="width:' + (o.wide ? 424 : 300) + 'px"><div class="cap">' + o.cap + '</div>' + (o.pill || "") +
+    '<div class="menu' + (o.wide ? " wide" : "") + '" data-m="' + o.key + '">' + (o.search ? SRCH.replace("data-s", 'data-s="' + o.key + '"') : "") + (o.head || "") +
+    '<div class="list' + (o.chips ? " chips" : "") + '" data-l="' + o.key + '">' + o.list + '</div>' + (o.foot || "") + '<i class="sb"></i></div></div>'; }
+function pill(text, extra){ return '<div class="pill">' + (extra || "") + esc(text) + CHEV + '</div>'; }
+function wmPill(k){ var w = WM.filter(function(x){ return x[0] === k; })[0]; return pill(w[1], '<i class="sq" style="background:' + w[2] + '"></i>'); }
+
+function draw(){
+  document.getElementById("board").innerHTML =
+    menu({ key:"bsrc", cap:"<b>Source</b> · 300 wide · search · 8 rows show", search:true, list:srcList("bsrc", S.bsrc), foot:addRow("bsrc", "Source") }) +
+    menu({ key:"bins", cap:"<b>Insurance</b> · chips in the company color", search:true, chips:true, list:insList("bins", S.bins), foot:addChip("bins") }) +
+    menu({ key:"bwm", cap:"<b>Whose Move</b> · 4 pills, no scroll bar", search:true, chips:true, list:wmList("bwm", S.bwm) }) +
+    menu({ key:"bst", cap:"<b>Status</b> · Add Status is a typing box", search:true, list:plainList("bst", STATUS, S.bst), foot:addBox("bst", "Status") }) +
+    menu({ key:"bloc", cap:"<b>Location</b> · 8 rows, fits, no bar", search:true, list:plainList("bloc", LOC, S.bloc), foot:addBox("bloc", "Location") }) +
+    menu({ key:"bmon", cap:"<b>Board month</b> · grows out of the month pill", head:'<div class="yb"><button class="a"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button><div class="y">2026<svg viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></svg></div><button class="a"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button></div>', list:monList("bmon", S.bmon, false) });
+  document.getElementById("details").innerHTML =
+    menu({ key:"dsrc", cap:"<b>Source</b> · the box's width, no search, 22 corners", wide:true, pill:pill(S.dsrc === "" ? "Unknown" : S.dsrc), list:srcList("dsrc", S.dsrc), foot:addRow("dsrc", "Source") }) +
+    menu({ key:"dst", cap:"<b>Status</b>", wide:true, pill:pill(S.dst), list:plainList("dst", STATUS, S.dst), foot:addBox("dst", "Status") }) +
+    menu({ key:"dloc", cap:"<b>Location</b>", wide:true, pill:pill(S.dloc), list:plainList("dloc", LOC, S.dloc), foot:addBox("dloc", "Location") }) +
+    menu({ key:"dins", cap:"<b>Insurance</b> · search box inside", wide:true, pill:pill(S.dins), search:true, chips:true, list:insList("dins", S.dins), foot:addChip("dins") }) +
+    menu({ key:"dmon", cap:"<b>Board Month</b> · month | year | count", wide:true, pill:pill(monLabel(S.dmon)), list:monList("dmon", S.dmon, true) });
+  document.querySelectorAll("[data-s]").forEach(function(i){ i.value = S.q[i.dataset.s] || ""; });
+  document.querySelectorAll(".list").forEach(function(l){ var on = l.querySelector(".on"); if(on && l.scrollHeight > l.clientHeight) l.scrollTop = Math.max(0, on.offsetTop - l.clientHeight + on.offsetHeight * 2); bar(l); });
+}
+function bar(l){ var m = l.closest(".menu"), b = m.querySelector(".sb"); var h = l.clientHeight, sh = l.scrollHeight; if(sh <= h + 2){ b.hidden = true; return; } var bh = Math.max(28, h * h / sh); b.hidden = false; b.style.height = bh + "px"; b.style.top = (l.offsetTop + (h - bh) * l.scrollTop / (sh - h)) + "px"; }
+document.addEventListener("scroll", function(e){ if(e.target.classList && e.target.classList.contains("list")) bar(e.target); }, true);
+document.addEventListener("click", function(e){
+  var b = e.target.closest("[data-k][data-v]"); if(b){ S[b.dataset.k] = b.dataset.v; draw(); return; }
+  var ok = e.target.closest("[data-ok]"); if(ok){ var k = ok.dataset.k, v = (S.q["t" + k] || "").trim(); if(!v) return; if(ok.dataset.ok === "list"){ (S.add[k] = S.add[k] || []).push(v); } S[k] = v; S.q["t" + k] = ""; draw(); return; }
+  var a = e.target.closest("[data-add]"); if(a){ var m = a.closest(".menu"); var n = m.querySelector(".note"); if(!n){ n = document.createElement("div"); n.className = "note"; n.textContent = "In the app this opens the editor (name, picture, color)."; m.insertBefore(n, m.querySelector(".sb")); } return; }
+});
+document.addEventListener("input", function(e){
+  if(e.target.dataset.s !== undefined){ S.q[e.target.dataset.s] = e.target.value; var k = e.target.dataset.s, l = document.querySelector('[data-l="' + k + '"]'); var m = l.closest(".menu");
+    l.innerHTML = k === "bins" || k === "dins" ? insList(k, S[k]) : k === "bsrc" || k === "dsrc" ? srcList(k, S[k]) : k === "bwm" ? wmList(k, S[k]) : plainList(k, k.indexOf("st") > 0 ? STATUS : LOC, S[k]); bar(l); }
+  if(e.target.dataset.t){ var k2 = e.target.dataset.t; S.q["t" + k2] = e.target.value; var box = e.target.closest(".tadd"); var had = box.querySelector(".b"); if(!!e.target.value.trim() !== !!had){ var p = e.target.selectionStart; draw(); var i = document.querySelector('[data-t="' + k2 + '"]'); i.focus(); i.setSelectionRange(p, p); } }
+});
+document.addEventListener("keydown", function(e){ if(e.target.dataset && e.target.dataset.t && e.key === "Enter"){ var k = e.target.dataset.t, v = e.target.value.trim(); if(v){ S[k] = v; S.q["t" + k] = ""; draw(); } } });
+draw();
+</script>
+</body>
+</html>
