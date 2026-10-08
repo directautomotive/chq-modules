@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CHQ Modules">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" href="icon.png">
+<title>Dates Column Module</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: a slice of the Ledger board (Customer, Date In, Date Out, Estimate) with switches above it; the board keeps its own colors */
+:root{
+  --page:#E4E4EA; --card:#FFFFFF; --ink:#16181D; --soft:#6C6C73; --faint:#A2A4AB; --line:#E9E9EE; --head:#16181D; --stripe:#F7F7F5;
+  --red:#C0392B; --redrow:#FBEAEA; --amber:#A87C00; --amberbg:#FBF1CF; --yel:#A87C00; --org:#D9661F; --green:#1E7B34; --orange:#E8792B; --chip:#E9E9EE;
+  --word:Inter, -apple-system, "Segoe UI", Arial, sans-serif; --num:"Courier New", monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --page:#0E0F12; --card:#1F2126; --ink:#F2F2F5; --soft:#A0A2AA; --faint:#6E7079; --line:#30323A; --head:#000; --stripe:#25272D; --redrow:#3A2124; --red:#F07B6E; --amber:#E7C25A; --amberbg:#3A3220; --yel:#E7C25A; --org:#F29A55; --green:#5CC07A; --chip:#33353D; color-scheme:dark; } }
+:root[data-theme="dark"]{ --page:#0E0F12; --card:#1F2126; --ink:#F2F2F5; --soft:#A0A2AA; --faint:#6E7079; --line:#30323A; --head:#000; --stripe:#25272D; --redrow:#3A2124; --red:#F07B6E; --amber:#E7C25A; --amberbg:#3A3220; --yel:#E7C25A; --org:#F29A55; --green:#5CC07A; --chip:#33353D; color-scheme:dark; }
+*{ box-sizing:border-box; }
+body{ background:var(--page); color:var(--ink); font-family:var(--word); margin:0; padding-block:24px 48px; padding-inline:16px; }
+.wrap{ max-width:980px; margin:0 auto; display:flex; flex-direction:column; gap:14px; }
+h1{ font-size:20px; margin:0; font-weight:700; }
+.lead{ margin:0; color:var(--soft); font-size:14px; line-height:1.5; max-width:72ch; }
+.ctl{ display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:10px 18px; background:var(--card); border-radius:22px; padding:16px 18px; }
+.ctl .g{ display:flex; flex-direction:column; gap:6px; }
+.ctl .g > span{ font-size:12px; font-weight:600; color:var(--soft); }
+.seg{ display:inline-flex; background:var(--chip); border-radius:20px; padding:3px; gap:2px; flex-wrap:wrap; }
+.seg button{ height:32px; padding:0 13px; border:0; border-radius:16px; background:transparent; color:var(--soft); font:600 13px var(--word); cursor:pointer; white-space:nowrap; }
+.seg button.on{ background:var(--card); color:var(--ink); box-shadow:0 1px 2px rgba(0,0,0,.08), 0 2px 6px rgba(0,0,0,.06); }
+.steps{ display:flex; gap:8px; flex-wrap:wrap; }
+.st{ display:inline-flex; align-items:center; gap:6px; height:38px; padding:0 6px 0 12px; border-radius:19px; background:var(--chip); font:600 13px var(--word); }
+.st i{ width:10px; height:10px; border-radius:5px; display:inline-block; }
+.st b{ font:700 14px var(--num); min-width:3ch; text-align:center; }
+.st button{ width:26px; height:26px; border-radius:13px; border:0; background:var(--card); color:var(--ink); font:700 15px var(--word); cursor:pointer; line-height:1; }
+button:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
+.tw{ overflow-x:auto; border-radius:18px; background:var(--card); box-shadow:0 1px 2px rgba(0,0,0,.05); }
+table{ border-collapse:collapse; width:100%; min-width:520px; font-size:14px; }
+th{ background:var(--head); color:#fff; font:700 14px var(--word); height:52px; padding:0 12px; text-align:center; white-space:nowrap; }
+th:first-child{ text-align:left; }
+td{ height:52px; padding:0 12px; border-bottom:1px solid var(--line); border-right:1px solid var(--line); text-align:center; white-space:nowrap; }
+td:last-child{ border-right:0; text-align:right; }
+td:first-child{ text-align:left; font-weight:500; }
+td.who small{ display:block; font-size:11.5px; color:var(--soft); font-weight:500; }
+tr:nth-child(even) td{ background:var(--stripe); }
+/* the one dates column: Date In → Days → Date Out */
+.one{ display:inline-grid; align-items:center; justify-items:center; }
+.t-tight .one{ grid-template-columns:56px 16px 66px 16px 78px; }
+.c3{ justify-self:start; display:inline-flex; align-items:center; }
+.c3 .db{ justify-content:flex-start; padding-left:0; }
+.slot{ width:15px; height:15px; flex:none; }
+.t-roomy .one{ grid-template-columns:72px 20px 76px 20px 92px; }
+.arrow{ color:var(--faint); font:500 14px/1 var(--word); transform:translateY(-2px); }
+.dt, .dn{ font:700 14px var(--num); letter-spacing:.01em; }
+.dn{ color:var(--soft); white-space:pre; }
+.dn.y{ color:var(--yel); } .dn.o{ color:var(--org); } .dn.r{ color:var(--red); } .dn.done{ color:var(--faint); font-weight:400; }
+.db{ border:0; background:transparent; padding:4px 5px; border-radius:9px; cursor:pointer; color:inherit; font:inherit; display:inline-flex; align-items:center; gap:4px; min-height:28px; min-width:44px; justify-content:center; }
+.db:hover{ background:rgba(0,0,0,.05); }
+.out-tl .dt{ color:var(--yel); }
+.out-sch .dt{ color:var(--green); }
+.ic{ width:15px; height:15px; border-radius:8px; display:inline-flex; align-items:center; justify-content:center; flex:none; font:800 10.5px var(--word); }
+.ic.tl{ background:#F4C430; color:#3A2A00; }
+.ic.sch{ background:var(--green); color:#fff; }
+.ic.sch svg{ width:9px; height:9px; }
+.money{ font:700 14px var(--num); }
+.money .s{ margin-right:12px; } .green{ color:var(--green); }
+.legend{ display:grid; grid-template-columns:repeat(auto-fill, minmax(380px, 1fr)); gap:6px 24px; background:var(--card); border-radius:22px; padding:14px 18px; font-size:13px; color:var(--soft); }
+.legend div{ display:flex; align-items:center; gap:10px; min-height:28px; }
+.legend .k{ display:inline-flex; align-items:center; gap:4px; width:96px; flex:none; }
+th.dh{ padding:0; }
+#dhb{ display:inline-flex; align-items:center; gap:6px; height:38px; padding:0 14px; border:0; border-radius:19px; background:transparent; color:#fff; font:700 14px var(--word); cursor:pointer; }
+#dhb:hover, #dhb.on{ background:rgba(255,255,255,.12); }
+#dhb svg{ width:14px; height:14px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; transition:transform .15s; }
+#dhb.on svg{ transform:rotate(180deg); }
+#pop{ position:absolute; z-index:20; width:320px; background:var(--card); border-radius:22px; padding:10px; box-shadow:0 2px 6px rgba(0,0,0,.08), 0 16px 40px rgba(0,0,0,.18); display:flex; flex-direction:column; gap:2px; }
+#pop[hidden]{ display:none; }
+#pop .ph{ font:600 12px var(--word); color:var(--soft); padding:8px 10px 4px; }
+#pop .pr{ display:flex; align-items:center; gap:10px; min-height:44px; padding:0 10px; border-radius:14px; border:0; background:transparent; color:var(--ink); font:500 14px var(--word); text-align:left; width:100%; }
+#pop .pl{ display:inline-flex; align-items:center; gap:8px; flex:1; }
+#pop .pl i{ width:10px; height:10px; border-radius:5px; }
+#pop .stp{ display:inline-flex; align-items:center; gap:4px; background:var(--chip); border-radius:18px; padding:3px; }
+#pop .stp button{ width:30px; height:30px; border-radius:15px; border:0; background:var(--card); color:var(--ink); font:700 15px var(--word); cursor:pointer; }
+#pop .stp b{ font:700 14px var(--num); min-width:3ch; text-align:center; }
+#pop .u{ font-size:13px; color:var(--soft); width:32px; }
+#pop .sw{ cursor:pointer; justify-content:space-between; }
+#pop .sw:hover{ background:var(--stripe); }
+.tg{ width:40px; height:24px; border-radius:12px; background:#C9CAD1; position:relative; flex:none; transition:background .15s; }
+.tg::after{ content:""; position:absolute; top:3px; left:3px; width:18px; height:18px; border-radius:9px; background:#fff; box-shadow:0 1px 2px rgba(0,0,0,.2); transition:transform .15s; }
+.tg.on{ background:#E8792B; } .tg.on::after{ transform:translateX(16px); }
+.note{ font-size:13px; color:var(--soft); margin:0; }
+
+body{ padding-top:calc(env(safe-area-inset-top, 0px) + 72px) !important; padding-bottom:calc(env(safe-area-inset-bottom, 0px) + 48px) !important; }
+.back{ position:fixed; z-index:30; top:calc(env(safe-area-inset-top, 0px) + 12px); left:16px; display:inline-flex; align-items:center; gap:4px; height:44px; padding:0 16px 0 12px; border-radius:22px; text-decoration:none; color:var(--ink); font:600 15px var(--word);
+  background:color-mix(in srgb, var(--card) 62%, transparent); -webkit-backdrop-filter:blur(16px) saturate(180%); backdrop-filter:blur(16px) saturate(180%); box-shadow:inset 0 1px 0 rgba(255,255,255,.6), inset 0 0 0 1px rgba(127,127,127,.15), 0 8px 24px rgba(0,0,0,.15); }
+.back svg{ width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
+.topfade{ position:fixed; left:0; right:0; top:0; height:calc(env(safe-area-inset-top, 0px) + 80px); z-index:29; pointer-events:none; background:linear-gradient(to bottom, var(--page) 0, var(--page) calc(env(safe-area-inset-top, 0px) + 8px), transparent 100%); }
+</style>
+</head>
+<body>
+<div class="topfade"></div><a class="back" href="./"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>Modules</a>
+
+
+<div class="wrap">
+  <h1>Date In → Days → Date Out</h1>
+  <p class="lead">Click the black bar over the dates (Date In → Days → Date Out) to change when Days turns yellow, orange and red, and to turn the markers on or off. Every number is lined up: the 1 in "1 day" sits under the 3 in "13 days", and every arrow sits in the same place on every row.</p>
+  <div class="tw"><table id="t"></table></div>
+  <div class="legend" id="leg"></div>
+  <div id="pop" role="dialog" aria-label="Dates settings" hidden></div>
+  <p class="note">Today is set to Wednesday, October 7, 2026 for this module.</p>
+</div>
+
+<script>
+var SW = [   /* the switches in the pop-up under the black bar */
+  ["tlcolor", "Total loss: yellow date", 1],
+  ["tlicon",  "Total loss: ! marker", 1],
+  ["tlred",   "Total loss: days always red", 1],
+  ["schcolor","Scheduled pick-up: green date", 1],
+  ["schicon", "Scheduled pick-up: calendar marker", 1]
+];
+var S = { size:"tight" }; SW.forEach(function(x){ S[x[0]] = x[2]; });
+var TH = { y:4, o:10, r:20 };   /* days in the shop where each color starts */
+var NOW = new Date(2026, 9, 7);
+/* name, status, date in, date out, kind (tl = total loss), estimate, paid */
+var ROWS = [
+  ["Rachel Chan", "Body Work", "2026-10-06", "", "", 1043.01, 1],
+  ["Luis Johnson", "Paint", "2026-10-04", "", "", 6115.08, 0],
+  ["Monica Nguyen", "Waiting On Parts", "2026-09-30", "", "", 11024.69, 0],
+  ["Jason Allen", "Body Work", "2026-09-25", "", "", 1542.29, 0],
+  ["Carlos Young", "Waiting On Parts", "2026-09-14", "", "", 10183.09, 1],
+  ["Hector Baker", "Supplement Sent", "2026-08-04", "", "", 1755.85, 1],
+  ["Kevin Johns", "Ready", "2026-09-28", "2026-10-09", "", 2769.91, 1],
+  ["Grace Okafor", "Ready", "2026-10-01", "2026-10-12", "", 3246.12, 1],
+  ["Vanessa Wu", "Total Loss", "2026-09-21", "2026-10-10", "tl", 4706.88, 0],
+  ["Patricia Cruz", "Total Loss", "2026-09-02", "", "tl", 4200.00, 0],
+  ["Eric Flores", "Delivered", "2026-09-04", "2026-10-02", "", 674.84, 1],
+  ["Neil Carver", "Delivered", "2026-09-14", "2026-09-15", "", 675.00, 1],
+  ["Dana Ruiz", "Estimate Only", "", "", "", 0, 0]
+];
+var MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+function dObj(s){ var p = s.split("-"); return new Date(+p[0], +p[1] - 1, +p[2]); }
+function fmt(s){ var d = dObj(s), day = d.getDate(); return MON[d.getMonth()] + " " + (day < 10 ? "0" : "") + day; }
+function long(s){ var d = dObj(s); return d.toLocaleDateString("en-US", { weekday:"long", month:"long", day:"numeric" }); }
+function pad(n){ return (n < 10 ? " " : "") + n + (n === 1 ? " day " : " days"); }
+function band(n){ return n >= TH.r ? "r" : n >= TH.o ? "o" : n >= TH.y ? "y" : ""; }
+var CAL = '<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="1.5" y="2.5" width="9" height="8" rx="1.5"/><path d="M1.5 5h9M4 1v2.5M8 1v2.5"/></svg>';
+function btn(i, f, cls, tip, inner){ return '<button type="button" class="db ' + cls + '" data-i="' + i + '" data-f="' + f + '" title="' + tip + '">' + inner + '</button>'; }
+function inTxt(r, i){ return btn(i, 2, "", r[2] ? "Date In: " + long(r[2]) + ". Click to change." : "No Date In yet. Click to set it.", r[2] ? '<span class="dt">' + fmt(r[2]) + '</span>' : ''); }
+function daysTxt(r){
+  if(!r[2]) return '';
+  var out = r[3] ? dObj(r[3]) : null, gone = out && out <= NOW, end = gone ? out : NOW;
+  var n = Math.max(0, Math.round((end - dObj(r[2])) / 864e5));
+  var cls = gone ? "done" : (r[4] === "tl" && S.tlred) ? "r" : band(n);
+  var tip = gone ? n + " days in the shop, start to finish" : n + " days in the shop so far";
+  return '<span class="dn ' + cls + '" title="' + tip + '">' + pad(n) + '</span>';
+}
+function outTxt(r, i){
+  var d = r[3], future = d && dObj(d) > NOW;
+  if(r[4] === "tl"){
+    var tip = "Total loss: waiting for the insurance company to pick it up" + (d ? " (" + long(d) + ")" : ", no date yet") + ". Storage is still running.";
+    return btn(i, 3, S.tlcolor ? "out-tl" : "", tip, (S.tlicon ? '<span class="ic tl">!</span>' : '<i class="slot"></i>') + (d ? '<span class="dt">' + fmt(d) + '</span>' : ''));
+  }
+  if(future){
+    return btn(i, 3, S.schcolor ? "out-sch" : "", "Scheduled: the customer picks it up " + long(d) + ".", (S.schicon ? '<span class="ic sch">' + CAL + '</span>' : '<i class="slot"></i>') + '<span class="dt">' + fmt(d) + '</span>');
+  }
+  return btn(i, 3, "", d ? "Date Out: " + long(d) + ". Click to change." : "No Date Out yet. Click to set it.", '<i class="slot"></i>' + (d ? '<span class="dt">' + fmt(d) + '</span>' : ''));
+}
+function money(v, paid){ if(!v) return ''; return '<span class="money' + (paid ? ' green' : '') + '"><span class="s">$</span>' + v.toLocaleString("en-US", { minimumFractionDigits:2, maximumFractionDigits:2 }) + '</span>'; }
+function draw(){
+  var t = document.getElementById("t"); t.className = "t-" + S.size;
+  t.innerHTML = '<tr><th>Customer</th><th class="dh"><button type="button" id="dhb" aria-expanded="false">Date In → Days → Date Out<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button></th><th>Estimate 1</th></tr>' + ROWS.map(function(r, i){
+    return '<tr><td class="who">' + r[0] + '<small>' + r[1] + '</small></td><td><span class="one">' + inTxt(r, i) + '<span class="arrow">' + (r[2] ? '→' : '') + '</span>' + daysTxt(r) + '<span class="arrow">' + (r[2] ? '→' : '') + '</span><span class="c3">' + outTxt(r, i) + '</span></span></td><td>' + money(r[5], r[6]) + '</td></tr>';
+  }).join("");
+  document.getElementById("leg").innerHTML = [
+    ['<span class="dn">' + pad(TH.y - 1) + '</span>', "1 to " + (TH.y - 1) + " days: normal (gray)"],
+    ['<span class="dn y">' + pad(TH.y) + '</span>', TH.y + " to " + (TH.o - 1) + " days: yellow, keep an eye on it"],
+    ['<span class="dn o">' + pad(TH.o) + '</span>', TH.o + " to " + (TH.r - 1) + " days: orange, push it"],
+    ['<span class="dn r">' + pad(TH.r) + '</span>', TH.r + " days and up: red, it is stuck"],
+    ['<span class="out-tl" style="display:inline-flex;gap:4px;align-items:center"><span class="ic tl">!</span><span class="dt">Oct 10</span></span>', "Total loss, waiting for the insurance company to pick it up"],
+    ['<span class="out-sch" style="display:inline-flex;gap:4px;align-items:center"><span class="ic sch">' + CAL + '</span><span class="dt">Oct 12</span></span>', "Scheduled: the customer picks it up on that date"],
+    ['<span style="display:inline-flex;gap:4px"><i class="slot"></i><span class="dt">Oct 02</span></span>', "Out. Days shows the total in light gray"]
+  ].map(function(x){ return '<div><span class="k">' + x[0] + '</span><span>' + x[1] + '</span></div>'; }).join("");
+}
+var pop = document.getElementById("pop");
+function stepRow(){ return [["y","Yellow","var(--yel)"],["o","Orange","var(--org)"],["r","Red","var(--red)"]].map(function(x){ return '<div class="pr"><span class="pl"><i style="background:' + x[2] + '"></i>' + x[1] + ' from</span><span class="stp"><button type="button" data-th="' + x[0] + '" data-d="-1" aria-label="Fewer days">−</button><b>' + TH[x[0]] + '</b><button type="button" data-th="' + x[0] + '" data-d="1" aria-label="More days">+</button></span><span class="u">days</span></div>'; }).join(""); }
+function drawPop(){
+  pop.innerHTML = '<div class="ph">Days colors</div>' + stepRow() + '<div class="ph">Markers</div>' +
+    SW.map(function(x){ return '<button type="button" class="pr sw" data-sw="' + x[0] + '"><span>' + x[1] + '</span><i class="tg' + (S[x[0]] ? ' on' : '') + '"></i></button>'; }).join("");
+}
+function place(){ var b = document.getElementById("dhb"); if(!b) return; var r = b.getBoundingClientRect(); pop.style.top = (r.bottom + window.scrollY + 10) + "px"; pop.style.left = Math.max(16, Math.min(window.innerWidth - pop.offsetWidth - 16, r.left + r.width / 2 - pop.offsetWidth / 2)) + "px"; }
+function openPop(v){ pop.hidden = !v; var b = document.getElementById("dhb"); if(b){ b.setAttribute("aria-expanded", v ? "true" : "false"); b.classList.toggle("on", v); } if(v){ drawPop(); place(); } }
+document.getElementById("t").addEventListener("click", function(e){ if(e.target.closest("#dhb")){ openPop(pop.hidden); } });
+pop.addEventListener("click", function(e){
+  e.stopPropagation();   /* redrawing the pop-up detaches the button that was clicked; keep the outside-click check from seeing it */
+  var s = e.target.closest("[data-th]");
+  if(s){ var k = s.dataset.th, v = TH[k] + +s.dataset.d, lo = k === "y" ? 2 : k === "o" ? TH.y + 1 : TH.o + 1, hi = k === "y" ? TH.o - 1 : k === "o" ? TH.r - 1 : 90; TH[k] = Math.min(hi, Math.max(lo, v)); draw(); openPop(true); return; }
+  var w = e.target.closest("[data-sw]"); if(w){ S[w.dataset.sw] = S[w.dataset.sw] ? 0 : 1; draw(); openPop(true); }
+});
+document.addEventListener("click", function(e){ if(!pop.hidden && !pop.contains(e.target) && !e.target.closest("#dhb")) openPop(false); });
+document.addEventListener("keydown", function(e){ if(e.key === "Escape") openPop(false); });
+window.addEventListener("resize", function(){ if(!pop.hidden) place(); });
+/* click a date to set it */
+var pk = document.createElement("input"); pk.type = "date"; pk.style.cssText = "position:fixed;opacity:0;pointer-events:none;width:1px;height:1px;";
+document.body.appendChild(pk); var at = null;
+document.getElementById("t").addEventListener("click", function(e){
+  var b = e.target.closest(".db"); if(!b) return; at = [+b.dataset.i, +b.dataset.f];
+  var r = b.getBoundingClientRect(); pk.style.left = r.left + "px"; pk.style.top = r.bottom + "px";
+  pk.value = ROWS[at[0]][at[1]] || ""; try{ pk.showPicker(); }catch(x){ pk.style.opacity = 1; pk.style.pointerEvents = "auto"; pk.focus(); }
+});
+pk.addEventListener("change", function(){ if(!at) return; ROWS[at[0]][at[1]] = pk.value; pk.style.opacity = 0; pk.style.pointerEvents = "none"; draw(); });
+draw();
+</script>
+
+</body>
+</html>

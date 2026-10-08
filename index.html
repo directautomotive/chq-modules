@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CHQ Modules">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" href="icon.png">
+<title>CHQ Modules</title>
+<style>
+/* Layout: an iPhone-Settings style list of modules; big title, one rounded group, glass fade behind the clock */
+:root{ --page:#F2F2F5; --card:#FFFFFF; --ink:#111214; --soft:#6B6E76; --line:#E3E3E8; --orange:#E8792B; --chev:#B9BBC2;
+  --word:Inter, -apple-system, "SF Pro Text", "Segoe UI", Roboto, Arial, sans-serif; color-scheme:light; }
+@media (prefers-color-scheme: dark){ :root{ --page:#000000; --card:#1C1C1F; --ink:#F4F4F6; --soft:#9A9CA4; --line:#2C2C31; --chev:#55575E; color-scheme:dark; } }
+*{ box-sizing:border-box; }
+html, body{ margin:0; background:var(--page); color:var(--ink); font-family:var(--word); -webkit-font-smoothing:antialiased; }
+body{ padding:calc(env(safe-area-inset-top, 0px) + 28px) 16px calc(env(safe-area-inset-bottom, 0px) + 40px); }
+.fade{ position:fixed; left:0; right:0; top:0; height:calc(env(safe-area-inset-top, 0px) + 40px); pointer-events:none; z-index:5;
+  background:linear-gradient(to bottom, var(--page) 0, var(--page) calc(env(safe-area-inset-top, 0px) + 4px), transparent 100%); }
+.wrap{ max-width:560px; margin:0 auto; display:flex; flex-direction:column; gap:10px; }
+h1{ font:700 34px/1.1 var(--word); letter-spacing:-.02em; margin:12px 4px 2px; }
+.sub{ color:var(--soft); font-size:15px; margin:0 4px 14px; line-height:1.4; }
+.lab{ color:var(--soft); font:600 13px var(--word); text-transform:uppercase; letter-spacing:.05em; margin:14px 16px 2px; }
+.grp{ background:var(--card); border-radius:22px; overflow:hidden; }
+a.row{ display:flex; align-items:center; gap:14px; min-height:68px; padding:12px 16px; text-decoration:none; color:inherit; position:relative; -webkit-tap-highlight-color:transparent; transition:background .15s; }
+a.row + a.row::before{ content:""; position:absolute; top:0; left:70px; right:0; border-top:1px solid var(--line); }
+a.row:active{ background:color-mix(in srgb, var(--ink) 8%, transparent); }
+.ic{ width:40px; height:40px; border-radius:11px; flex:none; display:inline-flex; align-items:center; justify-content:center; color:#fff; font:700 15px var(--word); }
+.tx{ flex:1; min-width:0; display:flex; flex-direction:column; gap:2px; }
+.tx b{ font:600 17px var(--word); }
+.tx span{ color:var(--soft); font-size:14px; line-height:1.35; }
+.dt{ color:var(--soft); font-size:13px; font-variant-numeric:tabular-nums; white-space:nowrap; }
+.ch{ width:16px; height:16px; fill:none; stroke:var(--chev); stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round; flex:none; }
+.foot{ color:var(--soft); font-size:13px; text-align:center; margin-top:18px; line-height:1.5; }
+</style>
+</head>
+<body>
+<div class="fade"></div>
+<div class="wrap">
+  <h1>CHQ Modules</h1>
+  <p class="sub">Designs for CollisionHQ to try full screen before they go into the app. Demo data only.</p>
+  <div class="lab">Phone</div>
+  <div class="grp" id="phone"></div>
+  <div class="lab">Desktop board</div>
+  <div class="grp" id="desk"></div>
+  <p class="foot">New modules show up here about 1 minute after they are added.</p>
+</div>
+<script>
+/* newest first in each group: [file, name, what it is, date, icon letters, icon color] */
+var MODS = {
+  phone: [["glass.html","Glass Phone Board","Jobs list with glass top and bottom bars, fades and spring presses. Dark and light.","Oct 7","G","#E8792B"]],
+  desk:  [["dates.html","Date In → Days → Date Out","One dates column, day colors, total loss and scheduled pick-up. Tap the black bar for settings.","Oct 7","D","#2B2F36"]]
+};
+var CH = '<svg class="ch" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg>';
+Object.keys(MODS).forEach(function(k){
+  document.getElementById(k).innerHTML = MODS[k].map(function(m){
+    return '<a class="row" href="' + m[0] + '"><span class="ic" style="background:' + m[5] + '">' + m[4] + '</span><span class="tx"><b>' + m[1] + '</b><span>' + m[2] + '</span></span><span class="dt">' + m[3] + '</span>' + CH + '</a>';
+  }).join("");
+});
+</script>
+</body>
+</html>

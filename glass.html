@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CHQ Modules">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" href="icon.png">
+<title>Glass Phone Board</title>
+<style>
+/* Layout: the CollisionHQ phone Jobs list fills the whole screen and scrolls under a glass top bar and a glass bottom bar; solid strip behind the clock, then a fade. */
+:root{
+  --page:#F2F2F5; --card:#FFFFFF; --ink:#111214; --soft:#6B6E76; --line:#E3E3E8; --chip:#ECECF0;
+  --red:#D93B30; --green:#1F9D4C; --orange:#E8792B; --orange-hi:#F39A55;
+  --glass:rgba(255,255,255,.58); --glass-flat:#E6E6EB; --rim-hi:rgba(255,255,255,.95); --rim-lo:rgba(0,0,0,.10); --rim:rgba(0,0,0,.06); --drop:rgba(20,22,30,.16);
+  --word:Inter, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --page:#000000; --card:#1C1C1F; --ink:#F4F4F6; --soft:#9A9CA4; --line:#2C2C31; --chip:#2B2B30;
+  --red:#FF5A4E; --green:#4CD27A; --orange:#E8792B; --orange-hi:#F7A462;
+  --glass:rgba(44,44,50,.50); --glass-flat:#26262A; --rim-hi:rgba(255,255,255,.30); --rim-lo:rgba(0,0,0,.55); --rim:rgba(255,255,255,.07); --drop:rgba(0,0,0,.55);
+  color-scheme:dark; } }
+:root[data-theme="dark"]{
+  --page:#000000; --card:#1C1C1F; --ink:#F4F4F6; --soft:#9A9CA4; --line:#2C2C31; --chip:#2B2B30;
+  --red:#FF5A4E; --green:#4CD27A; --orange:#E8792B; --orange-hi:#F7A462;
+  --glass:rgba(44,44,50,.50); --glass-flat:#26262A; --rim-hi:rgba(255,255,255,.30); --rim-lo:rgba(0,0,0,.55); --rim:rgba(255,255,255,.07); --drop:rgba(0,0,0,.55);
+  color-scheme:dark; }
+html, body{ height:100%; }
+body{ background:var(--page); color:var(--ink); font-family:var(--word); margin:0; overflow:hidden; -webkit-font-smoothing:antialiased; }
+*{ box-sizing:border-box; }
+button{ font:inherit; color:inherit; -webkit-tap-highlight-color:transparent; }
+button:focus-visible{ outline:2px solid var(--orange); outline-offset:3px; }
+
+/* the whole screen; the list scrolls inside it */
+.app{ position:fixed; inset:0; background:var(--page); }
+.list{ position:absolute; inset:0; overflow-y:auto; -webkit-overflow-scrolling:touch;
+  padding:calc(env(safe-area-inset-top, 0px) + 84px) 16px calc(env(safe-area-inset-bottom, 0px) + 112px); display:flex; flex-direction:column; gap:14px; }
+.wrapw{ width:100%; max-width:520px; margin:0 auto; display:flex; flex-direction:column; gap:14px; }
+
+/* top: solid behind the clock, then a fade */
+.topfade{ position:fixed; left:0; right:0; top:0; height:calc(env(safe-area-inset-top, 0px) + 100px); pointer-events:none; z-index:5;
+  background:linear-gradient(to bottom, var(--page) 0, var(--page) calc(env(safe-area-inset-top, 0px) + 12px), color-mix(in srgb, var(--page) 70%, transparent) calc(env(safe-area-inset-top, 0px) + 52px), transparent 100%); }
+.botfade{ position:fixed; left:0; right:0; bottom:0; height:calc(env(safe-area-inset-bottom, 0px) + 120px); pointer-events:none; z-index:5;
+  background:linear-gradient(to top, var(--page) 0, var(--page) calc(env(safe-area-inset-bottom, 0px) + 20px), color-mix(in srgb, var(--page) 70%, transparent) calc(env(safe-area-inset-bottom, 0px) + 60px), transparent 100%); }
+.top{ position:fixed; left:0; right:0; top:0; z-index:6; padding:calc(env(safe-area-inset-top, 0px) + 12px) 16px 0; pointer-events:none; }
+.bot{ position:fixed; left:0; right:0; bottom:0; z-index:6; padding:0 16px calc(env(safe-area-inset-bottom, 0px) + 14px); pointer-events:none; }
+.bar{ max-width:520px; margin:0 auto; display:flex; align-items:center; gap:10px; pointer-events:auto; }
+
+/* glass */
+.g{ position:relative; border:0; background:var(--glass); -webkit-backdrop-filter:blur(16px) saturate(180%); backdrop-filter:blur(16px) saturate(180%);
+  box-shadow:inset 0 1px 0 var(--rim-hi), inset 0 -1px 0 var(--rim-lo), inset 0 0 0 1px var(--rim), 0 8px 24px var(--drop);
+  transition:transform .42s cubic-bezier(.3,1.7,.5,1), background .2s; will-change:transform; }
+.g::before{ content:""; position:absolute; inset:0; border-radius:inherit; padding:1px; pointer-events:none;
+  background:linear-gradient(140deg, var(--rim-hi) 0%, transparent 38%, transparent 62%, var(--rim-hi) 100%); opacity:.7;
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor; mask-composite:exclude; }
+.g::after{ content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none;
+  background:linear-gradient(to bottom, color-mix(in srgb, var(--rim-hi) 35%, transparent) 0%, transparent 50%); opacity:.6; }
+.g.press{ transform:scale(1.12); transition:transform .18s cubic-bezier(.2,.9,.3,1.2); }
+.flat .g{ background:var(--glass-flat); -webkit-backdrop-filter:none; backdrop-filter:none; box-shadow:none; }
+.flat .g::before, .flat .g::after{ display:none; }
+.flat .g.press{ transform:none; }
+.flat .topfade{ background:linear-gradient(to bottom, var(--page) 0, var(--page) 100%); height:calc(env(safe-area-inset-top, 0px) + 74px); }
+
+.circ{ width:52px; height:52px; border-radius:26px; display:inline-flex; align-items:center; justify-content:center; flex:none; cursor:pointer; }
+.circ svg{ width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; }
+.month{ flex:1; height:52px; border-radius:26px; font:600 18px var(--word); cursor:pointer; letter-spacing:-.01em; }
+.me{ font:700 15px var(--word); }
+.tabs{ flex:1; height:62px; border-radius:31px; display:flex; align-items:center; padding:5px; gap:2px; }
+.tabs button{ flex:1; height:52px; border:0; border-radius:26px; background:transparent; font:600 16px var(--word); cursor:pointer; position:relative; z-index:1; transition:color .2s; }
+.tabs button.on{ color:var(--orange); }
+.tabs .thumb{ position:absolute; top:5px; bottom:5px; left:5px; border-radius:26px; background:color-mix(in srgb, var(--ink) 10%, transparent);
+  box-shadow:inset 0 1px 0 var(--rim-hi), inset 0 0 0 1px var(--rim); transition:transform .5s cubic-bezier(.3,1.5,.5,1), width .3s; }
+.big{ width:62px; height:62px; border-radius:31px; }
+.plus{ width:62px; height:62px; border-radius:31px; border:0; cursor:pointer; color:#fff; flex:none; position:relative;
+  background:radial-gradient(120% 100% at 30% 15%, var(--orange-hi) 0%, var(--orange) 55%, #C95F17 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.55), inset 0 -2px 4px rgba(120,40,0,.35), 0 8px 26px color-mix(in srgb, var(--orange) 55%, transparent);
+  transition:transform .42s cubic-bezier(.3,1.7,.5,1); display:inline-flex; align-items:center; justify-content:center; }
+.plus.press{ transform:scale(1.12); transition:transform .18s cubic-bezier(.2,.9,.3,1.2); }
+.plus svg{ width:26px; height:26px; stroke:#fff; stroke-width:2.6; fill:none; stroke-linecap:round; }
+.flat .plus{ background:var(--orange); box-shadow:none; }
+
+/* compare controls, at the top of the list */
+.ctl{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:center; }
+.seg{ display:inline-flex; background:var(--chip); border-radius:22px; padding:3px; }
+.seg button{ height:38px; padding:0 16px; border:0; border-radius:19px; background:transparent; color:var(--soft); font:600 14px var(--word); cursor:pointer; }
+.seg button.on{ background:var(--card); color:var(--ink); box-shadow:0 1px 3px rgba(0,0,0,.12); }
+.hint{ text-align:center; color:var(--soft); font-size:13px; margin:0; line-height:1.45; }
+
+/* job cards (same as the phone board today) */
+.card{ background:var(--card); border-radius:28px; padding:18px 18px 16px; display:flex; flex-direction:column; gap:10px; }
+.r1{ display:flex; align-items:baseline; gap:10px; }
+.no{ color:var(--soft); font:600 18px var(--word); font-variant-numeric:tabular-nums; padding-right:10px; border-right:1px solid var(--line); }
+.nm{ font:600 18px var(--word); flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.bal{ font:700 18px var(--word); font-variant-numeric:tabular-nums; color:var(--red); }
+.bal.z{ color:var(--green); }
+.r2{ display:flex; justify-content:space-between; color:var(--soft); font-size:15px; }
+.r3{ display:flex; align-items:center; gap:10px; font-size:15px; }
+.r3 .ins{ display:inline-flex; align-items:center; gap:8px; font-weight:600; }
+.r3 .ins i{ width:10px; height:10px; border-radius:5px; }
+.r3 .cl{ color:var(--soft); padding-left:10px; border-left:1px solid var(--line); font-variant-numeric:tabular-nums; }
+.r4{ display:flex; gap:10px; margin-top:4px; }
+.r4 button{ height:40px; border:0; border-radius:20px; background:var(--chip); font:600 15px var(--word); cursor:pointer; }
+.r4 .st{ flex:1; } .r4 .ph{ padding:0 16px; }
+@media (prefers-reduced-motion: reduce){ .g, .plus, .tabs .thumb{ transition:none; } .g.press, .plus.press{ transform:none; } }
+
+.back{ display:inline-flex; align-items:center; height:44px; padding:0 16px 0 12px; border-radius:22px; text-decoration:none; color:var(--ink); font:600 15px var(--word); gap:4px; }
+.back svg{ width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
+</style>
+</head>
+<body>
+
+
+<div class="app" id="app">
+  <div class="list" id="list"><div class="wrapw" id="cards"></div></div>
+  <div class="topfade"></div>
+  <div class="botfade"></div>
+  <div class="top"><div class="bar">
+    <button type="button" class="g circ" aria-label="Filter"><svg viewBox="0 0 24 24"><path d="M5 7h14M8 12h8M11 17h2"/></svg></button>
+    <button type="button" class="g month" id="month">October 2026</button>
+    <button type="button" class="g circ me" aria-label="Account">SC</button>
+  </div></div>
+  <div class="bot"><div class="bar">
+    <div class="g tabs" id="tabs"><span class="thumb" id="thumb"></span><button type="button" class="on">Jobs</button><button type="button">Leads</button><button type="button">Status</button></div>
+    <button type="button" class="g circ big" aria-label="Search"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20"/></svg></button>
+    <button type="button" class="plus" aria-label="Add Job"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
+  </div></div>
+</div>
+
+<script>
+var JOBS = [
+  ["Hector Baker","2025 Kia Optima","State Farm","#E0362C","Claim 39-14D4-83R",8926.38,"Quality Check"],
+  ["Jason Patel","2022 Ford F-150","State Farm","#E0362C","Claim 84-34J4-02P",0,"In Repair"],
+  ["Carlos Young","2015 Toyota Tacoma","State Farm","#E0362C","Claim 80-45V3-64B",533.94,"Quality Check"],
+  ["Eric Ramirez","2018 Audi A4","Kemper","#9B2335","Claim 26S650678",1008.06,"In Repair"],
+  ["Monica Nguyen","2021 Honda Civic","Geico","#1E5BC6","Claim 0583921047",11024.69,"Waiting On Parts"],
+  ["Rachel Chan","2023 Subaru Outback","Progressive","#2A6FDB","Claim 26-7710492",0,"Ready"],
+  ["Luis Johnson","2015 BMW 328i","Allstate","#1F4E9C","Claim 0721488815",857.07,"Paint"],
+  ["Vanessa Wu","2019 Honda Accord","Mercury","#B5302A","Claim MA-551203",4706.88,"Total Loss"],
+  ["Grace Okafor","2020 Toyota Camry","Farmers","#C8102E","Claim 3012-88-4410",0,"Ready"],
+  ["Neil Carver","2017 Nissan Altima","Customer Pay","#8A8F98","No claim",675.00,"Delivered"]
+];
+function money(v){ return v ? "$" + v.toLocaleString("en-US", { minimumFractionDigits:2, maximumFractionDigits:2 }) : "0.00"; }
+var cards = document.getElementById("cards");
+cards.innerHTML = '<div class="ctl"><a class="g back" href="./"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>Modules</a><div class="seg" id="th"><button type="button" data-v="dark">Dark</button><button type="button" data-v="light">Light</button></div>' +
+  '<div class="seg" id="gl"><button type="button" data-v="glass" class="on">Glass</button><button type="button" data-v="flat">Today</button></div></div>' +
+  '<p class="hint">Scroll the jobs up under the top buttons and down under the bottom bar. Press and hold any button to feel the spring.</p>' +
+  JOBS.map(function(j, i){ return '<article class="card"><div class="r1"><span class="no">#' + (i + 1) + '</span><span class="nm">' + j[0] + '</span><span class="bal' + (j[5] ? '' : ' z') + '">' + money(j[5]) + '</span></div>' +
+    '<div class="r2"><span>' + j[1] + '</span><span>Balance</span></div>' +
+    '<div class="r3"><span class="ins"><i style="background:' + j[3] + '"></i>' + j[2] + '</span><span class="cl">' + j[4] + '</span></div>' +
+    '<div class="r4"><button type="button" class="st">' + j[6] + '</button><button type="button" class="ph">+ Photos</button></div></article>'; }).join("");
+
+/* light / dark */
+var root = document.documentElement;
+function curTheme(){ var t = root.getAttribute("data-theme"); if(t) return t; return matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"; }
+function paintSeg(id, v){ document.querySelectorAll("#" + id + " button").forEach(function(b){ b.classList.toggle("on", b.dataset.v === v); }); }
+paintSeg("th", curTheme());
+document.getElementById("th").addEventListener("click", function(e){ var b = e.target.closest("button"); if(!b) return; root.setAttribute("data-theme", b.dataset.v); paintSeg("th", b.dataset.v); });
+document.getElementById("gl").addEventListener("click", function(e){ var b = e.target.closest("button"); if(!b) return; document.getElementById("app").classList.toggle("flat", b.dataset.v === "flat"); paintSeg("gl", b.dataset.v); });
+
+/* spring press on every glass button and the plus */
+document.querySelectorAll(".g, .plus").forEach(function(el){
+  var up = function(){ el.classList.remove("press"); };
+  el.addEventListener("pointerdown", function(){ el.classList.add("press"); });
+  ["pointerup","pointerleave","pointercancel"].forEach(function(ev){ el.addEventListener(ev, up); });
+});
+
+/* the sliding thumb under Jobs / Leads / Status */
+var tabs = document.getElementById("tabs"), thumb = document.getElementById("thumb");
+function moveThumb(){ var on = tabs.querySelector("button.on"); if(!on) return; thumb.style.width = on.offsetWidth + "px"; thumb.style.transform = "translateX(" + (on.offsetLeft - 5) + "px)"; }
+tabs.addEventListener("click", function(e){ var b = e.target.closest("button"); if(!b) return; tabs.querySelectorAll("button").forEach(function(x){ x.classList.toggle("on", x === b); }); moveThumb(); });
+window.addEventListener("resize", moveThumb); moveThumb(); setTimeout(moveThumb, 300);
+</script>
+
+</body>
+</html>
