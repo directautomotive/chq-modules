@@ -81,11 +81,16 @@ button:focus-visible, input:focus-visible{ outline:2px solid var(--orange); outl
 .newf .in input{ flex:1; min-width:0; border:0; outline:none; background:transparent; font:500 15px var(--word); color:var(--ink); }
 .newf .in .clr{ width:24px; height:24px; border-radius:12px; background:#E3E3E8; display:grid; place-items:center; flex:none; }
 .newf .in .clr svg{ width:10px; height:10px; stroke:#6C6C73; stroke-width:2.4; stroke-linecap:round; }
+.tadd{ position:relative; padding-top:8px; } .tadd::before{ content:""; position:absolute; left:14px; right:14px; top:0; height:1px; background:var(--line); }
+.tadd input{ width:100%; height:44px; border-radius:22px; border:0; outline:none; background:var(--fill); padding:0 16px; font:500 15px var(--word); color:var(--ink); }
+.tadd input::placeholder{ color:#8A919C; }
+.tadd input:focus{ background:#fff; box-shadow:0 0 0 2px var(--orange); }
+.tadd .b{ display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px; }
 .newf .b{ display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-.newf .b button{ height:40px; border-radius:20px; font:600 14px var(--word); display:flex; flex-direction:column; align-items:center; justify-content:center; line-height:1.1; }
-.newf .b button small{ font:500 11px var(--word); opacity:.75; margin-top:2px; }
-.newf .b .j{ background:var(--fill); color:var(--ink); }
-.newf .b .l{ background:var(--orange); color:#fff; }
+.tadd .b button, .newf .b button{ height:40px; border-radius:20px; font:600 14px var(--word); display:flex; flex-direction:column; align-items:center; justify-content:center; line-height:1.1; }
+.tadd .b button small, .newf .b button small{ font:500 11px var(--word); opacity:.75; margin-top:2px; }
+.tadd .b .j, .newf .b .j{ background:var(--fill); color:var(--ink); }
+.tadd .b .l, .newf .b .l{ background:var(--orange); color:#fff; }
 .newf .b button:hover{ filter:brightness(.97); }
 .tip{ font-size:12.5px; color:var(--soft); padding:0 14px; line-height:1.4; }
 
@@ -172,19 +177,23 @@ button:focus-visible, input:focus-visible{ outline:2px solid var(--orange); outl
 .sr.none{ color:#6C6C73; }
 .sr.oldnone{ margin-top:10px; padding:0 14px; background:#EFEFF2; color:#6C6C73; }
 .sr.oldnone::before{ display:none; }
-.slist{ height:300px; overflow:auto; scrollbar-width:none; } .slist::-webkit-scrollbar{ display:none; }
+.zmenu{ position:relative; }
+.sbar{ position:absolute; right:3px; width:4px; background:#C7C7CE; border-radius:2px; pointer-events:none; }
+.sbar.round{ border-radius:999px; }
+.zmenu:hover .sbar{ width:6px; right:2px; background:#AEAEB6; }
+.slist{ height:344px; overflow:auto; scrollbar-width:none; } .slist::-webkit-scrollbar{ display:none; }
 </style>
 </head>
 <body>
 <div class="wrap">
   <h1>5.191 Walkthrough · Modules</h1>
-  <span class="ver">Version 1 · Oct 8, 2026, 12:22 PM · app 5.191</span>
+  <span class="ver">Version 2 · Oct 8, 2026, 12:32 PM · app 5.191</span>
   <p class="lead">Item 0 is your 12:17 PM "No source" note. A to E are from your 12:01 PM walkthrough of 5.190, each with a Before and an After. They are all drafts. Nothing goes into the app until you approve each one by letter. The two scroll bugs are already fixed in 5.191. For the Save pop-up I need a screenshot first (see the end).</p>
 
 
   <!-- 0 -->
   <h2><span class="k">0</span>Source menu › "No source" (first)</h2>
-  <p class="q">"no source doesn't line up with all the other sources… there's like a weird gap there so no source should have its own icon."</p>
+  <p class="q">12:26 PM: "it should be eight… keep the same thing for the insurance" and the scroll bar "should be like a semicircle at the end." 12:17 PM: "no source doesn't line up with all the other sources… there's like a weird gap there so no source should have its own icon."</p>
   <div class="seg" data-sec="z"><button type="button" data-v="before">Before</button><button type="button" class="on" data-v="after">After</button></div>
   <div class="grid"><div class="stage" id="z"></div><div class="note" id="zn"></div></div>
 
@@ -196,7 +205,7 @@ button:focus-visible, input:focus-visible{ outline:2px solid var(--orange); outl
 
   <!-- B -->
   <h2><span class="k">B</span>Status menu › "+ Add Status"</h2>
-  <p class="q">"it changes the view… That's a major thing." Click "+ Add Status" to see the form.</p>
+  <p class="q">"it changes the view… That's a major thing." 12:26 PM: "There's no logo in the status menu. Just put add status. Don't put no plus… make it seem like I could type it in." Type in the Add Status box to try it.</p>
   <div class="seg" data-sec="b"><button type="button" data-v="before">Before</button><button type="button" class="on" data-v="after">After</button></div>
   <div class="grid"><div class="stage" id="b"></div><div class="note" id="bn"></div></div>
 
@@ -232,7 +241,10 @@ var mode = { z:"after", a:"after", b:"after", c:"after", d:"after", e:"after" };
 
 /* 0 ------------------------------------------------------------- */
 var G = '<svg viewBox="0 0 20 20"><path d="M17.6 10.2H10v3.1h4.3c-.4 2-2.1 3.3-4.3 3.3a4.6 4.6 0 010-9.2c1.1 0 2.2.4 3 1.1l2.3-2.3A7.9 7.9 0 0010 2a8 8 0 100 16c4.6 0 7.7-3.2 7.7-7.8l-.1-1.2z" fill="#4285F4"/></svg>';
-var SRC = [["Google Ads",'<svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="#4285F4"/><text x="10" y="14" font-size="11" font-weight="700" fill="#fff" text-anchor="middle" font-family="Arial">G</text></svg>'],
+var SRC = [["Walk-in",'<svg viewBox="0 0 20 20"><circle cx="11" cy="4" r="2" fill="#3A3F47"/><path d="M10 7l-2 5 3 2v4M8 12l-2 5M10 7l3 3 3 1" fill="none" stroke="#3A3F47" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>'],
+  ["Referral",'<svg viewBox="0 0 20 20"><g fill="#1E7B34"><circle cx="7" cy="6.5" r="2.6"/><circle cx="13.5" cy="7.5" r="2.2"/><path d="M2 16c0-3 2.2-5 5-5s5 2 5 5z"/><path d="M11 16c.3-2.6 1.4-4 2.8-4 2 0 3.7 1.6 3.7 4z"/></g></svg>'],
+  ["Repeat Customer",'<svg viewBox="0 0 20 20"><path d="M15.5 8A6 6 0 004.6 6.5M4.5 12a6 6 0 0010.9 1.5" fill="none" stroke="#16A39A" stroke-width="1.8" stroke-linecap="round"/><path d="M4 3v4h4M16 17v-4h-4" fill="none" stroke="#16A39A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>'],
+  ["Google Ads",'<svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="#4285F4"/><text x="10" y="14" font-size="11" font-weight="700" fill="#fff" text-anchor="middle" font-family="Arial">G</text></svg>'],
   ["Facebook Ads",'<svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8.5" fill="#1877F2"/><text x="10.5" y="15" font-size="12" font-weight="700" fill="#fff" text-anchor="middle" font-family="Arial">f</text></svg>'],
   ["Tow Truck",'<svg viewBox="0 0 20 20"><path d="M3 13V9l3-3h5l2 3h3v4" fill="none" stroke="#8A5A2B" stroke-width="1.7" stroke-linejoin="round"/><circle cx="6" cy="14" r="1.8" fill="#8A5A2B"/><circle cx="14" cy="14" r="1.8" fill="#8A5A2B"/></svg>'],
   ["Dealership",'<svg viewBox="0 0 20 20"><path d="M2.5 8l7.5-4.5L17.5 8" fill="none" stroke="#4A5578" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/><rect x="4" y="8" width="12" height="8.5" rx="1" fill="none" stroke="#4A5578" stroke-width="1.7"/><rect x="8" y="11" width="4" height="5.5" fill="#4A5578"/></svg>'],
@@ -242,16 +254,17 @@ var SRC = [["Google Ads",'<svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8"
 var NONE = '<svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="7.5" fill="none" stroke="#8A919C" stroke-width="1.7"/><path d="M5 15L15 5" stroke="#8A919C" stroke-width="1.7" stroke-linecap="round"/></svg>';
 var zOn = "";
 function drawZ(){
-  var a = mode.z === "after", h = '<div class="menu">' + SRCH + '<div class="list slist" id="zl">';
+  var a = mode.z === "after", h = '<div class="menu zmenu" id="zm">' + SRCH + '<div class="list slist" id="zl">';
   SRC.forEach(function(r){ var on = r[0] === zOn; h += '<button type="button" class="sr' + (on ? " on" : "") + '" data-z="' + r[0] + '"><span class="ic">' + r[1] + '</span>' + r[0] + (on ? CK : "") + '</button>'; });
   if(a) h += '<button type="button" class="sr none' + (zOn === "" ? " on" : "") + '" data-z=""><span class="ic">' + NONE + '</span>No Source' + (zOn === "" ? CK : "") + '</button>';
   else h += '<button type="button" class="sr oldnone" data-z="">No source</button>';
-  h += '</div><button type="button" class="addrow"><span class="pc">' + PLUS + '</span>+ Add Source</button></div>';
-  document.getElementById("z").innerHTML = h; var zl = document.getElementById("zl"); zl.scrollTop = 9999;
+  h += '</div><button type="button" class="addrow"><span class="pc">' + PLUS + '</span>+ Add Source</button><i class="sbar' + (a ? " round" : "") + '" id="zsb"></i></div>';
+  document.getElementById("z").innerHTML = h; var zl = document.getElementById("zl"); zl.scrollTop = 9999; zsb(); zl.addEventListener("scroll", zsb);
   document.getElementById("zn").innerHTML = a
-    ? "<b>After</b><ul><li>\"No Source\" is a normal row: <span class='num'>43</span> tall, its own gray icon (a circle with a slash, <span class='num'>20</span>) <span class='num'>12</span> pixels in, the same spot as every source icon, with the name lined up with the other names.</li><li>No extra gap. The same thin line above it as between the other rows.</li><li>When the job has no source it gets the same light orange fill and check as any picked row (not the gray block).</li><li>Click a source, then \"No Source\", to see both.</li></ul>"
-    : "<b>Before (5.191)</b><ul><li>No icon, and the text starts <span class='num'>14</span> pixels in, not where the names start.</li><li>An extra <span class='num'>10</span>-pixel gap above it, with no line.</li><li>When picked it's a gray block, not the orange fill the other rows get.</li></ul>";
+    ? "<b>After</b><ul><li>\"No Source\" is a normal row: <span class='num'>43</span> tall, its own gray icon (a circle with a slash, <span class='num'>20</span>) <span class='num'>12</span> pixels in, the same spot as every source icon, with the name lined up with the other names.</li><li>No extra gap. The same thin line above it as between the other rows.</li><li>When the job has no source it gets the same light orange fill and check as any picked row (not the gray block).</li><li>The list shows <b>8 rows</b> at a time (8 × <span class='num'>43</span> = <span class='num'>344</span> tall) with + Add Source under it, the same 8 as Insurance (8 pills of <span class='num'>38</span> with <span class='num'>6</span> gaps = <span class='num'>346</span>).</li><li>Scroll bar ends are full half circles (were <span class='num'>2</span>-pixel corners, which looked square on a <span class='num'>4</span>-wide bar). This goes on every dropdown's bar.</li><li>Click a source, then \"No Source\", to see both.</li></ul>"
+    : "<b>Before (5.191)</b><ul><li>No icon, and the text starts <span class='num'>14</span> pixels in, not where the names start.</li><li>An extra <span class='num'>10</span>-pixel gap above it, with no line.</li><li>When picked it's a gray block, not the orange fill the other rows get.</li><li>Scroll bar ends nearly square (<span class='num'>2</span>-pixel corners).</li></ul>";
 }
+function zsb(){ var l = document.getElementById("zl"), b = document.getElementById("zsb"); if(!l || !b) return; var h = l.clientHeight, sh = l.scrollHeight, bh = Math.max(28, h * h / sh); b.style.height = bh + "px"; b.style.top = (l.offsetTop + (h - bh) * l.scrollTop / Math.max(1, sh - h)) + "px"; }
 document.getElementById("z").addEventListener("click", function(e){ var b = e.target.closest("[data-z]"); if(b){ zOn = b.dataset.z; drawZ(); } });
 
 /* A ------------------------------------------------------------- */
@@ -270,33 +283,32 @@ function drawA(){
 document.getElementById("a").addEventListener("click", function(e){ var b = e.target.closest("[data-wm]"); if(b){ wmOn = b.dataset.wm; drawA(); } });
 
 /* B ------------------------------------------------------------- */
-var ST = ["Potential Job","Waiting for Parts","In Repair","In Paint","In Reassembly","Quality Check"], stOn = "In Repair", bOpen = false, bVal = "Waiting for Check", bMsg = "";
+var ST = ["Potential Job","Waiting for Parts","In Repair","In Paint","In Reassembly","Quality Check"], stOn = "In Repair", bOpen = false, bVal = "", bMsg = "", bFocus = false;
 function drawB(){
   var a = mode.b === "after", h = '<div class="menu">' + SRCH + '<div class="list">';
   ST.forEach(function(s){ var on = s === stOn; h += '<button type="button" class="prow' + (on ? " on" : "") + '" data-st="' + s + '">' + s + (on ? CK : "") + '</button>'; });
   h += '</div>';
-  if(!bOpen) h += '<button type="button" class="addrow" data-bopen="1"><span class="pc">' + PLUS + '</span>+ Add Status</button>';
-  else if(!a) h += '<div class="oldnew"><input value="' + bVal + '"><div class="b"><button type="button" class="j">This Job</button><button type="button" class="l">Add to List</button></div></div>';
-  else h += '<div class="newf"><div class="in"><span class="pc">' + PLUS + '</span><input id="bin" value="' + bVal + '" placeholder="New status"><button type="button" class="clr" data-bclr="1" title="Clear">' + XS + '</button></div>' +
-    '<div class="b"><button type="button" class="j" data-bok="job">This Job Only<small>not saved to the list</small></button><button type="button" class="l" data-bok="list">Add to List<small>for every job</small></button></div>' +
-    (bMsg ? '<div class="tip">' + bMsg + '</div>' : '<div class="tip">Enter = This Job Only · Esc = cancel</div>') + '</div>';
+  if(a){ var v = bVal; h += '<div class="tadd"><input id="bin" value="' + v + '" placeholder="Add Status" spellcheck="false">' +
+      ('<div class="b" id="bbtn"' + (v.trim() ? '' : ' hidden') + '><button type="button" class="j" data-bok="job">This Job Only<small>not saved to the list</small></button><button type="button" class="l" data-bok="list">Add to List<small>for every job</small></button></div>') + '</div>'; }
+  else if(!bOpen) h += '<button type="button" class="addrow" data-bopen="1"><span class="pc">' + PLUS + '</span>+ Add Status</button>';
+  else h += '<div class="oldnew"><input value="Waiting for Check"><div class="b"><button type="button" class="j">This Job</button><button type="button" class="l">Add to List</button></div></div>';
   document.getElementById("b").innerHTML = h + '</div>';
   document.getElementById("bn").innerHTML = a
-    ? "<b>After</b><ul><li>The form opens where the add row was. The rest of the menu stays put.</li><li>The box is the family box: <span class='num'>44</span> tall, fully round, white with the orange focus ring. The plus circle turns solid orange while typing, and a small gray X clears it.</li><li>Two round buttons, <span class='num'>40</span> tall: <b>This Job Only</b> (gray) and <b>Add to List</b> (orange, the main choice). Each has a small second line that says what it does, so \"Just this job\" isn't a mystery.</li><li>Same hairline above it as every add row.</li></ul>"
-    : "<b>Before (5.191)</b><ul><li>The add row turns into a <span class='num'>30</span>-tall rectangle box (<span class='num'>8</span> corners) with an orange border.</li><li>Square-ish buttons: a black \"This Job\" and a green-bordered \"Add to List\". Neither is a family color or shape.</li><li>Nothing explains what \"This Job\" means.</li></ul>";
-  var bin = document.getElementById("bin"); if(bin){ bin.focus(); bin.setSelectionRange(bin.value.length, bin.value.length); bin.addEventListener("input", function(){ bVal = bin.value; }); }
+    ? "<b>After</b><ul><li>No icon and no plus. The last row is a typing box that says <b>Add Status</b> in gray: the family box, <span class='num'>44</span> tall, fully round, light gray fill, under the same thin line as the other rows.</li><li>Click it and type: it turns white with the orange ring, and the two round buttons (<span class='num'>40</span> tall) show up under it: <b>This Job Only</b> (gray, \"not saved to the list\") and <b>Add to List</b> (orange, \"for every job\").</li><li>Enter = This Job Only. Esc clears it.</li><li>The menu never switches to a different view.</li></ul>"
+    : "<b>Before (5.191)</b><ul><li>\"+ Add Status\" with a dashed plus circle. Clicking it swaps in a <span class='num'>30</span>-tall rectangle box (<span class='num'>8</span> corners) with an orange border.</li><li>Square-ish buttons: a black \"This Job\" and a green-bordered \"Add to List\". Neither is a family color or shape.</li></ul>";
+  var bin = document.getElementById("bin"); if(bin){ if(bFocus){ bin.focus(); bin.setSelectionRange(bin.value.length, bin.value.length); } bin.addEventListener("input", function(){ bVal = bin.value; var bb = document.getElementById("bbtn"); if(bb) bb.hidden = !bVal.trim(); }); }
 }
 document.getElementById("b").addEventListener("click", function(e){
   var t = e.target;
   if(t.closest("[data-bopen]")){ bOpen = true; bMsg = ""; drawB(); return; }
   if(t.closest("[data-bclr]")){ bVal = ""; drawB(); return; }
   var ok = t.closest("[data-bok]"); if(ok){ var v = bVal.trim(); if(!v) return;
-    if(ok.dataset.bok === "list" && ST.indexOf(v) < 0) ST.push(v); stOn = v; bOpen = false; bVal = "Waiting for Check";
+    if(ok.dataset.bok === "list" && ST.indexOf(v) < 0) ST.push(v); stOn = v; bOpen = false; bVal = ""; bFocus = false;
     if(ok.dataset.bok === "job"){ if(ST.indexOf(v) < 0) ST.push(v); }
     drawB(); return; }
   var s = t.closest("[data-st]"); if(s){ stOn = s.dataset.st; drawB(); }
 });
-document.getElementById("b").addEventListener("keydown", function(e){ if(e.target.id !== "bin") return; if(e.key === "Escape"){ bOpen = false; drawB(); } if(e.key === "Enter"){ document.querySelector('[data-bok="job"]').click(); } });
+document.getElementById("b").addEventListener("keydown", function(e){ if(e.target.id !== "bin") return; if(e.key === "Escape"){ bOpen = false; bVal = ""; bFocus = false; drawB(); } if(e.key === "Enter"){ document.querySelector('[data-bok="job"]').click(); } });
 
 /* C ------------------------------------------------------------- */
 var vin = "4XTE8RZM4EN872649", lastVin = "";
