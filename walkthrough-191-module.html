@@ -182,12 +182,33 @@ button:focus-visible, input:focus-visible{ outline:2px solid var(--orange); outl
 .sbar.round{ border-radius:999px; }
 .zmenu:hover .sbar{ width:6px; right:2px; background:#AEAEB6; }
 .slist{ height:344px; overflow:auto; scrollbar-width:none; } .slist::-webkit-scrollbar{ display:none; }
+
+/* C v2: VIN decode card */
+.vwin{ width:680px; max-width:100%; background:#fff; border-radius:22px; padding:20px; display:flex; flex-direction:column; gap:6px; min-height:120px; }
+.vwin label{ font:600 13px var(--word); color:#5B6472; }
+.vin2{ height:44px; border-radius:22px; background:var(--fill); display:flex; align-items:center; gap:10px; padding:0 4px 0 18px; }
+.vin2 .vv{ flex:1; font:400 14px var(--num); color:var(--ink); letter-spacing:.02em; }
+.vin2 .cnt{ font:400 12.5px var(--num); color:var(--gray); }
+.vdet{ height:36px; padding:0 14px 0 18px; border-radius:18px; background:var(--green); color:#fff; font:600 15px var(--word); display:inline-flex; align-items:center; gap:8px; }
+.vdet svg{ width:14px; height:14px; fill:none; stroke:#fff; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
+.vcard{ position:relative; margin-top:6px; background:#fff; border-radius:22px; padding:18px 22px 20px; box-shadow:0 0 0 .5px rgba(0,0,0,.10), 0 14px 36px rgba(0,0,0,.16); }
+.vcard .vt{ font:700 17px var(--word); padding:4px 48px 14px 0; border-bottom:1px solid var(--line); margin-bottom:8px; display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+.vcard .vt span{ padding-left:12px; border-left:1px solid #D5D8DC; }
+.vclose{ position:absolute; top:16px; right:16px; width:36px; height:36px; border-radius:18px; background:var(--fill); display:grid; place-items:center; }
+.vclose svg{ width:12px; height:12px; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round; fill:none; }
+.vclose:hover{ background:#E6E6EC; }
+.vcard .vr{ display:flex; justify-content:space-between; gap:16px; height:30px; align-items:center; font:500 14px var(--word); }
+.vcard .vr span{ color:#9A9AA2; } .vcard .vr b{ font-weight:600; text-align:right; } .vcard .vr b.mono{ font:700 13.5px var(--num); }
+.vcard .vb{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px; }
+.vcard .vb button{ height:44px; border-radius:22px; font:600 14px var(--word); }
+.vcard .vb .k{ background:#16181D; color:#fff; } .vcard .vb .g{ background:var(--fill); }
+.vgone{ font-size:13px; color:var(--soft); padding:8px 4px; }
 </style>
 </head>
 <body>
 <div class="wrap">
   <h1>5.191 Walkthrough · Modules</h1>
-  <span class="ver">Version 2 · Oct 8, 2026, 12:32 PM · app 5.191</span>
+  <span class="ver">Version 3 · Oct 8, 2026, 12:36 PM · app 5.191</span>
   <p class="lead">Item 0 is your 12:17 PM "No source" note. A to E are from your 12:01 PM walkthrough of 5.190, each with a Before and an After. They are all drafts. Nothing goes into the app until you approve each one by letter. The two scroll bugs are already fixed in 5.191. For the Save pop-up I need a screenshot first (see the end).</p>
 
 
@@ -210,8 +231,8 @@ button:focus-visible, input:focus-visible{ outline:2px solid var(--orange); outl
   <div class="grid"><div class="stage" id="b"></div><div class="note" id="bn"></div></div>
 
   <!-- C -->
-  <h2><span class="k">C</span>Customer Details › VIN: a small X inside the box</h2>
-  <p class="q">"there should be a little X in the VIN… it shouldn't just live in that pill on the top."</p>
+  <h2><span class="k">C</span>Customer Details › VIN decode card: an X at the top right</h2>
+  <p class="q">12:29 PM: "there's no need for the X mark [in the box]… when I hit decode, it opens a bottom menu like this… just an X… on the top right."</p>
   <div class="seg" data-sec="c"><button type="button" data-v="before">Before</button><button type="button" class="on" data-v="after">After</button></div>
   <div class="grid"><div class="stage" id="c"></div><div class="note" id="cn"></div></div>
 
@@ -311,25 +332,25 @@ document.getElementById("b").addEventListener("click", function(e){
 document.getElementById("b").addEventListener("keydown", function(e){ if(e.target.id !== "bin") return; if(e.key === "Escape"){ bOpen = false; bVal = ""; bFocus = false; drawB(); } if(e.key === "Enter"){ document.querySelector('[data-bok="job"]').click(); } });
 
 /* C ------------------------------------------------------------- */
-var vin = "4XTE8RZM4EN872649", lastVin = "";
+var vOpen = true;
+var VROWS = [["Trim","SV"],["Engine","2.0 L · Gasoline"],["Body","Sedan, 4 door"],["Built in","Aguascalientes, Aguascalientes"],["Paint code","—"],["Country","Mexico"],["VIN","3N1AB8CV3SY315181"]];
+var CHUP = '<svg viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></svg>', CHDN = '<svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>';
 function drawC(){
-  var a = mode.c === "after", n = vin.replace(/\s/g, "").length;
-  var h = '<div class="win"><label>VIN</label><div class="vin" id="vbox"><input id="vin" spellcheck="false" value="' + vin + '" placeholder="17 characters">' +
-    (vin ? '<span class="cnt' + (n === 17 ? "" : " bad") + '">' + n + ' / 17</span>' : '') +
-    (a && vin ? '<button type="button" class="vx" data-vx="1" title="Clear the VIN">' + XS + '</button>' : '') +
-    '<button type="button" class="dec">Decode</button></div>' +
-    (a && !vin && lastVin ? '<div class="undo">VIN cleared. <button type="button" data-vundo="1">Undo</button></div>' : '') + '</div>';
-  document.getElementById("c").innerHTML = h;
+  var a = mode.c === "after";
+  var h = '<div class="vwin"><label>VIN</label><div class="vin2"><span class="vv">3N1AB8CV3SY315181</span><span class="cnt">17 / 17</span><button type="button" class="vdet" data-vt="1">Details' + (vOpen ? CHUP : CHDN) + '</button></div>';
+  if(vOpen){ h += '<div class="vcard">' + (a ? '<button type="button" class="vclose" data-vc="1" title="Close">' + '<svg viewBox="0 0 14 14"><path d="M3 3l8 8M11 3l-8 8"/></svg></button>' : '') +
+    '<div class="vt">2025 Nissan Sentra<span>SV · Sedan, 4 door</span></div>' +
+    VROWS.map(function(r){ return '<div class="vr"><span>' + r[0] + '</span><b' + (r[0] === "VIN" ? ' class="mono"' : '') + '>' + r[1] + '</b></div>'; }).join("") +
+    '<div class="vb"><button type="button" class="k">Copy To Job Notes</button><button type="button" class="g">Decode Again</button></div></div>'; }
+  else h += '<div class="vgone">Card closed. Click <b>Details</b> to open it again.</div>';
+  document.getElementById("c").innerHTML = h + '</div>';
   document.getElementById("cn").innerHTML = a
-    ? "<b>After</b><ul><li>A small round X (<span class='num'>20</span>, gray, white x) inside the box, between the <span class='num'>17 / 17</span> count and Decode.</li><li>It only shows when there is a VIN. One click empties the box, and an Undo link shows under it in case it was a mis-click.</li><li>Decode stays where it is.</li></ul>"
-    : "<b>Before (5.191)</b><ul><li>No way to clear the VIN except selecting it and deleting.</li></ul>";
-  var i = document.getElementById("vin"), bx = document.getElementById("vbox");
-  i.addEventListener("input", function(){ vin = i.value.toUpperCase(); var p = i.selectionStart; drawC(); var n2 = document.getElementById("vin"); n2.focus(); n2.setSelectionRange(p, p); });
-  i.addEventListener("focus", function(){ bx.classList.add("focus"); }); i.addEventListener("blur", function(){ bx.classList.remove("focus"); });
+    ? "<b>After</b><ul><li>No X inside the VIN box. The box stays as it is.</li><li>The decode card gets the family close button at its top right: a <span class='num'>36</span> round light gray circle with a black x, <span class='num'>16</span> pixels in from the top and right edges, on the same line as the car's name.</li><li>Click it and the card closes, the same as clicking the green Details pill again (its chevron turns back down).</li><li>Copy To Job Notes and Decode Again stay at the bottom.</li><li>Try it: X closes, Details opens it again.</li></ul>"
+    : "<b>Before (5.191)</b><ul><li>The decode card has no X. The only way to close it is to click the green Details pill again or click somewhere else.</li></ul>";
 }
 document.getElementById("c").addEventListener("click", function(e){
-  if(e.target.closest("[data-vx]")){ lastVin = vin; vin = ""; drawC(); document.getElementById("vin").focus(); return; }
-  if(e.target.closest("[data-vundo]")){ vin = lastVin; lastVin = ""; drawC(); }
+  if(e.target.closest("[data-vc]")){ vOpen = false; drawC(); return; }
+  if(e.target.closest("[data-vt]")){ vOpen = !vOpen; drawC(); }
 });
 
 /* D ------------------------------------------------------------- */
