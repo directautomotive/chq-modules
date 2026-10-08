@@ -110,11 +110,38 @@ body.shape-square .lgbig{ border-radius:8px; }
 .orow > span{ font:600 14px var(--word); color:#5B6472; }
 /* the family switch, as in Layout: gray track, the picked half white */
 .opts .seg{ background:#E6E6EC; } .opts .seg button.on{ background:#fff; color:var(--ink); } .opts .seg button.on i.sh{ background:var(--ink); }
+
+/* Edit card (click the logo tile or Edit): the same family window, 22 corners, X top right, Save orange */
+.ov{ position:fixed; inset:0; background:rgba(17,22,27,.45); display:none; align-items:center; justify-content:center; z-index:50; }
+.ov.show{ display:flex; }
+.ed{ width:520px; max-width:calc(100% - 32px); background:#fff; border-radius:22px; padding:24px; position:relative; box-shadow:0 20px 60px rgba(0,0,0,.25); }
+.ed h4{ font:800 20px var(--word); margin:0 0 16px; }
+.ed .x{ position:absolute; top:16px; right:16px; width:36px; height:36px; border-radius:18px; background:var(--fill); display:grid; place-items:center; }
+.ed .x svg{ width:12px; height:12px; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round; fill:none; }
+.ed .lrow{ display:flex; align-items:center; gap:14px; margin-bottom:16px; }
+.ed .lbig{ width:72px; height:72px; border-radius:50%; background:#fff; box-shadow:0 0 0 1px rgba(0,0,0,.10); display:grid; place-items:center; font:800 22px var(--word); color:var(--cc); overflow:hidden; flex:none; }
+.ed .lbig img{ width:48px; height:48px; object-fit:contain; }
+body.shape-square .ed .lbig{ border-radius:14px; }
+.ed .lbtn{ height:40px; padding:0 18px; border-radius:20px; background:var(--fill); font:600 14px var(--word); }
+.ed .lbtn.k{ background:#fff; box-shadow:0 0 0 .5px rgba(0,0,0,.10), 0 1px 3px rgba(0,0,0,.14); }
+.ed label{ display:block; font:600 13px var(--word); color:#5B6472; margin:10px 0 6px; }
+.ed .bx{ height:44px; border-radius:22px; background:var(--fill); display:flex; align-items:center; padding:0 16px; }
+.ed .bx input{ flex:1; border:0; outline:none; background:transparent; font:500 15px var(--word); color:var(--ink); }
+.ed .pal{ display:flex; gap:10px; flex-wrap:wrap; }
+.ed .pal .dot{ width:32px; height:32px; cursor:pointer; } .ed .pal .dot.on{ box-shadow:inset 0 0 0 2px #fff, 0 0 0 2px var(--orange); }
+.ed .pal .cust{ width:32px; height:32px; border-radius:16px; border:1.5px dashed #B9BCC4; display:grid; place-items:center; font:700 16px var(--word); color:var(--soft); }
+.ed .prev{ margin-top:16px; padding:14px; background:#F4F4F7; border-radius:16px; display:flex; align-items:center; gap:14px; }
+.ed .prev span.t{ font:600 12px var(--word); color:var(--soft); }
+.ed .bb{ display:flex; gap:10px; margin-top:18px; align-items:center; }
+.ed .bb .del{ color:#C0392B; font:600 14px var(--word); margin-right:auto; height:40px; padding:0 6px; }
+.ed .bb .cancel{ height:44px; padding:0 22px; border-radius:22px; background:var(--fill); font:600 15px var(--word); }
+.ed .bb .save{ height:44px; padding:0 26px; border-radius:22px; background:var(--orange); color:#fff; font:600 15px var(--word); }
+.lgbig, .edit{ cursor:pointer; }
 </style>
 </head>
 <body class="shape-circle pill-square look-color name-full">
 <h1>Settings › Insurance Companies · Module</h1>
-<span class="ver">Version 10 · Oct 8, 2026, 2:54 PM · app 5.199</span>
+<span class="ver">Version 11 · Oct 8, 2026, 2:58 PM · app 5.199</span>
 <p class="lead">Frank, 2:27 PM: every row should show the chip the way it looks in the board's Insurance column, and the choices up top should let you pick the look for all of them at once: circle or square logo, color pill or simple, pill or no pill. 2:31 PM: chips end where the name ends, a Full | Short name picker, and every company the app knows (57 with Customer Pay and Unknown). 2:29 PM: this list feeds two places, the board column and the dropdowns. Click the pickers and watch the list, the board column and both dropdowns change together. </p>
 
 <div class="wrap">
@@ -154,7 +181,7 @@ function draw(){
   document.getElementById("menuD").innerHTML = SUB.map(function(n){ var c = CO.filter(function(x){ return x[0] === n; })[0]; return '<div class="mr' + (n === "Kemper" ? " on" : "") + (n === "Unknown" ? " unk" : "") + '" style="--cc:' + c[1] + '"><span class="lg">' + logo(c) + '</span>' + nm(c) + '</div>'; }).join("");
   var sh = document.body.classList.contains("shape-square") ? "square" : "circle", lk = ["color","plain","simple","nologo"].filter(function(k){ return document.body.classList.contains("look-" + k); })[0];
   var L = { color:"<b>Color</b>: the chip fills with the company's color at <span class='num'>14</span> percent and the words take it at <span class='num'>72</span> percent (what the board does today).", plain:"<b>Gray Pill</b>: every chip is the same light gray with black words; only the logo carries the color.", simple:"<b>No Pill</b>: logo and name on the row, no fill behind them.", nologo:"<b>Words Only</b>: the color pill with just the name." }[lk];
-  document.getElementById("note").innerHTML = "<b>What's picked</b><ul><li>Pill: <b>" + (document.body.classList.contains('pill-round') ? 'round ends' : 'square, 10 corners (as the board today)') + "</b>, picked on its own.</li><li>Logo tile: <b>" + (sh === "square" ? "square, 5 corners" : "circle") + "</b>, <span class='num'>24</span> wide, <span class='num'>5</span> in from the chip's edge.</li><li>" + L + "</li><li>Name: <b>" + (document.body.classList.contains('name-short') ? 'Short' : 'Full') + "</b>. Short drops the fluff: Safeway Insurance → Safeway, Seaview Insurance Company → Seaview, Quality Estimates Inc → Quality Estimates, Farmers Insurance → Farmers. Each company keeps both names in Settings; you pick which one shows.</li><li>Columns, left to right: <b>Logo</b> (the picture in its tile, click to upload), <b>Color</b> (the dot), then <b>the view</b>, the chip exactly as it shows on the board.</li><li>One standard chip width per mode. Full: the width of <b>Aspire General Insurance</b>. Short: the width of <b>National General</b> plus <span class='num'>12</span> (<span class='num'>175</span> pixels), so the chips shrink when you switch. A name longer than the standard is cut with \u2026.</li><li>The New Carrier box is a chip of that same width in the chip column, with its logo tile and color dot in their columns; the Add button is the Edit button's size.</li><li>Logos are the app's real pictures (43 of them); companies without a picture yet show their letter.</li><li>The color dot in the list is a <span class='num'>32</span> circle (was a rounded square). Click it to change the color; the chip and the board update.</li><li><b>Unknown</b> uses a darker gray (<span class='num'>#6C6C73</span>) so its words read, and an empty dashed circle for its mark, the same mark as an unknown source.</li><li>The same list draws the <b>dropdowns</b>: the board menu keeps its chips (<span class='num'>38</span> tall) and the Details menu keeps its white logo circles (<span class='num'>26</span>) on plain rows, and both take the logo shape and the look you pick here.</li><li>The three pickers live in their own card, <b>How Insurance Shows</b>, above the list, not in the list's header. They replace the old Color | Simple switch. Save at the bottom of Settings stays.</li></ul>";
+  document.getElementById("note").innerHTML = "<b>What's picked</b><ul><li>Pill: <b>" + (document.body.classList.contains('pill-round') ? 'round ends' : 'square, 10 corners (as the board today)') + "</b>, picked on its own.</li><li>Logo tile: <b>" + (sh === "square" ? "square, 5 corners" : "circle") + "</b>, <span class='num'>24</span> wide, <span class='num'>5</span> in from the chip's edge.</li><li>" + L + "</li><li>Name: <b>" + (document.body.classList.contains('name-short') ? 'Short' : 'Full') + "</b>. Short drops the fluff: Safeway Insurance → Safeway, Seaview Insurance Company → Seaview, Quality Estimates Inc → Quality Estimates, Farmers Insurance → Farmers. Each company keeps both names in Settings; you pick which one shows.</li><li>Click a logo tile or Edit: a card opens with the picture (Upload Picture or Use Letter), Name, Short Name, the color dots, a live chip, and Delete / Cancel / Save. New Carrier opens the same card empty.</li><li>Columns, left to right: <b>Logo</b> (the picture in its tile, click to upload), <b>Color</b> (the dot), then <b>the view</b>, the chip exactly as it shows on the board.</li><li>One standard chip width per mode. Full: the width of <b>Aspire General Insurance</b>. Short: the width of <b>National General</b> plus <span class='num'>12</span> (<span class='num'>175</span> pixels), so the chips shrink when you switch. A name longer than the standard is cut with \u2026.</li><li>The New Carrier box is a chip of that same width in the chip column, with its logo tile and color dot in their columns; the Add button is the Edit button's size.</li><li>Logos are the app's real pictures (43 of them); companies without a picture yet show their letter.</li><li>The color dot in the list is a <span class='num'>32</span> circle (was a rounded square). Click it to change the color; the chip and the board update.</li><li><b>Unknown</b> uses a darker gray (<span class='num'>#6C6C73</span>) so its words read, and an empty dashed circle for its mark, the same mark as an unknown source.</li><li>The same list draws the <b>dropdowns</b>: the board menu keeps its chips (<span class='num'>38</span> tall) and the Details menu keeps its white logo circles (<span class='num'>26</span>) on plain rows, and both take the logo shape and the look you pick here.</li><li>The three pickers live in their own card, <b>How Insurance Shows</b>, above the list, not in the list's header. They replace the old Color | Simple switch. Save at the bottom of Settings stays.</li></ul>";
 }
 document.querySelectorAll(".seg[data-g]").forEach(function(sg){ sg.addEventListener("click", function(e){ var b = e.target.closest("button"); if(!b) return; sg.querySelectorAll("button").forEach(function(x){ x.classList.toggle("on", x === b); });
   var g = sg.dataset.g; document.body.className = document.body.className.split(" ").filter(function(k){ return k.indexOf(g + "-") !== 0; }).join(" ") + " " + g + "-" + b.dataset.v; draw(); }); });
@@ -164,6 +191,30 @@ document.getElementById("list").addEventListener("click", function(e){ var d = e
 function fit(){ document.body.style.removeProperty("--chipw"); var m = document.createElement("span"); m.className = "chip"; m.style.cssText = "position:absolute;visibility:hidden;width:auto"; m.innerHTML = '<span class="lg"></span>' + (document.body.classList.contains("name-short") ? "National General" : "Aspire General Insurance"); document.body.appendChild(m); var w = Math.ceil(m.getBoundingClientRect().width) + (document.body.classList.contains("name-short") ? 12 : 0); m.remove();   /* Short: 12 more than National General (Frank 2:49 PM, "a tiny bit bigger") */ document.body.style.setProperty("--chipw", w + "px"); }
 var draw0 = draw; draw = function(){ draw0(); fit(); };
 draw(); fit();
+</script>
+<div class="ov" id="ov"><div class="ed" id="ed"></div></div>
+<script>
+var PAL = ["#C8102E","#E2711D","#C77800","#1E8E2B","#00693E","#0077B3","#003DA5","#5B2C86","#962C3F","#3E4651","#6B7280","#6C6C73"];
+var E = null;
+function openEd(i){ E = { i:i, c:CO[i].slice() }; drawEd(); document.getElementById("ov").classList.add("show"); }
+function drawEd(){ var c = E.c, isNew = E.i < 0;
+  document.getElementById("ed").innerHTML = '<h4>' + (isNew ? "New Carrier" : "Edit Carrier") + '</h4><button type="button" class="x" data-ec><svg viewBox="0 0 14 14"><path d="M3 3l8 8M11 3l-8 8"/></svg></button>' +
+    '<div class="lrow"><span class="lbig" style="--cc:' + c[1] + '">' + logo(c) + '</span><div><button type="button" class="lbtn k">Upload Picture</button> <button type="button" class="lbtn" data-eletter>Use Letter</button><div style="font:400 12.5px var(--word);color:var(--soft);margin-top:8px">PNG or JPG, square, the picture fills the tile.</div></div></div>' +
+    '<label>Name</label><div class="bx"><input data-ef="0" value="' + c[0].replace(/"/g, "&quot;") + '"></div>' +
+    '<label>Short Name <span style="font-weight:400;color:var(--soft)">· what shows when Name is set to Short</span></label><div class="bx"><input data-ef="3" value="' + c[3].replace(/"/g, "&quot;") + '"></div>' +
+    '<label>Color</label><div class="pal">' + PAL.map(function(p){ return '<span class="dot' + (p.toLowerCase() === c[1].toLowerCase() ? " on" : "") + '" style="background:' + p + '" data-ecol="' + p + '"></span>'; }).join("") + '<span class="cust" title="Pick any color">+</span></div>' +
+    '<div class="prev"><span class="t">On the board</span>' + chip(c) + '</div>' +
+    '<div class="bb">' + (isNew ? '' : '<button type="button" class="del">Delete</button>') + '<button type="button" class="cancel" data-ec>Cancel</button><button type="button" class="save" data-es>Save</button></div>';
+  fit(); }
+document.getElementById("list").addEventListener("click", function(e){ var r = e.target.closest(".row"); if(!r) return; if(e.target.closest(".lgbig, .edit")){ openEd([].indexOf.call(r.parentNode.children, r)); } });
+document.querySelector(".add").addEventListener("click", function(e){ if(e.target.closest(".plus, .lgbig, .in")){ CO.push(["", "#6C6C73", "", ""]); openEd(CO.length - 1); E.isNew = true; } });
+document.getElementById("ov").addEventListener("click", function(e){
+  if(e.target.id === "ov" || e.target.closest("[data-ec]")){ if(E && E.isNew) CO.pop(); E = null; document.getElementById("ov").classList.remove("show"); return; }
+  var col = e.target.closest("[data-ecol]"); if(col){ E.c[1] = col.dataset.ecol; drawEd(); return; }
+  if(e.target.closest("[data-eletter]")){ E.c[2] = (E.c[0] || "?").charAt(0).toUpperCase(); IMAP[E.c[0]] = undefined; ALIAS[E.c[0]] = undefined; drawEd(); return; }
+  if(e.target.closest("[data-es]")){ if(!E.c[0].trim()){ document.querySelector('[data-ef="0"]').focus(); return; } if(!E.c[3].trim()) E.c[3] = E.c[0]; if(!E.c[2]) E.c[2] = E.c[0].charAt(0).toUpperCase(); CO[E.i] = E.c; E = null; document.getElementById("ov").classList.remove("show"); draw(); return; }
+});
+document.getElementById("ov").addEventListener("input", function(e){ var f = e.target.dataset.ef; if(f === undefined) return; E.c[+f] = e.target.value; var p = document.querySelector(".ed .prev"); if(p) p.innerHTML = '<span class="t">On the board</span>' + chip(E.c); });
 </script>
 </body>
 </html>
