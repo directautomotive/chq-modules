@@ -98,6 +98,7 @@ th.grp .hl{ gap:8px; }
 /* slot widths in pixels so the header and the rows share them exactly (Courier New 14: one character = 8.4) */
 .g .s-d{ width:51px; } .g .s-n{ width:18px; text-align:center; } .g .s-n.w{ width:59px; text-align:left; } .g .s-a{ width:14px; overflow:hidden; }
 .g > span{ font:700 14px var(--nums); white-space:pre; display:block; text-align:center; }
+.g .nd{ display:block; text-align:left; font-weight:700; color:#8A8D96; }
 .g .s-a{ color:var(--arrow); font:500 14px/1 var(--words); transform:translateY(-2px); }
 th .g > span{ font:700 13px var(--words); white-space:nowrap; } th .g .s-a{ color:#8A8D96; }
 .gap{ display:flex; align-items:center; gap:10px; font:600 13px var(--words); color:var(--gray); } .gap input{ width:150px; accent-color:var(--orange); } .gap output{ font:700 13px var(--nums); color:var(--ink); min-width:2ch; } .gap .u{ font-weight:500; }
@@ -114,7 +115,7 @@ th .g > span{ font:700 13px var(--words); white-space:nowrap; } th .g .s-a{ colo
 <div class="wrap">
   <h1>Dates Board Module</h1>
   <p class="lead">Date In, Days and Date Out as one tight group on the board, with the same gap between every piece.</p>
-  <span class="ver">Version 5 · Oct 8, 1:25 PM · module only, not in the app</span>
+  <span class="ver">Version 6 · Oct 8, 2:05 PM · module only, not in the app</span>
   <div class="ctl">
     <div class="ci"><span>Between</span><div class="seg" id="ra"><button type="button" data-v="a" class="on">Arrows</button><button type="button" data-v="l">Lines</button><button type="button" data-v="n">None</button></div></div>
     <div class="ci"><span>Days</span><div class="seg" id="dy"><button type="button" data-v="1" class="on">On</button><button type="button" data-v="0">Off</button></div></div>
@@ -125,7 +126,7 @@ th .g > span{ font:700 13px var(--words); white-space:nowrap; } th .g .s-a{ colo
     <div class="tw"><table id="t"></table></div>
     <div id="pop" role="dialog" aria-label="Days settings" hidden></div>
   </div>
-  <p class="note">Today is October 8, 2026 here. Days: gray 1 to 3, yellow from 4, orange from 10, red from 20 while the car is in; always red on a total loss; light gray once it is out. Date Out: a total loss shows its pick-up date in yellow (today while storage runs); a pick-up after today is green; blank while the car is here. Click a date to change it; the chevron opens the color settings.</p>
+  <p class="note">Today is October 8, 2026 here. Days: gray 1 to 3, yellow from 4, orange from 10, red from 20 while the car is in; always red on a total loss; light gray once it is out. Date Out: a total loss shows its pick-up date in yellow (today while storage runs); a pick-up after today is green; one dash while the car is here; one dash in Date In when there is no date. Click a date to change it; the chevron opens the color settings.</p>
 </div>
 
 <script>
@@ -174,10 +175,10 @@ function draw(){
     else if(dout){ oTxt = fmt(dout); }
     var tip = n == null ? "" : n + (out ? " days in the shop, start to finish" : " days in the shop so far");
     var g = '<span class="g">' +
-      '<span class="s-d cell" data-i="' + i + '" data-f="2" title="Click to set the Date In">' + (din ? fmt(din) : "      ") + '</span>' +
+      '<span class="s-d cell" data-i="' + i + '" data-f="2" title="Click to set the Date In">' + (din ? fmt(din) : '<b class="nd">\u2013</b>') + '</span>' +
       A(!!din) +
-      (DAYS ? '<span class="s-n dn ' + cls + (WORD ? " w" : "") + '" title="' + tip + '">' + (n == null ? "" : pad(n)) + '</span>' + A(!!din && !!oTxt) : '') +
-      '<span class="s-d cell" data-i="' + i + '" data-f="' + (tl ? 7 : 3) + '" style="' + oCol + '" title="' + (tl ? "Total loss: waiting for the insurance company to pick it up" : sch ? "Scheduled: the customer picks it up " + longd(dout) : "Click to set the Date Out") + '">' + (oTxt || "      ") + '</span>' +
+      (DAYS ? '<span class="s-n dn ' + cls + (WORD ? " w" : "") + '" title="' + tip + '">' + (n == null ? "" : pad(n)) + '</span>' + A(!!din) : '') +
+      '<span class="s-d cell" data-i="' + i + '" data-f="' + (tl ? 7 : 3) + '" style="' + oCol + '" title="' + (tl ? "Total loss: waiting for the insurance company to pick it up" : sch ? "Scheduled: the customer picks it up " + longd(dout) : "Click to set the Date Out") + '">' + (oTxt || (din ? '<b class="nd">\u2013</b>' : "")) + '</span>' +
       '</span>';
     return '<tr class="' + (tl ? "tl" : out ? "done" : "") + '"><td>' + r[0] + '</td><td class="cu">' + r[1] + '</td><td class="grp">' + g + '</td><td>' + money(r[5], r[6]) + '</td></tr>';
   }).join("");
