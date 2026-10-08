@@ -103,17 +103,17 @@ body.look-plain .mc.unk, body.look-color .mc.unk{ background:#E6E6EC; color:var(
 body.shape-square .lgbig{ border-radius:8px; }
 
 /* the pickers live in their own card above the list, not in the list's header */
-.opts{ background:var(--fill); border-radius:22px; padding:16px 20px 8px; margin:0 0 18px; }
+.opts{ background:#fff; box-shadow:0 0 0 1px var(--line); border-radius:22px; padding:16px 20px 8px; margin:0 0 18px; }
 .opts .oh{ font:800 16px var(--word); } .opts .os{ margin:2px 0 10px; font:400 13px var(--word); color:var(--soft); }
 .orow{ display:flex; align-items:center; gap:12px; padding:6px 0; } .orow > span{ width:72px; flex:none; } .opts .seg{ display:inline-flex; }
 .orow > span{ font:600 14px var(--word); color:#5B6472; }
-.opts .seg{ background:#fff; }
-.opts .seg button{ background:transparent; } .opts .seg button.on{ background:var(--ink); color:#fff; } .opts .seg button.on i.sh{ background:#fff; }
+/* the family switch, as in Layout: gray track, the picked half white */
+.opts .seg{ background:#E6E6EC; } .opts .seg button.on{ background:#fff; color:var(--ink); } .opts .seg button.on i.sh{ background:var(--ink); }
 </style>
 </head>
 <body class="shape-circle look-color name-full">
 <h1>Settings › Insurance Companies · Module</h1>
-<span class="ver">Version 6 · Oct 8, 2026, 2:54 PM · app 5.199</span>
+<span class="ver">Version 7 · Oct 8, 2026, 2:48 PM · app 5.199</span>
 <p class="lead">Frank, 2:27 PM: every row should show the chip the way it looks in the board's Insurance column, and the choices up top should let you pick the look for all of them at once: circle or square logo, color pill or simple, pill or no pill. 2:31 PM: chips end where the name ends, a Full | Short name picker, and every company the app knows (57 with Customer Pay and Unknown). 2:29 PM: this list feeds two places, the board column and the dropdowns. Click the pickers and watch the list, the board column and both dropdowns change together. </p>
 
 <div class="wrap">
