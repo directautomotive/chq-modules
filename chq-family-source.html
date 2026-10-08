@@ -4,7 +4,8 @@
 :root{ color-scheme:light;
   --page:#F2F2F7; --card:#FFFFFF; --ink:#16181D; --gray:#6C6C73; --soft:#8A8F98; --line:#ECECF0; --fill:#EDEDF2;
   --orange:#E8792B; --orange-tint:#FDEEE2; --green:#1E7B34; --green-tint:#E7F4EA; --red:#C0392B; --red-tint:#FBE9E7; --yellow:#FFF6D5;
-  --words:Inter, -apple-system, "Segoe UI", Arial, sans-serif; --nums:"Courier New", Courier, monospace; }
+  --words:Inter, -apple-system, "Segoe UI", Arial, sans-serif; --nums:"Courier New", Courier, monospace;
+  --line:2;   /* the one line weight every icon uses */ }
 *{ box-sizing:border-box; }
 body{ margin:0; background:var(--page); color:var(--ink); font:400 14px/1.5 var(--words); -webkit-font-smoothing:antialiased; }
 .wrap{ max-width:1040px; margin:0 auto; padding-block:calc(env(safe-area-inset-top, 0px) + 28px) 60px; padding-inline:16px; display:flex; flex-direction:column; gap:14px; }
@@ -41,7 +42,7 @@ button:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
 .split{ display:inline-flex; align-items:center; height:44px; width:112px; border-radius:22px; } .split button{ flex:1; height:100%; background:none; display:grid; place-items:center; } .split i{ width:1px; height:22px; background:#D9D9DF; }
 .circ{ width:44px; height:44px; border-radius:22px; display:inline-grid; place-items:center; padding:0; flex:none; }
 .c36{ width:36px; height:36px; border-radius:18px; }
-.ic{ width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.ic{ width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:var(--line); stroke-linecap:round; stroke-linejoin:round; }
 .tabs{ display:inline-flex; padding:4px; gap:0; background:var(--fill); border-radius:22px; position:relative; }
 .tabs button{ width:136px; height:36px; border-radius:18px; background:none; font:600 14px var(--words); color:#5B6472; position:relative; z-index:1; }
 .tabs button.on{ color:var(--ink); }
@@ -73,7 +74,7 @@ button:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
 .icons{ display:flex; flex-wrap:wrap; gap:14px; }
 .icons figure{ margin:0; display:flex; flex-direction:column; align-items:center; gap:6px; width:72px; }
 .icons figure div{ width:44px; height:44px; border-radius:22px; background:var(--fill); display:grid; place-items:center; }
-.icons svg{ width:24px; height:24px; fill:none; stroke:var(--ink); stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.icons svg{ width:24px; height:24px; fill:none; stroke:var(--ink); stroke-width:var(--line); stroke-linecap:round; stroke-linejoin:round; }
 .icons figcaption{ font:600 12px var(--words); color:var(--gray); }
 
 /* marks */
@@ -83,7 +84,7 @@ button:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
 .pm.ok{ background:var(--green-tint); color:var(--green); box-shadow:inset 0 0 0 1.5px var(--green); }
 .pm.no{ background:var(--red-tint); color:var(--red); box-shadow:inset 0 0 0 1.5px var(--red); }
 .pm.bang{ background:#FFF1E5; color:var(--orange); box-shadow:inset 0 0 0 1.5px var(--orange); font:800 13px var(--words); }
-.pm svg{ width:12px; height:12px; fill:none; stroke:currentColor; stroke-width:2.6; stroke-linecap:round; stroke-linejoin:round; }
+.pm svg{ width:12px; height:12px; fill:none; stroke:currentColor; stroke-width:calc(var(--line) * 1.3); stroke-linecap:round; stroke-linejoin:round; }
 
 /* numbers lined up */
 .ledger{ background:#fff; border-radius:16px; overflow:hidden; box-shadow:inset 0 0 0 1px var(--line); width:100%; max-width:520px; }
@@ -115,14 +116,93 @@ button:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
 .pop{ position:absolute; left:0; top:52px; z-index:3; transform-origin:24px 0; transform:scale(.6); opacity:0; pointer-events:none; transition:transform .18s cubic-bezier(.2,.9,.3,1.1), opacity .12s; }
 .pop.show{ transform:scale(1); opacity:1; pointer-events:auto; }
 @media (prefers-reduced-motion:reduce){ .pop, .tabs .th{ transition:none; } .box.typing::after{ animation:none; } }
+/* account menu (5.184: one 20 edge all the way around) */
+.am{ width:406px; max-width:100%; background:#fff; border-radius:24px; padding:20px; box-shadow:0 0 0 .5px rgba(0,0,0,.10), 0 18px 44px rgba(0,0,0,.18); display:flex; flex-direction:column; gap:2px; }
+.am .card{ display:flex; align-items:center; gap:18px; padding:18px; border-radius:20px; background:var(--page); margin-bottom:6px; }
+.am .logo{ width:76px; height:76px; border-radius:38px; background:#1E3FA8; color:#fff; display:grid; place-items:center; font:900 15px var(--words); letter-spacing:.02em; flex:none; }
+.am .who2{ display:flex; flex-direction:column; gap:8px; min-width:0; } .am .who2 b{ font:700 17px/1.2 var(--words); } .am .who2 span{ color:var(--soft); font-size:12.5px; padding-top:8px; border-top:1px solid #DCDCE2; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.am .it{ display:flex; align-items:center; gap:13px; height:48px; padding:0 16px; margin:0 -12px; border-radius:24px; font:500 15.5px var(--words); background:none; text-align:left; }
+.am .it:hover, .am .it.lit{ background:var(--page); }
+.am .it svg{ width:19px; height:19px; fill:none; stroke:currentColor; stroke-width:calc(var(--line) * .75); flex:none; }
+.am .it.red{ color:var(--red); }
+.am hr{ border:0; border-top:1px solid var(--line); margin:6px 0; width:100%; align-self:stretch; height:0; }
+.am .ft{ display:flex; align-items:center; gap:12px; margin-top:4px; color:var(--gray); font:500 14px var(--words); } .am .ft b{ font-weight:700; color:#5B6472; } .am .ft i{ width:1px; height:16px; background:#D2D3D9; } .am .ft .sp{ flex:1; }
+/* settings window */
+.sw{ width:100%; background:var(--page); border-radius:36px; padding:24px; display:flex; flex-direction:column; gap:18px; }
+.sw .top{ display:flex; align-items:center; } .sw h3{ font:700 26px var(--words); margin:0; flex:1; }
+.sw .body{ display:grid; grid-template-columns:minmax(0, 300px) minmax(0, 1fr); gap:18px; align-items:start; }
+@media (max-width:760px){ .sw .body{ grid-template-columns:1fr; } }
+.nav{ background:#fff; border-radius:22px; padding:12px; display:flex; flex-direction:column; gap:2px; }
+.nav .grp{ font:600 14px var(--words); color:var(--soft); padding:12px 14px 4px; }
+.nav button{ display:flex; align-items:center; gap:14px; height:46px; padding:0 14px; border-radius:23px; background:none; font:500 17px var(--words); text-align:left; }
+.nav button.on{ background:var(--fill); } .nav button:hover{ background:#F6F6F9; }
+.nav svg{ width:20px; height:20px; fill:none; stroke:var(--ink); stroke-width:calc(var(--line) * .8); flex:none; }
+.pane{ background:#fff; border-radius:22px; padding:20px 22px; display:flex; flex-direction:column; gap:14px; }
+.pane h4{ font:700 18px var(--words); margin:0; }
+.pr{ display:flex; align-items:center; gap:16px; flex-wrap:wrap; padding-bottom:14px; border-bottom:1px solid var(--line); } .pr:last-child{ border-bottom:0; padding-bottom:0; }
+.pr .t{ flex:1; min-width:180px; } .pr .t b{ display:block; font:600 16px var(--words); } .pr .t span{ color:var(--gray); font-size:14px; }
+.seg{ display:inline-flex; padding:4px; background:var(--fill); border-radius:22px; gap:2px; } .seg button{ height:36px; padding:0 16px; border-radius:18px; background:none; font:600 15px var(--words); color:#5B6472; display:inline-flex; align-items:center; gap:6px; } .seg button.on{ background:#fff; color:var(--ink); box-shadow:0 0 0 .5px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.14); }
+.seg.two{ width:208px; } .seg.two button{ width:100px; justify-content:center; padding:0; }
+.seg .soon{ color:var(--orange); font-size:12px; font-weight:600; }
+.lrow{ display:grid; grid-template-columns:minmax(0,1fr) 110px 40px; gap:10px; align-items:center; }
+.lrow .bx{ height:40px; border-radius:20px; background:var(--fill); display:flex; align-items:center; padding:0 14px; font:400 15px var(--words); min-width:0; }
+.lrow .bx.new{ background:#fff; box-shadow:inset 0 0 0 1px #DCDCE2; color:var(--soft); }
+.lrow .bx.num{ font:700 14px var(--nums); justify-content:flex-end; }
+.circ40{ width:40px; height:40px; border-radius:20px; display:grid; place-items:center; padding:0; }
+.circ40.addc{ background:var(--green-tint); color:var(--green); opacity:.45; } .circ40.remc{ background:var(--red-tint); color:var(--red); }
+/* one source */
+.tune{ display:flex; flex-wrap:wrap; gap:14px 22px; align-items:center; background:var(--page); border-radius:18px; padding:14px 16px; }
+.tune label{ font:600 13px var(--words); color:#3A3F47; display:flex; align-items:center; gap:10px; }
+.tune input[type=range]{ width:140px; accent-color:var(--orange); }
+.tune output{ font:700 13px var(--nums); min-width:3ch; }
+.where{ width:100%; border-collapse:collapse; font-size:14px; min-width:620px; }
+.where th{ text-align:left; font:700 12.5px var(--words); color:var(--gray); padding:8px 10px; border-bottom:1px solid var(--line); }
+.where td{ padding:9px 10px; border-bottom:1px solid var(--line); vertical-align:top; } .where tr:last-child td{ border-bottom:0; }
+.where td:first-child{ white-space:nowrap; } .where td:first-child span{ display:inline-flex; align-items:center; gap:8px; font-weight:600; }
+.where td:first-child svg{ width:20px; height:20px; fill:none; stroke:var(--ink); stroke-width:var(--line); }
+.tw{ overflow-x:auto; }
 .list{ margin:0; padding-left:18px; color:var(--gray); } .list li{ margin:2px 0; } .list b{ color:var(--ink); }
 </style>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <!-- ONE SOURCE: every icon on this page is drawn from these. Change one here and it changes everywhere it is used. -->
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11" stroke-linecap="round"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-fwd" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke-linecap="round"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4 4" stroke-linecap="round"/></symbol>
+  <symbol id="i-date" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4" stroke-linecap="round"/></symbol>
+  <symbol id="i-undo" viewBox="0 0 24 24"><path d="M9 14L4 9l5-5M4 9h10a6 6 0 0 1 0 12h-3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-redo" viewBox="0 0 24 24"><path d="M15 14l5-5-5-5M20 9H10a6 6 0 0 0 0 12h3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <!-- account menu and Settings icons -->
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.5"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4L7 17M17 7l1.4-1.4" stroke-linecap="round"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M19 14.5A7.5 7.5 0 0 1 9.5 5a7.5 7.5 0 1 0 9.5 9.5z" stroke-linejoin="round"/></symbol>
+  <symbol id="i-person" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6.5 18.2a6.5 6.5 0 0 1 11 0" stroke-linecap="round"/></symbol>
+  <symbol id="i-shop" viewBox="0 0 24 24"><path d="M4 9l1.5-4h13L20 9M4 9v10h16V9M4 9h16M10 19v-5h4v5" stroke-linejoin="round"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-hash" viewBox="0 0 24 24"><path d="M9 4L7 20M17 4l-2 16M4 9h16M3.5 15h16" stroke-linecap="round"/></symbol>
+  <symbol id="i-sync" viewBox="0 0 24 24"><path d="M19 8a7.5 7.5 0 0 0-13.5-1M5 16a7.5 7.5 0 0 0 13.5 1M5 4v3.5h3.5M19 20v-3.5h-3.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l7 3v5.5c0 4.2-3 7.6-7 9.5-4-1.9-7-5.3-7-9.5V6z" stroke-linejoin="round"/></symbol>
+  <symbol id="i-dollar" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M14.8 9.2c-.6-1-1.6-1.4-2.8-1.4-1.6 0-2.8.8-2.8 2.1 0 3 5.7 1.5 5.7 4.3 0 1.3-1.3 2.1-2.9 2.1-1.3 0-2.4-.5-3-1.5M12 6v1.8M12 16.2V18" stroke-linecap="round"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z" stroke-linejoin="round"/><circle cx="12" cy="9.5" r="2.4"/></symbol>
+  <symbol id="i-cols" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2.5"/><path d="M9.5 4v16M14.5 4v16"/></symbol>
+  <symbol id="i-speaker" viewBox="0 0 24 24"><path d="M4 10v4h3l5 4V6L7 10zM16 9.5a3.5 3.5 0 0 1 0 5M18.5 7a7 7 0 0 1 0 10" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-flag" viewBox="0 0 24 24"><path d="M6 21V4M6 4h11l-2 4 2 4H6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-layout" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="2.5"/><path d="M4 10h16M10 10v9"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h9M17 7h3M4 12h3M11 12h9M4 17h11M19 17h1" stroke-linecap="round"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="12" r="2"/><circle cx="17" cy="17" r="2"/></symbol>
+  <symbol id="i-screens" viewBox="0 0 24 24"><rect x="3" y="5" width="13" height="10" rx="1.5"/><rect x="17" y="8" width="4" height="10" rx="1"/><path d="M7 19h5M9.5 15v4" stroke-linecap="round"/></symbol>
+  <symbol id="i-bars" viewBox="0 0 24 24"><path d="M4 20h16M7 17v-5M11 17V8M15 17v-7M19 17V5" stroke-linecap="round"/></symbol>
+  <symbol id="i-recent" viewBox="0 0 24 24"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3L4.5 9M4.5 4.5V9H9" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-full" viewBox="0 0 24 24"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-signout" viewBox="0 0 24 24"><path d="M10 5H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4M14 8l4 4-4 4M18 12H9" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
 <div class="wrap">
   <h1>CHQ Family</h1>
   <p class="lead">How CollisionHQ looks and how we like things: every button, box, menu, icon and mark drawn at real size next to its rule. Sizes are in pixels, width × height. If something in the app doesn't match this page, the app is wrong.</p>
-  <span class="ver">Version 1 · Oct 8, 2026 · matches app 5.183</span>
-  <nav><a href="#core">Core</a><a href="#type">Words And Numbers</a><a href="#color">Color</a><a href="#main">Main Page</a><a href="#win">Inside A Window</a><a href="#box">Boxes</a><a href="#menu">Menus</a><a href="#icons">Icons</a><a href="#marks">Marks</a><a href="#cal">Date Picker</a><a href="#motion">Motion</a><a href="#phone">Phone Glass</a><a href="#open">Still Open</a></nav>
+  <span class="ver">Version 2 · Oct 8, 2026 · matches app 5.184</span>
+  <nav><a href="#core">Core</a><a href="#type">Words And Numbers</a><a href="#color">Color</a><a href="#main">Main Page</a><a href="#win">Inside A Window</a><a href="#box">Boxes</a><a href="#menu">Menus</a><a href="#icons">Icons</a><a href="#marks">Marks</a><a href="#cal">Date Picker</a><a href="#acct">Account Menu</a><a href="#set">Settings</a><a href="#source">Change It Once</a><a href="#where">Where It Shows Up</a><a href="#motion">Motion</a><a href="#phone">Phone Glass</a><a href="#open">Still Open</a></nav>
 
   <section id="core"><h2><span>1</span>The Core Rules</h2>
     <ul class="list">
@@ -166,15 +246,15 @@ button:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
   <section id="main"><h2><span>4</span>Main Page Pills</h2>
     <div class="spec">
       <div class="cap"><b>112 × 44</b> floating: Update, Save. <b>Undo | Redo</b> is one pill the size of one button, split by a thin line.</div>
-      <div class="stage"><button class="p float w112">Update</button><button class="p float w112">Save</button><span class="split float"><button aria-label="Undo"><svg class="ic" viewBox="0 0 24 24"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg></button><i></i><button aria-label="Redo"><svg class="ic" viewBox="0 0 24 24"><path d="M15 14l5-5-5-5"/><path d="M20 9H10a6 6 0 0 0 0 12h3"/></svg></button></span></div>
+      <div class="stage"><button class="p float w112">Update</button><button class="p float w112">Save</button><span class="split float"><button aria-label="Undo"><svg class="ic" viewBox="0 0 24 24"><use href="#i-undo"/></svg></button><i></i><button aria-label="Redo"><svg class="ic" viewBox="0 0 24 24"><use href="#i-redo"/></svg></button></span></div>
       <div class="cap"><b>136 × 44</b> floating, wide: Layout, Advanced, the bottom dock (Deleted Jobs, Job Sources, Deposits). Dropdown pills show the chevron.</div>
-      <div class="stage"><button class="p float w136">Layout <svg class="ic" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button><button class="p float w136">Advanced <svg class="ic" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button><button class="p float w136">Deposits</button></div>
+      <div class="stage"><button class="p float w136">Layout <svg class="ic" viewBox="0 0 24 24"><use href="#i-chev"/></svg></button><button class="p float w136">Advanced <svg class="ic" viewBox="0 0 24 24"><use href="#i-chev"/></svg></button><button class="p float w136">Deposits</button></div>
       <div class="cap"><b>+ Add Job</b>: the one orange main action, bottom center. Not on Leads or Repair Status.</div>
       <div class="stage"><button class="p main" style="width:160px">+ Add Job</button></div>
       <div class="cap"><b>Tabs 136 × 36</b> on a gray track; the white pill slides in 0.24 seconds. Click to try.</div>
       <div class="stage"><div class="tabs" id="tabs"><i class="th" id="th"></i><button class="on">Ledger</button><button>Leads</button><button>Repair Status</button></div></div>
       <div class="cap"><b>Round 44 × 44</b>: close, month arrows, account. Gray circle, 16 icon.</div>
-      <div class="stage"><button class="circ float" aria-label="Previous"><svg class="ic" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button><button class="circ float" aria-label="Next"><svg class="ic" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button><button class="circ flatg" aria-label="Close"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button><button class="circ dark" style="font:700 14px var(--words)">DA</button></div>
+      <div class="stage"><button class="circ float" aria-label="Previous"><svg class="ic" viewBox="0 0 24 24"><use href="#i-back"/></svg></button><button class="circ float" aria-label="Next"><svg class="ic" viewBox="0 0 24 24"><use href="#i-fwd"/></svg></button><button class="circ flatg" aria-label="Close"><svg class="ic" viewBox="0 0 24 24"><use href="#i-x"/></svg></button><button class="circ dark" style="font:700 14px var(--words)">DA</button></div>
     </div>
   </section>
 
@@ -185,7 +265,7 @@ button:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
       <div class="cap"><b>Buttons 36 tall, 100 wide minimum,</b> flat, no outline. Green adds, red removes, gray plain, dark for the one main action of a section.</div>
       <div class="stage white"><button class="p h36 add">Upload</button><button class="p h36 add">+ Charge</button><button class="p h36 flatg">Print</button><button class="p h36 dark">Print</button><button class="p h36 rem">Remove</button></div>
       <div class="cap"><b>Row X 36 × 36</b> circle: red tint when there is something to remove. Trash takes two clicks (first click turns it red and says "Delete?").</div>
-      <div class="stage white"><button class="circ c36 rem" aria-label="Remove"><svg class="ic" viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17"/></svg></button><button class="circ c36 flatg" aria-label="Nothing to remove"><svg class="ic" viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17"/></svg></button><button class="p h36 rem" id="trash">Delete</button></div>
+      <div class="stage white"><button class="circ c36 rem" aria-label="Remove"><svg class="ic" viewBox="0 0 24 24"><use href="#i-x"/></svg></button><button class="circ c36 flatg" aria-label="Nothing to remove"><svg class="ic" viewBox="0 0 24 24"><use href="#i-x"/></svg></button><button class="p h36 rem" id="trash">Delete</button></div>
       <div class="cap"><b>Small pill in a box 66 × 28</b> (Decode). Never changes size.</div>
       <div class="stage white"><div class="box" style="width:300px"><span class="num" style="font-weight:400">4T1BK3EK3BU628964</span><span class="sp"></span><span class="decode" style="display:grid;place-items:center">Decode</span></div></div>
       <div class="cap"><b>Confirm card:</b> 400 wide, two equal flat pills 171 × 44, 10 apart; Cancel gray left, the action right (red when it removes or changes something).</div>
@@ -200,7 +280,7 @@ button:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
         <div class="fld"><label>Customer Name</label><div class="box">Mejia, Cristal</div></div>
         <div class="fld"><label>Customer Phone</label><div class="box empty">(000) 000-0000</div></div>
         <div class="fld"><label>Claim Number</label><div class="box typing"><span class="num" style="font-weight:400">7010668646-1</span></div></div>
-        <div class="fld"><label>Board Month</label><div class="box">October 2026<span class="sp"></span><svg class="ic" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div></div>
+        <div class="fld"><label>Board Month</label><div class="box">October 2026<span class="sp"></span><svg class="ic" viewBox="0 0 24 24"><use href="#i-chev"/></svg></div></div>
       </div>
       <div class="cap">A dropdown box <b>always shows its chevron</b> so it reads as a dropdown.</div>
     </div>
@@ -209,32 +289,32 @@ button:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
   <section id="menu"><h2><span>7</span>Menus</h2>
     <div class="spec">
       <div class="cap"><b>Form dropdown</b> (inside a window): drops straight down from its box, same left edge and width, rows 44 tall, the picked row orange tint, bold, with the check at the right. No title row. Opens upward only when there is no room below.</div>
-      <div class="stage"><div class="menu"><div class="mi">Shop Bay</div><div class="mi on">In Shop<svg class="ic ck" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><div class="mi">Paint Booth</div><div class="mi">Sublet</div></div></div>
+      <div class="stage"><div class="menu"><div class="mi">Shop Bay</div><div class="mi on">In Shop<svg class="ic ck" viewBox="0 0 24 24"><use href="#i-check"/></svg></div><div class="mi">Paint Booth</div><div class="mi">Sublet</div></div></div>
       <div class="cap"><b>Month lists:</b> oldest at the top, newest at the bottom; opens scrolled to the chosen month; only 2 months ahead of today (grayed). Month | year | job count each in its own column.</div>
-      <div class="stage"><div class="menu"><div class="mi"><span class="mm">August</span><span class="my">2026</span><span class="cnt">24</span></div><div class="mi"><span class="mm">September</span><span class="my">2026</span><span class="cnt">28</span></div><div class="mi on"><span class="mm">October</span><span class="my">2026</span><span class="cnt">26</span><svg class="ic ck" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><div class="mi fut"><span class="mm">November</span><span class="my">2026</span></div><div class="mi fut"><span class="mm">December</span><span class="my">2026</span></div></div></div>
+      <div class="stage"><div class="menu"><div class="mi"><span class="mm">August</span><span class="my">2026</span><span class="cnt">24</span></div><div class="mi"><span class="mm">September</span><span class="my">2026</span><span class="cnt">28</span></div><div class="mi on"><span class="mm">October</span><span class="my">2026</span><span class="cnt">26</span><svg class="ic ck" viewBox="0 0 24 24"><use href="#i-check"/></svg></div><div class="mi fut"><span class="mm">November</span><span class="my">2026</span></div><div class="mi fut"><span class="mm">December</span><span class="my">2026</span></div></div></div>
       <div class="cap"><b>Board dropdown</b> (floating, 300 wide): search pill on top with the round X at its end; the lit row has the same round as the search pill. <b>Pop-up editors</b> use the same top row: icon top-left, the name in the pill, round X at the end; no "Edit …" title; just Cancel and Save; the X goes back to the list.</div>
-      <div class="stage"><div class="menu"><div class="search"><svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4 4"/></svg><span>Search</span><button class="circ c36 flatg" style="background:#fff" aria-label="Close"><svg class="ic" viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17"/></svg></button></div><div class="mi">Body Work</div><div class="mi on">Paint<svg class="ic ck" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><div class="mi">Waiting On Parts</div></div></div>
+      <div class="stage"><div class="menu"><div class="search"><svg class="ic" viewBox="0 0 24 24"><use href="#i-search"/></svg><span>Search</span><button class="circ c36 flatg" style="background:#fff" aria-label="Close"><svg class="ic" viewBox="0 0 24 24"><use href="#i-x"/></svg></button></div><div class="mi">Body Work</div><div class="mi on">Paint<svg class="ic ck" viewBox="0 0 24 24"><use href="#i-check"/></svg></div><div class="mi">Waiting On Parts</div></div></div>
     </div>
   </section>
 
   <section id="icons"><h2><span>8</span>Icons</h2>
     <p class="in">One family: 24 box, 2 line, round ends and corners. The arrows and X from the month menu never change; every other arrow and X matches them.</p>
     <div class="icons">
-      <figure><div><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div><figcaption>Chevron</figcaption></figure>
-      <figure><div><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></div><figcaption>Back</figcaption></figure>
-      <figure><div><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></div><figcaption>Forward / closed</figcaption></figure>
-      <figure><div><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></div><figcaption>Close / remove</figcaption></figure>
-      <figure><div><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><figcaption>Check</figcaption></figure>
-      <figure><div><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></div><figcaption>Add</figcaption></figure>
-      <figure><div><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="3"/><path d="M4 10h16M9 3v4M15 3v4"/></svg></div><figcaption>Date</figcaption></figure>
-      <figure><div><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4 4"/></svg></div><figcaption>Search</figcaption></figure>
+      <figure><div><svg viewBox="0 0 24 24"><use href="#i-chev"/></svg></div><figcaption>Chevron</figcaption></figure>
+      <figure><div><svg viewBox="0 0 24 24"><use href="#i-back"/></svg></div><figcaption>Back</figcaption></figure>
+      <figure><div><svg viewBox="0 0 24 24"><use href="#i-fwd"/></svg></div><figcaption>Forward / closed</figcaption></figure>
+      <figure><div><svg viewBox="0 0 24 24"><use href="#i-x"/></svg></div><figcaption>Close / remove</figcaption></figure>
+      <figure><div><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></div><figcaption>Check</figcaption></figure>
+      <figure><div><svg viewBox="0 0 24 24"><use href="#i-plus"/></svg></div><figcaption>Add</figcaption></figure>
+      <figure><div><svg viewBox="0 0 24 24"><use href="#i-date"/></svg></div><figcaption>Date</figcaption></figure>
+      <figure><div><svg viewBox="0 0 24 24"><use href="#i-search"/></svg></div><figcaption>Search</figcaption></figure>
     </div>
   </section>
 
   <section id="marks"><h2><span>9</span>Marks</h2>
     <div class="spec">
       <div class="cap"><b>Paid marks:</b> Paid ✓ or Unpaid ✕ only. A deposit in the bank that isn't marked yet shows <b>!</b> (one click marks it paid). Soft style by default.</div>
-      <div class="stage white"><span class="pm ok"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="pm no"><svg viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17"/></svg></span><span class="pm bang">!</span></div>
+      <div class="stage white"><span class="pm ok"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span><span class="pm no"><svg viewBox="0 0 24 24"><use href="#i-x"/></svg></span><span class="pm bang">!</span></div>
       <div class="cap"><b>Who has the ball</b> (Status column): small pill on the left, sets itself. Orange = on us, the ones to tackle.</div>
       <div class="stage white"><span class="who u">On Us</span><span class="who c">Customer</span><span class="who i">Insurance</span><span class="who v">Vendor</span><span class="who d">Done</span></div>
       <div class="cap"><b>Total loss and scheduled pick-up</b> in Date Out: the date in yellow with a yellow ! for a total loss waiting on the insurance company; green with a calendar for a pick-up scheduled later. Dates keep their spot whether a marker is there or not.</div>
@@ -245,21 +325,92 @@ button:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
   <section id="cal"><h2><span>10</span>Date Picker</h2>
     <div class="spec">
       <div class="cap"><b>One picker for every date box.</b> 300 wide, days are 36 circles, Today and Clear pills. Opens under the box clicked. Days that can't be picked are grayed and can't be clicked (Storage Starts can't be before the car came in); an empty box opens on its first allowed month.</div>
-      <div class="stage"><div class="cal"><div class="calh"><div class="mp"><button class="circ c36" style="background:none" aria-label="Previous month"><svg class="ic" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>October 2026<button class="circ c36" style="background:none" aria-label="Next month"><svg class="ic" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button></div><button class="circ flatg" aria-label="Close"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+      <div class="stage"><div class="cal"><div class="calh"><div class="mp"><button class="circ c36" style="background:none" aria-label="Previous month"><svg class="ic" viewBox="0 0 24 24"><use href="#i-back"/></svg></button>October 2026<button class="circ c36" style="background:none" aria-label="Next month"><svg class="ic" viewBox="0 0 24 24"><use href="#i-fwd"/></svg></button></div><button class="circ flatg" aria-label="Close"><svg class="ic" viewBox="0 0 24 24"><use href="#i-x"/></svg></button></div>
         <div class="calg"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><i></i><i></i><i></i><i></i><b class="off">1</b><b class="off">2</b><b>3</b><b>4</b><b>5</b><b>6</b><b>7</b><b class="now">8</b><b class="on">9</b><b>10</b></div>
         <div class="calf"><button class="p h36 flatg" style="min-width:0">Today</button><button class="p h36 flatg" style="min-width:0">Clear</button></div></div></div>
     </div>
   </section>
 
-  <section id="motion"><h2><span>11</span>Motion</h2>
+  <section id="acct"><h2><span>11</span>Account Menu</h2>
     <div class="spec">
-      <div class="cap"><b>Grow From The Click</b> at real speed: windows 0.26 seconds, menus 0.18. No blurred background behind windows. Ledger / Leads switch is instant. Click the box to try it.</div>
-      <div class="stage" style="min-height:250px;align-items:flex-start"><div class="grow"><button class="box" id="gbtn" style="width:220px">Location<span class="sp"></span><svg class="ic" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
-        <div class="pop menu" id="gpop" style="width:220px"><div class="mi">Shop Bay</div><div class="mi on">In Shop<svg class="ic ck" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div><div class="mi">Paint Booth</div></div></div></div>
+      <div class="cap"><b>Opens from the logo circle</b> (top right) with Grow From The Click. <b>406 wide, one 20 edge all the way around</b>: the shop card sits 20 in at the top, left and right; the X sits 20 from the right and 20 from the bottom (5.184). Rows are line icons with words, 48 tall; the lit row is a gray pill. Sign Out is red, under a thin line. Footer: version | last saved, and the round X.</div>
+      <div class="stage" style="justify-content:center"><div class="am">
+        <div class="card"><span class="logo">DIRECT</span><span class="who2"><b>Direct Automotive</b><span>Signed in as admin@dacc.repair</span></span></div>
+        <button type="button" class="it lit"><svg viewBox="0 0 24 24"><use href="#i-sun"/></svg>Settings</button>
+        <button type="button" class="it"><svg viewBox="0 0 24 24"><use href="#i-sliders"/></svg>Layout</button>
+        <button type="button" class="it"><svg viewBox="0 0 24 24"><use href="#i-screens"/></svg>View On Other Screens</button>
+        <button type="button" class="it"><svg viewBox="0 0 24 24"><use href="#i-bars"/></svg>Where Jobs Came From</button>
+        <button type="button" class="it"><svg viewBox="0 0 24 24"><use href="#i-recent"/></svg>Recent Changes</button>
+        <button type="button" class="it"><svg viewBox="0 0 24 24"><use href="#i-full"/></svg>Full-Screen Meeting Mode</button>
+        <hr><button type="button" class="it red"><svg viewBox="0 0 24 24"><use href="#i-signout"/></svg>Sign Out</button>
+        <div class="ft"><b>HQ v5.184</b><i></i><span>Last saved 9:47 AM</span><span class="sp"></span><button class="circ c36 flatg" aria-label="Close"><svg class="ic" viewBox="0 0 24 24"><use href="#i-x"/></svg></button></div>
+      </div></div>
     </div>
   </section>
 
-  <section id="phone"><h2><span>12</span>Phone Glass</h2>
+  <section id="set"><h2><span>12</span>Settings Window</h2>
+    <div class="spec">
+      <div class="cap"><b>Big window</b> (36 corners, gray inside): title top left, round X top right, Save orange bottom right. <b>Left list</b> in a white card: gray group labels (You, Shop, Board, More), rows 46 tall with a line icon, the open page lit as a gray pill. <b>Right side</b>: white cards with a bold heading; each row has its name and a gray line under it, the control on the right.</div>
+      <div class="cap"><b>Choices are the tab shape</b>: gray track, white thumb that slides. A two-way switch is 208 × 44 with two equal 100 × 36 halves (Color | Simple, 5.184). Something not ready yet says <b style="color:var(--orange)">Soon</b> in small orange.</div>
+    </div>
+    <div class="sw">
+      <div class="top"><h3>Settings</h3><button class="circ" style="background:#fff" aria-label="Close"><svg class="ic" viewBox="0 0 24 24"><use href="#i-x"/></svg></button></div>
+      <div class="body">
+        <div class="nav" id="snav"><div class="grp">You</div><button type="button" class="on"><svg viewBox="0 0 24 24"><use href="#i-sun"/></svg>General</button><button type="button"><svg viewBox="0 0 24 24"><use href="#i-person"/></svg>Account</button><div class="grp">Shop</div><button type="button"><svg viewBox="0 0 24 24"><use href="#i-shop"/></svg>Shop</button><button type="button"><svg viewBox="0 0 24 24"><use href="#i-down"/></svg>Data And Backup</button><button type="button"><svg viewBox="0 0 24 24"><use href="#i-hash"/></svg>Claim Numbers</button><button type="button"><svg viewBox="0 0 24 24"><use href="#i-sync"/></svg>Sync</button><div class="grp">Board</div><button type="button"><svg viewBox="0 0 24 24"><use href="#i-shield"/></svg>Insurance Companies</button><button type="button"><svg viewBox="0 0 24 24"><use href="#i-dollar"/></svg>Charge Types</button><button type="button"><svg viewBox="0 0 24 24"><use href="#i-pin"/></svg>Locations</button><button type="button"><svg viewBox="0 0 24 24"><use href="#i-cols"/></svg>Columns</button><button type="button"><svg viewBox="0 0 24 24"><use href="#i-speaker"/></svg>Sources</button><button type="button"><svg viewBox="0 0 24 24"><use href="#i-flag"/></svg>Statuses</button><button type="button"><svg viewBox="0 0 24 24"><use href="#i-layout"/></svg>Layout</button><div class="grp">More</div><button type="button"><svg viewBox="0 0 24 24"><use href="#i-sliders"/></svg>Advanced</button></div>
+        <div style="display:flex;flex-direction:column;gap:18px;min-width:0">
+          <div class="pane"><h4>Appearance</h4>
+            <div class="pr"><div class="t"><b>Theme</b><span>Night, the dark look for evenings, is coming.</span></div><div class="seg"><button type="button" class="on"><svg class="ic" viewBox="0 0 24 24"><use href="#i-sun"/></svg>Day</button><button type="button"><svg class="ic" viewBox="0 0 24 24"><use href="#i-moon"/></svg>Night <span class="soon">Soon</span></button></div></div>
+            <div class="pr"><div class="t"><b>Opens On</b><span>The tab you see when the app starts.</span></div><div class="seg"><button type="button" class="on">Last Used</button><button type="button">Ledger</button><button type="button">Leads</button><button type="button">Repair Status</button></div></div>
+            <div class="pr"><div class="t"><b>Insurance Look</b><span>Two-way switch, 208 × 44.</span></div><div class="seg two"><button type="button" class="on">Color</button><button type="button">Simple</button></div></div>
+          </div>
+          <div class="pane"><h4>Charge Types</h4>
+            <div class="cap">The add row sits <b>on top</b>, on the list's columns, with a green plus circle the size of the red X. It stays faded until a name is typed; Enter adds (5.184).</div>
+            <div class="lrow"><span class="bx new">New Charge Name</span><span class="bx new num">Price</span><button class="circ40 addc" aria-label="Add"><svg class="ic" viewBox="0 0 24 24"><use href="#i-plus"/></svg></button></div>
+            <div style="border-top:1px solid var(--line)"></div>
+            <div class="lrow"><span class="bx">Tow</span><span class="bx num">$ 250.00</span><button class="circ40 remc" aria-label="Remove"><svg class="ic" viewBox="0 0 24 24"><use href="#i-x"/></svg></button></div>
+            <div class="lrow"><span class="bx">Admin Fee</span><span class="bx num">$  75.00</span><button class="circ40 remc" aria-label="Remove"><svg class="ic" viewBox="0 0 24 24"><use href="#i-x"/></svg></button></div>
+          </div>
+          <div style="display:flex;justify-content:flex-end"><button class="p main flat w112">Save</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="source"><h2><span>13</span>Change It Once</h2>
+    <p class="in">Every icon on this page comes from one shared set at the top of the file, and every size and color from one list of values. Change a piece here and every place that uses it changes with it. Try it: the X in the account menu, Settings, the menus, the date picker and the row remove buttons all follow. The app is moving the same way: one X, one chevron, one check, one set of sizes, used everywhere the map below lists. When you settle on a change here, say "put this X in the app" and it goes into every place on the map at once.</p>
+    <div class="tune">
+      <label>Line weight <input type="range" id="tLine" min="1.25" max="3" step="0.25" value="2"><output id="oLine">2</output></label>
+      <label>X <span class="seg" id="tX"><button type="button" data-v="std" class="on">Family</button><button type="button" data-v="short">Shorter</button><button type="button" data-v="long">Longer</button></span></label>
+      <label>Check <span class="seg" id="tCk"><button type="button" data-v="std" class="on">Family</button><button type="button" data-v="tight">Tighter</button></span></label>
+      <label>Chevron <span class="seg" id="tCh"><button type="button" data-v="std" class="on">Family</button><button type="button" data-v="flat">Flatter</button></span></label>
+      <button type="button" class="p h36 flatg" id="tReset">Reset</button>
+    </div>
+  </section>
+
+  <section id="where"><h2><span>14</span>Where It Shows Up</h2>
+    <p class="in">The map of every place a piece is used in the app, so a change to one piece reaches all of them.</p>
+    <div class="tw"><table class="where">
+      <tr><th>Piece</th><th>Where it is in the app</th><th>Look</th></tr>
+      <tr><td><span><svg viewBox="0 0 24 24"><use href="#i-x"/></svg>X</span></td><td>Close on every window (Details, Settings, Layout, Add Job, Deposits, Job Sources), the account menu footer, the end of every search pill in menus, the date picker, pop-up editors (goes back to the list), filter chips, row remove in Settings lists (Charge Types, Locations, Statuses, Sources), Documents and Estimates rows, Unpaid paid-mark, Decode failure, the Arrange bar's column remove, the phone sheets.</td><td>Line X in a 44 gray circle (close), 36 circle inside windows, 40 red-tint circle for removing, red ring for Unpaid.</td></tr>
+      <tr><td><span><svg viewBox="0 0 24 24"><use href="#i-chev"/></svg>Chevron</span></td><td>Every dropdown box (Status, Location, Source, Insurance, Board Month, Customer Step, Policy, Deductible, filters), Layout and Advanced pills, the month pill, section open / close in Details (flips up when open), the Note column bar, the dates header.</td><td>16 inside boxes, flips 180° when open.</td></tr>
+      <tr><td><span><svg viewBox="0 0 24 24"><use href="#i-check"/></svg>Check</span></td><td>Picked row in every menu, Paid mark, "Updated" after Update, Decode success, Settings saved, total paid in the money card, Road So Far in Job Status.</td><td>Orange in menus, green ring for Paid, green circle when done.</td></tr>
+      <tr><td><span><svg viewBox="0 0 24 24"><use href="#i-back"/></svg>Arrows</span></td><td>Month pill arrows, the job wheel in Details, the date picker month, the Modules back pill on the phone, Arrange column moves.</td><td>44 round on the page, 36 inside windows.</td></tr>
+      <tr><td><span><svg viewBox="0 0 24 24"><use href="#i-plus"/></svg>Plus</span></td><td>+ Add Job, + Charge, + Documents, + Sup, + Create Custom Field, the green add circle in Settings lists, + Photos on the phone, the orange phone plus.</td><td>Orange only on Add Job (and the phone plus); green everywhere else.</td></tr>
+      <tr><td><span><svg viewBox="0 0 24 24"><use href="#i-search"/></svg>Search</span></td><td>Board search bar (416 × 44), menu search pills, phone search.</td><td>Gray pill, icon on the left.</td></tr>
+      <tr><td><span><svg viewBox="0 0 24 24"><use href="#i-date"/></svg>Date</span></td><td>Every date box: Date In, Date Out, Estimate Date, Storage Starts, Picked Up, Advanced date filters.</td><td>Right end of the box; opens the family date picker.</td></tr>
+      <tr><td><span><svg viewBox="0 0 24 24"><use href="#i-sun"/></svg>Line icons</span></td><td>Account menu rows, Settings list, Details section icons, phone tabs.</td><td>One line weight, round ends; Settings keeps its own set on purpose.</td></tr>
+    </table></div>
+  </section>
+
+  <section id="motion"><h2><span>15</span>Motion</h2>
+    <div class="spec">
+      <div class="cap"><b>Grow From The Click</b> at real speed: windows 0.26 seconds, menus 0.18. No blurred background behind windows. Ledger / Leads switch is instant. Click the box to try it.</div>
+      <div class="stage" style="min-height:250px;align-items:flex-start"><div class="grow"><button class="box" id="gbtn" style="width:220px">Location<span class="sp"></span><svg class="ic" viewBox="0 0 24 24"><use href="#i-chev"/></svg></button>
+        <div class="pop menu" id="gpop" style="width:220px"><div class="mi">Shop Bay</div><div class="mi on">In Shop<svg class="ic ck" viewBox="0 0 24 24"><use href="#i-check"/></svg></div><div class="mi">Paint Booth</div></div></div></div>
+    </div>
+  </section>
+
+  <section id="phone"><h2><span>16</span>Phone Glass</h2>
     <div class="spec">
       <div class="cap"><b>Liquid Glass buttons:</b> clear in the middle so you can read what is behind, bevelled edge that catches light top-left and shades bottom-right, thin bright rim, soft shadow. Behind the clock and the bottom bar: a plain fade that gets more solid toward the edge, no blur. Edge to edge, 16 side margin, the page itself scrolls.</div>
       <div class="phone"><div class="bg">#2 · Jason Patel · 0.00<br>2022 Ford F-150 · Balance<br>State Farm · Claim 84-34J4-02P<br>In Repair · + Photos<br>#3 · Carlos Young · $533.94</div>
@@ -267,9 +418,11 @@ button:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
     </div>
   </section>
 
-  <section id="open"><h2><span>13</span>Still Open</h2>
+  <section id="open"><h2><span>17</span>Still Open</h2>
     <ul class="list">
       <li>Settings › Privacy rows; Night theme ("Soon").</li>
+      <li>In the app, icons are still drawn in many separate places; moving them onto the one shared set (like this page) is what makes "change it once" work there too.</li>
+      <li>Account menu footer: version and time are in Inter, the family says numbers go in Courier New. Ask before changing.</li>
       <li>Add Job estimate-review window not in the family yet.</li>
       <li>Photo Report "Make" label.</li>
       <li>Phone: glass board tweaks, dates module in the page-scroll way, Leads / Status / Details screens.</li>
@@ -287,6 +440,19 @@ button:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
   b.addEventListener("click", function(){ if(b.dataset.arm){ b.textContent = "Deleted"; b.dataset.arm = ""; clearTimeout(t); t = setTimeout(function(){ b.textContent = "Delete"; b.className = "p h36 rem"; }, 1400); return; }
     b.dataset.arm = "1"; b.textContent = "Delete?"; b.className = "p h36"; b.style.background = "var(--red)"; b.style.color = "#fff";
     clearTimeout(t); t = setTimeout(function(){ b.dataset.arm = ""; b.textContent = "Delete"; b.style.background = ""; b.style.color = ""; b.className = "p h36 rem"; }, 3000); });
+})();
+/* change it once: every <use> follows the shared symbols */
+(function(){ var root = document.documentElement, X = document.getElementById("i-x"), CK = document.getElementById("i-check"), CH = document.getElementById("i-chev");
+  var XS = { std:"M6.5 6.5l11 11M17.5 6.5l-11 11", short:"M8 8l8 8M16 8l-8 8", long:"M5 5l14 14M19 5L5 19" }, CKS = { std:"M5 12.5l4.5 4.5L19 7.5", tight:"M6.5 12.5l3.5 3.5 7.5-8" }, CHS = { std:"M6 9l6 6 6-6", flat:"M5 10l7 4.5 7-4.5" };
+  function setPath(sym, d){ sym.querySelector("path").setAttribute("d", d); }
+  function seg(id, fn){ var g = document.getElementById(id); g.addEventListener("click", function(e){ var b = e.target.closest("button"); if(!b) return; g.querySelectorAll("button").forEach(function(x){ x.classList.toggle("on", x === b); }); fn(b.dataset.v); }); }
+  var L = document.getElementById("tLine"), O = document.getElementById("oLine");
+  L.addEventListener("input", function(){ root.style.setProperty("--line", L.value); O.textContent = L.value; });
+  seg("tX", function(v){ setPath(X, XS[v]); }); seg("tCk", function(v){ setPath(CK, CKS[v]); }); seg("tCh", function(v){ setPath(CH, CHS[v]); });
+  document.getElementById("tReset").addEventListener("click", function(){ L.value = 2; L.dispatchEvent(new Event("input")); ["tX","tCk","tCh"].forEach(function(id){ document.querySelector("#" + id + " button").click(); }); });
+  /* the Settings list lights the page you click */
+  var nv = document.getElementById("snav"); nv.addEventListener("click", function(e){ var b = e.target.closest("button"); if(!b) return; nv.querySelectorAll("button").forEach(function(x){ x.classList.toggle("on", x === b); }); });
+  document.querySelectorAll(".pane .seg").forEach(function(g){ g.addEventListener("click", function(e){ var b = e.target.closest("button"); if(!b) return; g.querySelectorAll("button").forEach(function(x){ x.classList.toggle("on", x === b); }); }); });
 })();
 /* grow from the click */
 (function(){ var b = document.getElementById("gbtn"), p = document.getElementById("gpop");
