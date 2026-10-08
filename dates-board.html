@@ -20,8 +20,9 @@ body{ margin:0; background:var(--page); color:var(--ink); font:400 14px/1.45 var
 h1{ font:800 26px/1.15 var(--words); letter-spacing:-.02em; margin:0; }
 .lead{ color:var(--gray); margin:0; max-width:72ch; }
 .ver{ font:700 13px var(--nums); color:var(--orange); }
-.ctl{ display:flex; flex-wrap:wrap; gap:10px 18px; align-items:center; background:#fff; border-radius:22px; padding:14px 16px; }
-.ctl > span{ font:600 13px var(--words); color:var(--gray); }
+.ctl{ display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:0 24px; background:#fff; border-radius:22px; padding:6px 18px; }
+.ci{ display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:56px; border-bottom:1px solid var(--line); }
+.ci > span{ font:600 14px var(--words); color:var(--ink); }
 .seg{ display:inline-flex; padding:4px; background:#EDEDF2; border-radius:22px; gap:2px; }
 .seg button{ height:36px; padding:0 14px; border:0; border-radius:18px; background:none; font:600 14px var(--words); color:#5B6472; cursor:pointer; }
 .seg button.on{ background:#fff; color:var(--ink); box-shadow:0 0 0 .5px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.14); }
@@ -89,12 +90,13 @@ td.out.tlc .dt{ color:var(--tlyel); } td.out.schc .dt{ color:var(--green); }
 #pop .tg.on{ background:var(--orange); } #pop .tg.on::after{ transform:translateX(16px); }
 #pop .rs{ margin-top:4px; height:36px; border:0; border-radius:18px; background:#EDEDF2; color:var(--ink); font:600 13px var(--words); cursor:pointer; }
 /* the dates as one group: every piece in a fixed slot, the same gap between every piece, left to right */
-td.grp, th.grp{ padding:0 14px; text-align:left; }
+td.grp, th.grp{ padding:0 7px; text-align:left; }   /* half of before (14): the dates start 7 pixels in from the column edge */
+.g .vl{ display:block; width:1px; height:20px; background:#D6D7DC; margin:0 auto; transform:translateY(2px); }
 .hg{ display:inline-flex; align-items:center; gap:var(--gap, 6px); font:700 14px var(--words); white-space:nowrap; } .hg .ha{ font:500 13px/1 var(--words); font-style:normal; color:#8A8D96; } .hg .hs{ width:1px; height:14px; background:#5B5E66; margin:0 2px; }
 th.grp .hl{ gap:8px; }
 .g{ display:inline-grid; grid-auto-flow:column; align-items:center; justify-items:center; gap:var(--gap, 6px); }
 /* slot widths in pixels so the header and the rows share them exactly (Courier New 14: one character = 8.4) */
-.g .s-d{ width:51px; } .g .s-n{ width:17px; text-align:right; } .g .s-n.w{ width:59px; text-align:left; } .g .s-a{ width:10px; }
+.g .s-d{ width:51px; } .g .s-n{ width:18px; text-align:center; } .g .s-n.w{ width:59px; text-align:left; } .g .s-a{ width:14px; overflow:hidden; }
 .g > span{ font:700 14px var(--nums); white-space:pre; display:block; text-align:center; }
 .g .s-a{ color:var(--arrow); font:500 14px/1 var(--words); transform:translateY(-2px); }
 th .g > span{ font:700 13px var(--words); white-space:nowrap; } th .g .s-a{ color:#8A8D96; }
@@ -109,29 +111,27 @@ th .g > span{ font:700 13px var(--words); white-space:nowrap; } th .g .s-a{ colo
 </head>
 <body>
 <a class="c5back" href="./"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>Modules</a>
-
-
 <div class="wrap">
   <h1>Dates Board Module</h1>
-  <p class="lead">Date In → Days → Date Out as one tight group: every piece sits in a fixed slot with the same gap between each one, left to right, in the rows and in the black header. Turn the arrows, the days and the word "days" on or off, and slide the spacing until it looks right. Click a date to change it; the chevron opens the color settings.</p>
-  <span class="ver">Version 4 · Oct 8, 12:55 PM · module only, not in the app</span>
+  <p class="lead">Date In, Days and Date Out as one tight group on the board, with the same gap between every piece.</p>
+  <span class="ver">Version 5 · Oct 8, 1:25 PM · module only, not in the app</span>
   <div class="ctl">
-    <span>Arrows</span><div class="seg" id="ra"><button type="button" data-v="1" class="on">On</button><button type="button" data-v="0">Off</button></div>
-    <span>Days</span><div class="seg" id="dy"><button type="button" data-v="1" class="on">On</button><button type="button" data-v="0">Off</button></div>
-    <span>"days" after the number</span><div class="seg" id="wd"><button type="button" data-v="0" class="on">Off</button><button type="button" data-v="1">On</button></div>
-    <label class="gap"><span>Spacing</span><input type="range" id="gp" min="0" max="20" step="1" value="6" aria-label="Spacing between each piece, in pixels"><output id="gpo">6</output><span class="u">pixels between each piece</span></label>
+    <div class="ci"><span>Between</span><div class="seg" id="ra"><button type="button" data-v="a" class="on">Arrows</button><button type="button" data-v="l">Lines</button><button type="button" data-v="n">None</button></div></div>
+    <div class="ci"><span>Days</span><div class="seg" id="dy"><button type="button" data-v="1" class="on">On</button><button type="button" data-v="0">Off</button></div></div>
+    <div class="ci"><span>"days" after the number</span><div class="seg" id="wd"><button type="button" data-v="0" class="on">Off</button><button type="button" data-v="1">On</button></div></div>
+    <div class="ci"><span>Spacing</span><label class="gap"><input type="range" id="gp" min="0" max="20" step="1" value="6" aria-label="Spacing between each piece, in pixels"><output id="gpo">6</output><span class="u">pixels</span></label></div>
   </div>
   <div class="stage" id="stage">
     <div class="tw"><table id="t"></table></div>
     <div id="pop" role="dialog" aria-label="Days settings" hidden></div>
   </div>
-  <p class="note">Today is set to Wednesday, October 8, 2026 for this module. Days: gray 1 to 3, yellow from 4, orange from 10, red from 20 while the car is in; a total loss is always red; light gray total once it is out. Date Out: a total loss shows its pick-up date in yellow, or today's date while storage is still running; a pick-up scheduled after today is green; blank while the car is still here.</p>
+  <p class="note">Today is October 8, 2026 here. Days: gray 1 to 3, yellow from 4, orange from 10, red from 20 while the car is in; always red on a total loss; light gray once it is out. Date Out: a total loss shows its pick-up date in yellow (today while storage runs); a pick-up after today is green; blank while the car is here. Click a date to change it; the chevron opens the color settings.</p>
 </div>
 
 <script>
 var NOW = "2026-10-08";
 var C = { y:4, o:10, r:20, tlRed:1, tlColor:1, tlIcon:1, schColor:1, schIcon:1 }, DEF = JSON.parse(JSON.stringify(C));
-var RA = 1, WORD = 0, DAYS = 1, GAP = 6;
+var RA = "a", WORD = 0, DAYS = 1, GAP = 6;
 /* job #, customer, date in, date out, kind (tl = total loss, end = its pick-up date), estimate, paid */
 var ROWS = [
   [1, "Rachel Chan", "2026-10-06", "", "", 1043.01, 1],
@@ -150,7 +150,7 @@ var MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","De
 function fmt(s){ var p = s.split("-"); return MON[+p[1] - 1] + " " + p[2]; }
 function longd(s){ var p = s.split("-"); return new Date(+p[0], +p[1] - 1, +p[2]).toLocaleDateString("en-US", { weekday:"long", month:"long", day:"numeric" }); }
 function days(a, b){ return Math.max(0, Math.round((Date.parse(b + "T12:00:00") - Date.parse(a + "T12:00:00")) / 864e5)); }
-function pad(n){ return (n < 10 ? " " : "") + n + (WORD ? (n === 1 ? " day " : " days") : ""); }
+function pad(n){ return (WORD && n < 10 ? " " : "") + n + (WORD ? (n === 1 ? " day " : " days") : ""); }
 function band(n){ return n >= C.r ? "r" : n >= C.o ? "o" : n >= C.y ? "y" : ""; }
 var CHEV = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
 var CALI = '<svg viewBox="0 0 12 12" aria-hidden="true"><rect x="1.5" y="2.5" width="9" height="8" rx="1.5"/><path d="M1.5 5h9M4 1v2.5M8 1v2.5"/></svg>';
@@ -159,9 +159,9 @@ function money(v, paid){ if(!v) return ''; return '<span class="money ' + (paid 
 function draw(){
   var t = document.getElementById("t"); t.style.setProperty("--gap", GAP + "px");
   var chev = '<button type="button" class="chev" id="chev" aria-label="Days settings" aria-expanded="false">' + CHEV + '</button>';
-  var A = function(on){ return RA ? '<span class="s-a">' + (on ? "→" : "") + '</span>' : ''; };
+  var A = function(on){ return RA === "a" ? '<span class="s-a">' + (on ? "\u2192" : "") + '</span>' : RA === "l" ? '<span class="s-a">' + (on ? '<i class="vl"></i>' : "") + '</span>' : ''; };
   /* header: the same pieces and the same gap, so the arrows and words sit over the rows */
-  var ha = RA ? '<i class="ha">\u2192</i>' : '<i class="hs"></i>';   /* arrows off: a thin line keeps the names apart */
+  var ha = RA === "a" ? '<i class="ha">\u2192</i>' : '<i class="hs"></i>';   /* lines, or none: a thin line keeps the names apart in the header */
   var hd = '<span class="hg">Date In' + ha + (DAYS ? 'Days' + ha : '') + 'Date Out</span>';
   var h = '<colgroup><col class="c-no"><col class="c-cu"><col><col class="c-est"></colgroup>' +
     '<tr><th>Job #</th><th class="l">Customer</th><th class="grp"><span class="hl">' + hd + chev + '</span></th><th>Estimate 1</th></tr>';
@@ -176,7 +176,7 @@ function draw(){
     var g = '<span class="g">' +
       '<span class="s-d cell" data-i="' + i + '" data-f="2" title="Click to set the Date In">' + (din ? fmt(din) : "      ") + '</span>' +
       A(!!din) +
-      (DAYS ? '<span class="s-n dn ' + cls + (WORD ? " w" : "") + '" title="' + tip + '">' + (n == null ? "" : pad(n)) + '</span>' + A(!!din) : '') +
+      (DAYS ? '<span class="s-n dn ' + cls + (WORD ? " w" : "") + '" title="' + tip + '">' + (n == null ? "" : pad(n)) + '</span>' + A(!!din && !!oTxt) : '') +
       '<span class="s-d cell" data-i="' + i + '" data-f="' + (tl ? 7 : 3) + '" style="' + oCol + '" title="' + (tl ? "Total loss: waiting for the insurance company to pick it up" : sch ? "Scheduled: the customer picks it up " + longd(dout) : "Click to set the Date Out") + '">' + (oTxt || "      ") + '</span>' +
       '</span>';
     return '<tr class="' + (tl ? "tl" : out ? "done" : "") + '"><td>' + r[0] + '</td><td class="cu">' + r[1] + '</td><td class="grp">' + g + '</td><td>' + money(r[5], r[6]) + '</td></tr>';
@@ -203,7 +203,7 @@ document.addEventListener("click", function(e){ var p = document.getElementById(
 document.addEventListener("keydown", function(e){ if(e.key === "Escape") closePop(); });
 window.addEventListener("resize", function(){ if(!document.getElementById("pop").hidden) place(); });
 /* switches above the board */
-[["ra", function(v){ RA = +v; }], ["dy", function(v){ DAYS = +v; }], ["wd", function(v){ WORD = +v; }]].forEach(function(x){ var g = document.getElementById(x[0]); g.addEventListener("click", function(e){ var b = e.target.closest("button"); if(!b) return; g.querySelectorAll("button").forEach(function(y){ y.classList.toggle("on", y === b); }); x[1](b.dataset.v); closePop(); draw(); }); });
+[["ra", function(v){ RA = v; }], ["dy", function(v){ DAYS = +v; }], ["wd", function(v){ WORD = +v; }]].forEach(function(x){ var g = document.getElementById(x[0]); g.addEventListener("click", function(e){ var b = e.target.closest("button"); if(!b) return; g.querySelectorAll("button").forEach(function(y){ y.classList.toggle("on", y === b); }); x[1](b.dataset.v); closePop(); draw(); }); });
 document.getElementById("gp").addEventListener("input", function(){ GAP = +this.value; document.getElementById("gpo").textContent = GAP; draw(); });
 /* click a date to change it */
 var pk = document.createElement("input"); pk.type = "date"; pk.id = "pk"; pk.setAttribute("aria-label", "Pick a date"); pk.style.cssText = "position:fixed;opacity:0;pointer-events:none;width:1px;height:1px;"; document.body.appendChild(pk); var at = null;
