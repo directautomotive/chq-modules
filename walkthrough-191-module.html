@@ -174,7 +174,8 @@ button:focus-visible, input:focus-visible{ outline:2px solid var(--orange); outl
 .sr.on{ background:var(--tint); font-weight:700; } .sr .ck{ margin-left:auto; }
 .sr .ic{ width:20px; height:20px; flex:none; display:grid; place-items:center; }
 .sr .ic svg{ width:20px; height:20px; }
-.sr.none{ color:#6C6C73; }
+.sr.none{ color:#8A919C; }
+.sr.none.on{ background:#FFF6D5; color:#8A6A12; font-weight:600; }
 .sr.oldnone{ margin-top:10px; padding:0 14px; background:#EFEFF2; color:#6C6C73; }
 .sr.oldnone::before{ display:none; }
 .zmenu{ position:relative; }
@@ -208,13 +209,13 @@ button:focus-visible, input:focus-visible{ outline:2px solid var(--orange); outl
 <body>
 <div class="wrap">
   <h1>5.191 Walkthrough · Modules</h1>
-  <span class="ver">Version 3 · Oct 8, 2026, 12:36 PM · app 5.191</span>
+  <span class="ver">Version 4 · Oct 8, 2026, 12:41 PM · app 5.191</span>
   <p class="lead">Item 0 is your 12:17 PM "No source" note. A to E are from your 12:01 PM walkthrough of 5.190, each with a Before and an After. They are all drafts. Nothing goes into the app until you approve each one by letter. The two scroll bugs are already fixed in 5.191. For the Save pop-up I need a screenshot first (see the end).</p>
 
 
   <!-- 0 -->
   <h2><span class="k">0</span>Source menu › "No source" (first)</h2>
-  <p class="q">12:26 PM: "it should be eight… keep the same thing for the insurance" and the scroll bar "should be like a semicircle at the end." 12:17 PM: "no source doesn't line up with all the other sources… there's like a weird gap there so no source should have its own icon."</p>
+  <p class="q">12:26 PM: "it should be eight… keep the same thing for the insurance" and the scroll bar "should be like a semicircle at the end." 12:31 PM: "it's not a no source, it's kind of like fill this out… maybe an empty one like you have the add source." 12:17 PM: "no source doesn't line up with all the other sources… there's like a weird gap there so no source should have its own icon."</p>
   <div class="seg" data-sec="z"><button type="button" data-v="before">Before</button><button type="button" class="on" data-v="after">After</button></div>
   <div class="grid"><div class="stage" id="z"></div><div class="note" id="zn"></div></div>
 
@@ -232,7 +233,7 @@ button:focus-visible, input:focus-visible{ outline:2px solid var(--orange); outl
 
   <!-- C -->
   <h2><span class="k">C</span>Customer Details › VIN decode card: an X at the top right</h2>
-  <p class="q">12:29 PM: "there's no need for the X mark [in the box]… when I hit decode, it opens a bottom menu like this… just an X… on the top right."</p>
+  <p class="q">12:29 PM: "there's no need for the X mark [in the box]… just an X… on the top right." 12:32 PM: "delete the copy to job notes and decode… just have the stuff."</p>
   <div class="seg" data-sec="c"><button type="button" data-v="before">Before</button><button type="button" class="on" data-v="after">After</button></div>
   <div class="grid"><div class="stage" id="c"></div><div class="note" id="cn"></div></div>
 
@@ -272,18 +273,18 @@ var SRC = [["Walk-in",'<svg viewBox="0 0 20 20"><circle cx="11" cy="4" r="2" fil
   ["Farmers Ins.",'<svg viewBox="0 0 20 20"><path d="M6.5 2h7L18 6.5v7L13.5 18h-7L2 13.5v-7z" fill="#C0392B"/><text x="10" y="14" font-size="10" font-weight="700" fill="#fff" text-anchor="middle" font-family="Arial">F</text></svg>'],
   ["Valencia",'<svg viewBox="0 0 20 20"><rect x="2" y="2" width="16" height="16" rx="3" fill="#5BC236"/><text x="10" y="14.5" font-size="11" font-weight="700" fill="#fff" text-anchor="middle" font-family="Arial">V</text></svg>'],
   ["S&L John",'<svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="#4A5578"/><text x="10" y="13" font-size="7" font-weight="700" fill="#fff" text-anchor="middle" font-family="Arial">SL</text></svg>']];
-var NONE = '<svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="7.5" fill="none" stroke="#8A919C" stroke-width="1.7"/><path d="M5 15L15 5" stroke="#8A919C" stroke-width="1.7" stroke-linecap="round"/></svg>';
+var NONE = '<svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8.5" fill="none" stroke="#B9BCC4" stroke-width="1.5" stroke-dasharray="3 2.4"/></svg>';
 var zOn = "";
 function drawZ(){
   var a = mode.z === "after", h = '<div class="menu zmenu" id="zm">' + SRCH + '<div class="list slist" id="zl">';
   SRC.forEach(function(r){ var on = r[0] === zOn; h += '<button type="button" class="sr' + (on ? " on" : "") + '" data-z="' + r[0] + '"><span class="ic">' + r[1] + '</span>' + r[0] + (on ? CK : "") + '</button>'; });
-  if(a) h += '<button type="button" class="sr none' + (zOn === "" ? " on" : "") + '" data-z=""><span class="ic">' + NONE + '</span>No Source' + (zOn === "" ? CK : "") + '</button>';
+  if(a) h += '<button type="button" class="sr none' + (zOn === "" ? " on" : "") + '" data-z=""><span class="ic">' + NONE + '</span>Not Set · Pick One' + '</button>';
   else h += '<button type="button" class="sr oldnone" data-z="">No source</button>';
   h += '</div><button type="button" class="addrow"><span class="pc">' + PLUS + '</span>+ Add Source</button><i class="sbar' + (a ? " round" : "") + '" id="zsb"></i></div>';
   document.getElementById("z").innerHTML = h; var zl = document.getElementById("zl"); zl.scrollTop = 9999; zsb(); zl.addEventListener("scroll", zsb);
   document.getElementById("zn").innerHTML = a
-    ? "<b>After</b><ul><li>\"No Source\" is a normal row: <span class='num'>43</span> tall, its own gray icon (a circle with a slash, <span class='num'>20</span>) <span class='num'>12</span> pixels in, the same spot as every source icon, with the name lined up with the other names.</li><li>No extra gap. The same thin line above it as between the other rows.</li><li>When the job has no source it gets the same light orange fill and check as any picked row (not the gray block).</li><li>The list shows <b>8 rows</b> at a time (8 × <span class='num'>43</span> = <span class='num'>344</span> tall) with + Add Source under it, the same 8 as Insurance (8 pills of <span class='num'>38</span> with <span class='num'>6</span> gaps = <span class='num'>346</span>).</li><li>Scroll bar ends are full half circles (were <span class='num'>2</span>-pixel corners, which looked square on a <span class='num'>4</span>-wide bar). This goes on every dropdown's bar.</li><li>Click a source, then \"No Source\", to see both.</li></ul>"
-    : "<b>Before (5.191)</b><ul><li>No icon, and the text starts <span class='num'>14</span> pixels in, not where the names start.</li><li>An extra <span class='num'>10</span>-pixel gap above it, with no line.</li><li>When picked it's a gray block, not the orange fill the other rows get.</li><li>Scroll bar ends nearly square (<span class='num'>2</span>-pixel corners).</li></ul>";
+    ? "<b>After</b><ul><li>The last row reads <b>Not Set · Pick One</b>, so it asks you to fill it in instead of saying \"no\".</li><li>Its icon is an empty dashed circle, the same empty circle as \"+ Add Source\", sitting <span class='num'>12</span> pixels in like every source icon, with its words lined up with the other names. No extra gap.</li><li>When the job has no source yet, the row is the yellow \"needs filling\" color, the same yellow as an empty box in Details (no check, since nothing is picked).</li><li>The list shows <b>8 rows</b> at a time (8 × <span class='num'>43</span> = <span class='num'>344</span> tall), the same 8 as Insurance.</li><li>Scroll bar ends are full half circles, on every dropdown.</li></ul>"
+    : "<b>Before (5.191)</b><ul><li>\"No source\": no icon, text <span class='num'>14</span> pixels in, an extra <span class='num'>10</span>-pixel gap above it, and a gray block when picked.</li><li>Scroll bar ends nearly square (<span class='num'>2</span>-pixel corners).</li></ul>";
 }
 function zsb(){ var l = document.getElementById("zl"), b = document.getElementById("zsb"); if(!l || !b) return; var h = l.clientHeight, sh = l.scrollHeight, bh = Math.max(28, h * h / sh); b.style.height = bh + "px"; b.style.top = (l.offsetTop + (h - bh) * l.scrollTop / Math.max(1, sh - h)) + "px"; }
 document.getElementById("z").addEventListener("click", function(e){ var b = e.target.closest("[data-z]"); if(b){ zOn = b.dataset.z; drawZ(); } });
@@ -341,12 +342,12 @@ function drawC(){
   if(vOpen){ h += '<div class="vcard">' + (a ? '<button type="button" class="vclose" data-vc="1" title="Close">' + '<svg viewBox="0 0 14 14"><path d="M3 3l8 8M11 3l-8 8"/></svg></button>' : '') +
     '<div class="vt">2025 Nissan Sentra<span>SV · Sedan, 4 door</span></div>' +
     VROWS.map(function(r){ return '<div class="vr"><span>' + r[0] + '</span><b' + (r[0] === "VIN" ? ' class="mono"' : '') + '>' + r[1] + '</b></div>'; }).join("") +
-    '<div class="vb"><button type="button" class="k">Copy To Job Notes</button><button type="button" class="g">Decode Again</button></div></div>'; }
+    (a ? '' : '<div class="vb"><button type="button" class="k">Copy To Job Notes</button><button type="button" class="g">Decode Again</button></div>') + '</div>'; }
   else h += '<div class="vgone">Card closed. Click <b>Details</b> to open it again.</div>';
   document.getElementById("c").innerHTML = h + '</div>';
   document.getElementById("cn").innerHTML = a
-    ? "<b>After</b><ul><li>No X inside the VIN box. The box stays as it is.</li><li>The decode card gets the family close button at its top right: a <span class='num'>36</span> round light gray circle with a black x, <span class='num'>16</span> pixels in from the top and right edges, on the same line as the car's name.</li><li>Click it and the card closes, the same as clicking the green Details pill again (its chevron turns back down).</li><li>Copy To Job Notes and Decode Again stay at the bottom.</li><li>Try it: X closes, Details opens it again.</li></ul>"
-    : "<b>Before (5.191)</b><ul><li>The decode card has no X. The only way to close it is to click the green Details pill again or click somewhere else.</li></ul>";
+    ? "<b>After</b><ul><li>No X inside the VIN box. The box stays as it is.</li><li>The decode card gets the family close button at its top right: a <span class='num'>36</span> round light gray circle with a black x, <span class='num'>16</span> pixels in from the top and right edges, on the same line as the car's name.</li><li>Click it and the card closes, the same as clicking the green Details pill again (its chevron turns back down).</li><li><b>Copy To Job Notes</b> and <b>Decode Again</b> are gone. The card is just the car's info, with the X to close it.</li><li>Try it: X closes, Details opens it again.</li></ul>"
+    : "<b>Before (5.191)</b><ul><li>The decode card has no X. The only way to close it is to click the green Details pill again or click somewhere else.</li><li>Two big buttons at the bottom: Copy To Job Notes and Decode Again.</li></ul>";
 }
 document.getElementById("c").addEventListener("click", function(e){
   if(e.target.closest("[data-vc]")){ vOpen = false; drawC(); return; }
