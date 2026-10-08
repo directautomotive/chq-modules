@@ -96,11 +96,13 @@ body{ padding-top:calc(env(safe-area-inset-top, 0px) + 72px) !important; padding
 .back{ position:fixed; z-index:30; top:calc(env(safe-area-inset-top, 0px) + 12px); left:16px; display:inline-flex; align-items:center; gap:4px; height:44px; padding:0 16px 0 12px; border-radius:22px; text-decoration:none; color:var(--ink); font:600 15px var(--word);
   background:color-mix(in srgb, var(--card) 62%, transparent); -webkit-backdrop-filter:blur(16px) saturate(180%); backdrop-filter:blur(16px) saturate(180%); box-shadow:inset 0 1px 0 rgba(255,255,255,.6), inset 0 0 0 1px rgba(127,127,127,.15), 0 8px 24px rgba(0,0,0,.15); }
 .back svg{ width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
+.ver{ position:fixed; z-index:30; top:calc(env(safe-area-inset-top, 0px) + 24px); right:16px; font:600 13px var(--word); color:var(--orange); font-variant-numeric:tabular-nums; }
 .topfade{ position:fixed; left:0; right:0; top:0; height:calc(env(safe-area-inset-top, 0px) + 80px); z-index:29; pointer-events:none; background:linear-gradient(to bottom, var(--page) 0, var(--page) calc(env(safe-area-inset-top, 0px) + 8px), transparent 100%); }
 </style>
 </head>
 <body>
 <div class="topfade"></div><a class="back" href="./"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>Modules</a>
+<span class="ver">Version 2 · Oct 8, 12:01 AM</span>
 
 
 <div class="wrap">
