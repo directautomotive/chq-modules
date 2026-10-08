@@ -15,19 +15,19 @@
 :root{
   --page:#F2F2F5; --card:#FFFFFF; --ink:#111214; --soft:#6B6E76; --line:#E3E3E8; --chip:#ECECF0;
   --red:#D93B30; --green:#1F9D4C; --orange:#E8792B; --orange-hi:#F39A55;
-  --glass:rgba(255,255,255,.58); --glass-flat:#E6E6EB; --rim-hi:rgba(255,255,255,.95); --rim-lo:rgba(0,0,0,.10); --rim:rgba(0,0,0,.06); --drop:rgba(20,22,30,.16);
+  --glass:rgba(255,255,255,.22); --edge-lit:rgba(255,255,255,.95); --edge-dark:rgba(0,0,0,.18); --halo:rgba(255,255,255,.38); --label-shadow:0 1px 2px rgba(255,255,255,.7); --glass-flat:#E6E6EB; --rim-hi:rgba(255,255,255,.95); --rim-lo:rgba(0,0,0,.10); --rim:rgba(0,0,0,.06); --drop:rgba(20,22,30,.16);
   --word:Inter, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
   color-scheme:light;
 }
 @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
   --page:#000000; --card:#1C1C1F; --ink:#F4F4F6; --soft:#9A9CA4; --line:#2C2C31; --chip:#2B2B30;
   --red:#FF5A4E; --green:#4CD27A; --orange:#E8792B; --orange-hi:#F7A462;
-  --glass:rgba(44,44,50,.50); --glass-flat:#26262A; --rim-hi:rgba(255,255,255,.30); --rim-lo:rgba(0,0,0,.55); --rim:rgba(255,255,255,.07); --drop:rgba(0,0,0,.55);
+  --glass:rgba(40,40,46,.18); --edge-lit:rgba(255,255,255,.55); --edge-dark:rgba(0,0,0,.55); --halo:rgba(255,255,255,.16); --label-shadow:0 1px 3px rgba(0,0,0,.75); --glass-flat:#26262A; --rim-hi:rgba(255,255,255,.30); --rim-lo:rgba(0,0,0,.55); --rim:rgba(255,255,255,.07); --drop:rgba(0,0,0,.55);
   color-scheme:dark; } }
 :root[data-theme="dark"]{
   --page:#000000; --card:#1C1C1F; --ink:#F4F4F6; --soft:#9A9CA4; --line:#2C2C31; --chip:#2B2B30;
   --red:#FF5A4E; --green:#4CD27A; --orange:#E8792B; --orange-hi:#F7A462;
-  --glass:rgba(44,44,50,.50); --glass-flat:#26262A; --rim-hi:rgba(255,255,255,.30); --rim-lo:rgba(0,0,0,.55); --rim:rgba(255,255,255,.07); --drop:rgba(0,0,0,.55);
+  --glass:rgba(40,40,46,.18); --edge-lit:rgba(255,255,255,.55); --edge-dark:rgba(0,0,0,.55); --halo:rgba(255,255,255,.16); --label-shadow:0 1px 3px rgba(0,0,0,.75); --glass-flat:#26262A; --rim-hi:rgba(255,255,255,.30); --rim-lo:rgba(0,0,0,.55); --rim:rgba(255,255,255,.07); --drop:rgba(0,0,0,.55);
   color-scheme:dark; }
 html{ background:var(--page); }
 body{ background:var(--page); color:var(--ink); font-family:var(--word); margin:0; -webkit-font-smoothing:antialiased; }
@@ -52,14 +52,23 @@ button:focus-visible{ outline:2px solid var(--orange); outline-offset:3px; }
 .bar{ max-width:520px; margin:0 auto; display:flex; align-items:center; gap:10px; pointer-events:auto; }
 
 /* glass */
-.g{ position:relative; border:0; background:var(--glass); -webkit-backdrop-filter:blur(16px) saturate(180%); backdrop-filter:blur(16px) saturate(180%);
-  box-shadow:inset 0 1px 0 var(--rim-hi), inset 0 -1px 0 var(--rim-lo), inset 0 0 0 1px var(--rim), 0 8px 24px var(--drop);
+/* glass bubble: clear in the middle (you can read what is behind it), bevelled edge that catches light top-left and goes darker bottom-right */
+.g{ position:relative; border:0; background:var(--glass); -webkit-backdrop-filter:blur(1.5px) saturate(170%) brightness(1.06); backdrop-filter:blur(1.5px) saturate(170%) brightness(1.06);
+  text-shadow:var(--label-shadow);
+  box-shadow:
+    inset 0 1px 1px var(--edge-lit),                 /* thin bright lip along the top */
+    inset 0 -1px 1px var(--edge-dark),               /* darker lip along the bottom */
+    inset 4px 5px 8px -5px var(--edge-lit),          /* bevel: light rolling in from the top-left */
+    inset -4px -5px 9px -5px var(--edge-dark),       /* bevel: shade on the bottom-right */
+    inset 0 0 14px var(--halo),                      /* thick glass at the rim, clear in the center */
+    inset 0 0 0 1px var(--rim),
+    0 8px 24px var(--drop);
   transition:transform .42s cubic-bezier(.3,1.7,.5,1), background .2s; will-change:transform; }
-.g::before{ content:""; position:absolute; inset:0; border-radius:inherit; padding:1px; pointer-events:none;
-  background:linear-gradient(140deg, var(--rim-hi) 0%, transparent 38%, transparent 62%, var(--rim-hi) 100%); opacity:.7;
+.g::before{ content:""; position:absolute; inset:0; border-radius:inherit; padding:1.5px; pointer-events:none;
+  background:linear-gradient(135deg, var(--edge-lit) 0%, transparent 30%, transparent 70%, var(--edge-lit) 100%); opacity:.9;
   -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor; mask-composite:exclude; }
-.g::after{ content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none;
-  background:linear-gradient(to bottom, color-mix(in srgb, var(--rim-hi) 35%, transparent) 0%, transparent 50%); opacity:.6; }
+.g::after{ content:""; position:absolute; left:10%; right:10%; top:3px; height:38%; border-radius:999px; pointer-events:none;
+  background:linear-gradient(to bottom, color-mix(in srgb, var(--edge-lit) 30%, transparent), transparent); opacity:.5; }   /* soft reflection near the top, like a bubble */
 .g.press{ transform:scale(1.12); transition:transform .18s cubic-bezier(.2,.9,.3,1.2); }
 .flat .g{ background:var(--glass-flat); -webkit-backdrop-filter:none; backdrop-filter:none; box-shadow:none; }
 .flat .g::before, .flat .g::after{ display:none; }
@@ -152,7 +161,7 @@ function money(v){ return v ? "$" + v.toLocaleString("en-US", { minimumFractionD
 var cards = document.getElementById("cards");
 cards.innerHTML = '<div class="ctl"><a class="g back" href="./"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>Modules</a><div class="seg" id="th"><button type="button" data-v="dark">Dark</button><button type="button" data-v="light">Light</button></div>' +
   '<div class="seg" id="gl"><button type="button" data-v="glass" class="on">Glass</button><button type="button" data-v="flat">Today</button></div></div>' +
-  '<p class="ver">Version 7 · Oct 8, 12:14 AM</p><p class="hint">Scroll the jobs up under the top buttons and down under the bottom bar. Press and hold any button to feel the spring.</p>' +
+  '<p class="ver">Version 8 · Oct 8, 12:18 AM</p><p class="hint">Scroll the jobs up under the top buttons and down under the bottom bar. Press and hold any button to feel the spring.</p>' +
   JOBS.map(function(j, i){ return '<article class="card"><div class="r1"><span class="no">#' + (i + 1) + '</span><span class="nm">' + j[0] + '</span><span class="bal' + (j[5] ? '' : ' z') + '">' + money(j[5]) + '</span></div>' +
     '<div class="r2"><span>' + j[1] + '</span><span>Balance</span></div>' +
     '<div class="r3"><span class="ins"><i style="background:' + j[3] + '"></i>' + j[2] + '</span><span class="cl">' + j[4] + '</span></div>' +
