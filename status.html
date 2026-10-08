@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CHQ Modules">
+<link rel="apple-touch-icon" href="icon.png">
+<title>Job Status Phone Module</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+/* One job on a phone, walked from the first question. On a phone it fills the screen; on a computer it sits in a phone-sized frame. One light look on purpose (the app is light). */
+:root{ color-scheme:light; --page:#F2F2F7; --ink:#16181D; --gray:#6C6C73; --line:#ECECF0; --fill:#F2F2F7; --orange:#E8792B; --green:#1E7B34; --words:Inter,-apple-system,"Segoe UI",Arial,sans-serif; --nums:"Courier New",Courier,monospace; }
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; } html,body{ height:100%; }
+body{ margin:0; background:var(--page); color:var(--ink); font:400 16px/1.4 var(--words); }
+button{ font-family:var(--words); cursor:pointer; border:0; color:var(--ink); } button:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
+.ph{ max-width:430px; min-height:100%; margin:0 auto; padding:14px 16px calc(20px + env(safe-area-inset-bottom)); display:flex; flex-direction:column; gap:12px; }
+@media (min-width:700px){ body{ display:grid; place-items:center; padding:16px; } .ph{ width:390px; min-height:0; height:min(844px, calc(100vh - 32px)); overflow:auto; background:var(--page); border-radius:44px; box-shadow:0 0 0 10px #16181D, 0 30px 80px -20px rgba(0,0,0,.45); padding-top:22px; } }
+.bar{ display:flex; align-items:center; gap:8px; } .bar b{ font:800 20px var(--words); letter-spacing:-.02em; } .bar b i{ font-style:normal; color:var(--orange); } .bar span{ font:600 13px var(--words); color:var(--gray); } .sp{ flex:1; }
+.rs{ height:36px; padding:0 14px; border-radius:18px; background:#fff; font:600 13px var(--words); box-shadow:0 0 0 .5px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.06); }
+.card{ background:#fff; border-radius:24px; padding:16px; box-shadow:0 0 0 .5px rgba(0,0,0,.05),0 8px 22px -12px rgba(0,0,0,.18); }
+.who{ display:inline-flex; align-items:center; justify-content:center; height:26px; padding:0 12px; border-radius:13px; font:700 13px var(--words); white-space:nowrap; }
+.who.u{ background:var(--orange); color:#fff; } .who.c{ background:#FBE9A0; color:#6B5200; } .who.i{ background:#DCE8FB; color:#1D4C9C; } .who.v{ background:#E9E3F7; color:#54408F; } .who.d{ background:#E5E5EA; color:#6C6C73; }
+.who.s{ height:20px; padding:0 8px; border-radius:10px; font-size:12px; }
+.st{ font:800 24px/1.15 var(--words); letter-spacing:-.02em; margin:10px 0 2px; } .st.red{ color:#B03024; } .pl{ font:600 13px var(--words); color:var(--gray); }
+.tk{ display:flex; gap:4px; height:8px; margin-top:12px; } .tk b{ flex:1; border-radius:4px; background:#E5E5EA; } .tk.red b{ background:#E9B4AD; }
+.road{ display:inline-flex; align-items:center; height:26px; padding:0 12px; border-radius:13px; background:var(--fill); font:600 13px var(--words); color:var(--ink); }
+.q{ font:700 20px/1.2 var(--words); letter-spacing:-.01em; margin:2px 2px 12px; }
+.ob{ display:flex; flex-direction:column; align-items:flex-start; justify-content:center; gap:4px; width:100%; min-height:60px; padding:10px 18px; margin-top:8px; border-radius:30px; background:var(--fill); font:600 17px var(--words); text-align:left; transition:transform .08s, background .12s; } .ob:active{ transform:scale(.98); background:#E5E5EA; }
+div.qa:not(.card) > .ob{ background:#fff; box-shadow:0 0 0 .5px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.06); }
+.ob.p, div.qa:not(.card) > .ob.p{ background:#16181D; color:#fff; } .ob.p:active{ background:#000; } .ob .to{ display:inline-flex; align-items:center; gap:6px; font:600 13px var(--words); opacity:.8; } .ob.end .to{ color:#B03024; opacity:1; } .ob.p.end .to{ color:#FFB4AA; }
+.qa{ animation:in .22s cubic-bezier(.2,.8,.2,1); } @keyframes in{ from{ opacity:0; transform:translateY(10px); } }
+.h3{ font:700 13px var(--words); color:var(--gray); margin:0 4px 6px; }
+.tr{ display:flex; align-items:center; gap:10px; width:100%; min-height:44px; padding:6px 4px; background:none; text-align:left; border-top:1px solid var(--line); } .tr:first-of-type{ border-top:0; } .tr .t{ display:flex; flex-direction:column; min-width:0; } .tr small{ font:500 12px var(--words); color:var(--gray); } .tr b{ font:600 15px var(--words); }
+.ck{ flex:none; width:22px; height:22px; border-radius:11px; background:var(--green); display:grid; place-items:center; } .ck svg{ width:13px; height:13px; fill:none; stroke:#fff; stroke-width:3; stroke-linecap:round; stroke-linejoin:round; }
+.pills{ display:flex; flex-wrap:wrap; gap:8px; } .pill{ height:40px; padding:0 16px; border-radius:20px; background:#fff; font:600 14px var(--words); box-shadow:0 0 0 .5px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.06); } .pill.red{ color:#B03024; }
+.bk{ width:100%; height:48px; border-radius:24px; background:#fff; font:600 15px var(--words); box-shadow:0 0 0 .5px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.06); }
+.fin{ text-align:center; padding:22px 16px; } .fin .big{ width:64px; height:64px; border-radius:32px; margin:0 auto 10px; display:grid; place-items:center; background:var(--green); } .fin .big svg{ width:34px; height:34px; fill:none; stroke:#fff; stroke-width:3; stroke-linecap:round; stroke-linejoin:round; } .fin.cl .big{ background:#B03024; }
+@media (prefers-reduced-motion:reduce){ .qa{ animation:none; } .ob{ transition:none; } }
+
+.c5back{ position:fixed; z-index:50; top:calc(env(safe-area-inset-top, 0px) + 10px); left:16px; display:inline-flex; align-items:center; gap:4px; height:40px; padding:0 14px 0 10px; border-radius:20px; text-decoration:none; color:#16181D; font:600 15px Inter, -apple-system, sans-serif;
+  background:rgba(255,255,255,.55); -webkit-backdrop-filter:blur(2px) saturate(170%); backdrop-filter:blur(2px) saturate(170%); box-shadow:inset 0 1px 1px rgba(255,255,255,.95), inset 0 -1px 1px rgba(0,0,0,.12), inset 0 0 12px rgba(255,255,255,.4), 0 6px 18px rgba(0,0,0,.14); }
+.c5back svg{ width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
+.c5ver{ position:fixed; z-index:50; top:calc(env(safe-area-inset-top, 0px) + 22px); right:16px; font:600 13px Inter, -apple-system, sans-serif; color:#E8792B; }
+.ph{ padding-top:calc(env(safe-area-inset-top, 0px) + 62px) !important; }
+@media (min-width:700px){ .ph{ padding-top:22px !important; } }
+</style>
+</head>
+<body>
+<a class="c5back" href="./"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>Modules</a><span class="c5ver">Version 1 · Oct 8, 9:15 AM</span>
+
+<div class="ph" id="ph"></div>
+<script>
+var $=function(s){return document.querySelector(s)};
+var WHO={u:'On Us',c:'Customer',i:'Insurance',v:'Vendor',d:'Done'};
+var ROAD={ins:['Insurance',['Lead','Claim','Inspection Setup','Estimate And Payment','Supplement','Parts','Repair','Final Checks','Pickup','Done']],
+          cp:['Customer Pay',['Lead','Quote','Parts','Repair','Final Checks','Pickup','Done']]};
+/* The chain of answers. w = who has the ball, l = the status words, r = road, ph = phase on that road (0 = keeps the phase it came from),
+   q = question, o = answers [words, where it leads]. "@back" returns to where the job was. */
+var N={
+ start:{w:'u',l:'Ask How They Pay',ph:1,q:'How is the customer paying?',o:[['Insurance','lead'],['Customer Pay','cp_see']]},
+ /* ---- insurance road ---- */
+ lead:{r:'ins',w:'u',l:'Ask About The Claim',ph:1,q:'Does the customer have a claim?',o:[['Has A Claim','hasclaim'],['No Claim, Will File','willfile'],['No Claim, Will Not File','x_nofile']]},
+ hasclaim:{r:'ins',w:'c',l:'Has A Claim',ph:1,q:'Is there an initial estimate?',o:[['Has An Estimate, Approved','paychk'],['No Estimate Yet','route'],['Backed Out','x_lost']]},
+ willfile:{r:'ins',w:'c',l:'No Claim Yet, Will File',ph:1,q:'Did the customer file the claim?',o:[['Claim Filed','filed'],['Will Not File After All','x_nofile']]},
+ filed:{r:'ins',w:'i',l:'Answer The Claim',ph:2,q:'What did insurance say about the claim?',o:[['Claim Approved','route'],['Under Investigation','invest'],['Claim Denied','x_denied']]},
+ invest:{r:'ins',w:'i',l:'Claim Under Investigation',ph:2,q:'How did the investigation end?',o:[['Claim Approved','route'],['Claim Denied','x_denied']]},
+ route:{r:'ins',w:'i',l:'Say How They Want The Estimate',ph:3,q:'How does insurance want the estimate done?',o:[['They Want Photos','photos'],['Virtual Walkthrough','virtual'],['They Want Our Estimate','ourest'],['They Send An Inspector','sched']]},
+ photos:{r:'ins',w:'u',l:'Send Photos',ph:3,o:[['Photos Sent','writeup']]},
+ virtual:{r:'ins',w:'u',l:'Do The Virtual Walkthrough',ph:3,o:[['Walkthrough Done','writeup']]},
+ ourest:{r:'ins',w:'u',l:'Write Estimate With Photos',ph:3,o:[['Estimate Sent','approve']]},
+ sched:{r:'ins',w:'i',l:'Schedule Inspection',ph:3,o:[['Date Set','inspect']]},
+ inspect:{r:'ins',w:'i',l:'Inspect The Car',ph:3,q:'How did the inspection go?',o:[['Inspected, With Teardown','writeup'],['Inspected, Photos Only','writeup']]},
+ writeup:{r:'ins',w:'i',l:'Write Up The Estimate',ph:4,o:[['Estimate Received','approve']]},
+ approve:{r:'ins',w:'i',l:'Approve The Estimate',ph:4,q:'Did the adjuster approve it?',o:[['Approved','pay'],['Possible Total Loss','tlmaybe']]},
+ pay:{r:'ins',w:'i',l:'Confirm Payment',ph:4,q:'Is the payment confirmed?',o:[['Confirmed, No Supplement Needed','order'],['Confirmed, Teardown Next','teardown'],['No Word Yet, We Chase','paychk']]},
+ paychk:{r:'ins',w:'u',l:'Contact Insurance About Payment',ph:4,q:'What did insurance say about the payment?',o:[['Confirmed, No Supplement Needed','order'],['Confirmed, Teardown Next','teardown'],['Still Waiting On Them','pay']]},
+ teardown:{r:'ins',w:'u',l:'Do The Teardown',ph:5,q:'What did the teardown show?',o:[['Found More Damage','writesup'],['Nothing More','order']]},
+ writesup:{r:'ins',w:'u',l:'Write The Supplement',ph:5,o:[['Supplement Written','submit']]},
+ submit:{r:'ins',w:'u',l:'Submit The Supplement',ph:5,o:[['Submitted','answer']]},
+ answer:{r:'ins',w:'i',l:'Answer The Supplement',ph:5,q:'What did insurance say about the supplement?',o:[['Approved','suppay'],['Partly Approved','suppay'],['They Want To Reinspect','reinspect'],['Denied, Go With The Estimate','order']]},
+ reinspect:{r:'ins',w:'i',l:'Reinspect The Car',ph:5,o:[['Reinspected','answer']]},
+ suppay:{r:'ins',w:'i',l:'Confirm Supplement Payment',ph:5,o:[['Payment Confirmed','order']]},
+ order:{r:'ins',w:'u',l:'Order Parts',ph:6,o:[['Parts Ordered','parts']]},
+ parts:{r:'ins',w:'v',l:'Deliver Parts',ph:6,o:[['Parts Arrived','repair']]},
+ repair:{r:'ins',w:'u',l:'Repair The Car',ph:7,q:'How did the repair go?',o:[['Repair Finished','qc'],['A Part Is Missing','missing'],['Found More Damage','writesup']]},
+ missing:{r:'ins',w:'v',l:'Deliver Missing Part',ph:7,o:[['Part Arrived','repair']]},
+ qc:{r:'ins',w:'u',l:'Scan And Quality Check',ph:8,q:'Did it pass?',o:[['Passed','wash'],['Needs Rework','repair']]},
+ wash:{r:'ins',w:'u',l:'Wash The Car',ph:8,o:[['Washed','schedpu']]},
+ schedpu:{r:'ins',w:'u',l:'Schedule Pickup',ph:9,o:[['Time Set','pickup']]},
+ pickup:{r:'ins',w:'c',l:'Pick Up The Car',ph:9,o:[['Picked Up','x_done']]},
+ tlmaybe:{w:'i',l:'Decide Total Loss',ph:0,q:'What did insurance decide?',o:[['Total Loss','x_tl'],['Repairable, Carry On','@back']]},
+ /* ---- customer pay road: looser, same shape ---- */
+ cp_see:{r:'cp',w:'c',l:'Show Us The Damage',ph:2,q:'How will we see the car?',o:[['Customer Sends Pictures','cp_pics'],['Customer Brings The Car In','cp_bring'],['Backed Out','x_lost']]},
+ cp_pics:{r:'cp',w:'c',l:'Send Pictures',ph:2,o:[['Pictures Received','cp_quick']]},
+ cp_quick:{r:'cp',w:'u',l:'Write A Quick Quote From Pictures',ph:2,o:[['Quick Quote Sent','cp_dec1']]},
+ cp_dec1:{r:'cp',w:'c',l:'Decide On The Quick Quote',ph:2,q:'Did the customer take the quick quote?',o:[['Yes, Bringing The Car In','cp_bring'],['Backed Out','x_lost']]},
+ cp_bring:{r:'cp',w:'c',l:'Bring The Car In',ph:2,o:[['Car Is Here','cp_insp']]},
+ cp_insp:{r:'cp',w:'u',l:'Inspect And Write The Quote',ph:2,o:[['Quote Given','cp_dec']]},
+ cp_dec:{r:'cp',w:'c',l:'Decide On The Quote',ph:2,q:'Did the customer take the quote?',o:[['Accepted','cp_order'],['Backed Out','x_lost']]},
+ cp_order:{r:'cp',w:'u',l:'Order Parts',ph:3,o:[['Parts Ordered','cp_parts']]},
+ cp_parts:{r:'cp',w:'v',l:'Deliver Parts',ph:3,o:[['Parts Arrived','cp_repair']]},
+ cp_repair:{r:'cp',w:'u',l:'Repair The Car',ph:4,q:'How did the repair go?',o:[['Repair Finished','cp_qc'],['A Part Is Missing','cp_missing'],['Found More Damage','cp_reprice']]},
+ cp_missing:{r:'cp',w:'v',l:'Deliver Missing Part',ph:4,o:[['Part Arrived','cp_repair']]},
+ cp_reprice:{r:'cp',w:'c',l:'Approve The New Price',ph:4,q:'Did the customer approve the new price?',o:[['Approved','cp_repair'],['Backed Out','x_lost']]},
+ cp_qc:{r:'cp',w:'u',l:'Scan And Quality Check',ph:5,q:'Did it pass?',o:[['Passed','cp_wash'],['Needs Rework','cp_repair']]},
+ cp_wash:{r:'cp',w:'u',l:'Wash The Car',ph:5,o:[['Washed','cp_schedpu']]},
+ cp_schedpu:{r:'cp',w:'u',l:'Schedule Pickup',ph:6,o:[['Time Set','cp_pickup']]},
+ cp_pickup:{r:'cp',w:'c',l:'Pay And Pick Up The Car',ph:6,o:[['Paid And Picked Up','x_done']]},
+ /* ---- shared ---- */
+ hold:{w:'c',l:'On Hold',ph:0,o:[['Back To Work','@back']]},
+ x_done:{w:'d',l:'Delivered',ph:99,end:1,o:[['Reopen','@back']]},
+ x_tl:{w:'d',l:'Total Loss',ph:0,end:2,o:[['Reopen','@back']]},
+ x_denied:{w:'d',l:'Claim Denied',ph:0,end:2,o:[['Switch To Customer Pay','cp_see'],['Reopen','@back']]},
+ x_nofile:{w:'d',l:'Will Not File',ph:0,end:2,o:[['Switch To Customer Pay','cp_see'],['Reopen','@back']]},
+ x_lost:{w:'d',l:'Customer Backed Out',ph:0,end:2,o:[['Reopen','@back']]}
+};
+var J={at:'start',t:[]}, fresh=true;
+function pick(k){ var o=N[J.at].o[k]; if(o[1]==='@back'){ undo(); return; } J.t.push([J.at,o[0]]); J.at=o[1]; }
+function undo(){ var e=J.t.pop(); if(e) J.at=e[0]; }
+function rewind(n){ while(J.t.length>n) undo(); }
+function road(){ var ids=J.t.map(function(e){return e[0]}).concat([J.at]); for(var k=ids.length-1;k>=0;k--) if(N[ids[k]].r) return N[ids[k]].r; return null; }
+function phase(){ var r=road(), n=N[J.at]; if(!r) return 1; if(n.ph===99) return ROAD[r][1].length; var ids=J.t.map(function(e){return e[0]}).concat([J.at]); for(var k=ids.length-1;k>=0;k--){ var m=N[ids[k]]; if(m.ph&&m.ph!==99&&(m.r===r||ids[k]==='start')) return m.ph; } return 1; }
+function who(w,s){ return '<span class="who '+w+(s?' s':'')+'">'+WHO[w]+'</span>'; }
+function col(n,of){ var t=of<=1?1:n/(of-1); return 'hsl('+(46+t*92)+' '+(88-t*26)+'% '+(52-t*14)+'%)'; }
+var CK='<span class="ck"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>';
+function draw(){ var n=N[J.at], r=road(), p=phase(), names=r?ROAD[r][1]:null, of=names?names.length:0, h='';
+  h+='<div class="bar"><b>Collision<i>HQ</i></b><span>Job Status</span><span class="sp"></span>'+(J.t.length?'<button class="rs" data-so="1">Start Over</button>':'')+'</div>';
+  if(n.end){ h+='<div class="card fin'+(n.end===2?' cl':'')+' qa"><div class="big"><svg viewBox="0 0 24 24">'+(n.end===1?'<path d="M5 12.5l4.5 4.5L19 7.5"/>':'<path d="M6 6l12 12M18 6L6 18"/>')+'</svg></div>'+who('d')+'<div class="st'+(n.end===2?' red':'')+'">'+(n.end===2?'Closed · ':'')+n.l+'</div><div class="pl">'+(n.end===1?'The job is finished and the car is gone.':'The job stopped here. It stays on the board in gray.')+'</div>'+(n.end===1&&names?'<div class="tk">'+names.map(function(x,a){ return '<b style="background:'+col(a,of)+'"></b>'; }).join('')+'</div>':'')+'</div>';
+    h+='<div class="qa">'+n.o.map(function(o,k){ return '<button class="ob'+(o[1]!=='@back'?' p':'')+'" data-k="'+k+'"><span>'+o[0]+'</span><span class="to">'+(o[1]==='@back'?'Back to where the job was':who(N[o[1]].w,1)+N[o[1]].l)+'</span></button>'; }).join('')+'</div>'; }
+  else { h+='<div class="card"><div style="display:flex;align-items:center;gap:8px">'+who(n.w)+'<span class="sp"></span>'+(r?'<span class="road">'+ROAD[r][0]+'</span>':'')+'</div><div class="st">'+n.l+'</div><div class="pl">'+(r?'Phase '+p+' Of '+of+' · '+names[p-1]:'New lead. First question.')+'</div>'+(r?'<div class="tk">'+names.map(function(x,a){ return '<b style="'+(a<p?'background:'+col(a,of):'')+'"></b>'; }).join('')+'</div>':'')+'</div>';
+    h+='<div class="card qa"><div class="q">'+(n.q||'What happened?')+'</div>'+n.o.map(function(o,k){ var back=o[1]==='@back', e=!back&&N[o[1]].end===2; return '<button class="ob'+(k===0&&!e?' p':'')+(e?' end':'')+'" data-k="'+k+'"><span>'+o[0]+'</span><span class="to">'+(back?'Back to where the job was':e?'Closes The Job':who(N[o[1]].w,1)+N[o[1]].l)+'</span></button>'; }).join('')+'</div>';
+    if(J.at!=='start'&&J.at!=='hold'&&J.at!=='tlmaybe') h+='<div><div class="h3">Something Else Happened</div><div class="pills"><button class="pill" data-sd="hold">On Hold</button>'+(r==='ins'?'<button class="pill" data-sd="tlmaybe">Possible Total Loss</button>':'')+'<button class="pill red" data-sd="x_lost">Backed Out</button></div></div>'; }
+  if(J.t.length){ h+='<div class="card"><div class="h3">Road So Far · Tap To Go Back</div>'+J.t.map(function(e,x){ return '<button class="tr" data-rw="'+x+'">'+CK+'<span class="t"><small>'+N[e[0]].l+'</small><b>'+e[1]+'</b></span></button>'; }).join('')+'</div><button class="bk" data-un="1">Back One Step</button>'; }
+  $('#ph').innerHTML=h; }
+document.addEventListener('click',function(e){ var b;
+  if((b=e.target.closest('[data-k]'))){ pick(+b.dataset.k); draw(); goTop(); return; }
+  if((b=e.target.closest('[data-rw]'))){ rewind(+b.dataset.rw); draw(); goTop(); return; }
+  if((b=e.target.closest('[data-sd]'))){ var lab={hold:'On Hold',tlmaybe:'Possible Total Loss',x_lost:'Backed Out'}[b.dataset.sd]; J.t.push([J.at,lab]); J.at=b.dataset.sd; draw(); goTop(); return; }
+  if(e.target.closest('[data-un]')){ undo(); draw(); goTop(); return; }
+  if(e.target.closest('[data-so]')){ J={at:'start',t:[]}; draw(); goTop(); return; } });
+function goTop(){ var p=$('#ph'); if(p.scrollTop) p.scrollTop=0; if(window.scrollY) window.scrollTo(0,0); }
+draw();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CHQ Modules">
+<link rel="apple-touch-icon" href="icon.png">
+<title>Status Column Module</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+/* A slice of the Ledger board scaled to fit the viewport. Status cell: a small who-has-the-ball pill that sets itself, then the status. Clicking a status opens the job panel.
+   The process is a chain of answers: each answer decides what comes next. Five looks for the panel on the same chain. One light look on purpose (the app is light). */
+:root{ color-scheme:light; --page:#F2F2F7; --ink:#16181D; --gray:#6C6C73; --line:#ECECF0; --fill:#F2F2F7; --track:#EDEDF2; --orange:#E8792B; --green:#1E7B34; --words:Inter,"Segoe UI",Arial,sans-serif; --nums:"Courier New",Courier,monospace; }
+html,body{ height:100%; } body{ margin:0; background:var(--page); color:var(--ink); font:400 14px/1.4 var(--words); }
+.wrap{ padding:10px 16px 12px; } .top{ display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; margin:0 0 6px; } .top h1{ font:700 20px/1.2 var(--words); margin:0; } .top label{ font:600 13px var(--words); color:var(--gray); }
+.say{ font-size:13px; color:var(--gray); margin:0 0 8px; min-height:36px; }
+button{ font-family:var(--words); cursor:pointer; border:0; } button:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
+.seg{ display:inline-grid; grid-auto-flow:column; gap:3px; padding:3px; background:var(--track); border-radius:21px; } .seg button{ height:36px; background:none; border-radius:18px; font:600 13px var(--words); color:#5B6472; padding:0 11px; white-space:nowrap; } .seg button.on{ background:#fff; color:var(--ink); box-shadow:0 0 0 .5px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.10); }
+.fit{ position:relative; overflow:hidden; } .scr{ position:relative; width:1100px; height:780px; transform-origin:0 0; overflow:hidden; }
+.bd{ background:#fff; border-radius:22px; overflow:hidden; box-shadow:0 0 0 .5px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.06); }
+.r{ display:grid; grid-template-columns:64px 176px 190px 1fr 104px 132px; height:50px; border-top:1px solid var(--line); } .r > div{ display:flex; align-items:center; gap:8px; padding:0 12px; min-width:0; border-left:1px solid var(--line); white-space:nowrap; overflow:hidden; } .r > div:first-child{ border-left:0; }
+.r.h{ background:#16181D; color:#fff; font:700 14px var(--words); height:46px; border:0; } .r.h > div{ border-color:transparent; overflow:visible; }
+.r.z{ background:#F7F7F5; } .r.dn{ background:#F1F1F3; color:#8A919C; } .r.sel{ background:#FFF6EE !important; } .num{ font:700 13px var(--nums); } .mny{ font:700 13px var(--nums); justify-content:flex-end; }
+.sp{ flex:1; } .cv{ flex:none; width:14px; height:14px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; opacity:.65; transition:transform .16s; }
+/* who has the ball */
+.who{ flex:none; display:inline-flex; align-items:center; justify-content:center; width:74px; height:22px; border-radius:11px; font:700 12px var(--words); box-sizing:border-box; }
+.who.u{ background:var(--orange); color:#fff; } .who.c{ background:#FBE9A0; color:#6B5200; } .who.i{ background:#DCE8FB; color:#1D4C9C; } .who.v{ background:#E9E3F7; color:#54408F; } .who.d{ background:#E5E5EA; color:#6C6C73; }
+.who.s{ width:66px; height:20px; border-radius:10px; }
+.cnt{ display:inline-flex; gap:5px; margin-left:6px; } .cnt button{ width:24px; height:24px; border-radius:12px; font:700 12px var(--nums); padding:0; } .cnt button.off{ opacity:.35; }
+.cnt .u{ background:var(--orange); color:#fff; } .cnt .c{ background:#FBE9A0; color:#6B5200; } .cnt .i{ background:#DCE8FB; color:#1D4C9C; } .cnt .v{ background:#E9E3F7; color:#54408F; }
+.stb{ flex:1; display:flex; align-items:center; gap:8px; height:34px; padding:0 8px 0 10px; margin-right:-4px; background:none; border-radius:17px; text-align:left; color:inherit; min-width:0; } .stb:hover{ background:var(--fill); } .r.sel .stb{ background:none; }
+.stb .nm{ font:600 14px var(--words); color:var(--ink); overflow:hidden; text-overflow:ellipsis; } .r.dn .stb .nm{ color:#6C6C73; } .nm.red{ color:#B03024 !important; }
+.dt{ flex:none; font:700 12px var(--nums); color:var(--gray); } .slow{ flex:none; width:10px; height:10px; border-radius:5px; background:#D23B2E; box-shadow:0 0 0 3px #FBE4E1; }
+.car{ flex:none; width:20px; height:20px; border-radius:10px; box-shadow:inset 0 0 0 1.5px #16181D; color:var(--ink); display:grid; place-items:center; } .car svg{ width:12px; height:12px; fill:none; stroke:currentColor; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; } .car.tow{ background:var(--orange); box-shadow:none; color:#fff; }
+.mm{ flex:none; width:20px; height:20px; border-radius:10px; box-shadow:inset 0 0 0 1.5px var(--green); color:var(--green); display:grid; place-items:center; font:700 12px var(--nums); }
+/* Repair Status tab */
+.rs .r{ grid-template-columns:64px 196px 1fr 290px; height:60px; } .rs .who2{ display:flex; flex-direction:column; align-items:flex-start !important; justify-content:center; gap:0 !important; } .rs .who2 b{ font:600 14px var(--words); } .rs .who2 span{ font-size:12px; color:var(--gray); }
+.rsb{ flex-direction:column; align-items:stretch; justify-content:center; gap:6px; height:50px; border-radius:16px; } .l1{ display:flex; align-items:center; gap:8px; min-width:0; } .l1 .ph{ flex:none; font:600 12px var(--words); color:var(--gray); }
+.tk{ display:flex; gap:3px; height:8px; } .tk b{ flex:1; border-radius:4px; background:#E5E5EA; } .tk b.cur{ box-shadow:0 0 0 2px #fff, 0 0 0 3.5px currentColor; } .tk.red b{ background:#E9B4AD; }
+.mc{ flex-direction:column; align-items:stretch !important; justify-content:center; gap:6px !important; } .mc .nm{ font:600 14px var(--words); } .mc .nm.no{ color:#8A919C; }
+.seg.dis{ opacity:.4; pointer-events:none; }
+/* the job panel */
+.pan{ position:absolute; z-index:6; top:0; right:0; bottom:0; width:372px; background:#fff; border-radius:24px 0 0 24px; box-shadow:0 0 0 .5px rgba(0,0,0,.08),-24px 0 60px -20px rgba(0,0,0,.35); padding:14px 16px 10px; box-sizing:border-box; display:flex; flex-direction:column; transform:translateX(110%); visibility:hidden; transition:transform .22s cubic-bezier(.2,.8,.2,1), width .2s, visibility 0s .22s; } .pan.on{ transform:none; visibility:visible; transition:transform .22s cubic-bezier(.2,.8,.2,1), width .2s; }
+.pan.w2{ width:760px; } .pan.w5{ width:560px; }
+.pan h2{ font:700 17px var(--words); margin:0; } .pan .sub{ font-size:13px; color:var(--gray); } .xc{ position:absolute; top:12px; right:14px; width:32px; height:32px; border-radius:16px; background:var(--fill); display:grid; place-items:center; padding:0; } .xc svg{ width:14px; height:14px; fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round; }
+.now{ flex:none; display:flex; align-items:center; gap:8px; min-height:38px; margin:8px 0 8px; padding:0 12px; border-radius:19px; background:var(--fill); font:700 14px var(--words); }
+.mid{ flex:1; min-height:0; overflow:auto; margin:0 -6px; padding:0 6px; } .ft{ flex:none; }
+.sec{ border-top:1px solid var(--line); margin-top:7px; padding-top:7px; } .sec > em{ display:block; font:700 12px var(--words); font-style:normal; color:var(--gray); margin:0 0 5px 2px; }
+.two{ display:grid; grid-template-columns:1fr 1fr; gap:10px; } .wrapp{ display:flex; flex-wrap:wrap; gap:6px; }
+.pill{ display:inline-flex; align-items:center; gap:7px; height:28px; padding:0 12px; border-radius:14px; background:var(--fill); color:var(--ink); font:600 12px var(--words); white-space:nowrap; } .pill:hover{ background:#E5E5EA; } .pill.red{ color:#B03024; }
+.sg{ display:grid; grid-auto-flow:column; grid-auto-columns:1fr; gap:2px; padding:3px; background:var(--track); border-radius:17px; } .sg button{ height:28px; background:none; border-radius:14px; font:600 12px var(--words); color:#5B6472; padding:0 2px; white-space:nowrap; } .sg button.on{ background:#fff; color:var(--ink); box-shadow:0 0 0 .5px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.10); }
+/* pieces shared by the five looks */
+.qq{ font:700 15px var(--words); margin:10px 2px 8px; }
+.ob .to .who{ width:auto; padding:0 8px; height:18px; } .two{ grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important; }
+.ob{ display:flex; flex-direction:column; align-items:flex-start; justify-content:center; gap:3px; width:100%; min-height:50px; padding:7px 16px; margin-top:6px; border-radius:22px; background:var(--fill); color:var(--ink); font:600 14px var(--words); text-align:left; box-sizing:border-box; } .ob:hover{ background:#E5E5EA; } .ob.p{ background:#16181D; color:#fff; } .ob.p:hover{ background:#000; }
+.ob .to{ display:inline-flex; align-items:center; gap:6px; font:600 12px var(--words); opacity:.75; white-space:nowrap; } .ob.end .to{ color:#B03024; opacity:1; } .ob.p.end .to{ color:#FFB4AA; }
+.tr{ display:flex; align-items:center; gap:8px; width:100%; height:26px; padding:0 8px 0 4px; border-radius:13px; background:none; font:500 12px var(--words); color:var(--gray); text-align:left; white-space:nowrap; } .tr:hover{ background:var(--fill); } .tr b{ font-weight:700; color:var(--ink); overflow:hidden; text-overflow:ellipsis; } .tr .q{ flex:none; }
+.ck{ flex:none; width:16px; height:16px; border-radius:8px; background:var(--green); display:grid; place-items:center; } .ck svg{ width:10px; height:10px; fill:none; stroke:#fff; stroke-width:3; stroke-linecap:round; stroke-linejoin:round; }
+.bk{ display:flex; align-items:center; justify-content:center; width:100%; height:36px; margin-top:10px; border-radius:18px; background:none; box-shadow:inset 0 0 0 1.5px var(--line); color:var(--ink); font:600 13px var(--words); } .bk:hover{ background:var(--fill); }
+/* 2 cascade */
+.cas{ display:flex; gap:10px; align-items:flex-start; min-height:100%; } .cc{ flex:none; width:214px; background:var(--fill); border-radius:18px; padding:8px; box-sizing:border-box; } .cc.cur{ background:#FFF1E5; box-shadow:inset 0 0 0 1.5px var(--orange); }
+.cc h3{ font:700 12px/1.3 var(--words); color:var(--gray); margin:2px 6px 6px; min-height:31px; } .cc.cur h3{ color:var(--ink); }
+.co{ display:flex; align-items:center; width:100%; min-height:30px; padding:5px 10px; margin-top:3px; border-radius:15px; background:#fff; color:var(--ink); font:600 12px/1.25 var(--words); text-align:left; box-sizing:border-box; } .co:hover{ background:#F7F7FA; } .co.on{ background:#16181D; color:#fff; } .cc:not(.cur) .co:not(.on){ background:none; color:#8A919C; } .cc:not(.cur) .co:not(.on):hover{ background:#fff; color:var(--ink); } .co.end:not(.on){ color:#B03024 !important; }
+/* 3 timeline */
+.phl{ display:flex; align-items:center; gap:9px; height:28px; font:600 13px var(--words); color:#9A9FA8; } .phl i{ font:700 12px var(--nums); font-style:normal; width:22px; height:22px; border-radius:11px; background:#E5E5EA; color:#6C6C73; display:grid; place-items:center; flex:none; } .phl.on{ color:var(--gray); } .phl.on i{ background:var(--green); color:#fff; } .phl.cur{ color:var(--ink); font-weight:700; } .phl.cur i{ background:var(--ink); color:#fff; } .phl small{ margin-left:auto; font:500 12px var(--words); color:#9A9FA8; }
+.sub2{ margin:0 0 4px 10px; padding:2px 0 4px 14px; border-left:2px solid var(--line); } .sub2 .qq{ font-size:13px; margin:6px 2px 2px; } .sub2 .ob{ min-height:46px; font-size:13px; padding:6px 14px; margin-top:5px; }
+/* 4 dropdowns */
+.dd{ display:grid; grid-template-columns:1fr auto; align-items:center; gap:8px; min-height:38px; } .dd + .dd, .ddo + .dd{ border-top:1px solid var(--line); } .dd span{ font:600 12px/1.25 var(--words); color:var(--gray); } .ddb{ display:inline-flex; align-items:center; gap:6px; height:28px; max-width:190px; padding:0 8px 0 12px; border-radius:14px; background:var(--fill); color:var(--ink); font:600 12px var(--words); white-space:nowrap; overflow:hidden; } .ddb:hover{ background:#E5E5EA; } .ddb.open .cv{ transform:rotate(180deg); }
+.ddo{ padding:2px 0 8px; } .ddo .co{ background:var(--fill); } .ddo .co:hover{ background:#E5E5EA; } .ddo .co.on{ background:#16181D; }
+/* 5 route */
+.map{ display:grid; grid-template-columns:repeat(5,1fr); row-gap:14px; padding:4px 0 2px; } .nd{ position:relative; display:flex; flex-direction:column; align-items:center; gap:4px; font:600 12px/1.2 var(--words); color:#9A9FA8; text-align:center; } .nd .c{ position:relative; z-index:1; width:32px; height:32px; border-radius:16px; background:#E5E5EA; color:#6C6C73; display:grid; place-items:center; font:700 13px var(--nums); }
+.nd.on{ color:var(--gray); } .nd.on .c{ color:#16181D; } .nd.cur{ color:var(--ink); font-weight:700; } .nd.cur .c{ box-shadow:0 0 0 3px #fff, 0 0 0 5px #16181D; }
+.nd::before{ content:""; position:absolute; top:12px; height:8px; left:-50%; width:100%; background:#E5E5EA; } .nd.on::before{ background:var(--pc); } .nd:nth-child(1)::before{ display:none; }
+.nd:nth-child(6){ grid-column:5; grid-row:2; } .nd:nth-child(7){ grid-column:4; grid-row:2; } .nd:nth-child(8){ grid-column:3; grid-row:2; } .nd:nth-child(9){ grid-column:2; grid-row:2; } .nd:nth-child(10){ grid-column:1; grid-row:2; }
+.nd:nth-child(n+7)::before{ left:50%; } .nd:nth-child(6)::before{ left:calc(50% - 4px); width:8px; top:-52px; height:68px; border-radius:4px; } .nd > span:last-child{ position:relative; z-index:2; background:#fff; padding:0 3px; }
+@media (prefers-reduced-motion:reduce){ .pan, .cv{ transition:none; } }
+
+.c5back{ position:fixed; z-index:50; top:calc(env(safe-area-inset-top, 0px) + 10px); left:16px; display:inline-flex; align-items:center; gap:4px; height:40px; padding:0 14px 0 10px; border-radius:20px; text-decoration:none; color:#16181D; font:600 15px Inter, -apple-system, sans-serif;
+  background:rgba(255,255,255,.55); -webkit-backdrop-filter:blur(2px) saturate(170%); backdrop-filter:blur(2px) saturate(170%); box-shadow:inset 0 1px 1px rgba(255,255,255,.95), inset 0 -1px 1px rgba(0,0,0,.12), inset 0 0 12px rgba(255,255,255,.4), 0 6px 18px rgba(0,0,0,.14); }
+.c5back svg{ width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
+.c5ver{ position:fixed; z-index:50; top:calc(env(safe-area-inset-top, 0px) + 22px); right:16px; font:600 13px Inter, -apple-system, sans-serif; color:#E8792B; }
+.wrap{ padding-top:calc(env(safe-area-inset-top, 0px) + 60px) !important; }
+</style>
+</head>
+<body>
+<a class="c5back" href="./"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>Modules</a><span class="c5ver">Version 1 · Oct 8, 9:15 AM</span>
+
+<div class="wrap">
+  <div class="top"><h1>Status Column Module</h1><div class="seg" id="tb"><button data-v="lg" class="on">Ledger</button><button data-v="rs">Repair Status</button></div>
+    <div class="seg" id="vs"><button data-v="1" class="on">1 Question</button><button data-v="2">2 Cascade</button><button data-v="3">3 Timeline</button><button data-v="4">4 Dropdowns</button><button data-v="5">5 Route</button></div>
+    <label>Name</label><div class="seg" id="ns"><button data-v="1" class="on">On</button><button data-v="0">Off</button></div><label>$ Mark</label><div class="seg" id="ms"><button data-v="1" class="on">On</button><button data-v="0">Off</button></div></div>
+  <div class="say" id="say"></div>
+  <div class="fit" id="fit"><div class="scr" id="scr"><div class="bd" id="bd"></div><div class="pan" id="pan"></div></div></div>
+</div>
+<script>
+var $=function(s){return document.querySelector(s)};
+var WHO={u:'On Us',c:'Customer',i:'Insurance',v:'Vendor',d:'Done'};
+var PH=['Lead','Claim','Inspection Setup','Estimate And Payment','Supplement','Parts','Repair','Final Checks','Pickup','Done'];
+/* The process as a chain of answers. Each status: w = who has the ball, l = the words, c = words in the board cell if different, ph = phase 1 to 10 (0 = keeps the phase it came from),
+   q = the question asked to move on, o = the answers [words, where it leads]. "@back" returns to where the job was. */
+var N={
+ lead:{w:'u',l:'Ask About The Claim',c:'New Lead · Ask About The Claim',ph:1,q:'Does the customer have a claim?',o:[['Has A Claim','hasclaim'],['No Claim, Will File','willfile'],['No Claim, Will Not File','x_nofile'],['Wants Out Of Pocket','x_oop']]},
+ hasclaim:{w:'c',l:'Has A Claim',c:'Potential · Has A Claim',ph:1,q:'Is there an initial estimate?',o:[['Has An Estimate, Approved','paychk'],['No Estimate Yet','route'],['Customer Backed Out','x_lost']]},
+ willfile:{w:'c',l:'No Claim Yet, Will File',c:'Potential · No Claim Yet, Will File',ph:1,q:'Did the customer file the claim?',o:[['Claim Filed','filed'],['Will Not File After All','x_nofile']]},
+ filed:{w:'i',l:'Answer The Claim',ph:2,q:'What did insurance say about the claim?',o:[['Claim Approved','route'],['Under Investigation','invest'],['Claim Denied','x_denied']]},
+ invest:{w:'i',l:'Claim Under Investigation',ph:2,slow:1,q:'How did the investigation end?',o:[['Claim Approved','route'],['Claim Denied','x_denied']]},
+ route:{w:'i',l:'Say How They Want The Estimate',ph:3,q:'How does insurance want the estimate done?',o:[['They Want Photos','photos'],['Virtual Walkthrough','virtual'],['They Want Our Estimate','ourest'],['They Send An Inspector','sched']]},
+ photos:{w:'u',l:'Send Photos',ph:3,o:[['Photos Sent','writeup']]},
+ virtual:{w:'u',l:'Do The Virtual Walkthrough',ph:3,o:[['Walkthrough Done','writeup']]},
+ ourest:{w:'u',l:'Write Estimate With Photos',ph:3,o:[['Estimate Sent','approve']]},
+ sched:{w:'i',l:'Schedule Inspection',ph:3,o:[['Date Set','inspect']]},
+ inspect:{w:'i',l:'Inspect The Car',ph:3,q:'How did the inspection go?',o:[['Inspected, With Teardown','writeup'],['Inspected, Photos Only','writeup']]},
+ writeup:{w:'i',l:'Write Up The Estimate',ph:4,o:[['Estimate Received','approve']]},
+ approve:{w:'i',l:'Approve The Estimate',ph:4,q:'Did the adjuster approve it?',o:[['Approved','pay'],['Possible Total Loss','tlmaybe']]},
+ pay:{w:'i',l:'Confirm Payment',ph:4,q:'Is the payment confirmed?',o:[['Confirmed, No Supplement Needed','order'],['Confirmed, Teardown Next','teardown'],['No Word Yet, We Chase','paychk']]},
+ paychk:{w:'u',l:'Contact Insurance About Payment',ph:4,q:'What did insurance say about the payment?',o:[['Confirmed, No Supplement Needed','order'],['Confirmed, Teardown Next','teardown'],['Still Waiting On Them','pay']]},
+ teardown:{w:'u',l:'Do The Teardown',ph:5,q:'What did the teardown show?',o:[['Found More Damage','writesup'],['Nothing More','order']]},
+ writesup:{w:'u',l:'Write The Supplement',ph:5,o:[['Supplement Written','submit']]},
+ submit:{w:'u',l:'Submit The Supplement',ph:5,o:[['Submitted','answer']]},
+ answer:{w:'i',l:'Answer The Supplement',ph:5,q:'What did insurance say about the supplement?',o:[['Approved','suppay'],['Partly Approved','suppay'],['They Want To Reinspect','reinspect'],['Denied, Go With The Estimate','order']]},
+ reinspect:{w:'i',l:'Reinspect The Car',ph:5,o:[['Reinspected','answer']]},
+ suppay:{w:'i',l:'Confirm Supplement Payment',ph:5,o:[['Payment Confirmed','order']]},
+ order:{w:'u',l:'Order Parts',ph:6,o:[['Parts Ordered','parts']]},
+ parts:{w:'v',l:'Deliver Parts',ph:6,o:[['Parts Arrived','repair']]},
+ repair:{w:'u',l:'Repair The Car',ph:7,q:'How did the repair go?',o:[['Repair Finished','qc'],['A Part Is Missing','missing'],['Found More Damage','writesup']]},
+ missing:{w:'v',l:'Deliver Missing Part',ph:7,o:[['Part Arrived','repair']]},
+ qc:{w:'u',l:'Scan And Quality Check',ph:8,q:'Did it pass?',o:[['Passed','wash'],['Needs Rework','repair']]},
+ wash:{w:'u',l:'Wash The Car',ph:8,o:[['Washed','schedpu']]},
+ schedpu:{w:'u',l:'Schedule Pickup',ph:9,o:[['Time Set','pickup']]},
+ pickup:{w:'c',l:'Pick Up The Car',ph:9,o:[['Picked Up','x_done']]},
+ tlmaybe:{w:'i',l:'Decide Total Loss',ph:0,q:'What did insurance decide?',o:[['Total Loss','x_tl'],['Repairable, Carry On','@back']]},
+ hold:{w:'c',l:'On Hold',ph:0,o:[['Back To Work','@back']]},
+ x_done:{w:'d',l:'Delivered',ph:10,end:1,o:[['Reopen','@back']]},
+ x_tl:{w:'d',l:'Total Loss',c:'Closed · Total Loss',ph:0,end:2,o:[['Reopen','@back']]},
+ x_denied:{w:'d',l:'Claim Denied',c:'Closed · Claim Denied',ph:0,end:2,o:[['Reopen','@back']]},
+ x_nofile:{w:'d',l:'Will Not File',c:'Closed · Will Not File',ph:0,end:2,o:[['Reopen','@back']]},
+ x_oop:{w:'d',l:'Out Of Pocket, Not Our Work',c:'Closed · Out Of Pocket',ph:0,end:2,o:[['Reopen','@back']]},
+ x_lost:{w:'d',l:'Customer Backed Out',c:'Closed · Customer Backed Out',ph:0,end:2,o:[['Reopen','@back']]}
+};
+var SIDE=[['Possible Total Loss','tlmaybe'],['On Hold','hold'],['Backed Out','x_lost']];
+var CAR=['At The Shop','With Customer','Needs Tow','Tow Yard'], MON=['None Yet','Confirmed','Sent','Received'];
+var A=['Has A Claim','No Estimate Yet','They Send An Inspector','Date Set','Inspected, Photos Only','Estimate Received','Approved'];
+function job(n,cu,ve,d,b,picks,x){ var j={n:n,cu:cu,ve:ve,d:d,b:b,at:'lead',t:[],car:0,m:0}; picks.forEach(function(p){ var k=-1; N[j.at].o.forEach(function(o,q){ if(o[0]===p) k=q; }); if(k<0) throw new Error('no answer '+p+' at '+j.at); pick(j,k); }); for(var y in (x||{})) j[y]=x[y]; return j; }
+function pick(j,k){ var o=N[j.at].o[k]; if(o[1]==='@back'){ undo(j); return; } j.t.push([j.at,o[0]]); j.at=o[1]; if(j.at==='inspect'&&!j.insp) j.insp='Oct 12'; }
+function undo(j){ var e=j.t.pop(); if(e) j.at=e[0]; }
+function rewind(j,n){ while(j.t.length>n) undo(j); }
+function jump(j,k){ j.t.push([j.at,SIDE[k][0]]); j.at=SIDE[k][1]; }
+function ph(j){ var n=N[j.at]; if(n.ph) return n.ph; for(var k=j.t.length-1;k>=0;k--) if(N[j.t[k][0]].ph) return N[j.t[k][0]].ph; return 1; }
+var J=[job(1040,'Rosa Diaz','2020 Honda Accord','—','—',[],{car:1}),
+ job(1041,'Samantha Castillo','2026 Nissan Sentra','—','—',['No Claim, Will File'],{car:1}),
+ job(1042,'Alice Lau','2015 Porsche Cayenne','Oct 05','—',['Has A Claim','No Estimate Yet','They Want Photos']),
+ job(1043,'Marcus Reed','2019 Honda Civic','Oct 02','—',['Has A Claim','No Estimate Yet','They Send An Inspector','Date Set'],{insp:'Oct 09'}),
+ job(1044,'Priya Nair','2021 Toyota Camry','—','—',['No Claim, Will File','Claim Filed','Under Investigation'],{car:2}),
+ job(1045,'Daniel Ortiz','2018 Kia Optima','Sep 28','$4,210.00',['Has A Claim','Has An Estimate, Approved']),
+ job(1046,'Hannah Brooks','2020 Ford Escape','Sep 24','$2,655.40',A.concat(['Confirmed, Teardown Next','Found More Damage']),{m:1}),
+ job(1047,'Victor Chen','2017 BMW 330i','Sep 22','$1,980.12',A.concat(['Confirmed, No Supplement Needed','Parts Ordered']),{m:2}),
+ job(1048,'Elena Park','2022 Tesla Model 3','Sep 15','$3,402.75',A.concat(['Confirmed, No Supplement Needed','Parts Ordered','Parts Arrived']),{m:3}),
+ job(1049,'Omar Haddad','2016 Audi A3','Sep 08','$500.00',A.concat(['Confirmed, No Supplement Needed','Parts Ordered','Parts Arrived','Repair Finished','Passed','Washed','Time Set']),{m:3}),
+ job(1050,'Grace Kim','2014 Jeep Cherokee','—','—',['Wants Out Of Pocket']),
+ job(1051,'Leo Martins','2023 Hyundai Elantra','Sep 02','$0.00',A.concat(['Confirmed, No Supplement Needed','Parts Ordered','Parts Arrived','Repair Finished','Passed','Washed','Time Set','Picked Up']),{m:3})];
+var TAB='lg', V=1, MM=1, NM=1, open=null, filt=null, dd=-1;
+var CV='<svg class="cv" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>', CK='<span class="ck"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>', PIN='<svg viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.3"/></svg>';
+function who(w,small){ return '<span class="who '+w+(small?' s':'')+'">'+WHO[w]+'</span>'; }
+function col(n,of){ var t=of<=1?1:n/(of-1); return 'hsl('+(46+t*92)+' '+(88-t*26)+'% '+(52-t*14)+'%)'; }
+function track(n,of,cls){ var h='<span class="tk '+(cls||'')+'">'; for(var k=0;k<of;k++) h+='<b class="'+(k<=n?'on':'')+(k===n?' cur':'')+'" style="'+(k<=n?'background:'+col(k,of)+';color:'+col(k,of):'')+'"></b>'; return h+'</span>'; }
+function cell(j,i,rs){ var n=N[j.at]; return who(n.w)+'<span class="nm '+(n.end===2&&!rs?'':'')+(j.at==='x_tl'||j.at==='x_denied'?'red':'')+'">'+(rs?n.l:(n.c||n.l))+'</span>'+(n.slow?'<span class="slow" title="This one takes time"></span>':'')+(j.at==='inspect'&&j.insp?'<span class="dt">'+j.insp+'</span>':'')+(j.car&&n.w!=='d'?'<span class="car'+(j.car===2?' tow':'')+'" title="The car is not here: '+CAR[j.car].toLowerCase()+'">'+PIN+'</span>':'')+(!rs&&MM&&(j.m===1||j.m===2)?'<span class="mm" title="Payment '+MON[j.m].toLowerCase()+', not received yet. We are fronting this one.">$</span>':''); }
+function draw(){ var b=$('#bd'), h, zz=0; b.className='bd '+TAB;
+  if(TAB==='rs'){ h='<div class="r h"><div>Job #</div><div>Customer</div><div>Status</div><div>Payment From Insurance</div></div>';
+    J.forEach(function(j,i){ var n=N[j.at], p=ph(j), sup=p>=5; zz++;
+      h+='<div class="r'+(zz%2?'':' z')+(n.w==='d'?' dn':'')+(open===i?' sel':'')+'"><div class="num">'+j.n+'</div><div class="who2"><b>'+j.cu+'</b><span>'+j.ve+'</span></div><div><button class="stb rsb" data-i="'+i+'"><span class="l1">'+cell(j,i,1)+'<span class="sp"></span><span class="ph">'+(n.end===2?'Closed':'Phase '+p+' Of 10 · '+PH[p-1])+'</span></span>'+(n.end===2?'<span class="tk red">'+'<b></b>'.repeat(10)+'</span>':track(p-1,10))+'</button></div><div class="mc"><span class="l1"><span class="nm'+(j.m?'':' no')+'">'+(j.m?(sup?'Supplement':'Estimate')+' · '+MON[j.m]:'No Payment Yet')+'</span><span class="sp"></span>'+(j.m?'<span class="ph">'+(j.m===2?'Mailed Check ':'')+'To '+(sup?'Shop':'Customer')+'</span>':'')+'</span>'+track(j.m-1,3)+'</div></div>'; });
+    b.innerHTML=h; return; }
+  var c={u:0,c:0,i:0,v:0}; J.forEach(function(j){ var w=N[j.at].w; if(c[w]!=null) c[w]++; });
+  h='<div class="r h"><div>Job #</div><div>Customer</div><div>Vehicle</div><div>Status<span class="cnt">'+['u','c','i','v'].map(function(w){ return '<button class="'+w+(filt&&filt!==w?' off':'')+'" data-f="'+w+'" title="'+c[w]+' jobs waiting on '+(w==='u'?'us':WHO[w].toLowerCase())+'. Click to show only these.">'+c[w]+'</button>'; }).join('')+'</span></div><div>Date In</div><div style="justify-content:flex-end">Balance</div></div>';
+  J.forEach(function(j,i){ var n=N[j.at]; if(filt&&n.w!==filt) return; zz++;
+    h+='<div class="r'+(zz%2?'':' z')+(n.w==='d'?' dn':'')+(open===i?' sel':'')+'"><div class="num">'+j.n+'</div><div>'+j.cu+'</div><div>'+j.ve+'</div><div>'+who(n.w)+'<button class="stb" data-i="'+i+'">'+cell(j,i).replace(who(n.w),'')+'<span class="sp"></span><svg class="cv" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button></div><div class="num">'+j.d+'</div><div class="mny">'+j.b+'</div></div>'; });
+  b.innerHTML=h; }
+/* ---- panel pieces ---- */
+function dest(t){ if(t==='@back') return '<span class="to">Go Back</span>'; var n=N[t]; return '<span class="to">'+(n.end===2?'Closes The Job':who(n.w,1)+n.l)+'</span>'; }
+function outs(j,first){ var n=N[j.at]; return n.o.map(function(o,k){ var e=o[1]!=='@back'&&N[o[1]].end===2; return '<button class="ob'+(k===0&&first&&!e?' p':'')+(e?' end':'')+'" data-k="'+k+'"><span>'+o[0]+'</span>'+dest(o[1])+'</button>'; }).join(''); }
+function trail(j){ return j.t.map(function(e,x){ return '<button class="tr" data-rw="'+x+'" title="Go back to this point">'+CK+'<span class="q">'+N[e[0]].l+':</span><b>'+e[1]+'</b></button>'; }).join(''); }
+function look1(j){ var n=N[j.at]; return trail(j)+'<div class="qq">'+(n.q||'What happened?')+'</div>'+outs(j,1)+(j.t.length?'<button class="bk" data-un="1">Back One Step</button>':''); }
+function colm(node,chosen,x,cur){ var n=N[node]; return '<div class="cc'+(cur?' cur':'')+'"><h3>'+(n.q||n.l+': what happened?')+'</h3>'+n.o.map(function(o,k){ var e=o[1]!=='@back'&&N[o[1]].end===2; return '<button class="co'+(o[0]===chosen?' on':'')+(e?' end':'')+'" '+(cur?'data-k="'+k+'"':'data-rw="'+x+'" data-rk="'+k+'"')+'>'+o[0]+'</button>'; }).join('')+'</div>'; }
+function look2(j){ var h='<div class="cas">'; j.t.forEach(function(e,x){ if(N[e[0]].o.some(function(o){return o[0]===e[1]})) h+=colm(e[0],e[1],x,0); }); return h+colm(j.at,null,-1,1)+'</div>'; }
+function look3(j){ var p=ph(j), n=N[j.at], h='';
+  PH.forEach(function(name,a){ var num=a+1, mine=j.t.filter(function(e){ return (N[e[0]].ph||0)===num; });
+    h+='<div class="phl'+(num<p||n.end===1?' on':'')+(num===p&&n.end!==1?' cur':'')+'"><i>'+(num<p||n.end===1?'✓':num)+'</i>'+name+(num<p&&!mine.length?'<small>Already Done</small>':'')+'</div>';
+    if((num<=p)&&(mine.length||num===p)){ h+='<div class="sub2">'+mine.map(function(e){ var x=j.t.indexOf(e); return '<button class="tr" data-rw="'+x+'" title="Go back to this point">'+CK+'<span class="q">'+N[e[0]].l+':</span><b>'+e[1]+'</b></button>'; }).join('')+(num===p?'<div class="qq">'+(n.q||'What happened?')+'</div>'+outs(j,1):'')+'</div>'; } });
+  return h; }
+function look4(j){ var h=''; j.t.forEach(function(e,x){ var n=N[e[0]], real=n.o.some(function(o){return o[0]===e[1]});
+    h+='<div class="dd"><span>'+(n.q||n.l)+'</span><button class="ddb'+(dd===x?' open':'')+'" '+(real?'data-dd="'+x+'"':'')+'>'+e[1]+(real?CV:'')+'</button></div>';
+    if(dd===x) h+='<div class="ddo">'+n.o.map(function(o,k){ return '<button class="co'+(o[0]===e[1]?' on':'')+'" data-rw="'+x+'" data-rk="'+k+'">'+o[0]+'</button>'; }).join('')+'</div>'; });
+  var n=N[j.at]; return h+'<div class="dd"><span style="color:var(--ink);font-weight:700;font-size:13px">'+(n.q||'What happened?')+'</span><button class="ddb open" style="background:var(--orange);color:#fff">Choose'+CV+'</button></div><div class="ddo">'+n.o.map(function(o,k){ var e=o[1]!=='@back'&&N[o[1]].end===2; return '<button class="co'+(e?' end':'')+'" data-k="'+k+'">'+o[0]+'</button>'; }).join('')+'</div>'; }
+function look5(j){ var p=ph(j), n=N[j.at], fin=n.end===1;
+  return '<div class="map">'+PH.map(function(name,a){ var on=a+1<=p; return '<div class="nd'+(on?' on':'')+(a+1===p&&!fin?' cur':'')+'" style="--pc:'+col(a,10)+'"><span class="c" style="'+(on?'background:'+col(a,10):'')+'">'+(a+1<p||fin?'✓':a+1)+'</span><span>'+name+'</span></div>'; }).join('')+'</div><div class="qq" style="margin-top:14px">'+(n.q||'What happened?')+'</div><div class="two" style="gap:0 8px">'+outs(j,1)+'</div>'+(j.t.length?'<button class="bk" data-un="1">Back One Step</button>':''); }
+function panel(j){ var n=N[j.at], v=TAB==='rs'?3:V;
+  var h='<button class="xc" data-x="1" aria-label="Close" title="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>'+(NM?'<h2>'+j.cu+'</h2><div class="sub">Job '+j.n+' · '+j.ve+' · '+(n.end===2?'Closed':'Phase '+ph(j)+' Of 10')+'</div>':'')+'<div class="now" style="'+(NM?'':'margin:0 42px 8px 0')+'">'+who(n.w)+'<span class="'+(j.at==='x_tl'||j.at==='x_denied'?'nm red':'')+'">'+n.l+'</span>'+(n.slow?'<span class="slow"></span>':'')+'</div>';
+  h+='<div class="mid" id="mid">'+[0,look1,look2,look3,look4,look5][v](j)+'</div><div class="ft">';
+  if(!n.end&&j.at!=='hold'&&j.at!=='tlmaybe') h+='<div class="sec"><em>Something Else Happened</em><div class="wrapp">'+SIDE.map(function(s,k){ return '<button class="pill'+(k===2?' red':'')+'" data-sd="'+k+'">'+s[0]+'</button>'; }).join('')+'</div></div>';
+  h+='<div class="sec '+(v===2?'two':'')+'"><div><em style="display:block;font:700 12px var(--words);font-style:normal;color:var(--gray);margin:0 0 5px 2px">The Car Is</em><div class="sg" data-g="car">'+CAR.map(function(t,x){ return '<button class="'+(j.car===x?'on':'')+'" data-n="'+x+'">'+t+'</button>'; }).join('')+'</div></div><div'+(v===2?'':' style="margin-top:7px"')+'><em style="display:block;font:700 12px var(--words);font-style:normal;color:var(--gray);margin:0 0 5px 2px">Payment From Insurance</em><div class="sg" data-g="m">'+MON.map(function(t,x){ return '<button class="'+(j.m===x?'on':'')+'" data-n="'+x+'">'+t+'</button>'; }).join('')+'</div></div></div></div>';
+  return h; }
+function show(){ var pn=$('#pan'), j=open==null?null:J[open], v=TAB==='rs'?3:V; draw(); if(!j){ pn.classList.remove('on'); return; }
+  pn.className='pan on'+(v===2?' w2':v===5?' w5':''); pn.innerHTML=panel(j); var m=$('#mid'); if(v===2) m.scrollLeft=9999; else if(v===1||v===4) m.scrollTop=9999; else if(v===3){ var c=m.querySelector('.phl.cur'); if(c) m.scrollTop=Math.max(0,c.offsetTop-m.offsetTop-96); } }
+function close(){ open=null; dd=-1; show(); }
+var SAY={1:'1 Question: the panel asks one question and the answers are buttons. Each button says where it leads and who gets the ball. Past answers stack on top with green checks; click one to go back to that point.',
+ 2:'2 Cascade: every answer opens the next menu to the right of it. The black choices are the road this job took; the orange column is the question open now. Click a different choice in any column to change course from there.',
+ 3:'3 Timeline: the 10 phases top to bottom. Finished phases show the answers that were given, the current phase holds the open question, the rest wait in gray.',
+ 4:'4 Dropdowns: each question is a line with its answer in a dropdown pill. Open any pill to change that answer; the open question sits at the bottom.',
+ 5:'5 Route: the 10 phases as a path that fills in yellow to green, with the open question under it.'};
+function say(){ $('#vs').classList.toggle('dis',TAB==='rs'); $('#ms').classList.toggle('dis',TAB==='rs'); $('#say').textContent = TAB==='rs' ? 'Repair Status: the same jobs with the whole path showing. Gray is still ahead and the bar runs yellow to green. The payment has its own 3-step bar. Click a job to open its panel (shown in the Timeline look). A change here shows in the Ledger, and the other way around.' : SAY[V]+' Click any status on the board to open the panel.'; }
+document.addEventListener('click',function(e){ var b, j=open==null?null:J[open];
+  if((b=e.target.closest('#tb button'))){ TAB=b.dataset.v; [].forEach.call($('#tb').children,function(c){c.classList.toggle('on',c===b)}); say(); close(); return; }
+  if((b=e.target.closest('#vs button'))){ V=+b.dataset.v; [].forEach.call($('#vs').children,function(c){c.classList.toggle('on',c===b)}); say(); dd=-1; show(); return; }
+  if((b=e.target.closest('#ns button'))){ NM=+b.dataset.v; [].forEach.call($('#ns').children,function(c){c.classList.toggle('on',c===b)}); show(); return; }
+  if((b=e.target.closest('#ms button'))){ MM=+b.dataset.v; [].forEach.call($('#ms').children,function(c){c.classList.toggle('on',c===b)}); show(); return; }
+  if((b=e.target.closest('[data-f]'))){ filt=filt===b.dataset.f?null:b.dataset.f; close(); return; }
+  if(j&&(b=e.target.closest('[data-rk]'))){ rewind(j,+b.dataset.rw); pick(j,+b.dataset.rk); dd=-1; show(); return; }
+  if(j&&(b=e.target.closest('[data-rw]'))){ rewind(j,+b.dataset.rw); dd=-1; show(); return; }
+  if(j&&(b=e.target.closest('[data-k]'))){ pick(j,+b.dataset.k); dd=-1; show(); return; }
+  if(j&&(b=e.target.closest('[data-dd]'))){ dd=dd===+b.dataset.dd?-1:+b.dataset.dd; var st=$('#mid').scrollTop; show(); $('#mid').scrollTop=st; return; }
+  if(j&&e.target.closest('[data-un]')){ undo(j); show(); return; }
+  if(j&&(b=e.target.closest('[data-sd]'))){ jump(j,+b.dataset.sd); show(); return; }
+  if(j&&(b=e.target.closest('.sg button'))){ j[b.parentNode.dataset.g]=+b.dataset.n; var s2=$('#mid'), a=s2.scrollTop, l=s2.scrollLeft; show(); $('#mid').scrollTop=a; $('#mid').scrollLeft=l; return; }
+  if(e.target.closest('[data-x]')){ close(); return; }
+  if((b=e.target.closest('.stb'))){ var i=+b.dataset.i; if(open===i){ close(); return; } open=i; dd=-1; show(); return; }
+  if(open!=null&&!e.target.closest('.pan')) close(); });
+document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+function fit(){ var f=$('#fit'), s=$('#scr'); if(!f.offsetWidth) return; var top=f.getBoundingClientRect().top+(window.scrollY||0), room=(window.innerHeight||900)-top-12;
+  var k=Math.max(.3,Math.min(1.3,f.clientWidth/1100,room/780)); s.style.transform='scale('+k+')'; s.style.marginLeft=Math.max(0,(f.clientWidth-1100*k)/2)+'px'; f.style.height=(780*k)+'px'; }
+window.addEventListener('resize',fit); say(); draw(); fit();
+</script>
+
+</body>
+</html>
