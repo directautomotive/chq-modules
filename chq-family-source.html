@@ -70,6 +70,31 @@ button:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
 .search{ display:flex; align-items:center; gap:8px; height:40px; padding:0 6px 0 14px; border-radius:20px; background:var(--fill); margin-bottom:4px; }
 .search span{ flex:1; color:var(--soft); }
 
+/* Ledger Header 3 dropdowns, as in app 5.186 (added Oct 8 2026, to be edited) */
+.h3g{ display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:20px; align-items:start; }
+.h3c{ display:flex; flex-direction:column; gap:8px; min-width:0; }
+.h3c > b{ font:700 14px var(--words); }
+.h3m{ width:300px; max-width:100%; background:#fff; border-radius:22px; padding:10px; box-shadow:0 0 0 .5px rgba(0,0,0,.10), 0 20px 50px rgba(0,0,0,.18); }
+.h3top{ display:flex; gap:8px; margin-bottom:6px; }
+.h3s{ flex:1; display:flex; align-items:center; gap:10px; height:44px; padding:0 14px; border-radius:22px; background:#F2F2F7; box-shadow:0 0 0 2px var(--orange); color:var(--soft); font:400 15px var(--words); min-width:0; }
+.h3x{ width:44px; height:44px; border-radius:22px; background:#F2F2F7; display:grid; place-items:center; flex:none; }
+.h3r{ display:flex; align-items:center; gap:14px; height:44px; padding:0 10px; border-radius:10px; font:500 15px var(--words); border-bottom:1px solid #ECECF0; }
+.h3r.on{ background:var(--orange-tint); font-weight:700; border-color:transparent; }
+.h3r .ck{ margin-left:auto; color:var(--orange); }
+.h3r.h3add{ border:0; }
+.h3r.h3addb{ border:0; font-weight:700; padding-left:12px; }
+.h3r.two{ height:58px; } .h3r.two .t{ display:flex; flex-direction:column; line-height:1.25; } .h3r.two .t span{ font-size:17px; } .h3r.two small{ font:400 14px var(--words); color:var(--gray); padding-left:12px; }
+.h3chip{ display:flex; align-items:center; gap:12px; height:38px; padding:0 8px; margin-bottom:6px; border-radius:10px; font:400 15px var(--words); }
+.h3chip.on{ box-shadow:0 0 0 2px var(--orange); font-weight:600; }
+.h3chip .ck{ margin-left:auto; }
+.h3ti{ width:22px; height:22px; display:grid; place-items:center; flex:none; }
+.h3ti svg{ width:20px; height:20px; fill:none; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.h3lo{ width:24px; height:24px; border-radius:6px; display:grid; place-items:center; color:#fff; font:800 11px var(--words); flex:none; }
+.h3da{ width:24px; height:24px; border:1.5px dashed #B4B8C0; border-radius:6px; flex:none; }
+.h3sq{ width:14px; height:14px; border-radius:3px; border:1px solid rgba(0,0,0,.10); flex:none; }
+.h3tall{ min-height:580px; }
+.h3n{ margin:0; padding-left:18px; color:var(--gray); font-size:13.5px; line-height:1.55; } .h3n b{ color:var(--ink); }
+
 /* icons */
 .icons{ display:flex; flex-wrap:wrap; gap:14px; }
 .icons figure{ margin:0; display:flex; flex-direction:column; align-items:center; gap:6px; width:72px; }
@@ -201,8 +226,8 @@ button:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
 <div class="wrap">
   <h1>CHQ Family</h1>
   <p class="lead">How CollisionHQ looks and how we like things: every button, box, menu, icon and mark drawn at real size next to its rule. Sizes are in pixels, width × height. If something in the app doesn't match this page, the app is wrong.</p>
-  <span class="ver">Version 2 · Oct 8, 2026 · matches app 5.184</span>
-  <nav><a href="#core">Core</a><a href="#type">Words And Numbers</a><a href="#color">Color</a><a href="#main">Main Page</a><a href="#win">Inside A Window</a><a href="#box">Boxes</a><a href="#menu">Menus</a><a href="#icons">Icons</a><a href="#marks">Marks</a><a href="#cal">Date Picker</a><a href="#acct">Account Menu</a><a href="#set">Settings</a><a href="#source">Change It Once</a><a href="#where">Where It Shows Up</a><a href="#motion">Motion</a><a href="#phone">Phone Glass</a><a href="#open">Still Open</a></nav>
+  <span class="ver">Version 3 · Oct 8, 2026, 10:58 AM · matches app 5.186</span>
+  <nav><a href="#core">Core</a><a href="#type">Words And Numbers</a><a href="#color">Color</a><a href="#main">Main Page</a><a href="#win">Inside A Window</a><a href="#box">Boxes</a><a href="#menu">Menus</a><a href="#drop3">Header 3 Dropdowns</a><a href="#icons">Icons</a><a href="#marks">Marks</a><a href="#cal">Date Picker</a><a href="#acct">Account Menu</a><a href="#set">Settings</a><a href="#source">Change It Once</a><a href="#where">Where It Shows Up</a><a href="#motion">Motion</a><a href="#phone">Phone Glass</a><a href="#open">Still Open</a></nav>
 
   <section id="core"><h2><span>1</span>The Core Rules</h2>
     <ul class="list">
@@ -297,7 +322,23 @@ button:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
     </div>
   </section>
 
-  <section id="icons"><h2><span>8</span>Icons</h2>
+  <section id="drop3"><h2><span>8</span>Ledger Header 3 Dropdowns</h2>
+    <p class="in">The four dropdowns in the Ledger's header 3 row, drawn the way they look in the app <b>today</b> (5.186). This is the starting point; we edit from here, and the app follows once this section is approved.</p>
+    <div class="h3g">
+      <div class="h3c"><b>Source</b><div class="h3m"><div class="h3top"><div class="h3s"><svg class="ic" viewBox="0 0 24 24"><use href="#i-search"/></svg>Search</div><span class="h3x"><svg class="ic" viewBox="0 0 24 24"><use href="#i-x"/></svg></span></div><div class="h3r"><span class="h3ti"><svg viewBox="0 0 24 24" style="stroke:#5B6472"><circle cx="13" cy="4.5" r="1.8"/><path d="M10 21l2.5-6.5 3 3V21M12.5 14.5l-1-5 3.5 2 2.5.5M11.5 9.5l-3 2.5v3"/></svg></span>Walk-in</div><div class="h3r on"><span class="h3ti"><svg viewBox="0 0 24 24" style="stroke:#1E7B34"><circle cx="9" cy="8" r="3"/><path d="M3.5 19a5.5 5.5 0 0111 0M16 5.5a3 3 0 010 5.5M17.5 14a5 5 0 013 5"/></svg></span>Referral<svg class="ic ck" viewBox="0 0 24 24"><use href="#i-check"/></svg></div><div class="h3r"><span class="h3ti"><svg viewBox="0 0 24 24" style="stroke:#0E8A8A"><path d="M19.5 11A7.5 7.5 0 006.4 6.6L4.5 8.5"/><path d="M4.5 4.5v4h4"/><path d="M4.5 13a7.5 7.5 0 0013.1 4.4l1.9-1.9"/><path d="M19.5 19.5v-4h-4"/></svg></span>Repeat Customer</div><div class="h3r"><span class="h3ti"><svg viewBox="0 0 24 24" style="stroke:#4285F4"><path d="M20 12.2h-8M20 12.2a8 8 0 11-2.3-5.6"/></svg></span>Google Ads</div><div class="h3r"><span class="h3ti"><svg viewBox="0 0 24 24" style="stroke:#1877F2"><circle cx="12" cy="12" r="8.5"/><path d="M13.5 20.5V12h2.5M13.5 12V9.5a2 2 0 012-2H17"/></svg></span>Facebook Ads</div><div class="h3r"><span class="h3ti"><svg viewBox="0 0 24 24" style="stroke:#8B5A2B"><path d="M3 16V9h9l3 4h4v3M3 16h2M9 16h6M19 16h2"/><circle cx="7" cy="16.5" r="1.8"/><circle cx="17" cy="16.5" r="1.8"/></svg></span>Tow Truck</div><div class="h3r"><span class="h3ti"><svg viewBox="0 0 24 24" style="stroke:#3E5A8C"><path d="M4 20V9l8-5 8 5v11M9 20v-6h6v6"/></svg></span>Dealership</div><div class="h3r"><span class="h3lo" style="background:#C0392B">F</span>Farmers Ins.</div><div class="h3r h3add"><span class="h3da"></span>+ Add Source</div></div></div>
+      <div class="h3c"><b>Insurance</b><div class="h3m"><div class="h3top"><div class="h3s"><svg class="ic" viewBox="0 0 24 24"><use href="#i-search"/></svg>Search</div><span class="h3x"><svg class="ic" viewBox="0 0 24 24"><use href="#i-x"/></svg></span></div><div class="h3chip" style="background:#E7E7EC;color:#3A3F47"><span class="h3lo" style="background:#3A3F47">2</span>21st Century</div><div class="h3chip" style="background:#FBE3E0;color:#B03A2E"><span class="h3lo" style="background:#C0392B">A</span>AAA</div><div class="h3chip" style="background:#E7E7EC;color:#3A3F47"><span class="h3lo" style="background:#3A3F47">A</span>Alliance United</div><div class="h3chip" style="background:#DCE5F5;color:#1D4C9C"><span class="h3lo" style="background:#1D4C9C">A</span>Allstate</div><div class="h3chip" style="background:#DFE8F6;color:#2E5FA8"><span class="h3lo" style="background:#2E5FA8">A</span>American Family</div><div class="h3chip" style="background:#E3EFEC;color:#3A3F47"><span class="h3lo" style="background:#16A085">A</span>Amica</div><div class="h3chip" style="background:#E7E7EC;color:#3A3F47"><span class="h3lo" style="background:#1F3A5F">A</span>Anchor General</div><div class="h3chip on" style="background:#E1F0E3;color:#1E7B34"><span class="h3lo" style="background:#1E7B34">A</span>Aspire General Insurance<svg class='ic ck' viewBox='0 0 24 24'><use href='#i-check'/></svg></div><div class="h3chip" style="background:#E7E7EC"><span class="h3da"></span>+ Add Insurance Company</div></div></div>
+      <div class="h3c"><b>Whose Move</b><div class="h3m h3tall"><div class="h3top"><div class="h3s"><svg class="ic" viewBox="0 0 24 24"><use href="#i-search"/></svg>Search</div><span class="h3x"><svg class="ic" viewBox="0 0 24 24"><use href="#i-x"/></svg></span></div><div class="h3r two on"><span class="h3sq" style="background:#F3CFCA"></span><span class="t"><span style="font-weight:700">Shop</span><small>It's on us</small></span><svg class="ic ck" viewBox="0 0 24 24"><use href="#i-check"/></svg></div><div class="h3r two"><span class="h3sq" style="background:#D6EBD9"></span><span class="t"><span style="font-weight:400">Insurance</span><small>Out of our hands</small></span></div><div class="h3r two"><span class="h3sq" style="background:#FBE3B6"></span><span class="t"><span style="font-weight:400">Customer</span><small>Waiting on the owner</small></span></div><div class="h3r two"><span class="h3sq" style="background:#DADADF"></span><span class="t"><span style="font-weight:400">Completed</span><small>Job closed</small></span></div></div></div>
+      <div class="h3c"><b>Status</b><div class="h3m"><div class="h3top"><div class="h3s"><svg class="ic" viewBox="0 0 24 24"><use href="#i-search"/></svg>Search</div><span class="h3x"><svg class="ic" viewBox="0 0 24 24"><use href="#i-x"/></svg></span></div><div class="h3r on">Waiting for Parts<svg class="ic ck" viewBox="0 0 24 24"><use href="#i-check"/></svg></div><div class="h3r">In Repair</div><div class="h3r">In Paint</div><div class="h3r">In Reassembly</div><div class="h3r">Quality Check</div><div class="h3r">Repair Completed</div><div class="h3r">Ready for Pickup</div><div class="h3r">Completed / Delivered</div><div class="h3r h3addb">+ Add Status</div></div></div>
+    </div>
+    <ul class="h3n">
+      <li><b>Same today:</b> white card 300 wide, 22 corners; 44 search pill with the orange ring and the 44 round X beside it; orange check at the right of the picked row.</li>
+      <li><b>Different today:</b> picked row is an orange wash (Source, Whose Move, Status) but an orange ring on a colored chip (Insurance); picked corners about 10, not pill ends; Insurance rows are separate colored chips, the others plain rows with a line under each.</li>
+      <li><b>Add rows:</b> dashed square + "+ Add Source" / "+ Add Insurance Company"; bold "+ Add Status" with no square; none on Whose Move.</li>
+      <li><b>Whose Move:</b> 4 rows with a search box in a tall card that is half empty; the gray second line starts right of the title; small colored squares.</li>
+    </ul>
+  </section>
+
+  <section id="icons"><h2><span>9</span>Icons</h2>
     <p class="in">One family: 24 box, 2 line, round ends and corners. The arrows and X from the month menu never change; every other arrow and X matches them.</p>
     <div class="icons">
       <figure><div><svg viewBox="0 0 24 24"><use href="#i-chev"/></svg></div><figcaption>Chevron</figcaption></figure>
@@ -311,7 +352,7 @@ button:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
     </div>
   </section>
 
-  <section id="marks"><h2><span>9</span>Marks</h2>
+  <section id="marks"><h2><span>10</span>Marks</h2>
     <div class="spec">
       <div class="cap"><b>Paid marks:</b> Paid ✓ or Unpaid ✕ only. A deposit in the bank that isn't marked yet shows <b>!</b> (one click marks it paid). Soft style by default.</div>
       <div class="stage white"><span class="pm ok"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span><span class="pm no"><svg viewBox="0 0 24 24"><use href="#i-x"/></svg></span><span class="pm bang">!</span></div>
@@ -322,7 +363,7 @@ button:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
     </div>
   </section>
 
-  <section id="cal"><h2><span>10</span>Date Picker</h2>
+  <section id="cal"><h2><span>11</span>Date Picker</h2>
     <div class="spec">
       <div class="cap"><b>One picker for every date box.</b> 300 wide, days are 36 circles, Today and Clear pills. Opens under the box clicked. Days that can't be picked are grayed and can't be clicked (Storage Starts can't be before the car came in); an empty box opens on its first allowed month.</div>
       <div class="stage"><div class="cal"><div class="calh"><div class="mp"><button class="circ c36" style="background:none" aria-label="Previous month"><svg class="ic" viewBox="0 0 24 24"><use href="#i-back"/></svg></button>October 2026<button class="circ c36" style="background:none" aria-label="Next month"><svg class="ic" viewBox="0 0 24 24"><use href="#i-fwd"/></svg></button></div><button class="circ flatg" aria-label="Close"><svg class="ic" viewBox="0 0 24 24"><use href="#i-x"/></svg></button></div>
@@ -331,7 +372,7 @@ button:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
     </div>
   </section>
 
-  <section id="acct"><h2><span>11</span>Account Menu</h2>
+  <section id="acct"><h2><span>12</span>Account Menu</h2>
     <div class="spec">
       <div class="cap"><b>Opens from the logo circle</b> (top right) with Grow From The Click. <b>406 wide, one 20 edge all the way around</b>: the shop card sits 20 in at the top, left and right; the X sits 20 from the right and 20 from the bottom (5.184). Rows are line icons with words, 48 tall; the lit row is a gray pill. Sign Out is red, under a thin line. Footer: version | last saved, and the round X.</div>
       <div class="stage" style="justify-content:center"><div class="am">
@@ -348,7 +389,7 @@ button:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
     </div>
   </section>
 
-  <section id="set"><h2><span>12</span>Settings Window</h2>
+  <section id="set"><h2><span>13</span>Settings Window</h2>
     <div class="spec">
       <div class="cap"><b>Big window</b> (36 corners, gray inside): title top left, round X top right, Save orange bottom right. <b>Left list</b> in a white card: gray group labels (You, Shop, Board, More), rows 46 tall with a line icon, the open page lit as a gray pill. <b>Right side</b>: white cards with a bold heading; each row has its name and a gray line under it, the control on the right.</div>
       <div class="cap"><b>Choices are the tab shape</b>: gray track, white thumb that slides. A two-way switch is 208 × 44 with two equal 100 × 36 halves (Color | Simple, 5.184). Something not ready yet says <b style="color:var(--orange)">Soon</b> in small orange.</div>
@@ -376,7 +417,7 @@ button:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
     </div>
   </section>
 
-  <section id="source"><h2><span>13</span>Change It Once</h2>
+  <section id="source"><h2><span>14</span>Change It Once</h2>
     <p class="in">Every icon on this page comes from one shared set at the top of the file, and every size and color from one list of values. Change a piece here and every place that uses it changes with it. Try it: the X in the account menu, Settings, the menus, the date picker and the row remove buttons all follow. The app is moving the same way: one X, one chevron, one check, one set of sizes, used everywhere the map below lists. When you settle on a change here, say "put this X in the app" and it goes into every place on the map at once.</p>
     <div class="tune">
       <label>Line weight <input type="range" id="tLine" min="1.25" max="3" step="0.25" value="2"><output id="oLine">2</output></label>
@@ -387,7 +428,7 @@ button:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
     </div>
   </section>
 
-  <section id="where"><h2><span>14</span>Where It Shows Up</h2>
+  <section id="where"><h2><span>15</span>Where It Shows Up</h2>
     <p class="in">The map of every place a piece is used in the app, so a change to one piece reaches all of them.</p>
     <div class="tw"><table class="where">
       <tr><th>Piece</th><th>Where it is in the app</th><th>Look</th></tr>
@@ -402,7 +443,7 @@ button:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
     </table></div>
   </section>
 
-  <section id="motion"><h2><span>15</span>Motion</h2>
+  <section id="motion"><h2><span>16</span>Motion</h2>
     <div class="spec">
       <div class="cap"><b>Grow From The Click</b> at real speed: windows 0.26 seconds, menus 0.18. No blurred background behind windows. Ledger / Leads switch is instant. Click the box to try it.</div>
       <div class="stage" style="min-height:250px;align-items:flex-start"><div class="grow"><button class="box" id="gbtn" style="width:220px">Location<span class="sp"></span><svg class="ic" viewBox="0 0 24 24"><use href="#i-chev"/></svg></button>
@@ -410,7 +451,7 @@ button:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
     </div>
   </section>
 
-  <section id="phone"><h2><span>16</span>Phone Glass</h2>
+  <section id="phone"><h2><span>17</span>Phone Glass</h2>
     <div class="spec">
       <div class="cap"><b>Liquid Glass buttons:</b> clear in the middle so you can read what is behind, bevelled edge that catches light top-left and shades bottom-right, thin bright rim, soft shadow. Behind the clock and the bottom bar: a plain fade that gets more solid toward the edge, no blur. Edge to edge, 16 side margin, the page itself scrolls.</div>
       <div class="phone"><div class="bg">#2 · Jason Patel · 0.00<br>2022 Ford F-150 · Balance<br>State Farm · Claim 84-34J4-02P<br>In Repair · + Photos<br>#3 · Carlos Young · $533.94</div>
@@ -418,7 +459,7 @@ button:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
     </div>
   </section>
 
-  <section id="open"><h2><span>17</span>Still Open</h2>
+  <section id="open"><h2><span>18</span>Still Open</h2>
     <ul class="list">
       <li>Settings › Privacy rows; Night theme ("Soon").</li>
       <li>In the app, icons are still drawn in many separate places; moving them onto the one shared set (like this page) is what makes "change it once" work there too.</li>
