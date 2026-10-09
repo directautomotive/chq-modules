@@ -124,7 +124,7 @@ button:focus-visible, input:focus-visible{ outline:2px solid var(--orange); outl
 .dd .one .vb{ width:1px; height:16px; background:#C9CAD0; display:inline-block; flex:none; }
 .dd .one .ad{ color:var(--gray); overflow:hidden; text-overflow:ellipsis; min-width:0; }
 .dd button.pk.new .one{ color:var(--ink); font-weight:500; }
-.clw{ position:absolute; right:4px; top:4px; height:32px; padding:0 12px 0 10px; border-radius:16px; background:#FFF1D6; color:#8A5A00; font:600 13px var(--words); display:inline-flex; align-items:center; gap:6px; cursor:pointer; }
+.clw{ position:absolute; right:4px; top:4px; height:32px; padding:0 14px; border-radius:16px; background:#FFF1D6; color:#8A5A00; font:600 13px var(--words); display:inline-flex; align-items:center; gap:6px; cursor:pointer; }
 .clw:hover{ background:#FFE7B8; }
 .clw i{ width:16px; height:16px; border-radius:8px; background:#B07A00; color:#fff; font:700 11px var(--words); font-style:normal; display:grid; place-items:center; }
 .clw.ok{ background:#E7F4EA; color:var(--green); } .clw.ok i{ background:var(--green); }
@@ -158,8 +158,8 @@ button:focus-visible, input:focus-visible{ outline:2px solid var(--orange); outl
 
 <div class="head">
   <h1>Customer Search In Details</h1>
-  <span class="ver">Version 5 · Oct 9, 11:05 AM · module only, not in the app</span>
-  <p>Two changes to look at. <b>1.</b> The card under Customer Name: every row is the same 40-pixel pill as the box you type in, one line each: name bold, then phone, car and address. The last row is just <b>New Customer</b>. <b>2.</b> Claim Number: the long warning under the box becomes a small amber pill inside the box; tap it for the details and <b>That&#39;s Correct</b>.</p>
+  <span class="ver">Version 6 · Oct 9, 11:00 AM · module only, not in the app</span>
+  <p>Two changes to look at. <b>1.</b> The card under Customer Name: every row is the same 40-pixel pill as the box you type in, one line each: name bold, then phone, car and address. The last row is just <b>New Customer</b>. <b>2.</b> Claim Number: the long warning under the box becomes a small amber <b>Format?</b> pill inside the box; tap it for the details and <b>That&#39;s Correct</b>.</p>
   <div class="try"><span>Try:</span>
     <button type="button" class="chip" data-t="Tea Jo">Tea Jo</button>
     <button type="button" class="chip" data-t="Maria G">Maria G (2 of them)</button>
@@ -195,7 +195,7 @@ button:focus-visible, input:focus-visible{ outline:2px solid var(--orange); outl
         <div class="rf"><label>Board Month</label><div class="sel"><span>October 2026</span><svg class="ic"><use href="#i-dn"/></svg></div></div>
         <i class="sep"></i>
         <div class="rf"><label>Insurance</label><div class="sel"><span>Allstate</span><svg class="ic"><use href="#i-dn"/></svg></div></div>
-        <div class="rf"><label>Claim Number</label><div class="inl cl"><input class="n" id="clm" value="NA-NA"><button type="button" class="clw" id="clw"><i>!</i>Unusual Shape</button><div class="clpop" id="clpop" hidden><span><b>Allstate</b> claim numbers here have always looked like <span class="n2">000787364280B02</span>. This one doesn&#39;t match the shape seen across <b>10</b> of their jobs.</span><div class="acts"><button type="button" id="clfix">Fix It</button><button type="button" class="go" id="clok">That&#39;s Correct</button></div></div></div></div>
+        <div class="rf"><label>Claim Number</label><div class="inl cl"><input class="n" id="clm" value="NA-NA"><button type="button" class="clw" id="clw">Format?</button><div class="clpop" id="clpop" hidden><span><b>Allstate</b> claim numbers here have always looked like <span class="n2">000787364280B02</span>. This one doesn&#39;t match the shape seen across <b>10</b> of their jobs.</span><div class="acts"><button type="button" id="clfix">Fix It</button><button type="button" class="go" id="clok">That&#39;s Correct</button></div></div></div></div>
         <div class="rf"><label>Adjuster</label><input class="empty" placeholder="Name"></div>
         <div class="rf"><label>Adjuster Phone</label><input class="empty" placeholder="(000) 000-0000"></div>
         <div class="rf"><label>Estimate Date</label><div class="sel"><span>Oct 09</span><svg class="ic"><use href="#i-cal"/></svg></div></div>
