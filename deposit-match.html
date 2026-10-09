@@ -94,6 +94,12 @@ tr.panel > td{ height:auto; padding:10px 12px 14px; background:#fff; white-space
 .mb-c .use{ background:var(--gtint) !important; color:var(--green) !important; }
 .mb-c .use:hover{ background:#D8EEDD !important; }
 .fig.zero{ opacity:1 !important; } .fig.zero i, .fig.zero b{ color:#A2A4AB; }
+/* v3: amount pills are one fixed size, label and amount sit together (no stretch); the Status "1 Match" pill is the same pill as Check */
+.figs{ display:flex !important; flex-wrap:wrap; gap:6px; }
+.fig{ width:168px !important; flex:none; justify-content:flex-start !important; gap:8px !important; }
+.fig b{ margin-left:auto; }
+.mpill{ height:40px !important; padding:0 14px 0 12px !important; border-radius:20px !important; background:#fff !important; box-shadow:inset 0 0 0 1.5px var(--green); color:var(--green) !important; font:400 14px var(--words) !important; display:inline-flex; align-items:center; gap:5px; }
+.mpill svg{ width:13px; height:13px; stroke-width:2.8; }
 .c5back{ position:fixed; z-index:50; top:calc(env(safe-area-inset-top, 0px) + 10px); left:16px; display:inline-flex; align-items:center; gap:4px; height:40px; padding:0 14px 0 10px; border-radius:20px; text-decoration:none; color:#16181D; font:600 15px Inter, -apple-system, sans-serif; background:rgba(255,255,255,.6); -webkit-backdrop-filter:blur(2px) saturate(170%); backdrop-filter:blur(2px) saturate(170%); box-shadow:inset 0 1px 1px rgba(255,255,255,.95), inset 0 -1px 1px rgba(0,0,0,.12), 0 6px 18px rgba(0,0,0,.14); }
 .c5back svg{ width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
 .head{ padding-top:calc(env(safe-area-inset-top, 0px) + 64px) !important; }
@@ -108,7 +114,7 @@ tr.panel > td{ height:auto; padding:10px 12px 14px; background:#fff; white-space
 
 <div class="head">
   <h1>Deposit Match Card</h1>
-  <span class="ver">Version 2 · Oct 9, 1:18 PM · module only, not in the app</span>
+  <span class="ver">Version 3 · Oct 9, 1:30 PM · module only, not in the app</span>
   <p>The card that opens under a yellow deposit in Deposits. Same information, family look: one gray pill per job that matches, one font, amounts as 40-pixel pills with the one that equals the deposit in green, the green Match button always on screen (no sideways scroll), then Search Jobs and Enter Details Manually as family pills.</p>
   <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><div class="seg" id="mode"><button class="on" data-v="new">New</button><button data-v="old">Today</button></div><span style="font:600 13px var(--words);color:var(--gray);margin-top:6px">Match button</span><div class="seg" id="mb"><button class="on" data-v="a">A</button><button data-v="b">B</button><button data-v="c">C</button></div></div>
 </div>
@@ -119,7 +125,7 @@ tr.panel > td{ height:auto; padding:10px 12px 14px; background:#fff; white-space
     <colgroup><col style="width:86px"><col style="width:140px"><col style="width:130px"><col class="hide-s" style="width:150px"><col class="hide-s"><col class="hide-s" style="width:150px"><col style="width:120px"><col style="width:118px"></colgroup>
     <tr><th>Date</th><th>Type</th><th>Insurance</th><th class="hide-s">Claim #</th><th class="hide-s">Vehicle</th><th class="hide-s">Customer</th><th class="r">Amount</th><th>Status</th></tr>
     <tr><td class="d">Jan 21</td><td>Online Check</td><td>AAA</td><td class="hide-s">017565162-I-1607</td><td class="hide-s">2024 Honda Civic</td><td class="hide-s">Oswaldo</td><td class="m r">$2,303.04</td><td><span class="st g">Matched</span></td></tr>
-    <tr class="y"><td class="d">Jan 20</td><td>Bank Transfer</td><td>State Farm</td><td class="hide-s"></td><td class="hide-s"></td><td class="hide-s"></td><td class="m r">$9,165.45</td><td><span class="mpill" id="stp">1 Match</span></td></tr>
+    <tr class="y"><td class="d">Jan 20</td><td>Bank Transfer</td><td>State Farm</td><td class="hide-s"></td><td class="hide-s"></td><td class="hide-s"></td><td class="m r">$9,165.45</td><td><span class="mpill" id="stp"><svg class="ic"><use href="#i-chk"/></svg>1 Match</span></td></tr>
     <tr class="panel"><td colspan="8">
       <div class="mc" id="newCard">
         <div class="cand" id="cand">
