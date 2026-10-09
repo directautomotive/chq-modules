@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CHQ Modules">
+<link rel="apple-touch-icon" href="icon.png">
+<title>Button Press</title>
+<style>
+:root{ color-scheme:light; --ink:#16181D; --gray:#6C6C73; --orange:#E8792B; --words:Inter, -apple-system, "Segoe UI", Arial, sans-serif; --nums:"Courier New", Courier, monospace; }
+*{ box-sizing:border-box; }
+body{ margin:0; background:#F2F2F7; color:var(--ink); font:400 14px/1.45 var(--words); -webkit-font-smoothing:antialiased; }
+button{ font-family:var(--words); color:var(--ink); border:0; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+.head{ max-width:1200px; margin:0 auto; padding:24px 16px 10px; }
+.head h1{ margin:0; font:800 22px var(--words); }
+.head .ver{ font:700 13px var(--nums); color:var(--orange); }
+.head p{ margin:6px 0 0; color:#3A3F47; max-width:84ch; }
+.card{ max-width:1200px; margin:14px auto; padding:0 16px; }
+.lab{ font:600 12.5px var(--words); color:#56616C; margin:18px 0 8px; }
+.row{ display:flex; flex-wrap:wrap; align-items:center; gap:8px; background:#E9EAEE; border-radius:28px; padding:14px; }
+.sp{ flex:1; }
+
+/* the family button: 44 tall, white at 82%, one soft shadow */
+.b{ height:44px; min-width:136px; padding:0 18px; border-radius:22px; background:rgba(255,255,255,.82); box-shadow:0 0 0 .5px rgba(0,0,0,.05), 0 7px 12px -7px rgba(0,0,0,.2); font:600 15px var(--words); display:inline-flex; align-items:center; justify-content:center; gap:8px; }
+.b svg{ width:16px; height:16px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.b.ic{ min-width:44px; width:44px; padding:0; }
+.b.pair{ min-width:0; width:56px; border-radius:0; } .b.pair.l{ border-radius:22px 0 0 22px; } .b.pair.r{ border-radius:0 22px 22px 0; }
+.b.orange{ background:#E8792B; color:#fff; }
+.b.circle{ min-width:44px; width:44px; padding:0; border-radius:50%; background:#1F3FA8; color:#fff; font:800 10px var(--words); box-shadow:0 0 0 2px #E8792B; }
+.month{ height:44px; border-radius:22px; background:rgba(255,255,255,.82); display:inline-flex; align-items:center; gap:2px; padding:0 4px; box-shadow:0 0 0 .5px rgba(0,0,0,.05), 0 7px 12px -7px rgba(0,0,0,.2); }
+.month .b{ min-width:36px; width:36px; height:36px; padding:0; box-shadow:none; background:transparent; }
+.month b{ font:700 18px var(--words); padding:0 18px; }
+.cnt{ min-width:22px; height:22px; border-radius:11px; background:#E5E5EA; font:600 12px var(--words); display:inline-grid; place-items:center; padding:0 6px; }
+
+/* THE PRESS — one rule for every main-page button */
+.b{ transition:transform .18s cubic-bezier(.2,.9,.3,1.35), background-color .12s, filter .12s; will-change:transform; }
+.b:hover{ background-color:#E9E9EE; }
+.b.orange:hover{ background-color:#D96A1E; } .b.circle:hover{ filter:brightness(1.08); }
+.month .b:hover{ background:rgba(0,0,0,.06); }
+.b:active{ transform:scale(.96); transition:transform .09s ease-out, background-color .09s; background-color:#DCDCE2; }
+.b.orange:active{ background-color:#C95F17; } .b.circle:active{ filter:brightness(.92); }
+.month .b:active{ background:rgba(0,0,0,.1); transform:scale(.9); }
+.b:focus{ outline:none; } .b:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
+@media (prefers-reduced-motion:reduce){ .b, .b:active{ transform:none !important; transition:background-color .1s !important; } }
+
+.note{ max-width:1200px; margin:18px auto 32px; padding:0 16px; color:#3A3F47; font-size:13px; line-height:1.55; }
+.note b{ font-weight:600; }
+.log{ font:400 13px var(--words); color:var(--gray); margin-top:8px; min-height:20px; }
+.c5back{ position:fixed; z-index:50; top:calc(env(safe-area-inset-top, 0px) + 10px); left:16px; display:inline-flex; align-items:center; gap:4px; height:40px; padding:0 14px 0 10px; border-radius:20px; text-decoration:none; color:#16181D; font:600 15px Inter, -apple-system, sans-serif; background:rgba(255,255,255,.6); -webkit-backdrop-filter:blur(2px) saturate(170%); backdrop-filter:blur(2px) saturate(170%); box-shadow:inset 0 1px 1px rgba(255,255,255,.95), inset 0 -1px 1px rgba(0,0,0,.12), 0 6px 18px rgba(0,0,0,.14); }
+.c5back svg{ width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
+.head{ padding-top:calc(env(safe-area-inset-top, 0px) + 64px) !important; }
+</style>
+</head>
+<body>
+<a class="c5back" href="./"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>Modules</a>
+<div class="head">
+  <h1>Button Press</h1>
+  <div class="ver">Version 1 · Oct 9, 3:08 PM · module only, not in the app</div>
+  <p>Click any button. Every main-page button gets the same press: it shrinks to 96% and goes a little darker in 0.09 seconds, then springs back in 0.18 seconds. Hover stays the gray fill. Nothing else changes: same sizes, same colors.</p>
+</div>
+<div class="card">
+  <div class="lab">Top of the page</div>
+  <div class="row">
+    <button class="b" type="button">Layout <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+    <button class="b" type="button">Advanced <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+    <span class="sp"></span>
+    <span class="month"><button class="b" type="button" aria-label="Previous month"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button><b>October 2026</b><button class="b" type="button" aria-label="Next month"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button></span>
+    <span class="sp"></span>
+    <span style="display:inline-flex"><button class="b pair l" type="button" aria-label="Undo"><svg viewBox="0 0 24 24"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg></button><button class="b pair r" type="button" aria-label="Redo"><svg viewBox="0 0 24 24"><path d="M15 14l5-5-5-5"/><path d="M20 9H10a6 6 0 0 0 0 12h3"/></svg></button></span>
+    <button class="b" type="button">Update</button>
+    <button class="b" type="button">Save</button>
+    <button class="b circle" type="button">DIRECT</button>
+  </div>
+  <div class="lab">Bottom of the page</div>
+  <div class="row">
+    <button class="b" type="button"><svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg>Deleted <span class="cnt">3</span></button>
+    <button class="b" type="button"><svg viewBox="0 0 24 24"><path d="M5 20V10M10 20V4M15 20v-7M20 20H3"/></svg>Job Sources</button>
+    <button class="b" type="button"><svg viewBox="0 0 24 24"><path d="M3 10l9-6 9 6M5 10v8M9 10v8M15 10v8M19 10v8M3 20h18"/></svg>Deposits</button>
+    <span class="sp"></span>
+    <button class="b orange" type="button">+ Add Job</button>
+  </div>
+  <div class="log" id="log">Click a button.</div>
+</div>
+<div class="note"><b>In the app:</b> one rule for the buttons on the main page only (top bar, month arrows, undo and redo, Update, Save, the account circle, Deleted, Job Sources, Deposits, Add Job). Buttons inside windows, dropdown rows and the board cells are left as they are. If your computer is set to reduce motion, the buttons only change color.</div>
+<script>
+document.addEventListener("click", function(e){ var b = e.target.closest(".b"); if(!b) return; document.getElementById("log").textContent = "Pressed: " + (b.getAttribute("aria-label") || b.textContent.trim().replace(/\s+\d+$/, "")); });
+</script>
+</body>
+</html>
