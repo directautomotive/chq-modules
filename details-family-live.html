@@ -31470,6 +31470,8 @@ html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOv
 html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box .v4bh:hover{ background:var(--wf-fill) !important; }
 /* v4 — the hover wash is a pill */
 html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ border-radius:30px !important; padding:0 16px 0 10px !important; }
+/* v5 — the line between rows stops where the pill starts curving (30 in from each side) */
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box + .v4box{ border-top:0 !important; background:linear-gradient(var(--wf-line), var(--wf-line)) 30px 0 / calc(100% - 60px) 1px no-repeat, var(--wf-win) !important; }
 
 </style>
 <style id="c5famBarCss">
@@ -31478,7 +31480,7 @@ html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOv
 #c5famBar button.on{ background:#16181D; color:#fff; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Details Family v4 · demo shop</span><button data-v="today">Today</button><button data-v="fam" class="on">Family</button></div>
+<div id="c5famBar"><span>Details Family v5 · demo shop</span><button data-v="today">Today</button><button data-v="fam" class="on">Family</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
   document.body.classList.add("c5famd");
