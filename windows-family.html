@@ -6891,7 +6891,7 @@ body{height:auto !important; min-height:100vh; margin:0 !important; background:#
 :root:not(#pf-a):not(#pf-b):not(#pf-c):not(#pf-d) body .pfov > .modal, :root:not(#pf-a):not(#pf-b):not(#pf-c):not(#pf-d) body .pfov > .v4sw-card{position:relative !important; animation:none !important; transform:none !important; margin:0 !important; max-height:none !important; left:auto !important; top:auto !important; opacity:1 !important;}
 :root:not(#pf-a):not(#pf-b):not(#pf-c):not(#pf-d) body #depositsOverlay.pfov > .modal{width:1486px !important; max-width:1486px !important; height:968px !important;}
 :root:not(#pf-a):not(#pf-b):not(#pf-c):not(#pf-d) body #jobDetailsOverlay.pfov > .modal{width:980px !important; max-width:980px !important; height:968px !important;}
-:root:not(#pf-a):not(#pf-b):not(#pf-c):not(#pf-d) body #deletedJobsOverlay.pfov > .modal{width:560px !important;}
+:root:not(#pf-a):not(#pf-b):not(#pf-c):not(#pf-d) body #deletedJobsOverlay.pfov > .modal{ width:860px !important; max-width:860px !important; }
 :root:not(#pf-a):not(#pf-b):not(#pf-c):not(#pf-d) body #v4SrcWin.pfov > .v4sw-card{width:860px !important; height:700px !important;}
 :root:not(#pf-a):not(#pf-b):not(#pf-c):not(#pf-d) body .pfov::before, :root:not(#pf-a):not(#pf-b):not(#pf-c):not(#pf-d) body .pfov::after{ display:none !important; content:none !important; }
 :root:not(#pf-a):not(#pf-b):not(#pf-c):not(#pf-d) body .pfov *{ animation:none !important; }
@@ -6931,11 +6931,26 @@ body{height:auto !important; min-height:100vh; margin:0 !important; background:#
 :root:not(#pf-a):not(#pf-b):not(#pf-c):not(#pf-d) body.fam #deletedJobsOverlay .btn-secondary{ background:var(--wf-fill) !important; border-color:transparent !important; }
 /* Details keeps its own title row (collapse button, car, insurance, Repair/Total Loss); only the X and the white inside change */
 :root:not(#pf-a):not(#pf-b):not(#pf-c):not(#pf-d) body.fam #jobDetailsOverlay .modal-header{ background:var(--wf-win) !important; }
+
+/* Deleted Jobs: a mini board, rows like Where Jobs Came From */
+:root:not(#pf-a):not(#pf-b):not(#pf-c):not(#pf-d) body.fam #deletedJobsOverlay .modal-body{ padding:4px 28px 16px !important; }
+:root:not(#pf-a):not(#pf-b):not(#pf-c):not(#pf-d) body.fam #deletedJobsOverlay .wf-bin{ width:100%; table-layout:auto; border-collapse:collapse; font:400 14px Inter, Arial, sans-serif; color:var(--wf-ink); }
+:root:not(#pf-a):not(#pf-b):not(#pf-c):not(#pf-d) body.fam #deletedJobsOverlay .wf-bin th{ font:600 13px Inter, Arial, sans-serif; color:var(--wf-soft); text-align:left; padding:6px 10px 10px; border-bottom:1px solid var(--wf-line); background:none; text-transform:none; letter-spacing:0; }
+:root:not(#pf-a):not(#pf-b):not(#pf-c):not(#pf-d) body.fam #deletedJobsOverlay .wf-bin td{ height:52px; padding:0 10px; border-bottom:1px solid var(--wf-line); vertical-align:middle; white-space:nowrap; background:none; }
+:root:not(#pf-a):not(#pf-b):not(#pf-c):not(#pf-d) body.fam #deletedJobsOverlay .wf-bin tr:last-child td{ border-bottom:0; }
+:root:not(#pf-a):not(#pf-b):not(#pf-c):not(#pf-d) body.fam #deletedJobsOverlay .wf-bin td:last-child{ text-align:right; padding-right:0; }
+:root:not(#pf-a):not(#pf-b):not(#pf-c):not(#pf-d) body.fam #deletedJobsOverlay .wf-bin td:nth-child(2){ font-weight:600; }
+:root:not(#pf-a):not(#pf-b):not(#pf-c):not(#pf-d) body.fam #deletedJobsOverlay .wf-mono{ font-family:"Courier New", monospace; font-weight:700; font-size:14px; }
+:root:not(#pf-a):not(#pf-b):not(#pf-c):not(#pf-d) body.fam #deletedJobsOverlay .wf-soft{ color:var(--wf-soft); }
+:root:not(#pf-a):not(#pf-b):not(#pf-c):not(#pf-d) body.fam #deletedJobsOverlay .wf-chip{ display:inline-flex; align-items:center; height:30px; padding:0 14px; border-radius:15px; background:var(--wf-fill); font:600 13px Inter, Arial, sans-serif; }
+:root:not(#pf-a):not(#pf-b):not(#pf-c):not(#pf-d) body.fam #deletedJobsOverlay .wf-bin .btn{ height:36px !important; padding:0 16px !important; border-radius:18px !important; background:var(--wf-fill) !important; border:0 !important; font:600 14px Inter, Arial, sans-serif !important; color:var(--wf-ink) !important; box-shadow:none !important; }
+:root:not(#pf-a):not(#pf-b):not(#pf-c):not(#pf-d) body.fam #deletedJobsOverlay .wf-bin .btn:hover{ background:var(--wf-fill2) !important; }
+:root:not(#pf-a):not(#pf-b):not(#pf-c):not(#pf-d) body.fam #deletedJobsOverlay .modal-footer{ padding:16px 28px 24px !important; }
 </style>
 </head>
 <body class="v4ln-row v4p-cols v4p-topbar v4p-signin v4p-settings v4p-deposits v4p-tl v4p-ded v4p-foot v4p-topbtns v4p-savedshort v4p-avatarda v4p-viewacct v4p-headalign v4p-leadschips v4p-leadsmonth v4p-phonesignin v4p-leadsnote v4p-leadschip4 v4p-leadsdate v4p-leadsorder v4p-oncenter v4p-leadsrow v4p-space15 v4p-leadsbox v4p-soon5 v4p-pinbars v4p-samebar v4p-boardfoot v4p-leadsbar v4p-tltitle v4p-phone v4p-srcone v4p-phoneglass ms-ci  c5il-logo-circle c5il-pill-square c5il-name-full c5il-look-color chq5-look-color chq-demo dens-normal fs-normal v4-ledger fam c36 cards-lines">
 <header class="pfh">
-  <div class="pft"><b>Windows Family</b><span>Version 1 · Oct 8, 2026, 8:30 PM · the four windows copied out of app 5.207 (demo shop), then the family look on top</span></div>
+  <div class="pft"><b>Windows Family</b><span>Version 2 · Oct 8, 2026, 8:45 PM · the four windows copied out of app 5.207 (demo shop), then the family look on top</span></div>
   <div class="pfc">
     <div class="sw" data-set="look"><button data-v="today">Today</button><button class="on" data-v="fam">Family</button></div>
     <div class="sw" data-set="corner"><button data-v="c22">Corners 22</button><button class="on" data-v="c36">Corners 36</button></div>
@@ -6943,15 +6958,15 @@ body{height:auto !important; min-height:100vh; margin:0 !important; background:#
   </div>
 </header>
 <main class="pfm">
-<section class="win" data-k="deleted"><div class="wt"><b>Deleted Jobs</b><span>bottom tab 1 · 560 wide today</span></div><div class="slot"><div class="modal-overlay pfov" id="deletedJobsOverlay"><div class="modal" style="max-width: 760px">
+<section class="win" data-k="deleted"><div class="wt"><b>Deleted Jobs</b><span>bottom tab 1 · 560 wide today, 860 in the family, a mini board of made-up jobs</span></div><div class="slot"><div class="modal-overlay pfov" id="deletedJobsOverlay"><div class="modal" style="max-width: 760px">
       <div class="modal-header">
         <div>
           <h2>Deleted Jobs</h2>
-          <p>Deleted jobs are kept here so nothing is lost by accident. Restore one to put it back in its month, or empty the bin to remove them for good.</p>
+          <p>Restore puts a job back in its month.</p>
         </div>
         <button class="modal-close" id="closeDeletedJobsBtn">×</button>
       </div>
-      <div class="modal-body" id="deletedJobsBody"><div class="bin-empty">The bin is empty. Deleted jobs will show up here.</div></div>
+      <div class="modal-body" id="deletedJobsBody"><table class="note-table wf-bin"><thead><tr><th>Job #</th><th>Customer</th><th>Vehicle</th><th>Insurance</th><th>Month</th><th>Deleted</th><th></th></tr></thead><tbody><tr><td class="wf-mono">RIB0401</td><td>Jordan Reyes</td><td>2022 Toyota Camry</td><td><span class="wf-chip">Progressive</span></td><td>October 2026</td><td class="wf-soft">Oct 8</td><td><button type="button" class="btn btn-secondary btn-small">Restore</button></td></tr><tr><td class="wf-mono">26-7719</td><td>Maya Chen</td><td>2019 Honda Civic</td><td><span class="wf-chip">State Farm</span></td><td>October 2026</td><td class="wf-soft">Oct 7</td><td><button type="button" class="btn btn-secondary btn-small">Restore</button></td></tr><tr><td class="wf-mono">0183-C</td><td>Luis Ortega</td><td>2023 GMC Sierra</td><td><span class="wf-chip">Allstate</span></td><td>September 2026</td><td class="wf-soft">Oct 3</td><td><button type="button" class="btn btn-secondary btn-small">Restore</button></td></tr><tr><td class="wf-mono">75-0R4K</td><td>Priya Nair</td><td>2015 Toyota Prius</td><td><span class="wf-chip">Kemper</span></td><td>September 2026</td><td class="wf-soft">Oct 2</td><td><button type="button" class="btn btn-secondary btn-small">Restore</button></td></tr><tr><td class="wf-mono">CAPA-028</td><td>Daniel Brooks</td><td>2009 BMW 328xi</td><td><span class="wf-chip">Mercury</span></td><td>September 2026</td><td class="wf-soft">Sep 28</td><td><button type="button" class="btn btn-secondary btn-small">Restore</button></td></tr><tr><td class="wf-mono">2608806</td><td>Sofia Martin</td><td>2026 Honda Civic</td><td><span class="wf-chip">National General</span></td><td>August 2026</td><td class="wf-soft">Sep 24</td><td><button type="button" class="btn btn-secondary btn-small">Restore</button></td></tr></tbody></table></div>
       <div class="modal-footer">
         <button class="btn btn-danger" id="emptyDeletedBinBtn">Empty Bin</button>
         <button class="btn btn-secondary" id="doneDeletedJobsBtn">Done</button>
