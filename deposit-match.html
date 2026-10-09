@@ -78,6 +78,22 @@ tr.panel > td{ height:auto; padding:10px 12px 14px; background:#fff; white-space
 .old .om{ display:block; margin:8px auto 0; border:1px solid #CCC; border-radius:8px; padding:6px 12px; font:700 15px var(--words); }
 .note{ max-width:1180px; margin:0 auto 32px; padding:0 16px; color:#3A3F47; font-size:13px; line-height:1.55; }
 @media (max-width:760px){ .win{ padding:14px; border-radius:24px; } table{ table-layout:auto; } .hide-s{ display:none; } }
+/* v2: every amount pill exactly the same size and style; short labels; the hit one only gets a green ring and check */
+.figs{ display:grid !important; grid-template-columns:repeat(5, minmax(0,1fr)); gap:6px; padding-right:8px; }
+.fig{ width:100%; justify-content:space-between; padding:0 14px !important; }
+.fig i{ display:inline-flex; align-items:center; gap:5px; font-size:13px !important; }
+.fig.hit{ background:#fff !important; box-shadow:inset 0 0 0 1.5px var(--green) !important; color:var(--ink) !important; }
+.fig.hit i{ color:var(--green) !important; }
+.fig i svg{ width:13px; height:13px; stroke-width:2.8; }
+@media (max-width:760px){ .figs{ grid-template-columns:repeat(2, minmax(0,1fr)); } }
+/* Match button: A = 40 tall green pill with a check (row height), B = white pill with green ring, C = green tint like the Found Match tag */
+.use{ height:40px !important; padding:0 18px 0 14px !important; border-radius:20px !important; display:inline-flex; align-items:center; gap:6px; }
+.use svg{ width:15px; height:15px; stroke-width:2.6; }
+.mb-b .use{ background:#fff !important; color:var(--green) !important; box-shadow:inset 0 0 0 1.5px var(--green); }
+.mb-b .use:hover{ background:var(--gtint) !important; }
+.mb-c .use{ background:var(--gtint) !important; color:var(--green) !important; }
+.mb-c .use:hover{ background:#D8EEDD !important; }
+.fig.zero{ opacity:1 !important; } .fig.zero i, .fig.zero b{ color:#A2A4AB; }
 .c5back{ position:fixed; z-index:50; top:calc(env(safe-area-inset-top, 0px) + 10px); left:16px; display:inline-flex; align-items:center; gap:4px; height:40px; padding:0 14px 0 10px; border-radius:20px; text-decoration:none; color:#16181D; font:600 15px Inter, -apple-system, sans-serif; background:rgba(255,255,255,.6); -webkit-backdrop-filter:blur(2px) saturate(170%); backdrop-filter:blur(2px) saturate(170%); box-shadow:inset 0 1px 1px rgba(255,255,255,.95), inset 0 -1px 1px rgba(0,0,0,.12), 0 6px 18px rgba(0,0,0,.14); }
 .c5back svg{ width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
 .head{ padding-top:calc(env(safe-area-inset-top, 0px) + 64px) !important; }
@@ -92,9 +108,9 @@ tr.panel > td{ height:auto; padding:10px 12px 14px; background:#fff; white-space
 
 <div class="head">
   <h1>Deposit Match Card</h1>
-  <span class="ver">Version 1 · Oct 9, 12:55 PM · module only, not in the app</span>
+  <span class="ver">Version 2 · Oct 9, 1:18 PM · module only, not in the app</span>
   <p>The card that opens under a yellow deposit in Deposits. Same information, family look: one gray pill per job that matches, one font, amounts as 40-pixel pills with the one that equals the deposit in green, the green Match button always on screen (no sideways scroll), then Search Jobs and Enter Details Manually as family pills.</p>
-  <div class="seg" id="mode"><button class="on" data-v="new">New</button><button data-v="old">Today</button></div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><div class="seg" id="mode"><button class="on" data-v="new">New</button><button data-v="old">Today</button></div><span style="font:600 13px var(--words);color:var(--gray);margin-top:6px">Match button</span><div class="seg" id="mb"><button class="on" data-v="a">A</button><button data-v="b">B</button><button data-v="c">C</button></div></div>
 </div>
 
 <div class="win">
@@ -108,19 +124,19 @@ tr.panel > td{ height:auto; padding:10px 12px 14px; background:#fff; white-space
       <div class="mc" id="newCard">
         <div class="cand" id="cand">
           <div class="top">
-            <span class="tag"><svg class="ic"><use href="#i-chk"/></svg>Match · Carrier Agrees</span>
+            <span class="tag"><svg class="ic"><use href="#i-chk"/></svg>Found Match</span>
             <span class="who"><span>Justin Eckart Diaz</span><i class="vb"></i><span>2016 Audi A3 Premium</span><i class="vb"></i><span>State Farm</span><i class="vb"></i><span>75-94W0-25C01</span></span>
-            <button type="button" class="use" id="use">Match</button>
+            <button type="button" class="use" id="use"><svg class="ic"><use href="#i-chk"/></svg>Match</button>
           </div>
           <div class="figs">
-            <span class="fig"><i>Estimate 1</i><b>$9,665.45</b></span>
-            <span class="fig"><i>Deductible</i><b>$500.00</b></span>
-            <span class="fig hit"><svg class="ic"><use href="#i-chk"/></svg><i>Estimate After Deductible</i><b>$9,165.45</b></span>
+            <span class="fig"><i>Est. 1</i><b>$9,665.45</b></span>
+            <span class="fig"><i>Ded.</i><b>$500.00</b></span>
+            <span class="fig hit"><i><svg class="ic"><use href="#i-chk"/></svg>Check</i><b>$9,165.45</b></span>
             <span class="fig zero"><i>Supp. 1</i><b>$0.00</b></span>
             <span class="fig zero"><i>Supp. 2</i><b>$0.00</b></span>
           </div>
         </div>
-        <div class="done" id="doneMsg" hidden><svg class="ic" width="16" height="16"><use href="#i-chk"/></svg>Matched to Justin Eckart Diaz, Estimate After Deductible.</div>
+        <div class="done" id="doneMsg" hidden><svg class="ic" width="16" height="16"><use href="#i-chk"/></svg>Matched to Justin Eckart Diaz, Check (Estimate 1 less the deductible).</div>
         <div class="srow" id="srow">
           <label class="sbox"><svg class="ic"><use href="#i-search"/></svg><input placeholder="Search jobs: name, claim number, car" autocomplete="off"></label>
           <button type="button" class="man">Enter Details Manually</button>
@@ -137,7 +153,7 @@ tr.panel > td{ height:auto; padding:10px 12px 14px; background:#fff; white-space
   </table></div>
 </div>
 
-<p class="note">What stays the same: the same job, the same five amounts and the same rule (the amount that equals the deposit is the one that lights up). What changes: the long "Found a match — carrier agrees" badge becomes a short green tag; the typewriter capitals become normal words; "Estimate ✓" says what it is, Estimate After Deductible; the Match button sits in the card's first line so it never scrolls off. Press Match in the demo to see it settle.</p>
+<p class="note">What stays the same: the same job, the same five amounts and the same rule (the amount that equals the deposit is the one that lights up). What changes: the long "Found a match — carrier agrees" badge becomes a short "Found Match" tag; the five amount pills are exactly the same size with short labels (Est. 1, Ded., Check, Supp. 1, Supp. 2), and the one that equals the deposit only gets a green ring and check; Check = Estimate 1 less the deductible; the Match button sits in the card's first line so it never scrolls off. Press Match in the demo to see it settle.</p>
 
 <script>
 document.getElementById("mode").addEventListener("click", function(e){ var b = e.target.closest("button"); if(!b) return;
@@ -149,6 +165,9 @@ document.getElementById("use").addEventListener("click", function(){
   var y = document.querySelector("tr.y"); y.classList.remove("y");
   y.cells[3].textContent = "75-94W0-25C01"; y.cells[4].textContent = "2016 Audi A3 Premium"; y.cells[5].textContent = "Justin Eckart Diaz";
 });
+document.getElementById("mb").addEventListener("click", function(e){ var b = e.target.closest("button"); if(!b) return;
+  this.querySelectorAll("button").forEach(function(x){ x.classList.toggle("on", x === b); });
+  var c = document.getElementById("newCard"); c.classList.remove("mb-b","mb-c"); if(b.dataset.v !== "a") c.classList.add("mb-" + b.dataset.v); });
 </script>
 </body>
 </html>
