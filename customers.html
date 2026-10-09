@@ -52,10 +52,12 @@ button:focus-visible, input:focus-visible{ outline:2px solid var(--orange); outl
 
 /* Customer Name with the Search pill inside the box, at the right. Nothing searches until it is pressed. */
 .nmw{ position:relative; }
-.nmw input{ padding-right:100px; }
-.sbtn{ position:absolute; right:6px; top:6px; height:32px; padding:0 14px; border:0; border-radius:16px; background:var(--ink); color:#fff; font:600 13px var(--words); cursor:pointer; display:inline-flex; align-items:center; gap:6px; }
-.sbtn svg{ width:14px; height:14px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; }
-.sbtn:disabled{ background:var(--line); color:var(--soft); cursor:default; }
+.nmw input{ padding-right:64px; }
+/* Search: icon only, same as the Decode pill in the job window (white pill sitting inside the gray box, right side) */
+.sbtn{ position:absolute; right:4px; top:4px; width:52px; height:36px; padding:0; border:0; border-radius:18px; background:#fff; color:var(--ink); cursor:pointer; display:grid; place-items:center; box-shadow:0 0 0 .5px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.14); }
+.sbtn svg{ width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; }
+.sbtn:hover:not(:disabled){ background:#F6F6F9; }
+.sbtn:disabled{ color:var(--soft); cursor:default; box-shadow:0 0 0 .5px rgba(0,0,0,.04); }
 .hint{ font:500 12px var(--words); color:var(--gray); padding-left:16px; }
 
 /* search results under the name box */
@@ -132,7 +134,7 @@ td .car{ font:500 13px var(--words); }
 <div class="wrap">
   <h1>Customers Module</h1>
   <p class="lead">One list of every customer, with phone, email, address and cars, kept in Settings. When you fill out a job you type the name the normal way; nothing looks anything up until you press Search. Demo data only, every name and number below is made up.</p>
-  <span class="ver">Version 3 · Oct 8, 9:00 PM · module only, not in the app</span>
+  <span class="ver">Version 4 · Oct 8, 9:00 PM · module only, not in the app</span>
 
   <div class="card">
     <h2>Where The List Lives</h2>
@@ -161,8 +163,8 @@ td .car{ font:500 13px var(--words); }
       </div>
 
       <div class="f"><label for="nm">Customer Name</label>
-        <div class="nmw"><input id="nm" autocomplete="off" placeholder="First and last name"><button type="button" class="sbtn" id="sbtn" disabled><svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14"/></svg>Search</button></div>
-        <span class="hint" id="hint">Type the first name and at least the first letter of the last name, then press Search.</span>
+        <div class="nmw"><input id="nm" autocomplete="off" placeholder="First and last name"><button type="button" class="sbtn" id="sbtn" disabled aria-label="Search customers" title="Search customers"><svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14"/></svg></button></div>
+        <span class="hint" id="hint">Type the first name and at least the first letter of the last name, then press the search button.</span>
       </div>
       <div id="nmhit"></div>
       <div class="row2">
