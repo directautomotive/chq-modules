@@ -60,6 +60,10 @@ tr.row.flash td{ animation:rowok 1.4s ease-out; }
 button.sp:hover{ filter:brightness(.97); }
 .sp.st{ width:98px; padding:0 10px; }
 .sp.st .cv{ margin-left:auto !important; }
+/* v10: only Match (yellow) and None (red) are pills. The settled ones are plain words on white: no ring, no fill. Matched keeps its check; Cash, Manual, Partial and Other are just the word in their color. */
+.sp.st.g, .sp.st.b, .sp.st.k, .sp.st.o{ background:none !important; box-shadow:none !important; }
+.sp.st.b svg, .sp.st.k svg, .sp.st.o svg{ display:none; }
+tr.row .sp.st.g, tr.row .sp.st.b, tr.row .sp.st.k, tr.row .sp.st.o{ padding-left:10px; }
 .sp .cv{ width:10px; height:10px; margin-left:1px; transition:transform .18s; }
 tr.open .sp .cv{ transform:rotate(180deg); }
 
@@ -121,7 +125,7 @@ button.fig:hover{ box-shadow:inset 0 0 0 1.5px #C9CAD0; }
 
 <div class="head">
   <h1>Deposit Match Card</h1>
-  <span class="ver">Version 9 · Oct 9, 1:55 PM · module only, not in the app</span>
+  <span class="ver">Version 10 · Oct 9, 2:20 PM · module only, not in the app</span>
   <p>Click it. A yellow row has a possible match: its whole row is yellow and its pill says <b>Match</b> in yellow. Click the row or the pill and the card drops down with the green <b>Found Match</b> job; the amount that equals the deposit is already picked (click another amount to pick that one), then press <b>Match</b>. A red row found nothing: click it to search the jobs or enter the details by hand. Click a green <b>Matched</b> pill to undo it.</p>
   <button type="button" class="reset" id="reset">Start Over</button>
 </div>
