@@ -31487,6 +31487,8 @@ html body.c5emDot:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsO
 /* date boxes and dropdowns keep their own icon; they show the amber words only */
 /* v7c — the folded lines were there but too faint on white; a shade darker */
 html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box + .v4box{ background:linear-gradient(#CFD2CC, #CFD2CC) 30px 0 / calc(100% - 60px) 1px no-repeat, var(--wf-win) !important; }
+/* v8 — the folded lines a shade darker still, so they read on a high-resolution screen */
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box + .v4box{ background:linear-gradient(#C3C6C0, #C3C6C0) 30px 0 / calc(100% - 60px) 1px no-repeat, var(--wf-win) !important; }
 
 </style>
 <style id="c5famBarCss">
@@ -31496,7 +31498,7 @@ html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOv
 #c5famBar i{ width:1px; background:#E2E4DF; margin:6px 6px; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Details Family v7 · app 5.252 · demo shop</span><button data-v="today">Today</button><button data-v="fam" class="on">Family</button><i></i><button data-e="c5emDot" class="on">Empties: Dot</button><button data-e="c5emNone">Words only</button></div>
+<div id="c5famBar"><span>Details Family v8 · app 5.252 · demo shop</span><button data-v="today">Today</button><button data-v="fam" class="on">Family</button><i></i><button data-e="c5emDot" class="on">Empties: Dot</button><button data-e="c5emNone">Words only</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
   document.body.classList.add("c5famd"); document.body.classList.add("c5emDot");
