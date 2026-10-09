@@ -137,6 +137,16 @@ tr.panel > td{ height:auto; padding:10px 12px 14px; background:#fff; white-space
 .figs{ gap:5px !important; }
 .cand .top{ min-height:28px !important; }
 .fig{ width:130px !important; } .fig.hit i, .fig.hit b{ font-weight:500 !important; }
+/* v7: every status is the same 28-pixel pill: tint, ring and words in its own color */
+.sp{ display:inline-flex; align-items:center; gap:5px; height:28px; padding:0 12px 0 10px; border-radius:14px; font:600 12.5px var(--words); white-space:nowrap; }
+.sp svg{ width:12px; height:12px; stroke-width:2.8; }
+.sp.g{ background:var(--gtint); color:var(--green); box-shadow:inset 0 0 0 1.5px var(--green); }
+.sp.r{ background:#FBEAE8; color:var(--red); box-shadow:inset 0 0 0 1.5px var(--red); }
+.sp.y{ background:#FFF1D6; color:#8A5A00; box-shadow:inset 0 0 0 1.5px #B07A00; }
+.sp.k{ background:#EDEDF2; color:#3A3F47; box-shadow:inset 0 0 0 1.5px #8A8F98; }
+.sp.c{ background:#EAF0FB; color:#2E5AAC; box-shadow:inset 0 0 0 1.5px #2E5AAC; }
+.sp.y svg path[fill]{ fill:#8A5A00; }
+.sheet .col2{ display:flex; flex-wrap:wrap; gap:6px; }
 .c5back{ position:fixed; z-index:50; top:calc(env(safe-area-inset-top, 0px) + 10px); left:16px; display:inline-flex; align-items:center; gap:4px; height:40px; padding:0 14px 0 10px; border-radius:20px; text-decoration:none; color:#16181D; font:600 15px Inter, -apple-system, sans-serif; background:rgba(255,255,255,.6); -webkit-backdrop-filter:blur(2px) saturate(170%); backdrop-filter:blur(2px) saturate(170%); box-shadow:inset 0 1px 1px rgba(255,255,255,.95), inset 0 -1px 1px rgba(0,0,0,.12), 0 6px 18px rgba(0,0,0,.14); }
 .c5back svg{ width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
 .head{ padding-top:calc(env(safe-area-inset-top, 0px) + 64px) !important; }
@@ -146,12 +156,16 @@ tr.panel > td{ height:auto; padding:10px 12px 14px; background:#fff; white-space
 <a class="c5back" href="./"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>Modules</a>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-chk" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17"/></symbol>
+  <symbol id="i-half" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5"/><path d="M12 4.5v15" /><path d="M12 4.5a7.5 7.5 0 0 1 0 15z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-pen" viewBox="0 0 24 24"><path d="M5 19l1-4L15.5 5.5a2.1 2.1 0 0 1 3 3L9 18z"/></symbol>
+  <symbol id="i-cash" viewBox="0 0 24 24"><rect x="3.5" y="7" width="17" height="10" rx="2"/><circle cx="12" cy="12" r="2.3"/></symbol>
   <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/></symbol>
 </svg>
 
 <div class="head">
   <h1>Deposit Match Card</h1>
-  <span class="ver">Version 6 · Oct 9, 1:38 PM · module only, not in the app</span>
+  <span class="ver">Version 7 · Oct 9, 1:45 PM · module only, not in the app</span>
   <p>The card that opens under a yellow deposit in Deposits. Same information, family look: one gray pill per job that matches, one font, amounts as small same-size pills with the one that equals the deposit in green, the green Match button always on screen (no sideways scroll), then Search Jobs and Enter Details Manually as family pills.</p>
   <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><div class="seg" id="mode"><button class="on" data-v="new">New</button><button data-v="old">Today</button></div></div>
 </div>
@@ -161,7 +175,7 @@ tr.panel > td{ height:auto; padding:10px 12px 14px; background:#fff; white-space
   <div class="tw"><table>
     <colgroup><col style="width:86px"><col style="width:140px"><col style="width:130px"><col class="hide-s" style="width:150px"><col class="hide-s"><col class="hide-s" style="width:150px"><col style="width:120px"><col style="width:118px"></colgroup>
     <tr><th>Date</th><th>Type</th><th>Insurance</th><th class="hide-s">Claim #</th><th class="hide-s">Vehicle</th><th class="hide-s">Customer</th><th class="r">Amount</th><th>Status</th></tr>
-    <tr><td class="d">Jan 21</td><td>Online Check</td><td>AAA</td><td class="hide-s">017565162-I-1607</td><td class="hide-s">2024 Honda Civic</td><td class="hide-s">Oswaldo</td><td class="m r">$2,303.04</td><td><span class="st g">Matched</span></td></tr>
+    <tr><td class="d">Jan 21</td><td>Online Check</td><td>AAA</td><td class="hide-s">017565162-I-1607</td><td class="hide-s">2024 Honda Civic</td><td class="hide-s">Oswaldo</td><td class="m r">$2,303.04</td><td><span class="sp g"><svg class="ic"><use href="#i-chk"/></svg>Matched</span></td></tr>
     <tr class="y"><td class="d">Jan 20</td><td>Bank Transfer</td><td>State Farm</td><td class="hide-s"></td><td class="hide-s"></td><td class="hide-s"></td><td class="m r">$9,165.45</td><td><span class="mpill" id="stp"><svg class="ic"><use href="#i-chk"/></svg>1 Match</span></td></tr>
     <tr class="panel"><td colspan="8">
       <div class="mc" id="newCard">
@@ -191,14 +205,17 @@ tr.panel > td{ height:auto; padding:10px 12px 14px; background:#fff; white-space
         <input class="os" placeholder="Search jobs"><button class="om">Enter Details Manually</button>
       </div>
     </td></tr>
-    <tr><td class="d">Jan 20</td><td>Online Check</td><td>Knightbrook In…</td><td class="hide-s">ON-25-004579</td><td class="hide-s">2015 Ram 1500</td><td class="hide-s"></td><td class="m r">$428.23</td><td><span class="st g">Matched</span></td></tr>
-    <tr class="u"><td class="d">Jan 20</td><td>Online Check</td><td></td><td class="hide-s"></td><td class="hide-s"></td><td class="hide-s"></td><td class="m r">$5,451.86</td><td><span class="st r">Un-Matched</span></td></tr>
+    <tr><td class="d">Jan 20</td><td>Online Check</td><td>Knightbrook In…</td><td class="hide-s">ON-25-004579</td><td class="hide-s">2015 Ram 1500</td><td class="hide-s"></td><td class="m r">$428.23</td><td><span class="sp g"><svg class="ic"><use href="#i-chk"/></svg>Matched</span></td></tr>
+    <tr><td class="d">Jan 20</td><td>Online Check</td><td></td><td class="hide-s"></td><td class="hide-s"></td><td class="hide-s"></td><td class="m r">$5,451.86</td><td><span class="sp r"><svg class="ic"><use href="#i-x"/></svg>None</span></td></tr>
+    <tr><td class="d">Jan 15</td><td>Online Check</td><td>Mapfre</td><td class="hide-s">64010425001422</td><td class="hide-s">2026 Daisy Pineda</td><td class="hide-s">Daisy Pineda</td><td class="m r">$4,719.62</td><td><span class="sp y"><svg class="ic"><use href="#i-half"/></svg>Partial</span></td></tr>
+    <tr><td class="d">Jan 26</td><td>Online Check</td><td>GEICO</td><td class="hide-s">65009688</td><td class="hide-s">2026 Toyota Camry</td><td class="hide-s">Pablo Rodas</td><td class="m r">$5,418.12</td><td><span class="sp k"><svg class="ic"><use href="#i-pen"/></svg>Manual</span></td></tr>
+    <tr><td class="d">Jan 15</td><td>Online Check</td><td>Willy</td><td class="hide-s"></td><td class="hide-s"></td><td class="hide-s"></td><td class="m r">$20,000.00</td><td><span class="sp c"><svg class="ic"><use href="#i-cash"/></svg>Cash</span></td></tr>
   </table></div>
 </div>
 <aside class="sheet">
   <h3>All The Pills</h3>
   <p class="sh">Each one as it sits in Deposits, so they can be made the same.</p>
-  <div class="it"><span class="lb">1 · Status (in the row)</span><span class="mpill"><svg class="ic"><use href="#i-chk"/></svg>1 Match</span><span class="sz">28 tall · light green · green ring · green check and words</span></div>
+  <div class="it"><span class="lb">1 · Status (in the row)</span><span class="col2"><span class="mpill"><svg class="ic"><use href="#i-chk"/></svg>1 Match</span><span class="sp g"><svg class="ic"><use href="#i-chk"/></svg>Matched</span><span class="sp y"><svg class="ic"><use href="#i-half"/></svg>Partial</span><span class="sp r"><svg class="ic"><use href="#i-x"/></svg>None</span><span class="sp k"><svg class="ic"><use href="#i-pen"/></svg>Manual</span><span class="sp c"><svg class="ic"><use href="#i-cash"/></svg>Cash</span></span><span class="sz">28 tall each · light tint · ring and words in its color. Un-Matched is now None, in red, the same size as the rest.</span></div>
   <div class="it"><span class="lb">2 · Match (the button)</span><span class="mb-b-demo"><button type="button" class="use"><svg class="ic"><use href="#i-chk"/></svg>Match</button></span><span class="sz">28 tall · light green · green ring · green check and words</span></div>
   <div class="it"><span class="lb">3 · Found Match (the tag)</span><span class="tag"><svg class="ic"><use href="#i-chk"/></svg>Found Match</span><span class="sz">28 tall · light green · green ring · green check and words</span></div>
   <div class="it"><span class="lb">4 · The amounts</span>
@@ -220,7 +237,7 @@ document.getElementById("mode").addEventListener("click", function(e){ var b = e
   var old = b.dataset.v === "old"; document.getElementById("newCard").hidden = old; document.getElementById("oldCard").hidden = !old; });
 document.getElementById("use").addEventListener("click", function(){
   document.getElementById("cand").hidden = true; document.getElementById("srow").hidden = true; document.getElementById("doneMsg").hidden = false;
-  var s = document.getElementById("stp"); s.outerHTML = '<span class="st g">Matched</span>';
+  var s = document.getElementById("stp"); s.outerHTML = '<span class="sp g"><svg class="ic"><use href="#i-chk"/></svg>Matched</span>';
   var y = document.querySelector("tr.y"); y.classList.remove("y");
   y.cells[3].textContent = "75-94W0-25C01"; y.cells[4].textContent = "2016 Audi A3 Premium"; y.cells[5].textContent = "Justin Eckart Diaz";
 });
