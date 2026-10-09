@@ -9,7 +9,7 @@
 <link rel="apple-touch-icon" href="icon.png">
 <title>Customers Module</title>
 <style>
-/* Layout: CHQ family (light app, Inter words, Courier New bold numbers, orange only on Save). Segmented tabs on top; Details window left, Past Jobs and the board slice right; stacks to one column on a phone. */
+/* Layout: CHQ family (light app, Inter words, Courier New bold numbers, orange only on Save). Segmented tabs on top; job window left, Past Jobs and the board slice right; stacks to one column on a phone. */
 :root{ color-scheme:light;
   --page:#F2F2F7; --card:#FFFFFF; --ink:#16181D; --gray:#6C6C73; --soft:#A2A4AB; --line:#ECECF0; --field:#F6F6F9; --head:#16181D; --headink:#FFFFFF; --stripe:#F7F7F5;
   --orange:#E8792B; --orangesoft:#FDF0E5; --green:#1E7B34; --greensoft:#E9F5EC; --red:#C0392B; --redsoft:#FBEAE8; --blue:#2E5AAC; --bluesoft:#EAF0FB; --segbg:#EDEDF2; --segon:#FFFFFF;
@@ -131,28 +131,28 @@ td .car{ font:500 13px var(--words); }
 <a class="c5back" href="./"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>Modules</a>
 <div class="wrap">
   <h1>Customers Module</h1>
-  <p class="lead">One list of every customer, with phone, email, address and cars. In a job's Details you type the name the normal way; nothing looks anything up until you press Search. Demo data only, every name and number below is made up.</p>
-  <span class="ver">Version 2 · Oct 8, 9:05 PM · module only, not in the app</span>
+  <p class="lead">One list of every customer, with phone, email, address and cars, kept in Settings. When you fill out a job you type the name the normal way; nothing looks anything up until you press Search. Demo data only, every name and number below is made up.</p>
+  <span class="ver">Version 3 · Oct 8, 9:00 PM · module only, not in the app</span>
 
   <div class="card">
     <h2>Where The List Lives</h2>
     <div class="where">
-      <div><b>A Customers tab in CollisionHQ</b>Next to the board. Search it, open a customer, see their phone, address, cars and every past job.</div>
+      <div><b>Settings › Customers</b>In CollisionHQ Settings, next to the other lists. Search it, see each customer's phone, email, address, cars and how many jobs.</div>
       <div><b>Built from the jobs you already have</b>Every job on the board already carries a name, phone and address. The list is made from those once, then each saved job adds to it. Nothing to type twice.</div>
       <div><b>Saved with the jobs</b>Same online storage as the board, so the same list is on every computer and phone the shop signs into.</div>
     </div>
   </div>
 
   <div class="seg" id="tabs" role="tablist">
-    <button type="button" class="on" data-t="add" role="tab">Details</button>
-    <button type="button" data-t="cust" role="tab">Customers</button>
+    <button type="button" class="on" data-t="add" role="tab">Filling Out A Job</button>
+    <button type="button" data-t="cust" role="tab">Settings › Customers</button>
     <button type="button" data-t="rev" role="tab">Review List <span class="n" id="revn"></span></button>
   </div>
 
   <!-- DETAILS -->
   <section id="p-add" class="grid">
     <div class="card">
-      <div class="top"><h2>Details</h2><span class="n" style="color:var(--gray)" id="nextno"></span></div>
+      <div class="top"><h2>Job Window</h2><span class="n" style="color:var(--gray)" id="nextno"></span></div>
       <div class="try"><span>Try:</span>
         <button type="button" class="chip" data-try="taya">Taya J</button>
         <button type="button" class="chip" data-try="maria">Maria G (2 of them)</button>
@@ -223,7 +223,6 @@ var CUST = [
     jobs:[[154,"2025-11-14","National General","Front bumper",2290.10,1]] }
 ];
 var REVIEW = [
-  { a:"Taya Jones · (323) 555-0144 · Job 212", b:"Taya M. Jones · (323) 555-0144 · Job 278", why:"Same phone number, name spelled 2 ways.", ans:"" },
   { a:"Marco Ruiz · (562) 555-0199 · Job 198", b:"Marcos Ruiz · (562) 555-0199 · Job 120", why:"Same phone number, one letter different in the name.", ans:"" }
 ];
 var NEXT = 282, picked = null;
@@ -275,11 +274,11 @@ $("nmhit").addEventListener("click", function(e){
 /* picking fills name, phone, email and address; the car on this job stays what you typed */
 function usePick(c){
   picked = c; nm.value = c.name; $("ph").value = c.phone; $("em").value = c.email; $("ad").value = c.addr;
-  $("nmhit").innerHTML = '<div class="hit p"><span><b>' + esc(c.name) + '</b> filled in: phone, email and address.' + (isRepeat(c) ? ' Source set to <b>Repeat Customer</b>.' : '') + '</span><span class="acts"><button type="button" class="lnk" data-undo="1">Not this person, clear it</button></span></div>';
+  $("nmhit").innerHTML = '<div class="hit p"><span><b>' + esc(c.name) + '</b> filled in: phone, email and address.' + '</span><span class="acts"><button type="button" class="lnk" data-undo="1">Not this person, clear it</button></span></div>';
   setSrc(); drawPast(); ready();
 }
 $("ph").addEventListener("input", function(){ var d = digits(this.value).slice(0, 10); if(d.length === 10) this.value = "(" + d.slice(0,3) + ") " + d.slice(3,6) + "-" + d.slice(6); });
-function setSrc(){ var s = $("src"); if(picked && isRepeat(picked)){ s.className = "pill rep"; s.innerHTML = REP.replace('class="si rep"', 'class="si rep" style="margin:0"') + "Repeat Customer"; } else { s.className = "pill"; s.textContent = "Facebook"; } }
+function setSrc(){}   /* Source is left alone; no Repeat Customer marking */
 
 function drawPast(){
   var c = picked, pj = $("pj"), sm = $("pjsum"), f = $("pjfor");
@@ -317,7 +316,7 @@ function drawCust(){
   var list = CUST.filter(function(c){ if(!q) return true; return c.name.toLowerCase().indexOf(q) > -1 || (qd.length > 2 && digits(c.phone).indexOf(qd) > -1) || c.addr.toLowerCase().indexOf(q) > -1 || c.cars.some(function(k){ return k[1].toLowerCase().indexOf(q) > -1; }); })
     .sort(function(a, b){ return a.name.localeCompare(b.name); });
   $("ct").innerHTML = '<tr><th>Customer</th><th>Phone</th><th>Email</th><th>Address</th><th>Cars</th><th>Jobs</th></tr>' + (list.map(function(c){
-    return '<tr><td><b>' + esc(c.name) + '</b>' + (isRepeat(c) && c.jobs.length > 1 ? REP : "") + '</td><td class="n">' + (c.phone || "–") + '</td><td>' + esc(c.email || "–") + '</td><td>' + esc(c.addr || "–") + '</td><td><span class="car">' + c.cars.map(function(k){ return esc(k[1]); }).join(", ") + '</span></td><td class="n">' + c.jobs.length + '</td></tr>';
+    return '<tr><td><b>' + esc(c.name) + '</b>' + '</td><td class="n">' + (c.phone || "–") + '</td><td>' + esc(c.email || "–") + '</td><td>' + esc(c.addr || "–") + '</td><td><span class="car">' + c.cars.map(function(k){ return esc(k[1]); }).join(", ") + '</span></td><td class="n">' + c.jobs.length + '</td></tr>';
   }).join("") || '<tr><td colspan="6" class="empty">No customer matches that search.</td></tr>');
 }
 $("cs").addEventListener("input", drawCust);
