@@ -126,6 +126,17 @@ tr.panel > td{ height:auto; padding:10px 12px 14px; background:#fff; white-space
 .use{ height:32px !important; padding:0 14px 0 12px !important; border-radius:16px !important; background:var(--gtint) !important; color:var(--green) !important; box-shadow:inset 0 0 0 1.5px var(--green) !important; font:600 13px var(--words) !important; gap:5px !important; }
 .use:hover{ background:#D8EEDD !important; }
 .use svg{ width:13px !important; height:13px !important; stroke-width:2.8; }
+/* v6: every green pill is the Match pill (light green, green ring, green check); everything a bit smaller: 28 tall */
+.mpill, .tag, .use, .fig.hit{ background:var(--gtint) !important; color:var(--green) !important; box-shadow:inset 0 0 0 1.5px var(--green) !important; }
+.mpill, .tag, .use{ height:28px !important; padding:0 12px 0 10px !important; border-radius:14px !important; font:600 12.5px var(--words) !important; gap:5px !important; }
+.mpill svg, .tag svg, .use svg, .fig svg{ width:12px !important; height:12px !important; }
+.fig{ width:124px !important; height:28px !important; padding:0 10px !important; border-radius:14px !important; gap:5px !important; }
+.fig i{ font-size:11.5px !important; }
+.fig b{ font-size:12.5px !important; }
+.fig.hit i, .fig.hit b{ color:var(--green) !important; }
+.figs{ gap:5px !important; }
+.cand .top{ min-height:28px !important; }
+.fig{ width:130px !important; } .fig.hit i, .fig.hit b{ font-weight:500 !important; }
 .c5back{ position:fixed; z-index:50; top:calc(env(safe-area-inset-top, 0px) + 10px); left:16px; display:inline-flex; align-items:center; gap:4px; height:40px; padding:0 14px 0 10px; border-radius:20px; text-decoration:none; color:#16181D; font:600 15px Inter, -apple-system, sans-serif; background:rgba(255,255,255,.6); -webkit-backdrop-filter:blur(2px) saturate(170%); backdrop-filter:blur(2px) saturate(170%); box-shadow:inset 0 1px 1px rgba(255,255,255,.95), inset 0 -1px 1px rgba(0,0,0,.12), 0 6px 18px rgba(0,0,0,.14); }
 .c5back svg{ width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
 .head{ padding-top:calc(env(safe-area-inset-top, 0px) + 64px) !important; }
@@ -140,8 +151,8 @@ tr.panel > td{ height:auto; padding:10px 12px 14px; background:#fff; white-space
 
 <div class="head">
   <h1>Deposit Match Card</h1>
-  <span class="ver">Version 5 · Oct 9, 1:40 PM · module only, not in the app</span>
-  <p>The card that opens under a yellow deposit in Deposits. Same information, family look: one gray pill per job that matches, one font, amounts as 40-pixel pills with the one that equals the deposit in green, the green Match button always on screen (no sideways scroll), then Search Jobs and Enter Details Manually as family pills.</p>
+  <span class="ver">Version 6 · Oct 9, 1:38 PM · module only, not in the app</span>
+  <p>The card that opens under a yellow deposit in Deposits. Same information, family look: one gray pill per job that matches, one font, amounts as small same-size pills with the one that equals the deposit in green, the green Match button always on screen (no sideways scroll), then Search Jobs and Enter Details Manually as family pills.</p>
   <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><div class="seg" id="mode"><button class="on" data-v="new">New</button><button data-v="old">Today</button></div></div>
 </div>
 
@@ -187,9 +198,9 @@ tr.panel > td{ height:auto; padding:10px 12px 14px; background:#fff; white-space
 <aside class="sheet">
   <h3>All The Pills</h3>
   <p class="sh">Each one as it sits in Deposits, so they can be made the same.</p>
-  <div class="it"><span class="lb">1 · Status (in the row)</span><span class="mpill"><svg class="ic"><use href="#i-chk"/></svg>1 Match</span><span class="sz">32 tall · light green · green check and words</span></div>
-  <div class="it"><span class="lb">2 · Match (the button)</span><span class="mb-b-demo"><button type="button" class="use"><svg class="ic"><use href="#i-chk"/></svg>Match</button></span><span class="sz">32 tall · light green with a green ring (B, filled)</span></div>
-  <div class="it"><span class="lb">3 · Found Match (the tag)</span><span class="tag"><svg class="ic"><use href="#i-chk"/></svg>Found Match</span><span class="sz">32 tall · light green · green check and words</span></div>
+  <div class="it"><span class="lb">1 · Status (in the row)</span><span class="mpill"><svg class="ic"><use href="#i-chk"/></svg>1 Match</span><span class="sz">28 tall · light green · green ring · green check and words</span></div>
+  <div class="it"><span class="lb">2 · Match (the button)</span><span class="mb-b-demo"><button type="button" class="use"><svg class="ic"><use href="#i-chk"/></svg>Match</button></span><span class="sz">28 tall · light green · green ring · green check and words</span></div>
+  <div class="it"><span class="lb">3 · Found Match (the tag)</span><span class="tag"><svg class="ic"><use href="#i-chk"/></svg>Found Match</span><span class="sz">28 tall · light green · green ring · green check and words</span></div>
   <div class="it"><span class="lb">4 · The amounts</span>
     <span class="col">
       <span class="fig"><i>Est. 1</i><b>$9,665.45</b></span>
@@ -197,7 +208,7 @@ tr.panel > td{ height:auto; padding:10px 12px 14px; background:#fff; white-space
       <span class="fig hit"><i><svg class="ic"><use href="#i-chk"/></svg>Check</i><b>$9,165.45</b></span>
       <span class="fig zero"><i>Supp. 1</i><b>$0.00</b></span>
       <span class="fig zero"><i>Supp. 2</i><b>$0.00</b></span>
-    </span><span class="sz">32 tall · 136 wide each · white; the one that equals the deposit is the same light green with a check</span></div>
+    </span><span class="sz">28 tall · 130 wide each · white; the one that equals the deposit is the same green pill as the three above</span></div>
 </aside>
 </div>
 
