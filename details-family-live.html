@@ -31504,6 +31504,10 @@ html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOv
 /* v12b — an open section keeps the line above it too (its header was painting white over the line) */
 html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bh{ background:transparent !important; }
 html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bh:hover{ background:var(--wf-fill) !important; }
+/* v13 — try: the lines stay at all times; the hover pill sits on top of its own row and never hides the line below */
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box.v4closed:hover + .v4box{ background:linear-gradient(#C3C6C0, #C3C6C0) 30px 0 / calc(100% - 60px) 1px no-repeat, var(--wf-win) !important; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box{ position:relative; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ position:relative; z-index:1; }
 
 </style>
 <style id="c5famBarCss">
@@ -31513,7 +31517,7 @@ html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOv
 #c5famBar i{ width:1px; background:#E2E4DF; margin:6px 6px; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Details Family v12 · app 5.252 · demo shop</span><button data-v="today">Today</button><button data-v="fam" class="on">Family</button></div>
+<div id="c5famBar"><span>Details Family v13 · app 5.252 · demo shop</span><button data-v="today">Today</button><button data-v="fam" class="on">Family</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
   document.body.classList.add("c5famd"); document.body.classList.add("c5emYellow");
