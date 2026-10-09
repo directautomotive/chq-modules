@@ -100,6 +100,16 @@ tr.panel > td{ height:auto; padding:10px 12px 14px; background:#fff; white-space
 .fig b{ margin-left:auto; }
 .mpill{ height:40px !important; padding:0 14px 0 12px !important; border-radius:20px !important; background:#fff !important; box-shadow:inset 0 0 0 1.5px var(--green); color:var(--green) !important; font:400 14px var(--words) !important; display:inline-flex; align-items:center; gap:5px; }
 .mpill svg{ width:13px; height:13px; stroke-width:2.8; }
+/* v4: one green pill everywhere it means "this one": light green fill, green check, green words.
+   Found Match, the Status "1 Match" and the amount that equals the deposit are the same pill. Amount pills smaller and tighter. */
+.tag, .mpill, .fig.hit{ background:var(--gtint) !important; color:var(--green) !important; box-shadow:none !important; }
+.tag, .mpill{ height:32px !important; padding:0 12px 0 10px !important; border-radius:16px !important; font:600 13px var(--words) !important; gap:5px !important; display:inline-flex; align-items:center; }
+.tag svg, .mpill svg, .fig.hit svg{ width:13px !important; height:13px !important; stroke-width:2.8; }
+.fig{ width:136px !important; height:32px !important; padding:0 11px !important; border-radius:16px !important; gap:6px !important; font-size:13px !important; }
+.fig i{ font-size:12px !important; }
+.fig b{ font-size:13px; }
+.fig.hit i, .fig.hit b{ color:var(--green) !important; font-weight:600; }
+.figs{ gap:6px !important; }
 .c5back{ position:fixed; z-index:50; top:calc(env(safe-area-inset-top, 0px) + 10px); left:16px; display:inline-flex; align-items:center; gap:4px; height:40px; padding:0 14px 0 10px; border-radius:20px; text-decoration:none; color:#16181D; font:600 15px Inter, -apple-system, sans-serif; background:rgba(255,255,255,.6); -webkit-backdrop-filter:blur(2px) saturate(170%); backdrop-filter:blur(2px) saturate(170%); box-shadow:inset 0 1px 1px rgba(255,255,255,.95), inset 0 -1px 1px rgba(0,0,0,.12), 0 6px 18px rgba(0,0,0,.14); }
 .c5back svg{ width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
 .head{ padding-top:calc(env(safe-area-inset-top, 0px) + 64px) !important; }
@@ -114,7 +124,7 @@ tr.panel > td{ height:auto; padding:10px 12px 14px; background:#fff; white-space
 
 <div class="head">
   <h1>Deposit Match Card</h1>
-  <span class="ver">Version 3 · Oct 9, 1:30 PM · module only, not in the app</span>
+  <span class="ver">Version 4 · Oct 9, 1:35 PM · module only, not in the app</span>
   <p>The card that opens under a yellow deposit in Deposits. Same information, family look: one gray pill per job that matches, one font, amounts as 40-pixel pills with the one that equals the deposit in green, the green Match button always on screen (no sideways scroll), then Search Jobs and Enter Details Manually as family pills.</p>
   <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><div class="seg" id="mode"><button class="on" data-v="new">New</button><button data-v="old">Today</button></div><span style="font:600 13px var(--words);color:var(--gray);margin-top:6px">Match button</span><div class="seg" id="mb"><button class="on" data-v="a">A</button><button data-v="b">B</button><button data-v="c">C</button></div></div>
 </div>
