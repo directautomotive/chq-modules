@@ -145,6 +145,12 @@ button:focus-visible, input:focus-visible{ outline:2px solid var(--orange); outl
 .dd .one .vb{ height:14px !important; }
 /* v8: one weight, one color for the whole row */
 .dd .one, .dd .one b, .dd .one .ad, .dd button.pk.new .one{ font-weight:400 !important; color:var(--ink) !important; }
+/* v10: one font for number boxes (only the VIN keeps the typewriter font); the phone extension lives in a small pill inside the box */
+.rf input.nr{ font:400 14px var(--words); letter-spacing:0; }
+.inl.ph input{ padding-right:130px; }
+.ext{ position:absolute; right:4px; top:4px; height:32px; padding:0 12px; border-radius:16px; background:#fff; box-shadow:0 1px 2px rgba(0,0,0,.06); font:400 13px var(--words); color:var(--gray); display:inline-flex; align-items:center; gap:5px; }
+.ext b{ font-weight:400; color:var(--ink); }
+.ext[hidden]{ display:none; }
 .c5back{ position:fixed; z-index:50; top:calc(env(safe-area-inset-top, 0px) + 10px); left:16px; display:inline-flex; align-items:center; gap:4px; height:40px; padding:0 14px 0 10px; border-radius:20px; text-decoration:none; color:#16181D; font:600 15px Inter, -apple-system, sans-serif; background:rgba(255,255,255,.6); -webkit-backdrop-filter:blur(2px) saturate(170%); backdrop-filter:blur(2px) saturate(170%); box-shadow:inset 0 1px 1px rgba(255,255,255,.95), inset 0 -1px 1px rgba(0,0,0,.12), 0 6px 18px rgba(0,0,0,.14); }
 .c5back svg{ width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
 .head{ padding-top:calc(env(safe-area-inset-top, 0px) + 64px) !important; }
@@ -165,8 +171,8 @@ button:focus-visible, input:focus-visible{ outline:2px solid var(--orange); outl
 
 <div class="head">
   <h1>Customer Search In Details</h1>
-  <span class="ver">Version 9 · Oct 9, 12:34 PM · module only, not in the app</span>
-  <p>Two changes to look at. <b>1.</b> The card under Customer Name: every row is the same 40-pixel pill as the box you type in, one line each: name bold, then phone, car and address. The last row is just <b>New Customer</b>. <b>2.</b> Claim Number: the long warning under the box becomes a small amber <b>Format?</b> pill inside the box; tap it for the details and <b>That&#39;s Correct</b>.</p>
+  <span class="ver">Version 10 · Oct 9, 12:45 PM · module only, not in the app</span>
+  <p>Changes to look at. <b>1.</b> The card under Customer Name: 40-pixel pill rows, one line each, New Customer at the bottom. <b>2.</b> Claim Number: a small amber <b>(!) Format</b> pill inside the box. <b>3.</b> Adjuster Phone: the extension sits in a small <b>Ext</b> pill inside the box (type x, ext or # after the number and it moves there; Backspace at the end puts it back). <b>4.</b> Claim Number, Adjuster Phone and CCC Workfile all use the regular font now; only the VIN keeps the typewriter font.</p>
   <div class="try"><span>Try:</span>
     <button type="button" class="chip" data-t="Tea Jo">Tea Jo</button>
     <button type="button" class="chip" data-t="Maria G">Maria G (2 of them)</button>
@@ -202,11 +208,11 @@ button:focus-visible, input:focus-visible{ outline:2px solid var(--orange); outl
         <div class="rf"><label>Board Month</label><div class="sel"><span>October 2026</span><svg class="ic"><use href="#i-dn"/></svg></div></div>
         <i class="sep"></i>
         <div class="rf"><label>Insurance</label><div class="sel"><span>Allstate</span><svg class="ic"><use href="#i-dn"/></svg></div></div>
-        <div class="rf"><label>Claim Number</label><div class="inl cl"><input class="n" id="clm" value="NA-NA"><button type="button" class="clw" id="clw"><i>!</i>Format</button><div class="clpop" id="clpop" hidden><span><b>Allstate</b> claim numbers here have always looked like <span class="n2">000787364280B02</span>. This one doesn&#39;t match the shape seen across <b>10</b> of their jobs.</span><div class="acts"><button type="button" id="clfix">Fix It</button><button type="button" class="go" id="clok">That&#39;s Correct</button></div></div></div></div>
+        <div class="rf"><label>Claim Number</label><div class="inl cl"><input class="nr" id="clm" value="NA-NA"><button type="button" class="clw" id="clw"><i>!</i>Format</button><div class="clpop" id="clpop" hidden><span><b>Allstate</b> claim numbers here have always looked like <span class="n2">000787364280B02</span>. This one doesn&#39;t match the shape seen across <b>10</b> of their jobs.</span><div class="acts"><button type="button" id="clfix">Fix It</button><button type="button" class="go" id="clok">That&#39;s Correct</button></div></div></div></div>
         <div class="rf"><label>Adjuster</label><input class="empty" placeholder="Name"></div>
-        <div class="rf"><label>Adjuster Phone</label><input class="empty" placeholder="(000) 000-0000"></div>
+        <div class="rf"><label>Adjuster Phone</label><div class="inl ph"><input id="aph" value="(800) 353-6737" placeholder="(000) 000-0000" autocomplete="off"><span class="ext" id="ext">Ext <b id="extn">1352190</b></span></div></div>
         <div class="rf"><label>Estimate Date</label><div class="sel"><span>Oct 09</span><svg class="ic"><use href="#i-cal"/></svg></div></div>
-        <div class="rf"><label>CCC Workfile</label><input class="n empty" placeholder="e.g. a22c814b"></div>
+        <div class="rf"><label>CCC Workfile</label><input class="nr" value="9db4066e" placeholder="e.g. a22c814b"></div>
         <div class="rf"><label>Created</label><input value="Oct 09, 2026 at 9:10 AM" style="color:#8A8F98" readonly></div>
         <div class="rf"><label>&nbsp;</label><button type="button" class="add">+ Create Custom Field</button></div>
       </div>
@@ -278,6 +284,16 @@ $("clok").addEventListener("click", function(){ $("clpop").hidden = true; var w 
 $("clfix").addEventListener("click", function(){ $("clpop").hidden = true; $("clm").focus(); $("clm").select(); });
 document.addEventListener("click", function(e){ if(!e.target.closest(".inl.cl")) $("clpop").hidden = true; });
 $("clm").addEventListener("input", function(){ var ok = /^\d{12}[A-Z]\d{2}$/i.test($("clm").value.trim()); $("clw").hidden = ok; if(ok) $("clpop").hidden = true; });
+
+/* phone: typing x, ext or # splits the extension into the pill */
+(function(){ var ph = $("aph"), ex = $("ext"), en = $("extn"), splitNow = false; ph.addEventListener("blur", function(){ splitNow = false; });
+  function fmt(d){ return d.length === 10 ? "(" + d.slice(0,3) + ") " + d.slice(3,6) + "-" + d.slice(6) : d; }
+  ph.addEventListener("input", function(){ var dd = ph.value.replace(/\D/g, "");
+    if(!ex.hidden && splitNow && dd.length > 10){ en.textContent += dd.slice(10); ph.value = fmt(dd.slice(0,10)); return; }   /* digits typed right after the split keep going into Ext */
+    splitNow = false; var m = /^(.*?)(?:\s*(?:x|ext\.?|#|\u00d7)\s*)(\d+)\s*$/i.exec(ph.value);
+    if(m){ var d = m[1].replace(/\D/g, ""); if(d.length === 10){ ph.value = fmt(d); en.textContent = m[2]; ex.hidden = false; splitNow = true; } } });
+  ph.addEventListener("keydown", function(e){ if(e.key === "Backspace" && ph.selectionStart === ph.value.length && !ex.hidden && ph.value.replace(/\D/g, "").length === 10){ e.preventDefault(); ph.value = ph.value + " x" + en.textContent; ex.hidden = true; } });
+})();
 </script>
 </body>
 </html>
