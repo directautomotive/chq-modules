@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <script>try{var u=+sessionStorage.getItem("chq_upd");if(u&&Date.now()-u<20000)document.documentElement.classList.add("chq5-upd");}catch(e){}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
-<title>Details Family Live</title>
+<title>Details Family Live — CollisionHQ</title>
 <meta name="theme-color" content="#F3F4F1">
 <script>
 /* v4.151: on a phone, set the status strip colour right away from the saved Appearance choice (or the phone's own setting) */
@@ -31425,26 +31425,45 @@ document.addEventListener("focusout", function(e){ try{ var t = e.target; if(t &
 })();
 </script>
 <style id="c5famCss">
-/* ---------- Details in the family (v1) ---------- */
+/* ---------- Details Family (live) ---------- */
 :root{ --wf-win:#FFFFFF; --wf-fill:#F2F2F7; --wf-fill2:#E5E5EA; --wf-line:#E2E4DF; --wf-navy:#16181D; --wf-alt:#F7F7F5; --wf-ink:#16181D; --wf-soft:#6C6C73; --wf-green:#1E7B34; --wf-greenbg:#E7F4EA; }
-/* window: unchanged — 980 wide, 36 corners, same title row, same X, same footer */
-html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .modal-body{ background:var(--wf-win) !important; padding:4px 20px 20px !important; }
-/* section cards: the list card from the three windows — 16 corners, one hairline, no shadow */
-html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box{ background:var(--wf-win) !important; border:1px solid var(--wf-line) !important; border-radius:16px !important; box-shadow:none !important; margin:0 0 12px !important; overflow:hidden; }
-html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box.v4green{ background:var(--wf-win) !important; border-color:var(--wf-line) !important; }
-html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ background:var(--wf-win) !important; border-bottom:1px solid var(--wf-line) !important; border-radius:0 !important; height:60px !important; padding:0 16px 0 12px !important; }
-html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box.v4closed .v4bh{ border-bottom:0 !important; }
-html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box.v4green .v4bh{ background:var(--wf-win) !important; border-bottom-color:var(--wf-line) !important; }
-html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh .v4tri{ background:var(--wf-fill) !important; }
+/* window unchanged. Inside: white */
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .modal-body{ background:var(--wf-win) !important; padding:0 20px 12px !important; }
+/* the sections are one list like Settings: no cards, a hairline between rows, bare icons, the open row washed gray */
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box{ border:0 !important; border-radius:0 !important; margin:0 !important; background:var(--wf-win) !important; box-shadow:none !important; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box + .v4box{ border-top:1px solid var(--wf-line) !important; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box.v4green{ background:var(--wf-win) !important; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ background:var(--wf-win) !important; border-bottom:0 !important; border-radius:12px !important; height:60px !important; padding:0 12px 0 10px !important; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box.v4closed .v4bh:hover, html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bh{ background:var(--wf-fill) !important; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box.v4green .v4bh{ border-bottom:0 !important; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh::before{ background-color:transparent !important; box-shadow:none !important; border:0 !important; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh .v4tri{ background:transparent !important; }
 html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh .v4bt{ font:700 16px Inter, Arial, sans-serif !important; color:var(--wf-ink) !important; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box.v4green .v4bt{ color:var(--wf-green) !important; }
 html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh .v4hint{ font:400 14px Inter, Arial, sans-serif !important; color:var(--wf-soft) !important; }
 html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bb{ padding:14px 18px 18px !important; }
-/* boxes: 44 tall, gray; empty is plain gray with its hint — no yellow anywhere */
-html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .review-field :is(input, select, textarea, .v4mbtn, .v4jobv), html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .review-field .v4empty, html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .review-field input.v4empty, html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .review-field select.v4empty{ background-color:var(--wf-fill) !important; }
-html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .review-field :is(input, select).v4empty::placeholder, html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .review-field input::placeholder{ color:#9A9CA4 !important; }
-/* add rows: a gray 44 row with the green plus circle at the left, like Restore and the Settings add rows */
+/* boxes: gray; empty is plain gray with its hint — no yellow */
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .review-field :is(input, select, textarea, .v4mbtn, .v4jobv){ background-color:var(--wf-fill) !important; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody :is(.v4cd, .review-pair, .cp-box) > .review-field :is(input, select, textarea, .v4mbtn).v4empty, html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4dt input.v4empty, html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4empty{ background-color:var(--wf-fill) !important; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .review-field input::placeholder{ color:#9A9CA4 !important; }
+/* add rows: gray 44 row, green plus circle at the left */
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4cfadd .btn, html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4supadd .btn, html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdAddDocsBtn, html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdAddPhotosBtn{ display:inline-flex !important; align-items:center !important; justify-content:flex-start !important; gap:12px !important; height:44px !important; width:100% !important; padding:0 8px !important; border:0 !important; border-radius:12px !important; background:var(--wf-fill) !important; color:var(--wf-ink) !important; font:600 14px Inter, Arial, sans-serif !important; box-shadow:none !important; text-align:left !important; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4cfadd .btn::before, html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4supadd .btn::before, html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdAddDocsBtn::before, html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdAddPhotosBtn::before{ content:""; width:28px; height:28px; border-radius:14px; background:var(--wf-greenbg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231E7B34' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M12 6v12M6 12h12'/%3E%3C/svg%3E") center/14px no-repeat; flex:none; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4cfadd .btn:hover, html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4supadd .btn:hover{ background:var(--wf-fill2) !important; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4supadd{ padding:8px 0 0 !important; }
+/* Estimates: the board in miniature in its own bordered card */
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdPdfSection{ border:1px solid var(--wf-line) !important; border-radius:16px !important; overflow:hidden; background:var(--wf-win) !important; padding:0 !important; margin:0 !important; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4ehead{ background:var(--wf-navy) !important; color:#fff !important; height:44px !important; padding:0 12px !important; align-items:center !important; border:0 !important; font:700 12.5px Inter, Arial, sans-serif !important; text-transform:none !important; letter-spacing:0 !important; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4ehead > span{ color:#fff !important; font:700 12.5px Inter, Arial, sans-serif !important; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4erow{ height:44px !important; padding:0 12px !important; align-items:center !important; border-bottom:1px solid var(--wf-line) !important; margin:0 !important; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4erow:nth-child(odd){ background:var(--wf-alt) !important; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4erow:last-child{ border-bottom:0 !important; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4erow .est-doc-label{ font:400 14px Inter, Arial, sans-serif !important; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4erow .btn-small{ height:32px !important; border-radius:16px !important; background:var(--wf-fill) !important; border:0 !important; box-shadow:none !important; font:600 13px Inter, Arial, sans-serif !important; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4erow .v4chip{ height:32px !important; border-radius:16px !important; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #v4JdPay{ margin-top:12px !important; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .note-empty, html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .doc-empty{ color:var(--wf-soft) !important; }
 
-html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody :is(.v4cd, .review-pair, .cp-box) > .review-field :is(input, select, textarea, .v4mbtn).v4empty, html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4dt input.v4empty, html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4empty{ background-color:#F2F2F7 !important; }
 </style>
 <style id="c5famBarCss">
 #c5famBar{ position:fixed; left:50%; top:10px; transform:translateX(-50%); z-index:99999; display:flex; gap:2px; background:#fff; border-radius:22px; padding:3px; box-shadow:0 6px 24px rgba(0,0,0,.22); font-family:Inter, Arial, sans-serif; }
@@ -31452,14 +31471,12 @@ html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOv
 #c5famBar button.on{ background:#16181D; color:#fff; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Details Family · demo shop</span><button data-v="today">Today</button><button data-v="fam" class="on">Family</button></div>
+<div id="c5famBar"><span>Details Family v2 · demo shop</span><button data-v="today">Today</button><button data-v="fam" class="on">Family</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
   document.body.classList.add("c5famd");
   document.querySelectorAll("#c5famBar button").forEach(function(b){ b.addEventListener("click", function(){ document.querySelectorAll("#c5famBar button").forEach(function(x){ x.classList.toggle("on", x===b); }); document.body.classList.toggle("c5famd", b.dataset.v==="fam"); }); });
-  /* the add rows read without the typed plus (the circle is the plus) */
-  setInterval(function(){ document.querySelectorAll("#jobDetailsOverlay .v4cfadd .btn, #jobDetailsOverlay .v4supadd .btn").forEach(function(b){ var t=b.textContent; if(t.indexOf("+ ")===0) b.textContent=t.slice(2); }); }, 400);
-  /* open Details on the first job once the board is up */
+  setInterval(function(){ if(!document.body.classList.contains("c5famd")) return; document.querySelectorAll("#jobDetailsOverlay .v4cfadd .btn, #jobDetailsOverlay .v4supadd .btn").forEach(function(b){ var t=b.textContent; if(t.indexOf("+ ")===0) b.textContent=t.slice(2); }); }, 400);
   var n=0, t=setInterval(function(){ n++; var td=document.querySelector("#tableBody td.v4jobno"); if(td){ clearInterval(t); td.dispatchEvent(new MouseEvent("dblclick",{bubbles:true})); } else if(n>60) clearInterval(t); }, 250);
 })();
 </script>
