@@ -98,7 +98,7 @@ th.grp .hl{ gap:8px; }
 /* slot widths in pixels so the header and the rows share them exactly (Courier New 14: one character = 8.4) */
 .g .s-d{ width:51px; } .g .s-n{ width:18px; text-align:center; } .g .s-n.w{ width:59px; text-align:left; } .g .s-a{ width:14px; overflow:hidden; }
 .g > span{ font:700 14px var(--nums); white-space:pre; display:block; text-align:center; }
-.g .nd{ display:block; text-align:left; font-weight:700; color:#8A8D96; }
+.g .nd{ display:block; text-align:center; font-weight:700; color:#8A8D96; }
 .g .s-a{ color:var(--arrow); font:500 14px/1 var(--words); transform:translateY(-2px); }
 th .g > span{ font:700 13px var(--words); white-space:nowrap; } th .g .s-a{ color:#8A8D96; }
 .gap{ display:flex; align-items:center; gap:10px; font:600 13px var(--words); color:var(--gray); } .gap input{ width:150px; accent-color:var(--orange); } .gap output{ font:700 13px var(--nums); color:var(--ink); min-width:2ch; } .gap .u{ font-weight:500; }
@@ -115,7 +115,7 @@ th .g > span{ font:700 13px var(--words); white-space:nowrap; } th .g .s-a{ colo
 <div class="wrap">
   <h1>Dates Board Module</h1>
   <p class="lead">Date In, Days and Date Out as one tight group on the board, with the same gap between every piece.</p>
-  <span class="ver">Version 6 · Oct 8, 2:05 PM · module only, not in the app</span>
+  <span class="ver">Version 7 · Oct 8, 5:35 PM · module only, not in the app</span>
   <div class="ctl">
     <div class="ci"><span>Between</span><div class="seg" id="ra"><button type="button" data-v="a" class="on">Arrows</button><button type="button" data-v="l">Lines</button><button type="button" data-v="n">None</button></div></div>
     <div class="ci"><span>Days</span><div class="seg" id="dy"><button type="button" data-v="1" class="on">On</button><button type="button" data-v="0">Off</button></div></div>
@@ -162,8 +162,8 @@ function draw(){
   var chev = '<button type="button" class="chev" id="chev" aria-label="Days settings" aria-expanded="false">' + CHEV + '</button>';
   var A = function(on){ return RA === "a" ? '<span class="s-a">' + (on ? "\u2192" : "") + '</span>' : RA === "l" ? '<span class="s-a">' + (on ? '<i class="vl"></i>' : "") + '</span>' : ''; };
   /* header: the same pieces and the same gap, so the arrows and words sit over the rows */
-  var ha = RA === "a" ? '<i class="ha">\u2192</i>' : '<i class="hs"></i>';   /* lines, or none: a thin line keeps the names apart in the header */
-  var hd = '<span class="hg">Date In' + ha + (DAYS ? 'Days' + ha : '') + 'Date Out</span>';
+  var ha = RA === "a" ? '<i class="ha">\u2192</i>' : RA === "l" ? '<i class="hs"></i>' : '';   /* None hides the separators in the header too */
+  var hd = '<span class="hg"><span>Date In</span>' + ha + (DAYS ? '<span>Days</span>' + ha : '') + '<span>Date Out</span></span>';
   var h = '<colgroup><col class="c-no"><col class="c-cu"><col><col class="c-est"></colgroup>' +
     '<tr><th>Job #</th><th class="l">Customer</th><th class="grp"><span class="hl">' + hd + chev + '</span></th><th>Estimate 1</th></tr>';
   h += ROWS.map(function(r, i){
