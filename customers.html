@@ -58,6 +58,19 @@ button:focus-visible, input:focus-visible{ outline:2px solid var(--orange); outl
 .sbtn svg{ width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; }
 .sbtn:hover:not(:disabled){ background:#F6F6F9; }
 .sbtn:disabled{ color:var(--soft); cursor:default; box-shadow:0 0 0 .5px rgba(0,0,0,.04); }
+/* search results: a family dropdown hanging straight down from the name box, exactly its width */
+.nmw{ position:relative; }
+.dd{ position:absolute; left:0; right:0; top:100%; margin-top:6px; z-index:30; background:var(--card); border-radius:22px; padding:6px; box-shadow:0 0 0 .5px rgba(0,0,0,.10), 0 14px 36px rgba(0,0,0,.18); display:flex; flex-direction:column; gap:2px; transform-origin:50% 0; animation:grow .16s cubic-bezier(.2,.9,.3,1.1); }
+@keyframes grow{ from{ transform:scale(.85); opacity:0; } }
+.dd button{ display:flex; flex-direction:column; gap:1px; text-align:left; border:0; background:transparent; color:var(--ink); border-radius:16px; padding:8px 12px; cursor:pointer; }
+.dd button:hover, .dd button.hi{ background:var(--field); }
+.dd .nm{ font:700 14px var(--words); }
+.dd .mt{ font:500 12px/1.4 var(--words); color:var(--gray); }
+.dd .mt .n{ color:var(--ink); }
+.dd .new{ color:var(--gray); font:600 13px var(--words); }
+.dd .none{ padding:8px 12px; font:500 13px var(--words); color:var(--gray); }
+.dd mark{ background:var(--orangesoft); color:inherit; border-radius:4px; padding:0 1px; }
+@media (prefers-reduced-motion:reduce){ .dd{ animation:none; } }
 .hint{ font:500 12px var(--words); color:var(--gray); padding-left:16px; }
 
 /* search results under the name box */
@@ -134,7 +147,7 @@ td .car{ font:500 13px var(--words); }
 <div class="wrap">
   <h1>Customers Module</h1>
   <p class="lead">One list of every customer, with phone, email, address and cars, kept in Settings. When you fill out a job you type the name the normal way; nothing looks anything up until you press Search. Demo data only, every name and number below is made up.</p>
-  <span class="ver">Version 4 · Oct 8, 9:00 PM · module only, not in the app</span>
+  <span class="ver">Version 5 · Oct 8, 9:05 PM · module only, not in the app</span>
 
   <div class="card">
     <h2>Where The List Lives</h2>
@@ -163,7 +176,7 @@ td .car{ font:500 13px var(--words); }
       </div>
 
       <div class="f"><label for="nm">Customer Name</label>
-        <div class="nmw"><input id="nm" autocomplete="off" placeholder="First and last name"><button type="button" class="sbtn" id="sbtn" disabled aria-label="Search customers" title="Search customers"><svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14"/></svg></button></div>
+        <div class="nmw"><input id="nm" autocomplete="off" placeholder="First and last name"><button type="button" class="sbtn" id="sbtn" disabled aria-label="Search customers" title="Search customers"><svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14"/></svg></button><div id="dd" class="dd" hidden></div></div>
         <span class="hint" id="hint">Type the first name and at least the first letter of the last name, then press the search button.</span>
       </div>
       <div id="nmhit"></div>
@@ -244,7 +257,7 @@ function parts(){ var w = nm.value.trim().toLowerCase().split(/\s+/).filter(Bool
 function ready(){ var p = parts(); var ok = p.first.length > 0 && p.last.length > 0;
   sb.disabled = !ok || (picked && nm.value === picked.name);
   $("hint").hidden = ok || !!picked; }
-nm.addEventListener("input", function(){ if(picked && nm.value !== picked.name){ picked = null; setSrc(); drawPast(); } $("nmhit").innerHTML = ""; ready(); });
+nm.addEventListener("input", function(){ $("dd").hidden = true; if(picked && nm.value !== picked.name){ picked = null; setSrc(); drawPast(); } $("nmhit").innerHTML = ""; ready(); });
 nm.addEventListener("keydown", function(e){ if(e.key === "Enter" && !sb.disabled){ e.preventDefault(); search(); } });
 sb.addEventListener("click", search);
 
@@ -255,18 +268,22 @@ function search(){
     var w = c.name.toLowerCase().split(/\s+/), cf = w[0], cl = w.slice(1).join(" ");
     return (cf === p.first && cl.indexOf(p.last) === 0) || (d.length === 10 && digits(c.phone) === d);
   });
-  var box = $("nmhit");
-  if(!list.length){
-    box.innerHTML = '<div class="hit g">No customer named <b>' + esc(nm.value.trim()) + '</b> yet. This is a new customer; Save adds them to the list.</div>';
-    return;
-  }
+  var dd = $("dd"), hi = -1;
+  if(!list.length){ dd.innerHTML = '<div class="none">No customer named <b>' + esc(nm.value.trim()) + '</b>. New customer; Save adds them.</div>'; dd.hidden = false; return; }
   var re = new RegExp("^(" + p.first.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + ")(\\s+)(" + p.last.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + ")", "i");
-  box.innerHTML = '<div class="hit b"><span><b class="n">' + list.length + '</b> ' + (list.length === 1 ? "customer matches" : "customers match") + '. Pick the right one, or keep typing if none of them is this person.</span><div class="res">' +
-    list.map(function(c){
-      var j = c.jobs[c.jobs.length - 1];
-      return '<div class="rr"><span class="nm">' + esc(c.name).replace(re, "<mark>$1</mark>$2<mark>$3</mark>") + '</span><span class="mt"><span class="n">' + esc(c.phone) + '</span> · ' + esc(c.addr || "no address") + '<br>' + esc(c.cars[0][1]) + ' · last job <span class="n">' + j[0] + '</span>, ' + md(j[1]) + '</span><button type="button" class="btn use" data-use="' + c.id + '">Use</button></div>';
-    }).join("") + '</div><span class="acts"><button type="button" class="lnk" data-none="1">None of these, new customer</button></span></div>';
+  dd.innerHTML = list.map(function(c){
+    var j = c.jobs[c.jobs.length - 1];
+    return '<button type="button" data-use="' + c.id + '"><span class="nm">' + esc(c.name).replace(re, "<mark>$1</mark>$2<mark>$3</mark>") + '</span><span class="mt"><span class="n">' + esc(c.phone) + '</span> · ' + esc(c.addr || "no address") + '</span><span class="mt">' + esc(c.cars[0][1]) + ' · ' + c.jobs.length + (c.jobs.length === 1 ? " job" : " jobs") + ', last ' + md(j[1]) + '</span></button>';
+  }).join("") + '<button type="button" class="new" data-none="1">None of these, new customer</button>';
+  dd.hidden = false;
 }
+$("dd").addEventListener("mousedown", function(e){ e.preventDefault(); });
+$("dd").addEventListener("click", function(e){
+  var u = e.target.closest("[data-use]"); if(u){ $("dd").hidden = true; usePick(CUST.filter(function(c){ return c.id === u.dataset.use; })[0]); return; }
+  if(e.target.closest("[data-none]")){ $("dd").hidden = true; }
+});
+document.addEventListener("click", function(e){ if(!e.target.closest(".nmw")) $("dd").hidden = true; });
+nm.addEventListener("keydown", function(e){ if(e.key === "Escape") $("dd").hidden = true; });
 $("nmhit").addEventListener("click", function(e){
   var u = e.target.closest("[data-use]"); if(u){ usePick(CUST.filter(function(c){ return c.id === u.dataset.use; })[0]); return; }
   if(e.target.closest("[data-none]")){ $("nmhit").innerHTML = '<div class="hit g">Kept as a new customer. Save adds <b>' + esc(nm.value.trim()) + '</b> to the list.</div>'; return; }
@@ -302,7 +319,7 @@ $("save").addEventListener("click", function(){
   NEXT++; $("nextno").textContent = "Job " + NEXT; drawCust();
   $("seeList").onclick = function(){ setTab("cust"); $("cs").value = name; drawCust(); };
 });
-function clearForm(){ ["nm","ph","em","ad"].forEach(function(id){ $(id).value = ""; }); picked = null; $("nmhit").innerHTML = ""; setSrc(); drawPast(); ready(); }
+function clearForm(){ $("dd").hidden = true; ["nm","ph","em","ad"].forEach(function(id){ $(id).value = ""; }); picked = null; $("nmhit").innerHTML = ""; setSrc(); drawPast(); ready(); }
 $("cancel").addEventListener("click", clearForm);
 
 document.querySelector(".try").addEventListener("click", function(e){ var b = e.target.closest("[data-try]"); if(!b) return; clearForm(); var t = b.dataset.try;
