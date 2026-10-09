@@ -31497,6 +31497,13 @@ html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOv
 html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4empty, html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody :is(.v4cd, .review-pair, .cp-box) > .review-field :is(input, select, textarea, .v4mbtn).v4empty, html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4dt input.v4empty{ background-color:#FFF8D6 !important; color:inherit !important; }
 html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4empty:not(.v4dtx):not(select){ background-image:none !important; }
 html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4empty::placeholder{ color:#9A9CA4 !important; }
+/* v12 — the title (arrow · Details · car · insurance) is one pill: hover washes it, a click anywhere on it folds or opens everything */
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .modal-header h2{ display:inline-flex !important; align-items:center !important; height:44px !important; padding:0 18px 0 0 !important; border-radius:22px !important; cursor:pointer; user-select:none; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .modal-header h2:hover{ background:var(--wf-fill) !important; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .modal-header h2 .v4alltri:hover{ background:transparent !important; }
+/* v12b — an open section keeps the line above it too (its header was painting white over the line) */
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bh{ background:transparent !important; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bh:hover{ background:var(--wf-fill) !important; }
 
 </style>
 <style id="c5famBarCss">
@@ -31506,7 +31513,7 @@ html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#j
 #c5famBar i{ width:1px; background:#E2E4DF; margin:6px 6px; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Details Family v11 · app 5.252 · demo shop</span><button data-v="today">Today</button><button data-v="fam" class="on">Family</button></div>
+<div id="c5famBar"><span>Details Family v12 · app 5.252 · demo shop</span><button data-v="today">Today</button><button data-v="fam" class="on">Family</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
   document.body.classList.add("c5famd"); document.body.classList.add("c5emYellow");
@@ -31515,6 +31522,8 @@ html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#j
   setInterval(function(){ if(!document.body.classList.contains("c5famd")) return; document.querySelectorAll("#jobDetailsOverlay .v4cfadd .btn, #jobDetailsOverlay .v4supadd .btn").forEach(function(b){ var t=b.textContent; if(t.indexOf("+ ")===0) b.textContent=t.slice(2); }); }, 400);
   /* the mouse wheel scrolls Details from anywhere on the window, the title row and footer included */
   document.addEventListener("wheel", function(e){ var o=document.getElementById("jobDetailsOverlay"); if(!o || getComputedStyle(o).display==="none") return; var m=e.target.closest("#jobDetailsOverlay .modal"); if(!m) return; var body=m.querySelector(".modal-body"); if(!body || body.contains(e.target)) return; body.scrollTop += e.deltaY; e.preventDefault(); }, {passive:false});
+  /* a click on the title pill (anywhere from the arrow to the insurance name) does what the arrow does */
+  document.addEventListener("click", function(e){ var h=e.target.closest("#jobDetailsOverlay .modal-header h2"); if(!h || !document.body.classList.contains("c5famd")) return; if(e.target.closest("#v4JdAll")) return; var a=h.querySelector("#v4JdAll"); if(a) a.click(); });
   var n=0, t=setInterval(function(){ n++; var td=document.querySelector("#tableBody td.v4jobno"); if(td){ clearInterval(t); td.dispatchEvent(new MouseEvent("dblclick",{bubbles:true})); } else if(n>60) clearInterval(t); }, 250);
 })();
 </script>
