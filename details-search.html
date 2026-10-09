@@ -114,6 +114,30 @@ button:focus-visible, input:focus-visible{ outline:2px solid var(--orange); outl
 .dd .vb{ width:1px; height:14px; background:#C9CAD0; display:inline-block; }
 .dd .l2{ font:400 13px var(--words); color:var(--gray); }
 .dd .new{ padding:8px 16px; }
+
+/* v5 rows: every row is the same 40-pixel pill as the Customer Name box */
+.dd{ padding:6px !important; gap:4px !important; border-radius:22px !important; }
+.dd button.pk{ flex-direction:row !important; height:40px; min-height:40px; padding:0 16px !important; border-radius:20px !important; background:var(--box) !important; display:flex; align-items:center; gap:0 !important; }
+.dd button.pk:hover{ background:#E8E8EE !important; }
+.dd .one{ display:flex; align-items:center; gap:10px; min-width:0; width:100%; white-space:nowrap; font:400 15px var(--words); color:var(--ink); }
+.dd .one b{ font-weight:700; flex:none; }
+.dd .one .vb{ width:1px; height:16px; background:#C9CAD0; display:inline-block; flex:none; }
+.dd .one .ad{ color:var(--gray); overflow:hidden; text-overflow:ellipsis; min-width:0; }
+.dd button.pk.new .one{ color:var(--ink); font-weight:500; }
+.clw{ position:absolute; right:4px; top:4px; height:32px; padding:0 12px 0 10px; border-radius:16px; background:#FFF1D6; color:#8A5A00; font:600 13px var(--words); display:inline-flex; align-items:center; gap:6px; cursor:pointer; }
+.clw:hover{ background:#FFE7B8; }
+.clw i{ width:16px; height:16px; border-radius:8px; background:#B07A00; color:#fff; font:700 11px var(--words); font-style:normal; display:grid; place-items:center; }
+.clw.ok{ background:#E7F4EA; color:var(--green); } .clw.ok i{ background:var(--green); }
+.clpop{ position:absolute; left:0; right:0; top:100%; margin-top:4px; z-index:30; background:#fff; border-radius:22px; padding:14px 16px; box-shadow:0 0 0 .5px rgba(0,0,0,.10), 0 14px 36px rgba(0,0,0,.18); font:400 14px/1.45 var(--words); color:#3A3F47; display:flex; flex-direction:column; gap:10px; }
+.clpop[hidden]{ display:none; }
+.clpop b{ font-weight:700; color:var(--ink); }
+.clpop .n2{ font:700 14px var(--nums); color:var(--ink); }
+.clpop .acts{ display:flex; gap:8px; justify-content:flex-end; }
+.clpop .acts button{ height:36px; padding:0 16px; border-radius:18px; background:var(--box); font:600 14px var(--words); }
+.clpop .acts .go{ background:var(--green); color:#fff; }
+.inl.cl input{ padding-right:150px; }
+.pillbtn.srch.fill{ width:96px; gap:6px; display:inline-flex; align-items:center; justify-content:center; font:600 13px var(--words); }
+.inl input.lit, .rf input.lit{ background:#E7F4EA !important; box-shadow:0 0 0 2px #1E7B34; transition:background .6s, box-shadow .6s; }
 .c5back{ position:fixed; z-index:50; top:calc(env(safe-area-inset-top, 0px) + 10px); left:16px; display:inline-flex; align-items:center; gap:4px; height:40px; padding:0 14px 0 10px; border-radius:20px; text-decoration:none; color:#16181D; font:600 15px Inter, -apple-system, sans-serif; background:rgba(255,255,255,.6); -webkit-backdrop-filter:blur(2px) saturate(170%); backdrop-filter:blur(2px) saturate(170%); box-shadow:inset 0 1px 1px rgba(255,255,255,.95), inset 0 -1px 1px rgba(0,0,0,.12), 0 6px 18px rgba(0,0,0,.14); }
 .c5back svg{ width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
 .head{ padding-top:calc(env(safe-area-inset-top, 0px) + 64px) !important; }
@@ -134,10 +158,10 @@ button:focus-visible, input:focus-visible{ outline:2px solid var(--orange); outl
 
 <div class="head">
   <h1>Customer Search In Details</h1>
-  <span class="ver">Version 4 · Oct 9, 10:12 AM · module only, not in the app</span>
-  <p>The real Details window from the app (version 5.211), Customer Details open. The only new thing is the search button inside the Customer Name box, built the same as Decode. Type a name like always; Enter does nothing new. If the name is already in Settings › Customers, the button quietly turns green. Press it and a small card drops down with the matching customers; click one and their phone, email and address fill in. No green, no match, just keep going.</p>
+  <span class="ver">Version 5 · Oct 9, 11:05 AM · module only, not in the app</span>
+  <p>Two changes to look at. <b>1.</b> The card under Customer Name: every row is the same 40-pixel pill as the box you type in, one line each: name bold, then phone, car and address. The last row is just <b>New Customer</b>. <b>2.</b> Claim Number: the long warning under the box becomes a small amber pill inside the box; tap it for the details and <b>That&#39;s Correct</b>.</p>
   <div class="try"><span>Try:</span>
-    <button type="button" class="chip" data-t="Taya Jones">Taya Jones</button>
+    <button type="button" class="chip" data-t="Tea Jo">Tea Jo</button>
     <button type="button" class="chip" data-t="Maria G">Maria G (2 of them)</button>
     <button type="button" class="chip" data-t="Andre Wilson">Someone New</button>
   </div>
@@ -155,7 +179,7 @@ button:focus-visible, input:focus-visible{ outline:2px solid var(--orange); outl
       <div class="bh"><span class="ico"><svg class="ic" width="18" height="18"><use href="#i-person"/></svg></span><b>Customer Details</b><i class="bar"></i><span class="ds">Customer, Vehicle And Insurance</span><svg class="ic chev"><use href="#i-dn"/></svg></div>
       <div class="grid">
         <div class="rf"><label for="nm">Customer Name</label>
-          <div class="inl"><input id="nm" autocomplete="off" value="Taya Jones"><button type="button" class="pillbtn srch" id="sb" aria-label="Search customers" title="Search customers"><svg class="ic"><use href="#i-search"/></svg></button><i class="spot" id="spot"></i><div class="dd" id="dd" hidden></div></div>
+          <div class="inl"><input id="nm" autocomplete="off" value="Tea Jo"><button type="button" class="pillbtn srch" id="sb" aria-label="Search customers" title="Search customers"><svg class="ic"><use href="#i-search"/></svg></button><i class="spot" id="spot"></i><div class="dd" id="dd" hidden></div></div>
           <span class="filled" id="filled" hidden></span>
         </div>
         <div class="rf"><label>Source</label><div class="sel"><span class="src"><span class="num">1</span><i class="vb"></i><svg class="ic" width="18" height="18" style="color:var(--green)"><use href="#i-ppl"/></svg><span>Referral</span></span><svg class="ic"><use href="#i-dn"/></svg></div></div>
@@ -170,8 +194,8 @@ button:focus-visible, input:focus-visible{ outline:2px solid var(--orange); outl
         <div class="rf"><label>Status</label><div class="sel"><span>Estimate</span><svg class="ic"><use href="#i-dn"/></svg></div></div>
         <div class="rf"><label>Board Month</label><div class="sel"><span>October 2026</span><svg class="ic"><use href="#i-dn"/></svg></div></div>
         <i class="sep"></i>
-        <div class="rf"><label>Insurance</label><div class="sel"><span>Mercury</span><svg class="ic"><use href="#i-dn"/></svg></div></div>
-        <div class="rf"><label>Claim Number</label><input class="n" value="CAPA-0261187"></div>
+        <div class="rf"><label>Insurance</label><div class="sel"><span>Allstate</span><svg class="ic"><use href="#i-dn"/></svg></div></div>
+        <div class="rf"><label>Claim Number</label><div class="inl cl"><input class="n" id="clm" value="NA-NA"><button type="button" class="clw" id="clw"><i>!</i>Unusual Shape</button><div class="clpop" id="clpop" hidden><span><b>Allstate</b> claim numbers here have always looked like <span class="n2">000787364280B02</span>. This one doesn&#39;t match the shape seen across <b>10</b> of their jobs.</span><div class="acts"><button type="button" id="clfix">Fix It</button><button type="button" class="go" id="clok">That&#39;s Correct</button></div></div></div></div>
         <div class="rf"><label>Adjuster</label><input class="empty" placeholder="Name"></div>
         <div class="rf"><label>Adjuster Phone</label><input class="empty" placeholder="(000) 000-0000"></div>
         <div class="rf"><label>Estimate Date</label><div class="sel"><span>Oct 09</span><svg class="ic"><use href="#i-cal"/></svg></div></div>
@@ -189,6 +213,7 @@ button:focus-visible, input:focus-visible{ outline:2px solid var(--orange); outl
 
 <script>
 var CUST = [
+  { name:"Tea Jones", phone:"(323) 514-6022", email:"", addr:"5425 Normandie Avenue, Los Angeles, CA 90037", car:"2015 Ford Fusion", jobs:1, last:"Sep 28, 2026" },
   { name:"Taya Jones", phone:"(323) 555-0144", email:"taya.jones@example.com", addr:"8814 Otis St, South Gate, CA 90280", car:"2019 Honda Civic EX", jobs:2, last:"Jul 16, 2026" },
   { name:"Tayler Jimenez", phone:"(562) 555-0121", email:"", addr:"10421 Atlantic Ave, South Gate, CA 90280", car:"2018 Hyundai Sonata", jobs:1, last:"Apr 18, 2026" },
   { name:"Maria Garcia", phone:"(213) 555-0102", email:"", addr:"411 Tweedy Blvd, South Gate, CA 90280", car:"2018 Toyota Corolla LE", jobs:1, last:"Dec 2, 2025" },
@@ -202,6 +227,7 @@ var nm = $("nm"), sb = $("sb"), picked = null, hits = [], at = 0;
 function parts(){ var w = nm.value.trim().toLowerCase().split(/\s+/).filter(Boolean); return { f:w[0] || "", l:w.slice(1).join(" ") }; }
 function setBox(id, v){ var e = $(id); e.value = v; e.classList.toggle("empty", !v); }
 /* quiet check while typing: first name exactly, last name by its first letters. It only changes the button color. */
+function unfill(){ if(sb.classList.contains("fill")){ sb.classList.remove("fill"); sb.innerHTML = '<svg class="ic"><use href="#i-search"/></svg>'; } }
 function check(){
   var p = parts();
   hits = (p.f && p.l) ? CUST.filter(function(c){ var w = c.name.toLowerCase().split(/\s+/); return w[0] === p.f && w.slice(1).join(" ").indexOf(p.l) === 0; }) : [];
@@ -213,16 +239,17 @@ function check(){
 }
 function fill(c){
   picked = c; nm.value = c.name; setBox("ph", c.phone); setBox("em", c.email); setBox("ad", c.addr);
-  $("filled").innerHTML = 'Filled in from Settings › Customers. <button type="button" class="lnk" id="undo">Not this person, clear it</button>';
-  $("filled").hidden = false; sb.classList.remove("hit"); sb.disabled = true; $("dd").hidden = true;
+  sb.classList.add("hit","fill"); sb.disabled = false; sb.innerHTML = '<svg class="ic" viewBox="0 0 24 24" style="width:15px;height:15px"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Filled'; $("dd").hidden = true;
+  ["nm","ph","em","ad"].forEach(function(id){ var e = $(id); if(!e.value) return; e.classList.remove("lit"); void e.offsetWidth; e.classList.add("lit"); setTimeout(function(){ e.classList.remove("lit"); }, 1600); });
 }
 /* pressing the green button drops the card down; nothing fills until a name is clicked */
 function card(){
   var p = parts(), dd = $("dd");
   var re = new RegExp("^(" + rx(p.f) + ")(\\s+)(" + rx(p.l) + ")", "i");
   dd.innerHTML = hits.map(function(c, i){
-    return '<button type="button" class="pk" data-i="' + i + '"><span class="l1"><b>' + esc(c.name) + '</b><i class="vb"></i>' + c.phone + '<i class="vb"></i>' + esc(c.car) + '</span><span class="l2">Address: ' + esc(c.addr) + '</span></button>';
-  }).join("") + '<button type="button" class="new" data-none="1">None of these, new customer</button>';
+    var bits = [ '<b>' + esc(c.name) + '</b>', c.phone, esc(c.car) ].filter(Boolean).join('<i class="vb"></i>');
+    return '<button type="button" class="pk" data-i="' + i + '" title="' + esc(c.addr) + '"><span class="one">' + bits + (c.addr ? '<i class="vb"></i><span class="ad">' + esc(c.addr) + '</span>' : '') + '</span></button>';
+  }).join("") + '<button type="button" class="pk new" data-none="1"><span class="one">New Customer</span></button>';
   dd.hidden = false;
 }
 sb.addEventListener("click", function(){ $("spot").hidden = true; if(hits.length) card(); });
@@ -230,13 +257,20 @@ $("dd").addEventListener("mousedown", function(e){ e.preventDefault(); });
 $("dd").addEventListener("click", function(e){ var b = e.target.closest("button"); if(!b) return; if(b.dataset.none){ $("dd").hidden = true; return; } fill(hits[+b.dataset.i]); });
 document.addEventListener("click", function(e){ if(!e.target.closest(".inl")) $("dd").hidden = true; });
 nm.addEventListener("keydown", function(e){ if(e.key === "Escape") $("dd").hidden = true; });
-nm.addEventListener("input", function(){ $("dd").hidden = true; if(picked && nm.value !== picked.name){ picked = null; $("filled").hidden = true; } check(); });
+nm.addEventListener("input", function(){ $("dd").hidden = true; if(picked && nm.value !== picked.name){ picked = null; unfill(); } check(); });
 $("filled").addEventListener("click", function(e){
   if(e.target.id === "undo"){ picked = null; hits = []; ["ph","em","ad"].forEach(function(id){ setBox(id, ""); }); $("filled").hidden = true; check(); nm.focus(); }
 });
 document.querySelector(".try").addEventListener("click", function(e){ var b = e.target.closest("[data-t]"); if(!b) return;
-  picked = null; $("filled").hidden = true; $("dd").hidden = true; ["ph","em","ad"].forEach(function(id){ setBox(id, ""); }); nm.value = b.dataset.t; check(); nm.focus(); });
+  picked = null; $("filled").hidden = true; $("dd").hidden = true; ["ph","em","ad"].forEach(function(id){ setBox(id, ""); }); unfill(); nm.value = b.dataset.t; check(); nm.focus(); });
 check(); setTimeout(function(){ $("spot").hidden = true; }, 4800);
+
+nm.addEventListener("input", function(){ if(hits.length && !picked){ $("spot").hidden = true; card(); } });
+$("clw").addEventListener("click", function(e){ e.stopPropagation(); if($("clw").classList.contains("ok")) return; $("clpop").hidden = !$("clpop").hidden; });
+$("clok").addEventListener("click", function(){ $("clpop").hidden = true; var w = $("clw"); w.classList.add("ok"); w.innerHTML = '<i>&#10003;</i>Remembered'; setTimeout(function(){ w.hidden = true; }, 1600); });
+$("clfix").addEventListener("click", function(){ $("clpop").hidden = true; $("clm").focus(); $("clm").select(); });
+document.addEventListener("click", function(e){ if(!e.target.closest(".inl.cl")) $("clpop").hidden = true; });
+$("clm").addEventListener("input", function(){ var ok = /^\d{12}[A-Z]\d{2}$/i.test($("clm").value.trim()); $("clw").hidden = ok; if(ok) $("clpop").hidden = true; });
 </script>
 </body>
 </html>
