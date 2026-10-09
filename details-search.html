@@ -74,6 +74,8 @@ button:focus-visible, input:focus-visible{ outline:2px solid var(--orange); outl
 .pillbtn.srch{ width:52px; }
 .pillbtn.srch svg{ width:16px; height:16px; stroke-width:2.4; }
 .pillbtn:hover:not(:disabled){ background:#FAFAFC; }
+.pillbtn.srch.hit{ background:var(--green); color:#fff; box-shadow:0 1px 2px rgba(0,0,0,.12); }
+.pillbtn.srch.hit:hover{ background:#196A2D; }
 .pillbtn:disabled{ color:#B5B7BE; cursor:default; box-shadow:none; }
 .spot{ position:absolute; inset:-5px; border-radius:25px; box-shadow:0 0 0 2px var(--orange); pointer-events:none; animation:pulse 1.6s ease-in-out 3; }
 @keyframes pulse{ 50%{ box-shadow:0 0 0 5px rgba(232,121,43,.35); } }
@@ -90,6 +92,7 @@ button:focus-visible, input:focus-visible{ outline:2px solid var(--orange); outl
 .dd .new{ font:600 13px var(--words); color:var(--gray); }
 .dd .none{ padding:8px 10px; font:500 13px var(--words); color:var(--gray); }
 .filled{ font:500 12px var(--words); color:var(--gray); padding-left:16px; }
+.filled .n{ font:700 12px var(--nums); color:var(--ink); }
 .filled .lnk{ color:#2E5AAC; font:600 12px var(--words); text-decoration:underline; text-underline-offset:2px; }
 .src{ display:flex; align-items:center; gap:12px; }
 .src .num{ font:700 14px var(--nums); }
@@ -123,10 +126,10 @@ button:focus-visible, input:focus-visible{ outline:2px solid var(--orange); outl
 
 <div class="head">
   <h1>Customer Search In Details</h1>
-  <span class="ver">Version 1 · Oct 9, 9:10 AM · module only, not in the app</span>
-  <p>The real Details window from the app (version 5.211), Customer Details open. The only new thing is the search button inside the Customer Name box, on the right, built the same as Decode in the VIN box. It is outlined in orange for a few seconds so you can find it.</p>
+  <span class="ver">Version 2 · Oct 9, 9:10 AM · module only, not in the app</span>
+  <p>The real Details window from the app (version 5.211), Customer Details open. The only new thing is the search button inside the Customer Name box, built the same as Decode. Type a name like always; Enter does nothing new. If the name is already in Settings › Customers, the button quietly turns green. Press it and their phone, email and address fill in. No green, no match, just keep going.</p>
   <div class="try"><span>Try:</span>
-    <button type="button" class="chip" data-t="Taya J">Taya J</button>
+    <button type="button" class="chip" data-t="Taya Jones">Taya Jones</button>
     <button type="button" class="chip" data-t="Maria G">Maria G (2 of them)</button>
     <button type="button" class="chip" data-t="Andre Wilson">Someone New</button>
   </div>
@@ -144,7 +147,7 @@ button:focus-visible, input:focus-visible{ outline:2px solid var(--orange); outl
       <div class="bh"><span class="ico"><svg class="ic" width="18" height="18"><use href="#i-person"/></svg></span><b>Customer Details</b><i class="bar"></i><span class="ds">Customer, Vehicle And Insurance</span><svg class="ic chev"><use href="#i-dn"/></svg></div>
       <div class="grid">
         <div class="rf"><label for="nm">Customer Name</label>
-          <div class="inl"><input id="nm" autocomplete="off" value="Taya J"><button type="button" class="pillbtn srch" id="sb" aria-label="Search customers" title="Search customers"><svg class="ic"><use href="#i-search"/></svg></button><i class="spot" id="spot"></i><div class="dd" id="dd" hidden></div></div>
+          <div class="inl"><input id="nm" autocomplete="off" value="Taya Jones"><button type="button" class="pillbtn srch" id="sb" aria-label="Search customers" title="Search customers"><svg class="ic"><use href="#i-search"/></svg></button><i class="spot" id="spot"></i></div>
           <span class="filled" id="filled" hidden></span>
         </div>
         <div class="rf"><label>Source</label><div class="sel"><span class="src"><span class="num">1</span><i class="vb"></i><svg class="ic" width="18" height="18" style="color:var(--green)"><use href="#i-ppl"/></svg><span>Referral</span></span><svg class="ic"><use href="#i-dn"/></svg></div></div>
@@ -174,7 +177,7 @@ button:focus-visible, input:focus-visible{ outline:2px solid var(--orange); outl
   <div class="foot"><button class="btn g">Cancel</button><span class="pg"><svg class="ic" width="16" height="16"><use href="#i-fwd" transform="rotate(180 12 12)"/></svg><b>1</b><span>2</span><span>3</span><svg class="ic" width="16" height="16" style="color:var(--ink)"><use href="#i-fwd"/></svg></span><button class="btn o">Save</button></div>
 </div>
 
-<p class="note">How it works: typing in Customer Name does nothing extra. The search button lights up once there is a first name and at least 1 letter of the last name; press it (or Enter). It matches the first name exactly and the last name by its first letters, so "Taya J" finds Taya Jones and "Tay" alone finds nobody. Click a name and phone, email and address fill in; the yellow empty boxes turn gray. The list it searches lives in Settings › Customers. Demo names and numbers are made up.</p>
+<p class="note">How it works: typing and Enter in Customer Name work like today. The button turns green only when the first name matches exactly and the last name starts with what you typed, so "Taya Jones" or "Taya J" lights it, "Tay" alone does not. Nothing fills until you press it. If 2 people match (Maria G), the first one fills and a "next one" link switches to the other. Gray button means no match: a new customer, keep typing. The list it searches lives in Settings › Customers. Demo names and numbers are made up.</p>
 
 <script>
 var CUST = [
@@ -187,37 +190,34 @@ var CUST = [
 function $(id){ return document.getElementById(id); }
 function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]; }); }
 function rx(s){ return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); }
-var nm = $("nm"), sb = $("sb"), dd = $("dd"), picked = null;
+var nm = $("nm"), sb = $("sb"), picked = null, hits = [], at = 0;
 function parts(){ var w = nm.value.trim().toLowerCase().split(/\s+/).filter(Boolean); return { f:w[0] || "", l:w.slice(1).join(" ") }; }
-function ready(){ var p = parts(); sb.disabled = !(p.f && p.l) || (picked && nm.value === picked.name); }
 function setBox(id, v){ var e = $(id); e.value = v; e.classList.toggle("empty", !v); }
-function search(){
+/* quiet check while typing: first name exactly, last name by its first letters. It only changes the button color. */
+function check(){
   var p = parts();
-  var list = CUST.filter(function(c){ var w = c.name.toLowerCase().split(/\s+/); return w[0] === p.f && w.slice(1).join(" ").indexOf(p.l) === 0; });
-  if(!list.length){ dd.innerHTML = '<div class="none">No customer named <b>' + esc(nm.value.trim()) + '</b>. New customer; Save adds them to the list.</div>'; dd.hidden = false; return; }
-  var re = new RegExp("^(" + rx(p.f) + ")(\\s+)(" + rx(p.l) + ")", "i");
-  dd.innerHTML = list.map(function(c, i){
-    return '<button type="button" data-i="' + CUST.indexOf(c) + '"><span class="nm">' + esc(c.name).replace(re, "<mark>$1</mark>$2<mark>$3</mark>") + '</span><span class="mt"><span class="n">' + c.phone + '</span> · ' + esc(c.addr) + '</span><span class="mt">' + esc(c.car) + ' · ' + c.jobs + (c.jobs === 1 ? " job" : " jobs") + ', last ' + c.last + '</span></button>';
-  }).join("") + '<button type="button" class="new" data-none="1">None of these, new customer</button>';
-  dd.hidden = false;
+  hits = (p.f && p.l) ? CUST.filter(function(c){ var w = c.name.toLowerCase().split(/\s+/); return w[0] === p.f && w.slice(1).join(" ").indexOf(p.l) === 0; }) : [];
+  if(picked && nm.value === picked.name) hits = [];
+  sb.classList.toggle("hit", hits.length > 0);
+  sb.disabled = hits.length === 0;
+  sb.title = hits.length ? (hits.length === 1 ? "Fill in " + hits[0].name : hits.length + " customers match, press to fill the first") : "No customer with this name yet";
+  at = 0;
 }
-sb.addEventListener("click", function(){ $("spot").hidden = true; search(); });
-nm.addEventListener("keydown", function(e){ if(e.key === "Enter" && !sb.disabled){ e.preventDefault(); search(); } if(e.key === "Escape") dd.hidden = true; });
-nm.addEventListener("input", function(){ dd.hidden = true; if(picked && nm.value !== picked.name){ picked = null; $("filled").hidden = true; } ready(); });
-dd.addEventListener("mousedown", function(e){ e.preventDefault(); });
-dd.addEventListener("click", function(e){
-  var b = e.target.closest("button"); if(!b) return; dd.hidden = true;
-  if(b.dataset.none) return;
-  var c = CUST[+b.dataset.i]; picked = c; nm.value = c.name;
-  setBox("ph", c.phone); setBox("em", c.email); setBox("ad", c.addr);
-  $("filled").innerHTML = 'Phone, email and address filled in from Settings › Customers. <button type="button" class="lnk" id="undo">Not this person, clear it</button>';
-  $("filled").hidden = false; ready();
+function fill(c){
+  picked = c; nm.value = c.name; setBox("ph", c.phone); setBox("em", c.email); setBox("ad", c.addr);
+  var more = hits.length > 1 ? ' <span class="n">' + (at + 1) + '</span> of <span class="n">' + hits.length + '</span>, <button type="button" class="lnk" id="next">next one</button> ·' : '';
+  $("filled").innerHTML = 'Filled in from Settings › Customers.' + more + ' <button type="button" class="lnk" id="undo">Not this person, clear it</button>';
+  $("filled").hidden = false; sb.classList.remove("hit"); sb.disabled = true;
+}
+sb.addEventListener("click", function(){ $("spot").hidden = true; if(hits.length) fill(hits[at]); });
+nm.addEventListener("input", function(){ if(picked && nm.value !== picked.name){ picked = null; $("filled").hidden = true; } check(); });
+$("filled").addEventListener("click", function(e){
+  if(e.target.id === "undo"){ picked = null; hits = []; ["ph","em","ad"].forEach(function(id){ setBox(id, ""); }); $("filled").hidden = true; check(); nm.focus(); }
+  if(e.target.id === "next"){ at = (at + 1) % hits.length; fill(hits[at]); }
 });
-$("filled").addEventListener("click", function(e){ if(e.target.id === "undo"){ picked = null; ["ph","em","ad"].forEach(function(id){ setBox(id, ""); }); $("filled").hidden = true; ready(); nm.focus(); } });
-document.addEventListener("click", function(e){ if(!e.target.closest(".inl")) dd.hidden = true; });
 document.querySelector(".try").addEventListener("click", function(e){ var b = e.target.closest("[data-t]"); if(!b) return;
-  picked = null; $("filled").hidden = true; ["ph","em","ad"].forEach(function(id){ setBox(id, ""); }); dd.hidden = true; nm.value = b.dataset.t; ready(); nm.focus(); });
-ready();
+  picked = null; $("filled").hidden = true; ["ph","em","ad"].forEach(function(id){ setBox(id, ""); }); nm.value = b.dataset.t; check(); nm.focus(); });
+check(); setTimeout(function(){ $("spot").hidden = true; }, 4800);
 </script>
 </body>
 </html>
