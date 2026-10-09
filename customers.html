@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="CHQ Modules">
+<link rel="apple-touch-icon" href="icon.png">
+<title>Customers Module</title>
+<style>
+/* Layout: CHQ family (light app, Inter words, Courier New bold numbers, orange only on Save). Segmented tabs on top; Details window left, Past Jobs and the board slice right; stacks to one column on a phone. */
+:root{ color-scheme:light;
+  --page:#F2F2F7; --card:#FFFFFF; --ink:#16181D; --gray:#6C6C73; --soft:#A2A4AB; --line:#ECECF0; --field:#F6F6F9; --head:#16181D; --headink:#FFFFFF; --stripe:#F7F7F5;
+  --orange:#E8792B; --orangesoft:#FDF0E5; --green:#1E7B34; --greensoft:#E9F5EC; --red:#C0392B; --redsoft:#FBEAE8; --blue:#2E5AAC; --bluesoft:#EAF0FB; --segbg:#EDEDF2; --segon:#FFFFFF;
+  --words:Inter, -apple-system, "Segoe UI", Arial, sans-serif; --nums:"Courier New", Courier, monospace; }
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --page:#0E0F12; --card:#1A1B20; --ink:#F2F2F5; --gray:#A0A2AA; --soft:#6E7079; --line:#2A2C33; --field:#23252B; --head:#000000; --headink:#FFFFFF; --stripe:#1F2026; --orangesoft:#3A2615; --greensoft:#16301D; --redsoft:#3A1A17; --bluesoft:#18243A; --green:#4CB86A; --red:#E2685A; --blue:#7FA4F0; --segbg:#26282E; --segon:#3A3C44; color-scheme:dark; } }
+:root[data-theme="dark"]{ --page:#0E0F12; --card:#1A1B20; --ink:#F2F2F5; --gray:#A0A2AA; --soft:#6E7079; --line:#2A2C33; --field:#23252B; --head:#000000; --headink:#FFFFFF; --stripe:#1F2026; --orangesoft:#3A2615; --greensoft:#16301D; --redsoft:#3A1A17; --bluesoft:#18243A; --green:#4CB86A; --red:#E2685A; --blue:#7FA4F0; --segbg:#26282E; --segon:#3A3C44; color-scheme:dark; }
+*{ box-sizing:border-box; }
+[hidden]{ display:none !important; }
+body{ margin:0; background:var(--page); color:var(--ink); font:400 14px/1.45 var(--words); -webkit-font-smoothing:antialiased; }
+.wrap{ max-width:1180px; margin:0 auto; padding-block:28px 48px; padding-inline:16px; display:flex; flex-direction:column; gap:14px; }
+h1{ font:800 26px/1.15 var(--words); letter-spacing:-.02em; margin:0; text-wrap:balance; }
+h2{ font:700 16px var(--words); margin:0; }
+.lead{ color:var(--gray); margin:0; max-width:78ch; }
+.ver{ font:700 13px var(--nums); color:var(--orange); }
+.n{ font-family:var(--nums); font-weight:700; font-variant-numeric:tabular-nums; }
+button{ font-family:var(--words); }
+button:focus-visible, input:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
+
+.seg{ align-self:flex-start; display:inline-flex; padding:4px; background:var(--segbg); border-radius:22px; gap:2px; flex-wrap:wrap; }
+.seg button{ height:36px; padding:0 16px; border:0; border-radius:18px; background:none; font:600 14px var(--words); color:var(--gray); cursor:pointer; }
+.seg button.on{ background:var(--segon); color:var(--ink); box-shadow:0 0 0 .5px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.14); }
+.try{ display:flex; flex-wrap:wrap; align-items:center; gap:10px; }
+.try > span{ font:600 13px var(--words); color:var(--gray); }
+.chip{ height:36px; padding:0 14px; border:0; border-radius:18px; background:var(--card); color:var(--ink); font:600 13px var(--words); cursor:pointer; box-shadow:0 0 0 .5px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.08); }
+.chip:hover{ background:var(--field); }
+
+.grid{ display:grid; grid-template-columns:minmax(0, 460px) minmax(0, 1fr); gap:14px; align-items:start; }
+@media (max-width:900px){ .grid{ grid-template-columns:minmax(0, 1fr); } }
+.card{ background:var(--card); border-radius:22px; padding:18px; display:flex; flex-direction:column; gap:12px; min-width:0; box-shadow:0 0 0 .5px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.06); }
+.card .top{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
+.sub{ font:600 12px var(--words); color:var(--gray); margin:4px 0 -4px; }
+
+.f{ display:flex; flex-direction:column; gap:4px; position:relative; }
+.f label{ font:600 12px var(--words); color:var(--gray); }
+.f input{ height:44px; border:0; border-radius:22px; background:var(--field); color:var(--ink); padding:0 16px; font:500 15px var(--words); width:100%; }
+.f input.n{ font:700 15px var(--nums); letter-spacing:.02em; }
+.f input:focus{ outline:2px solid var(--orange); outline-offset:0; }
+.row2{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+@media (max-width:420px){ .row2{ grid-template-columns:1fr; } }
+
+/* Customer Name with the Search pill inside the box, at the right. Nothing searches until it is pressed. */
+.nmw{ position:relative; }
+.nmw input{ padding-right:100px; }
+.sbtn{ position:absolute; right:6px; top:6px; height:32px; padding:0 14px; border:0; border-radius:16px; background:var(--ink); color:#fff; font:600 13px var(--words); cursor:pointer; display:inline-flex; align-items:center; gap:6px; }
+.sbtn svg{ width:14px; height:14px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; }
+.sbtn:disabled{ background:var(--line); color:var(--soft); cursor:default; }
+.hint{ font:500 12px var(--words); color:var(--gray); padding-left:16px; }
+
+/* search results under the name box */
+.hit{ border-radius:18px; padding:10px 12px; display:flex; flex-direction:column; gap:8px; font:500 13px/1.4 var(--words); }
+.hit.b{ background:var(--bluesoft); } .hit.w{ background:var(--orangesoft); } .hit.g{ background:var(--greensoft); } .hit.p{ background:var(--field); }
+.hit b{ font-weight:700; }
+.hit .acts{ display:flex; flex-wrap:wrap; gap:10px; }
+.res{ display:flex; flex-direction:column; gap:6px; }
+.rr{ display:grid; grid-template-columns:minmax(0,1fr) auto; gap:2px 12px; align-items:center; background:var(--card); border-radius:16px; padding:10px 12px; }
+.rr .nm{ font:700 14px var(--words); }
+.rr .mt{ grid-column:1; font:500 12px var(--words); color:var(--gray); }
+.rr .btn{ grid-row:1 / span 2; grid-column:2; }
+.rr mark{ background:var(--orangesoft); color:inherit; border-radius:4px; padding:0 1px; }
+.btn{ height:36px; padding:0 14px; border:0; border-radius:18px; font:600 13px var(--words); cursor:pointer; }
+.btn.use{ background:var(--green); color:#fff; }
+.btn.plain{ background:var(--card); color:var(--ink); box-shadow:0 0 0 .5px rgba(0,0,0,.10); }
+.lnk{ border:0; background:none; padding:0; color:var(--blue); font:600 13px var(--words); cursor:pointer; text-align:left; text-decoration:underline; text-underline-offset:2px; }
+
+.srcrow{ display:flex; align-items:center; justify-content:space-between; gap:10px; min-height:44px; border-radius:22px; background:var(--field); padding:0 16px; }
+.srcrow span:first-child{ font:600 12px var(--words); color:var(--gray); }
+.pill{ display:inline-flex; align-items:center; gap:6px; height:28px; padding:0 12px; border-radius:14px; font:700 13px var(--words); background:var(--card); color:var(--ink); }
+.pill.rep{ background:var(--greensoft); color:var(--green); }
+.foot{ display:flex; justify-content:flex-end; gap:10px; flex-wrap:wrap; }
+.big{ height:44px; padding:0 22px; border:0; border-radius:22px; font:700 15px var(--words); cursor:pointer; }
+.big.save{ background:var(--orange); color:#fff; } .big.cancel{ background:var(--segbg); color:var(--ink); }
+
+/* past jobs */
+.pj{ display:flex; flex-direction:column; gap:8px; }
+.pjr{ display:grid; grid-template-columns:56px minmax(0,1fr) auto; gap:4px 12px; align-items:center; padding:10px 12px; border-radius:18px; background:var(--field); }
+.pjr .jn{ font:700 14px var(--nums); }
+.pjr .what{ font:600 14px var(--words); min-width:0; }
+.pjr .meta{ grid-column:2; font:500 12px var(--words); color:var(--gray); }
+.pjr .amt{ grid-row:1 / span 2; grid-column:3; font:700 14px var(--nums); text-align:right; }
+.pjr .amt.g{ color:var(--green); } .pjr .amt.x{ color:var(--soft); font-weight:400; font-family:var(--words); font-size:12px; }
+.empty{ color:var(--gray); font:500 13px var(--words); padding:6px 2px; }
+.sum{ display:flex; flex-wrap:wrap; gap:8px 18px; font:500 13px var(--words); color:var(--gray); }
+.sum b{ color:var(--ink); }
+
+/* where it lives */
+.where{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:10px; }
+@media (max-width:700px){ .where{ grid-template-columns:1fr; } }
+.where > div{ background:var(--field); border-radius:18px; padding:12px; font:500 13px/1.45 var(--words); }
+.where b{ display:block; font:700 14px var(--words); margin-bottom:2px; }
+
+/* customers tab */
+.search{ height:44px; border:0; border-radius:22px; background:var(--card); color:var(--ink); padding:0 18px; font:500 15px var(--words); width:100%; max-width:460px; box-shadow:0 0 0 .5px rgba(0,0,0,.08); }
+.tw{ overflow-x:auto; border-radius:22px; background:var(--card); box-shadow:0 0 0 .5px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.06); }
+table{ border-collapse:collapse; width:100%; min-width:760px; }
+th{ background:var(--head); color:var(--headink); font:700 14px var(--words); height:48px; padding:0 12px; text-align:left; white-space:nowrap; }
+td{ height:50px; padding:0 12px; border-bottom:1px solid var(--line); white-space:nowrap; }
+tr:nth-child(even) td{ background:var(--stripe); }
+td.n{ font-size:14px; }
+td .car{ font:500 13px var(--words); }
+.si{ width:20px; height:20px; border-radius:6px; display:inline-grid; place-items:center; vertical-align:-5px; margin-left:6px; }
+.si.rep{ background:var(--green); }
+.si svg{ width:12px; height:12px; fill:none; stroke:#fff; stroke-width:2.2; stroke-linecap:round; stroke-linejoin:round; }
+
+/* review tab */
+.rv{ display:flex; flex-direction:column; gap:14px; max-width:820px; }
+.pair{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+@media (max-width:560px){ .pair{ grid-template-columns:1fr; } }
+.pair > div{ background:var(--field); border-radius:18px; padding:12px; font:500 13px/1.5 var(--words); }
+.pair b{ font-weight:700; font-size:14px; }
+.why{ font:500 13px var(--words); color:var(--gray); }
+.done{ font:700 13px var(--words); color:var(--green); }
+.note{ color:var(--gray); font-size:13px; margin:0; line-height:1.55; max-width:80ch; }
+.c5back{ position:fixed; z-index:50; top:calc(env(safe-area-inset-top, 0px) + 10px); left:16px; display:inline-flex; align-items:center; gap:4px; height:40px; padding:0 14px 0 10px; border-radius:20px; text-decoration:none; color:#16181D; font:600 15px Inter, -apple-system, sans-serif; background:rgba(255,255,255,.6); -webkit-backdrop-filter:blur(2px) saturate(170%); backdrop-filter:blur(2px) saturate(170%); box-shadow:inset 0 1px 1px rgba(255,255,255,.95), inset 0 -1px 1px rgba(0,0,0,.12), 0 6px 18px rgba(0,0,0,.14); }
+.c5back svg{ width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
+.wrap{ padding-top:calc(env(safe-area-inset-top, 0px) + 64px) !important; }
+</style>
+</head>
+<body>
+<a class="c5back" href="./"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg>Modules</a>
+<div class="wrap">
+  <h1>Customers Module</h1>
+  <p class="lead">One list of every customer, with phone, email, address and cars. In a job's Details you type the name the normal way; nothing looks anything up until you press Search. Demo data only, every name and number below is made up.</p>
+  <span class="ver">Version 2 · Oct 8, 9:05 PM · module only, not in the app</span>
+
+  <div class="card">
+    <h2>Where The List Lives</h2>
+    <div class="where">
+      <div><b>A Customers tab in CollisionHQ</b>Next to the board. Search it, open a customer, see their phone, address, cars and every past job.</div>
+      <div><b>Built from the jobs you already have</b>Every job on the board already carries a name, phone and address. The list is made from those once, then each saved job adds to it. Nothing to type twice.</div>
+      <div><b>Saved with the jobs</b>Same online storage as the board, so the same list is on every computer and phone the shop signs into.</div>
+    </div>
+  </div>
+
+  <div class="seg" id="tabs" role="tablist">
+    <button type="button" class="on" data-t="add" role="tab">Details</button>
+    <button type="button" data-t="cust" role="tab">Customers</button>
+    <button type="button" data-t="rev" role="tab">Review List <span class="n" id="revn"></span></button>
+  </div>
+
+  <!-- DETAILS -->
+  <section id="p-add" class="grid">
+    <div class="card">
+      <div class="top"><h2>Details</h2><span class="n" style="color:var(--gray)" id="nextno"></span></div>
+      <div class="try"><span>Try:</span>
+        <button type="button" class="chip" data-try="taya">Taya J</button>
+        <button type="button" class="chip" data-try="maria">Maria G (2 of them)</button>
+        <button type="button" class="chip" data-try="new">Someone New</button>
+        <button type="button" class="chip" data-try="clear">Clear</button>
+      </div>
+
+      <div class="f"><label for="nm">Customer Name</label>
+        <div class="nmw"><input id="nm" autocomplete="off" placeholder="First and last name"><button type="button" class="sbtn" id="sbtn" disabled><svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5 14 14"/></svg>Search</button></div>
+        <span class="hint" id="hint">Type the first name and at least the first letter of the last name, then press Search.</span>
+      </div>
+      <div id="nmhit"></div>
+      <div class="row2">
+        <div class="f"><label for="ph">Customer Phone</label><input id="ph" class="n" autocomplete="off" placeholder="(323) 555-0000"></div>
+        <div class="f"><label for="em">Customer Email</label><input id="em" autocomplete="off"></div>
+      </div>
+      <div class="f"><label for="ad">Address</label><input id="ad" autocomplete="off"></div>
+
+      <div class="row2">
+        <div class="f"><label for="veh">Vehicle</label><input id="veh" autocomplete="off" value="2017 Ford Fusion SE"></div>
+        <div class="f"><label for="vin">VIN</label><input id="vin" class="n" maxlength="17" autocomplete="off" value="3FA6P0H74HR339911"></div>
+      </div>
+      <div class="srcrow"><span>Source</span><span id="src" class="pill">Facebook</span></div>
+      <div class="foot"><button type="button" class="big cancel" id="cancel">Cancel</button><button type="button" class="big save" id="save">Save</button></div>
+    </div>
+
+    <div class="card">
+      <div class="top"><h2>Past Jobs</h2><span id="pjfor" style="color:var(--gray);font:500 13px var(--words)"></span></div>
+      <div id="pjsum"></div>
+      <div class="pj" id="pj"></div>
+    </div>
+  </section>
+
+  <!-- CUSTOMERS -->
+  <section id="p-cust" hidden style="display:flex;flex-direction:column;gap:14px">
+    <input id="cs" class="search" placeholder="Search name, phone, address or car" autocomplete="off">
+    <div class="tw"><table id="ct"></table></div>
+  </section>
+
+  <!-- REVIEW -->
+  <section id="p-rev" hidden>
+    <div class="rv" id="rv"></div>
+  </section>
+
+  <p class="note">Rules in this module: nothing is looked up while you type. Search matches the first name exactly and the last name by its first letters, so "Taya J" finds Taya Jones but "Tay" alone finds nobody. If the phone box already has a full 10-digit number, Search also checks it. Picking a result fills phone, email and address; it never fills anything by itself. If nobody matches, it is a new customer and Save adds them to the list.</p>
+</div>
+
+<script>
+/* demo customers: id, name, phone, email, address, cars [vin, vehicle], jobs [no, date, insurance, work, paid, repaired] */
+var CUST = [
+  { id:"c1", name:"Taya Jones", phone:"(323) 555-0144", email:"taya.jones@example.com", addr:"8814 Otis St, South Gate, CA 90280",
+    cars:[["2HGFC2F69KH512345","2019 Honda Civic EX"]],
+    jobs:[[212,"2026-03-04","Fred Loya","Rear bumper, left quarter panel",3184.20,1],[278,"2026-07-16","State Farm","Left front door",2410.00,1]] },
+  { id:"c7", name:"Tayler Jimenez", phone:"(562) 555-0121", email:"", addr:"10421 Atlantic Ave, South Gate, CA 90280",
+    cars:[["5NPE24AF4JH600123","2018 Hyundai Sonata"]],
+    jobs:[[230,"2026-04-18","Mercury","Front bumper",1720.00,1]] },
+  { id:"c2", name:"Marco Ruiz", phone:"(562) 555-0199", email:"marco.ruiz@example.com", addr:"3120 Firestone Blvd, South Gate, CA 90280",
+    cars:[["4T1G11AK5MU601234","2021 Toyota Camry SE"]],
+    jobs:[[198,"2026-02-10","Progressive","Front bumper, hood",4905.55,1]] },
+  { id:"c3", name:"Maria Garcia", phone:"(213) 555-0102", email:"", addr:"411 Tweedy Blvd, South Gate, CA 90280",
+    cars:[["2T1BURHE7JC054321","2018 Toyota Corolla LE"]],
+    jobs:[[166,"2025-12-02","Kemper","Right rear door",1880.00,1]] },
+  { id:"c4", name:"Maria Gonzalez", phone:"(310) 555-0177", email:"mgonzalez77@example.com", addr:"12010 Long Beach Blvd, Lynwood, CA 90262",
+    cars:[["2T3W1RFV8MW112233","2021 Toyota RAV4 XLE"]],
+    jobs:[[241,"2026-05-21","AAA","Rear hatch",2975.40,1]] },
+  { id:"c5", name:"Denise Park", phone:"(626) 555-0110", email:"", addr:"905 Garfield Ave, Bell Gardens, CA 90201",
+    cars:[["1N4BL4BV8LC254321","2020 Nissan Altima SV"]],
+    jobs:[[154,"2025-11-14","National General","Front bumper",2290.10,1]] }
+];
+var REVIEW = [
+  { a:"Taya Jones · (323) 555-0144 · Job 212", b:"Taya M. Jones · (323) 555-0144 · Job 278", why:"Same phone number, name spelled 2 ways.", ans:"" },
+  { a:"Marco Ruiz · (562) 555-0199 · Job 198", b:"Marcos Ruiz · (562) 555-0199 · Job 120", why:"Same phone number, one letter different in the name.", ans:"" }
+];
+var NEXT = 282, picked = null;
+
+var MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+function md(s){ var p = s.split("-"); return MON[+p[1]-1] + " " + (+p[2]) + ", " + p[0]; }
+function $(id){ return document.getElementById(id); }
+function money(v){ return "$" + v.toLocaleString("en-US", { minimumFractionDigits:2, maximumFractionDigits:2 }); }
+function digits(s){ return (s || "").replace(/\D/g, ""); }
+function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]; }); }
+function isRepeat(c){ return c.jobs.some(function(j){ return j[5]; }); }
+var REP = '<i class="si rep"><svg viewBox="0 0 12 12"><path d="M2 6a4 4 0 0 1 7-2.6M10 6a4 4 0 0 1-7 2.6M9 1v2.4H6.6M3 11V8.6h2.4"/></svg></i>';
+
+/* the name box: typing only turns the Search pill on; it never looks anything up */
+var nm = $("nm"), sb = $("sbtn");
+function parts(){ var w = nm.value.trim().toLowerCase().split(/\s+/).filter(Boolean); return { first:w[0] || "", last:w.slice(1).join(" ") }; }
+function ready(){ var p = parts(); var ok = p.first.length > 0 && p.last.length > 0;
+  sb.disabled = !ok || (picked && nm.value === picked.name);
+  $("hint").hidden = ok || !!picked; }
+nm.addEventListener("input", function(){ if(picked && nm.value !== picked.name){ picked = null; setSrc(); drawPast(); } $("nmhit").innerHTML = ""; ready(); });
+nm.addEventListener("keydown", function(e){ if(e.key === "Enter" && !sb.disabled){ e.preventDefault(); search(); } });
+sb.addEventListener("click", search);
+
+/* the rule: first name exactly, last name starts with what was typed; plus a full 10-digit phone if one is in the phone box */
+function search(){
+  var p = parts(), d = digits($("ph").value);
+  var list = CUST.filter(function(c){
+    var w = c.name.toLowerCase().split(/\s+/), cf = w[0], cl = w.slice(1).join(" ");
+    return (cf === p.first && cl.indexOf(p.last) === 0) || (d.length === 10 && digits(c.phone) === d);
+  });
+  var box = $("nmhit");
+  if(!list.length){
+    box.innerHTML = '<div class="hit g">No customer named <b>' + esc(nm.value.trim()) + '</b> yet. This is a new customer; Save adds them to the list.</div>';
+    return;
+  }
+  var re = new RegExp("^(" + p.first.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + ")(\\s+)(" + p.last.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + ")", "i");
+  box.innerHTML = '<div class="hit b"><span><b class="n">' + list.length + '</b> ' + (list.length === 1 ? "customer matches" : "customers match") + '. Pick the right one, or keep typing if none of them is this person.</span><div class="res">' +
+    list.map(function(c){
+      var j = c.jobs[c.jobs.length - 1];
+      return '<div class="rr"><span class="nm">' + esc(c.name).replace(re, "<mark>$1</mark>$2<mark>$3</mark>") + '</span><span class="mt"><span class="n">' + esc(c.phone) + '</span> · ' + esc(c.addr || "no address") + '<br>' + esc(c.cars[0][1]) + ' · last job <span class="n">' + j[0] + '</span>, ' + md(j[1]) + '</span><button type="button" class="btn use" data-use="' + c.id + '">Use</button></div>';
+    }).join("") + '</div><span class="acts"><button type="button" class="lnk" data-none="1">None of these, new customer</button></span></div>';
+}
+$("nmhit").addEventListener("click", function(e){
+  var u = e.target.closest("[data-use]"); if(u){ usePick(CUST.filter(function(c){ return c.id === u.dataset.use; })[0]); return; }
+  if(e.target.closest("[data-none]")){ $("nmhit").innerHTML = '<div class="hit g">Kept as a new customer. Save adds <b>' + esc(nm.value.trim()) + '</b> to the list.</div>'; return; }
+  if(e.target.closest("[data-undo]")){ picked = null; ["ph","em","ad"].forEach(function(id){ $(id).value = ""; }); $("nmhit").innerHTML = ""; setSrc(); drawPast(); ready(); nm.focus(); }
+});
+
+/* picking fills name, phone, email and address; the car on this job stays what you typed */
+function usePick(c){
+  picked = c; nm.value = c.name; $("ph").value = c.phone; $("em").value = c.email; $("ad").value = c.addr;
+  $("nmhit").innerHTML = '<div class="hit p"><span><b>' + esc(c.name) + '</b> filled in: phone, email and address.' + (isRepeat(c) ? ' Source set to <b>Repeat Customer</b>.' : '') + '</span><span class="acts"><button type="button" class="lnk" data-undo="1">Not this person, clear it</button></span></div>';
+  setSrc(); drawPast(); ready();
+}
+$("ph").addEventListener("input", function(){ var d = digits(this.value).slice(0, 10); if(d.length === 10) this.value = "(" + d.slice(0,3) + ") " + d.slice(3,6) + "-" + d.slice(6); });
+function setSrc(){ var s = $("src"); if(picked && isRepeat(picked)){ s.className = "pill rep"; s.innerHTML = REP.replace('class="si rep"', 'class="si rep" style="margin:0"') + "Repeat Customer"; } else { s.className = "pill"; s.textContent = "Facebook"; } }
+
+function drawPast(){
+  var c = picked, pj = $("pj"), sm = $("pjsum"), f = $("pjfor");
+  if(!c){ pj.innerHTML = '<div class="empty">Search a name and pick a customer. Their past jobs show here.</div>'; sm.innerHTML = ""; f.textContent = ""; return; }
+  f.textContent = c.name;
+  var paid = c.jobs.reduce(function(a, j){ return a + j[4]; }, 0);
+  sm.innerHTML = '<div class="sum"><span><b class="n">' + c.jobs.length + '</b> ' + (c.jobs.length === 1 ? "job" : "jobs") + '</span><span>Paid <b class="n" style="color:var(--green)">' + money(paid) + '</b></span><span><b class="n">' + c.cars.length + '</b> ' + (c.cars.length === 1 ? "car" : "cars") + '</span></div>';
+  pj.innerHTML = c.jobs.slice().reverse().map(function(j){
+    return '<div class="pjr"><span class="jn">' + j[0] + '</span><span class="what">' + esc(j[3]) + '</span><span class="amt ' + (j[5] ? "g" : "x") + '">' + (j[5] ? money(j[4]) : "not repaired") + '</span><span class="meta"><span class="n">' + md(j[1]) + '</span> · ' + esc(j[2]) + '</span></div>';
+  }).join("");
+}
+
+$("save").addEventListener("click", function(){
+  var name = nm.value.trim(); if(!name){ nm.focus(); return; }
+  var job = [NEXT, "2026-10-08", "Customer Pay", "New job", 0, 0];
+  if(picked){ picked.jobs.push(job); if(!picked.cars.some(function(k){ return k[0] === $("vin").value; })) picked.cars.push([$("vin").value, $("veh").value]); }
+  else { CUST.push({ id:"c" + (CUST.length + 10), name:name, phone:$("ph").value, email:$("em").value, addr:$("ad").value, cars:[[$("vin").value, $("veh").value]], jobs:[job] }); }
+  $("nmhit").innerHTML = '<div class="hit g">Job <span class="n">' + NEXT + '</span> saved. <button type="button" class="lnk" id="seeList">See ' + esc(name) + ' in Customers</button></div>';
+  NEXT++; $("nextno").textContent = "Job " + NEXT; drawCust();
+  $("seeList").onclick = function(){ setTab("cust"); $("cs").value = name; drawCust(); };
+});
+function clearForm(){ ["nm","ph","em","ad"].forEach(function(id){ $(id).value = ""; }); picked = null; $("nmhit").innerHTML = ""; setSrc(); drawPast(); ready(); }
+$("cancel").addEventListener("click", clearForm);
+
+document.querySelector(".try").addEventListener("click", function(e){ var b = e.target.closest("[data-try]"); if(!b) return; clearForm(); var t = b.dataset.try;
+  if(t === "taya") nm.value = "Taya J";
+  if(t === "maria") nm.value = "Maria G";
+  if(t === "new") nm.value = "Andre Wilson";
+  ready(); nm.focus();
+});
+
+/* customers tab: the list itself */
+function drawCust(){
+  var q = $("cs").value.trim().toLowerCase(), qd = digits(q);
+  var list = CUST.filter(function(c){ if(!q) return true; return c.name.toLowerCase().indexOf(q) > -1 || (qd.length > 2 && digits(c.phone).indexOf(qd) > -1) || c.addr.toLowerCase().indexOf(q) > -1 || c.cars.some(function(k){ return k[1].toLowerCase().indexOf(q) > -1; }); })
+    .sort(function(a, b){ return a.name.localeCompare(b.name); });
+  $("ct").innerHTML = '<tr><th>Customer</th><th>Phone</th><th>Email</th><th>Address</th><th>Cars</th><th>Jobs</th></tr>' + (list.map(function(c){
+    return '<tr><td><b>' + esc(c.name) + '</b>' + (isRepeat(c) && c.jobs.length > 1 ? REP : "") + '</td><td class="n">' + (c.phone || "–") + '</td><td>' + esc(c.email || "–") + '</td><td>' + esc(c.addr || "–") + '</td><td><span class="car">' + c.cars.map(function(k){ return esc(k[1]); }).join(", ") + '</span></td><td class="n">' + c.jobs.length + '</td></tr>';
+  }).join("") || '<tr><td colspan="6" class="empty">No customer matches that search.</td></tr>');
+}
+$("cs").addEventListener("input", drawCust);
+
+function drawRev(){
+  var open = REVIEW.filter(function(r){ return !r.ans; }).length; $("revn").textContent = open ? open : "";
+  $("rv").innerHTML = '<p class="note">When the list is first built from your jobs, anything it is not sure about lands here. Nothing is joined until you press Same Person.</p>' + REVIEW.map(function(r, i){
+    return '<div class="card"><div class="pair"><div>' + esc(r.a).replace(/^([^·]+)/, "<b>$1</b>") + '</div><div>' + esc(r.b).replace(/^([^·]+)/, "<b>$1</b>") + '</div></div><span class="why">' + r.why + '</span>' +
+      (r.ans ? '<span class="done">' + r.ans + '</span>' : '<div class="foot" style="justify-content:flex-start"><button type="button" class="btn use" data-rv="' + i + '" data-a="1">Same Person</button><button type="button" class="btn plain" data-rv="' + i + '" data-a="">Different People</button></div>') + '</div>';
+  }).join("");
+}
+$("rv").addEventListener("click", function(e){ var b = e.target.closest("[data-rv]"); if(!b) return; REVIEW[+b.dataset.rv].ans = b.dataset.a ? "Joined into one customer." : "Kept as 2 customers."; drawRev(); });
+
+function setTab(t){ document.querySelectorAll("#tabs button").forEach(function(b){ b.classList.toggle("on", b.dataset.t === t); });
+  $("p-add").hidden = t !== "add"; $("p-cust").hidden = t !== "cust"; $("p-rev").hidden = t !== "rev"; }
+$("tabs").addEventListener("click", function(e){ var b = e.target.closest("button"); if(b) setTab(b.dataset.t); });
+
+/* opening state: the Ford Fusion job with "Taya J" typed, nothing searched yet */
+$("nextno").textContent = "Job " + NEXT; drawCust(); drawRev(); setSrc(); drawPast();
+nm.value = "Taya J"; ready();
+</script>
+</body>
+</html>
