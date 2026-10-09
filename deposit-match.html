@@ -110,6 +110,22 @@ tr.panel > td{ height:auto; padding:10px 12px 14px; background:#fff; white-space
 .fig b{ font-size:13px; }
 .fig.hit i, .fig.hit b{ color:var(--green) !important; font-weight:600; }
 .figs{ gap:6px !important; }
+/* v5: page = window on the left, pill sheet on the right */
+.lay{ max-width:1560px; margin:0 auto 40px; padding:0 16px; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:20px; align-items:start; }
+.lay .win{ max-width:none; margin:0; }
+.head{ max-width:1560px !important; }
+@media (max-width:1100px){ .lay{ grid-template-columns:1fr; } }
+.sheet{ background:#fff; border-radius:28px; padding:20px; display:flex; flex-direction:column; gap:14px; box-shadow:0 30px 80px rgba(0,0,0,.18); position:sticky; top:16px; }
+.sheet h3{ margin:0; font:800 18px var(--words); } .sheet .sh{ margin:-8px 0 0; color:var(--gray); font-size:13px; }
+.sheet .it{ display:flex; flex-direction:column; gap:6px; align-items:flex-start; padding-bottom:12px; border-bottom:1px solid var(--line); }
+.sheet .it:last-child{ border-bottom:0; }
+.sheet .lb{ font:600 12.5px var(--words); color:#56616C; }
+.sheet .sz{ font:400 12px var(--words); color:var(--gray); }
+.sheet .col{ display:flex; flex-direction:column; gap:6px; background:var(--box); padding:8px; border-radius:20px; }
+/* Match button: B filled = light green with a green ring, 32 tall, same as the other green pills */
+.use{ height:32px !important; padding:0 14px 0 12px !important; border-radius:16px !important; background:var(--gtint) !important; color:var(--green) !important; box-shadow:inset 0 0 0 1.5px var(--green) !important; font:600 13px var(--words) !important; gap:5px !important; }
+.use:hover{ background:#D8EEDD !important; }
+.use svg{ width:13px !important; height:13px !important; stroke-width:2.8; }
 .c5back{ position:fixed; z-index:50; top:calc(env(safe-area-inset-top, 0px) + 10px); left:16px; display:inline-flex; align-items:center; gap:4px; height:40px; padding:0 14px 0 10px; border-radius:20px; text-decoration:none; color:#16181D; font:600 15px Inter, -apple-system, sans-serif; background:rgba(255,255,255,.6); -webkit-backdrop-filter:blur(2px) saturate(170%); backdrop-filter:blur(2px) saturate(170%); box-shadow:inset 0 1px 1px rgba(255,255,255,.95), inset 0 -1px 1px rgba(0,0,0,.12), 0 6px 18px rgba(0,0,0,.14); }
 .c5back svg{ width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
 .head{ padding-top:calc(env(safe-area-inset-top, 0px) + 64px) !important; }
@@ -124,12 +140,12 @@ tr.panel > td{ height:auto; padding:10px 12px 14px; background:#fff; white-space
 
 <div class="head">
   <h1>Deposit Match Card</h1>
-  <span class="ver">Version 4 · Oct 9, 1:35 PM · module only, not in the app</span>
+  <span class="ver">Version 5 · Oct 9, 1:40 PM · module only, not in the app</span>
   <p>The card that opens under a yellow deposit in Deposits. Same information, family look: one gray pill per job that matches, one font, amounts as 40-pixel pills with the one that equals the deposit in green, the green Match button always on screen (no sideways scroll), then Search Jobs and Enter Details Manually as family pills.</p>
-  <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><div class="seg" id="mode"><button class="on" data-v="new">New</button><button data-v="old">Today</button></div><span style="font:600 13px var(--words);color:var(--gray);margin-top:6px">Match button</span><div class="seg" id="mb"><button class="on" data-v="a">A</button><button data-v="b">B</button><button data-v="c">C</button></div></div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><div class="seg" id="mode"><button class="on" data-v="new">New</button><button data-v="old">Today</button></div></div>
 </div>
 
-<div class="win">
+<div class="lay"><div class="win">
   <h2>Deposits</h2><p class="sub">Bank deposits matched to jobs.</p>
   <div class="tw"><table>
     <colgroup><col style="width:86px"><col style="width:140px"><col style="width:130px"><col class="hide-s" style="width:150px"><col class="hide-s"><col class="hide-s" style="width:150px"><col style="width:120px"><col style="width:118px"></colgroup>
@@ -168,8 +184,24 @@ tr.panel > td{ height:auto; padding:10px 12px 14px; background:#fff; white-space
     <tr class="u"><td class="d">Jan 20</td><td>Online Check</td><td></td><td class="hide-s"></td><td class="hide-s"></td><td class="hide-s"></td><td class="m r">$5,451.86</td><td><span class="st r">Un-Matched</span></td></tr>
   </table></div>
 </div>
+<aside class="sheet">
+  <h3>All The Pills</h3>
+  <p class="sh">Each one as it sits in Deposits, so they can be made the same.</p>
+  <div class="it"><span class="lb">1 · Status (in the row)</span><span class="mpill"><svg class="ic"><use href="#i-chk"/></svg>1 Match</span><span class="sz">32 tall · light green · green check and words</span></div>
+  <div class="it"><span class="lb">2 · Match (the button)</span><span class="mb-b-demo"><button type="button" class="use"><svg class="ic"><use href="#i-chk"/></svg>Match</button></span><span class="sz">32 tall · light green with a green ring (B, filled)</span></div>
+  <div class="it"><span class="lb">3 · Found Match (the tag)</span><span class="tag"><svg class="ic"><use href="#i-chk"/></svg>Found Match</span><span class="sz">32 tall · light green · green check and words</span></div>
+  <div class="it"><span class="lb">4 · The amounts</span>
+    <span class="col">
+      <span class="fig"><i>Est. 1</i><b>$9,665.45</b></span>
+      <span class="fig"><i>Ded.</i><b>$500.00</b></span>
+      <span class="fig hit"><i><svg class="ic"><use href="#i-chk"/></svg>Check</i><b>$9,165.45</b></span>
+      <span class="fig zero"><i>Supp. 1</i><b>$0.00</b></span>
+      <span class="fig zero"><i>Supp. 2</i><b>$0.00</b></span>
+    </span><span class="sz">32 tall · 136 wide each · white; the one that equals the deposit is the same light green with a check</span></div>
+</aside>
+</div>
 
-<p class="note">What stays the same: the same job, the same five amounts and the same rule (the amount that equals the deposit is the one that lights up). What changes: the long "Found a match — carrier agrees" badge becomes a short "Found Match" tag; the five amount pills are exactly the same size with short labels (Est. 1, Ded., Check, Supp. 1, Supp. 2), and the one that equals the deposit only gets a green ring and check; Check = Estimate 1 less the deductible; the Match button sits in the card's first line so it never scrolls off. Press Match in the demo to see it settle.</p>
+<p class="note">What stays the same: the same job, the same five amounts and the same rule (the amount that equals the deposit is the one that lights up). What changes: the long "Found a match — carrier agrees" badge becomes a short "Found Match" tag; the five amount pills are exactly the same size with short labels (Est. 1, Ded., Check, Supp. 1, Supp. 2), and the one that equals the deposit is the same light-green pill as Found Match, 1 Match and the Match button; Check = Estimate 1 less the deductible; the Match button sits in the card's first line so it never scrolls off. Press Match in the demo to see it settle.</p>
 
 <script>
 document.getElementById("mode").addEventListener("click", function(e){ var b = e.target.closest("button"); if(!b) return;
@@ -181,7 +213,7 @@ document.getElementById("use").addEventListener("click", function(){
   var y = document.querySelector("tr.y"); y.classList.remove("y");
   y.cells[3].textContent = "75-94W0-25C01"; y.cells[4].textContent = "2016 Audi A3 Premium"; y.cells[5].textContent = "Justin Eckart Diaz";
 });
-document.getElementById("mb").addEventListener("click", function(e){ var b = e.target.closest("button"); if(!b) return;
+if(document.getElementById("mb")) document.getElementById("mb").addEventListener("click", function(e){ var b = e.target.closest("button"); if(!b) return;
   this.querySelectorAll("button").forEach(function(x){ x.classList.toggle("on", x === b); });
   var c = document.getElementById("newCard"); c.classList.remove("mb-b","mb-c"); if(b.dataset.v !== "a") c.classList.add("mb-" + b.dataset.v); });
 </script>
