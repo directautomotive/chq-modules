@@ -9,9 +9,12 @@
 <link rel="apple-touch-icon" href="icon.png">
 <title>Deposit Match Card</title>
 <style>
-/* Deposits window slice (app 5.233): black header strip, rows 61 tall, yellow row = a deposit with a match waiting.
-   The match card under it is redrawn in the family: white card, 40-pixel gray pill rows, one font (Inter), numbers in the same font, no sideways scroll. */
-:root{ color-scheme:light; --ink:#16181D; --gray:#6C6C73; --soft:#8A8F98; --box:#F2F2F7; --line:#ECECF0; --green:#1E7B34; --gtint:#E7F4EA; --red:#C0392B; --yel:#FCF3CF; --orange:#E8792B;
+/* Deposits window slice (app 5.236). Interactive: yellow rows have a possible match, red rows have none.
+   One pill size everywhere (28 tall); green = done or the one to press, yellow = a possibility, red = nothing found. */
+:root{ color-scheme:light; --ink:#16181D; --gray:#6C6C73; --soft:#8A8F98; --box:#F2F2F7; --line:#ECECF0;
+  --green:#1E7B34; --gtint:#E7F4EA; --red:#C0392B; --rtint:#FBEAE8; --amb:#8A5A00; --aring:#B07A00; --atint:#FFF1D6;
+  --org:#B4561A; --oring:#E8792B; --otint:#FDF0E5; --blue:#2E5AAC; --btint:#EAF0FB; --orange:#E8792B;
+  --rowY:#FCF3CF; --rowR:#FBE9E7;
   --words:Inter, -apple-system, "Segoe UI", Arial, sans-serif; --nums:"Courier New", Courier, monospace; }
 *{ box-sizing:border-box; }
 [hidden]{ display:none !important; }
@@ -19,134 +22,84 @@ body{ margin:0; background:#D9DAE0; color:var(--ink); font:400 14px/1.4 var(--wo
 button{ font-family:var(--words); color:var(--ink); border:0; background:none; cursor:pointer; padding:0; }
 button:focus-visible, input:focus-visible{ outline:2px solid var(--orange); outline-offset:2px; }
 .ic{ fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
-.head{ max-width:1180px; margin:0 auto; padding:24px 16px 14px; display:flex; flex-direction:column; gap:6px; }
+.head{ max-width:1560px; margin:0 auto; padding:24px 16px 14px; display:flex; flex-direction:column; gap:6px; }
 .head h1{ margin:0; font:800 22px var(--words); }
 .head .ver{ font:700 13px var(--nums); color:var(--orange); }
-.head p{ margin:0; color:#3A3F47; max-width:80ch; }
-.seg{ align-self:flex-start; display:inline-flex; padding:4px; background:#EDEDF2; border-radius:22px; gap:2px; margin-top:6px; }
-.seg button{ height:36px; padding:0 16px; border-radius:18px; font:600 14px var(--words); color:#5B6472; }
-.seg button.on{ background:#fff; color:var(--ink); box-shadow:0 0 0 .5px rgba(0,0,0,.06), 0 1px 3px rgba(0,0,0,.14); }
+.head p{ margin:0; color:#3A3F47; max-width:90ch; }
+.reset{ align-self:flex-start; height:32px; padding:0 14px; border-radius:16px; background:#fff; font:600 13px var(--words); box-shadow:0 0 0 .5px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.08); margin-top:4px; }
 
-.win{ max-width:1180px; margin:0 auto 40px; background:#fff; border-radius:36px; padding:24px; box-shadow:0 30px 80px rgba(0,0,0,.28); }
+.lay{ max-width:1560px; margin:0 auto 40px; padding:0 16px; display:grid; grid-template-columns:minmax(0,1fr) 300px; gap:20px; align-items:start; }
+@media (max-width:1100px){ .lay{ grid-template-columns:1fr; } }
+.win{ background:#fff; border-radius:36px; padding:24px; box-shadow:0 30px 80px rgba(0,0,0,.28); min-width:0; }
 .win h2{ margin:0; font:800 24px var(--words); } .win .sub{ color:var(--gray); margin:2px 0 16px; }
 .tw{ border-radius:20px; overflow:hidden; border:1px solid var(--line); }
 table{ width:100%; border-collapse:collapse; table-layout:fixed; }
 th{ background:var(--ink); color:#fff; font:700 14px var(--words); height:52px; text-align:left; padding:0 12px; }
 th.r, td.r{ text-align:right; }
-td{ height:61px; padding:0 12px; border-bottom:1px solid var(--line); font:400 15px var(--words); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+td{ height:56px; padding:0 12px; border-bottom:1px solid var(--line); font:400 15px var(--words); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 td.d{ font:700 15px var(--nums); }
 td.m{ font:700 15px var(--nums); color:var(--green); }
-tr.y td{ background:var(--yel); }
-tr.u td{ background:#FBE9E7; }
-.st{ font:600 15px var(--words); } .st.g{ color:var(--green); } .st.r{ color:var(--red); }
-.mpill{ display:inline-flex; align-items:center; height:24px; padding:0 10px; border-radius:12px; background:var(--gtint); color:var(--green); font:700 12px var(--words); }
+tr.row{ cursor:default; }
+tr.row.y td{ background:var(--rowY); } tr.row.r td{ background:var(--rowR); }
+tr.row.y, tr.row.r{ cursor:pointer; }
+tr.row.y:hover td{ background:#F9EDB8; } tr.row.r:hover td{ background:#F8DEDA; }
+tr.row.flash td{ animation:rowok 1.4s ease-out; }
+@keyframes rowok{ 0%{ background:#CFEBD6; } 100%{ background:#fff; } }
+@media (max-width:760px){ .win{ padding:14px; border-radius:24px; } table{ table-layout:auto; } .hide-s{ display:none; } }
 
-/* ----- the match card ----- */
-tr.panel > td{ height:auto; padding:10px 12px 14px; background:#fff; white-space:normal; overflow:visible; }
-.mc{ display:flex; flex-direction:column; gap:8px; }
-.cand{ background:var(--box); border-radius:20px; padding:8px 8px 8px 16px; display:flex; flex-direction:column; gap:8px; }
-.cand .top{ display:flex; align-items:center; gap:10px; min-height:32px; flex-wrap:wrap; }
-.tag{ display:inline-flex; align-items:center; gap:6px; height:26px; padding:0 10px; border-radius:13px; background:var(--gtint); color:var(--green); font:600 12.5px var(--words); flex:none; }
-.tag svg{ width:13px; height:13px; stroke-width:2.6; }
+/* one pill: 28 tall, light fill, ring, icon and words in its color */
+.sp{ display:inline-flex; align-items:center; gap:5px; height:28px; padding:0 12px 0 10px; border-radius:14px; font:600 12.5px var(--words); white-space:nowrap; }
+.sp svg{ width:12px; height:12px; stroke-width:2.8; flex:none; }
+.sp.g{ background:var(--gtint); color:var(--green); box-shadow:inset 0 0 0 1.5px var(--green); }
+.sp.y{ background:var(--atint); color:var(--amb); box-shadow:inset 0 0 0 1.5px var(--aring); }
+.sp.r{ background:var(--rtint); color:var(--red); box-shadow:inset 0 0 0 1.5px var(--red); }
+.sp.o{ background:var(--otint); color:var(--org); box-shadow:inset 0 0 0 1.5px var(--oring); }
+.sp.k{ background:#EDEDF2; color:#3A3F47; box-shadow:inset 0 0 0 1.5px #8A8F98; }
+.sp.b{ background:var(--btint); color:var(--blue); box-shadow:inset 0 0 0 1.5px var(--blue); }
+.sp.s{ background:#fff; color:#3A3F47; box-shadow:inset 0 0 0 1.5px #C9CAD0; }
+button.sp:hover{ filter:brightness(.97); }
+.sp .cv{ width:10px; height:10px; margin-left:1px; transition:transform .18s; }
+tr.open .sp .cv{ transform:rotate(180deg); }
+
+/* the card under an open row */
+tr.panel > td{ height:auto; padding:8px 12px 12px; background:#fff; white-space:normal; overflow:visible; }
+.mc{ display:flex; flex-direction:column; gap:8px; animation:drop .18s cubic-bezier(.2,.9,.3,1.1); transform-origin:50% 0; }
+@keyframes drop{ from{ opacity:0; transform:scaleY(.9); } }
+.cand{ background:var(--box); border-radius:20px; padding:8px 8px 8px 12px; display:flex; flex-direction:column; gap:8px; }
+.cand .top{ display:flex; align-items:center; gap:10px; min-height:28px; }
 .who{ display:flex; align-items:center; gap:10px; min-width:0; flex:1; font:400 14px var(--words); white-space:nowrap; overflow:hidden; }
 .who span{ overflow:hidden; text-overflow:ellipsis; }
 .vb{ width:1px; height:14px; background:#C9CAD0; flex:none; display:inline-block; }
-.use{ height:36px; padding:0 18px; border-radius:18px; background:var(--green); color:#fff; font:600 14px var(--words); flex:none; }
-.use:hover{ background:#196A2D; }
-.figs{ display:flex; gap:6px; flex-wrap:wrap; padding-right:8px; }
-.fig{ height:40px; padding:0 14px; border-radius:20px; background:#fff; display:inline-flex; align-items:center; gap:8px; font:400 14px var(--words); color:var(--ink); }
-.fig i{ font-style:normal; color:var(--gray); font-size:13px; }
-.fig b{ font-weight:400; font-variant-numeric:tabular-nums; }
-.fig.zero{ opacity:.45; }
-.fig.hit{ background:var(--gtint); box-shadow:inset 0 0 0 1.5px var(--green); color:var(--green); }
-.fig.hit i{ color:var(--green); }
-.fig.hit svg{ width:14px; height:14px; stroke-width:2.6; }
+.figs{ display:flex; flex-wrap:wrap; gap:5px; }
+.fig{ width:142px; height:28px; padding:0 10px; white-space:nowrap; border-radius:14px; background:#fff; display:inline-flex; align-items:center; gap:5px; font:400 12.5px var(--words); color:var(--ink); }
+.fig i{ font-style:normal; white-space:nowrap; flex:none; color:var(--gray); font-size:11.5px; display:inline-flex; align-items:center; gap:4px; }
+.fig b{ font-weight:400; margin-left:auto; font-variant-numeric:tabular-nums; }
+.fig svg{ width:12px; height:12px; stroke-width:2.8; }
+button.fig:hover{ box-shadow:inset 0 0 0 1.5px #C9CAD0; }
+.fig.zero i, .fig.zero b{ color:#A2A4AB; }
+.fig.on{ background:var(--gtint); box-shadow:inset 0 0 0 1.5px var(--green); }
+.fig.on i, .fig.on b{ color:var(--green); font-weight:500; }
 .srow{ display:flex; gap:8px; align-items:center; }
 .sbox{ position:relative; flex:1; }
 .sbox input{ width:100%; height:40px; border:0; border-radius:20px; background:var(--box); padding:0 16px 0 40px; font:400 14px var(--words); color:var(--ink); }
 .sbox svg{ position:absolute; left:14px; top:12px; width:16px; height:16px; color:var(--soft); }
 .man{ height:40px; padding:0 18px; border-radius:20px; background:var(--box); font:600 14px var(--words); flex:none; }
 .man:hover{ background:#E8E8EE; }
-.done{ display:flex; align-items:center; gap:8px; color:var(--green); font:600 14px var(--words); padding:4px 4px; }
+.none{ font:400 13px var(--words); color:var(--gray); padding:2px 4px; }
+.mrow{ display:flex; gap:8px; align-items:center; flex-wrap:wrap; background:var(--box); border-radius:20px; padding:8px 8px 8px 12px; }
+.mrow input{ height:28px; border:0; border-radius:14px; background:#fff; padding:0 12px; font:400 13px var(--words); width:150px; }
+.donecard{ display:flex; align-items:center; gap:10px; background:var(--box); border-radius:20px; padding:8px 8px 8px 12px; font:400 14px var(--words); }
+.donecard .sp{ margin-left:auto; }
 
-/* the old card, for comparison */
-.old .cand-o{ border:1px solid #D5D8DC; border-radius:6px; padding:8px; display:flex; align-items:center; gap:14px; font:700 13px var(--nums); white-space:nowrap; overflow-x:auto; }
-.old .fo{ background:#E9F5EC; color:var(--green); border:1px solid #BFE3C8; padding:2px 6px; border-radius:4px; font:700 10px var(--nums); letter-spacing:.05em; }
-.old .fg{ border:1px solid #DDD; border-radius:4px; padding:3px 10px; text-align:center; font:700 13px var(--nums); } .old .fg i{ display:block; font:400 10px var(--nums); letter-spacing:.06em; color:#555; font-style:normal; }
-.old .fg.h{ background:#E9F5EC; border-color:var(--green); color:var(--green); }
-.old .os{ margin:10px auto 0; display:block; width:640px; max-width:100%; height:42px; border:1px solid #D5D8DC; border-radius:6px; padding:0 12px; font:400 16px var(--words); }
-.old .om{ display:block; margin:8px auto 0; border:1px solid #CCC; border-radius:8px; padding:6px 12px; font:700 15px var(--words); }
-.note{ max-width:1180px; margin:0 auto 32px; padding:0 16px; color:#3A3F47; font-size:13px; line-height:1.55; }
-@media (max-width:760px){ .win{ padding:14px; border-radius:24px; } table{ table-layout:auto; } .hide-s{ display:none; } }
-/* v2: every amount pill exactly the same size and style; short labels; the hit one only gets a green ring and check */
-.figs{ display:grid !important; grid-template-columns:repeat(5, minmax(0,1fr)); gap:6px; padding-right:8px; }
-.fig{ width:100%; justify-content:space-between; padding:0 14px !important; }
-.fig i{ display:inline-flex; align-items:center; gap:5px; font-size:13px !important; }
-.fig.hit{ background:#fff !important; box-shadow:inset 0 0 0 1.5px var(--green) !important; color:var(--ink) !important; }
-.fig.hit i{ color:var(--green) !important; }
-.fig i svg{ width:13px; height:13px; stroke-width:2.8; }
-@media (max-width:760px){ .figs{ grid-template-columns:repeat(2, minmax(0,1fr)); } }
-/* Match button: A = 40 tall green pill with a check (row height), B = white pill with green ring, C = green tint like the Found Match tag */
-.use{ height:40px !important; padding:0 18px 0 14px !important; border-radius:20px !important; display:inline-flex; align-items:center; gap:6px; }
-.use svg{ width:15px; height:15px; stroke-width:2.6; }
-.mb-b .use{ background:#fff !important; color:var(--green) !important; box-shadow:inset 0 0 0 1.5px var(--green); }
-.mb-b .use:hover{ background:var(--gtint) !important; }
-.mb-c .use{ background:var(--gtint) !important; color:var(--green) !important; }
-.mb-c .use:hover{ background:#D8EEDD !important; }
-.fig.zero{ opacity:1 !important; } .fig.zero i, .fig.zero b{ color:#A2A4AB; }
-/* v3: amount pills are one fixed size, label and amount sit together (no stretch); the Status "1 Match" pill is the same pill as Check */
-.figs{ display:flex !important; flex-wrap:wrap; gap:6px; }
-.fig{ width:168px !important; flex:none; justify-content:flex-start !important; gap:8px !important; }
-.fig b{ margin-left:auto; }
-.mpill{ height:40px !important; padding:0 14px 0 12px !important; border-radius:20px !important; background:#fff !important; box-shadow:inset 0 0 0 1.5px var(--green); color:var(--green) !important; font:400 14px var(--words) !important; display:inline-flex; align-items:center; gap:5px; }
-.mpill svg{ width:13px; height:13px; stroke-width:2.8; }
-/* v4: one green pill everywhere it means "this one": light green fill, green check, green words.
-   Found Match, the Status "1 Match" and the amount that equals the deposit are the same pill. Amount pills smaller and tighter. */
-.tag, .mpill, .fig.hit{ background:var(--gtint) !important; color:var(--green) !important; box-shadow:none !important; }
-.tag, .mpill{ height:32px !important; padding:0 12px 0 10px !important; border-radius:16px !important; font:600 13px var(--words) !important; gap:5px !important; display:inline-flex; align-items:center; }
-.tag svg, .mpill svg, .fig.hit svg{ width:13px !important; height:13px !important; stroke-width:2.8; }
-.fig{ width:136px !important; height:32px !important; padding:0 11px !important; border-radius:16px !important; gap:6px !important; font-size:13px !important; }
-.fig i{ font-size:12px !important; }
-.fig b{ font-size:13px; }
-.fig.hit i, .fig.hit b{ color:var(--green) !important; font-weight:600; }
-.figs{ gap:6px !important; }
-/* v5: page = window on the left, pill sheet on the right */
-.lay{ max-width:1560px; margin:0 auto 40px; padding:0 16px; display:grid; grid-template-columns:minmax(0,1fr) 320px; gap:20px; align-items:start; }
-.lay .win{ max-width:none; margin:0; }
-.head{ max-width:1560px !important; }
-@media (max-width:1100px){ .lay{ grid-template-columns:1fr; } }
-.sheet{ background:#fff; border-radius:28px; padding:20px; display:flex; flex-direction:column; gap:14px; box-shadow:0 30px 80px rgba(0,0,0,.18); position:sticky; top:16px; }
-.sheet h3{ margin:0; font:800 18px var(--words); } .sheet .sh{ margin:-8px 0 0; color:var(--gray); font-size:13px; }
-.sheet .it{ display:flex; flex-direction:column; gap:6px; align-items:flex-start; padding-bottom:12px; border-bottom:1px solid var(--line); }
-.sheet .it:last-child{ border-bottom:0; }
-.sheet .lb{ font:600 12.5px var(--words); color:#56616C; }
-.sheet .sz{ font:400 12px var(--words); color:var(--gray); }
-.sheet .col{ display:flex; flex-direction:column; gap:6px; background:var(--box); padding:8px; border-radius:20px; }
-/* Match button: B filled = light green with a green ring, 32 tall, same as the other green pills */
-.use{ height:32px !important; padding:0 14px 0 12px !important; border-radius:16px !important; background:var(--gtint) !important; color:var(--green) !important; box-shadow:inset 0 0 0 1.5px var(--green) !important; font:600 13px var(--words) !important; gap:5px !important; }
-.use:hover{ background:#D8EEDD !important; }
-.use svg{ width:13px !important; height:13px !important; stroke-width:2.8; }
-/* v6: every green pill is the Match pill (light green, green ring, green check); everything a bit smaller: 28 tall */
-.mpill, .tag, .use, .fig.hit{ background:var(--gtint) !important; color:var(--green) !important; box-shadow:inset 0 0 0 1.5px var(--green) !important; }
-.mpill, .tag, .use{ height:28px !important; padding:0 12px 0 10px !important; border-radius:14px !important; font:600 12.5px var(--words) !important; gap:5px !important; }
-.mpill svg, .tag svg, .use svg, .fig svg{ width:12px !important; height:12px !important; }
-.fig{ width:124px !important; height:28px !important; padding:0 10px !important; border-radius:14px !important; gap:5px !important; }
-.fig i{ font-size:11.5px !important; }
-.fig b{ font-size:12.5px !important; }
-.fig.hit i, .fig.hit b{ color:var(--green) !important; }
-.figs{ gap:5px !important; }
-.cand .top{ min-height:28px !important; }
-.fig{ width:130px !important; } .fig.hit i, .fig.hit b{ font-weight:500 !important; }
-/* v7: every status is the same 28-pixel pill: tint, ring and words in its own color */
-.sp{ display:inline-flex; align-items:center; gap:5px; height:28px; padding:0 12px 0 10px; border-radius:14px; font:600 12.5px var(--words); white-space:nowrap; }
-.sp svg{ width:12px; height:12px; stroke-width:2.8; }
-.sp.g{ background:var(--gtint); color:var(--green); box-shadow:inset 0 0 0 1.5px var(--green); }
-.sp.r{ background:#FBEAE8; color:var(--red); box-shadow:inset 0 0 0 1.5px var(--red); }
-.sp.y{ background:#FFF1D6; color:#8A5A00; box-shadow:inset 0 0 0 1.5px #B07A00; }
-.sp.k{ background:#EDEDF2; color:#3A3F47; box-shadow:inset 0 0 0 1.5px #8A8F98; }
-.sp.c{ background:#EAF0FB; color:#2E5AAC; box-shadow:inset 0 0 0 1.5px #2E5AAC; }
-.sp.y svg path[fill]{ fill:#8A5A00; }
-.sheet .col2{ display:flex; flex-wrap:wrap; gap:6px; }
+/* pill sheet */
+.sheet{ background:#fff; border-radius:28px; padding:20px; display:flex; flex-direction:column; gap:12px; box-shadow:0 30px 80px rgba(0,0,0,.18); position:sticky; top:16px; }
+.sheet h3{ margin:0; font:800 18px var(--words); } .sheet .sh{ margin:-6px 0 0; color:var(--gray); font-size:13px; }
+.sheet .grp{ font:600 12.5px var(--words); color:#56616C; margin-top:4px; }
+.sheet .it{ display:grid; grid-template-columns:auto 1fr; gap:4px 10px; align-items:center; }
+.sheet .it span.t{ font:400 12px/1.35 var(--words); color:var(--gray); }
+.sheet .col{ display:flex; flex-direction:column; gap:5px; background:var(--box); padding:8px; border-radius:18px; align-self:flex-start; }
+.note{ max-width:1560px; margin:0 auto 32px; padding:0 16px; color:#3A3F47; font-size:13px; line-height:1.55; }
+@media (prefers-reduced-motion:reduce){ .mc{ animation:none; } tr.row.flash td{ animation:none; } }
 .c5back{ position:fixed; z-index:50; top:calc(env(safe-area-inset-top, 0px) + 10px); left:16px; display:inline-flex; align-items:center; gap:4px; height:40px; padding:0 14px 0 10px; border-radius:20px; text-decoration:none; color:#16181D; font:600 15px Inter, -apple-system, sans-serif; background:rgba(255,255,255,.6); -webkit-backdrop-filter:blur(2px) saturate(170%); backdrop-filter:blur(2px) saturate(170%); box-shadow:inset 0 1px 1px rgba(255,255,255,.95), inset 0 -1px 1px rgba(0,0,0,.12), 0 6px 18px rgba(0,0,0,.14); }
 .c5back svg{ width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
 .head{ padding-top:calc(env(safe-area-inset-top, 0px) + 64px) !important; }
@@ -157,93 +110,136 @@ tr.panel > td{ height:auto; padding:10px 12px 14px; background:#fff; white-space
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-chk" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
   <symbol id="i-x" viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17"/></symbol>
-  <symbol id="i-half" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5"/><path d="M12 4.5v15" /><path d="M12 4.5a7.5 7.5 0 0 1 0 15z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-half" viewBox="0 0 24 24"><circle cx="12" cy="12" r="7.5"/><path d="M12 4.5a7.5 7.5 0 0 1 0 15z" fill="currentColor" stroke="none"/></symbol>
   <symbol id="i-pen" viewBox="0 0 24 24"><path d="M5 19l1-4L15.5 5.5a2.1 2.1 0 0 1 3 3L9 18z"/></symbol>
   <symbol id="i-cash" viewBox="0 0 24 24"><rect x="3.5" y="7" width="17" height="10" rx="2"/><circle cx="12" cy="12" r="2.3"/></symbol>
+  <symbol id="i-dn" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
   <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6"/><path d="M15 15l5 5"/></symbol>
 </svg>
 
 <div class="head">
   <h1>Deposit Match Card</h1>
-  <span class="ver">Version 7 · Oct 9, 1:45 PM · module only, not in the app</span>
-  <p>The card that opens under a yellow deposit in Deposits. Same information, family look: one gray pill per job that matches, one font, amounts as small same-size pills with the one that equals the deposit in green, the green Match button always on screen (no sideways scroll), then Search Jobs and Enter Details Manually as family pills.</p>
-  <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center"><div class="seg" id="mode"><button class="on" data-v="new">New</button><button data-v="old">Today</button></div></div>
+  <span class="ver">Version 8 · Oct 9, 2:10 PM · module only, not in the app</span>
+  <p>Click it. A yellow row has a possible match: its whole row is yellow and its pill says <b>Match</b> in yellow. Click the row or the pill and the card drops down with the green <b>Found Match</b> job; the amount that equals the deposit is already picked (click another amount to pick that one), then press <b>Match</b>. A red row found nothing: click it to search the jobs or enter the details by hand. Click a green <b>Matched</b> pill to undo it.</p>
+  <button type="button" class="reset" id="reset">Start Over</button>
 </div>
 
-<div class="lay"><div class="win">
-  <h2>Deposits</h2><p class="sub">Bank deposits matched to jobs.</p>
-  <div class="tw"><table>
-    <colgroup><col style="width:86px"><col style="width:140px"><col style="width:130px"><col class="hide-s" style="width:150px"><col class="hide-s"><col class="hide-s" style="width:150px"><col style="width:120px"><col style="width:118px"></colgroup>
-    <tr><th>Date</th><th>Type</th><th>Insurance</th><th class="hide-s">Claim #</th><th class="hide-s">Vehicle</th><th class="hide-s">Customer</th><th class="r">Amount</th><th>Status</th></tr>
-    <tr><td class="d">Jan 21</td><td>Online Check</td><td>AAA</td><td class="hide-s">017565162-I-1607</td><td class="hide-s">2024 Honda Civic</td><td class="hide-s">Oswaldo</td><td class="m r">$2,303.04</td><td><span class="sp g"><svg class="ic"><use href="#i-chk"/></svg>Matched</span></td></tr>
-    <tr class="y"><td class="d">Jan 20</td><td>Bank Transfer</td><td>State Farm</td><td class="hide-s"></td><td class="hide-s"></td><td class="hide-s"></td><td class="m r">$9,165.45</td><td><span class="mpill" id="stp"><svg class="ic"><use href="#i-chk"/></svg>1 Match</span></td></tr>
-    <tr class="panel"><td colspan="8">
-      <div class="mc" id="newCard">
-        <div class="cand" id="cand">
-          <div class="top">
-            <span class="tag"><svg class="ic"><use href="#i-chk"/></svg>Found Match</span>
-            <span class="who"><span>Justin Eckart Diaz</span><i class="vb"></i><span>2016 Audi A3 Premium</span><i class="vb"></i><span>State Farm</span><i class="vb"></i><span>75-94W0-25C01</span></span>
-            <button type="button" class="use" id="use"><svg class="ic"><use href="#i-chk"/></svg>Match</button>
-          </div>
-          <div class="figs">
-            <span class="fig"><i>Est. 1</i><b>$9,665.45</b></span>
-            <span class="fig"><i>Ded.</i><b>$500.00</b></span>
-            <span class="fig hit"><i><svg class="ic"><use href="#i-chk"/></svg>Check</i><b>$9,165.45</b></span>
-            <span class="fig zero"><i>Supp. 1</i><b>$0.00</b></span>
-            <span class="fig zero"><i>Supp. 2</i><b>$0.00</b></span>
-          </div>
-        </div>
-        <div class="done" id="doneMsg" hidden><svg class="ic" width="16" height="16"><use href="#i-chk"/></svg>Matched to Justin Eckart Diaz, Check (Estimate 1 less the deductible).</div>
-        <div class="srow" id="srow">
-          <label class="sbox"><svg class="ic"><use href="#i-search"/></svg><input placeholder="Search jobs: name, claim number, car" autocomplete="off"></label>
-          <button type="button" class="man">Enter Details Manually</button>
-        </div>
-      </div>
-      <div class="old" id="oldCard" hidden>
-        <div class="cand-o"><span class="fo">FOUND A MATCH — CA</span><span>Justin Eckart Di…</span><span>2016 AUDI A3 Premiu…</span><span>State Farm</span><span>75-94W0-25C01</span>
-          <span class="fg"><i>ESTIMATE 1</i>$9,665.45</span><span class="fg"><i>DEDUCTIBLE</i>$500.00</span><span class="fg h"><i>ESTIMATE ✓</i>$9,165.45</span><span class="fg" style="opacity:.5"><i>SUPP. 1 ✓</i>$0.00</span><span class="fg" style="opacity:.5"><i>SUPP. 2 ✓</i>$0.00</span><span style="color:#999">→ (Match button is off to the right)</span></div>
-        <input class="os" placeholder="Search jobs"><button class="om">Enter Details Manually</button>
-      </div>
-    </td></tr>
-    <tr><td class="d">Jan 20</td><td>Online Check</td><td>Knightbrook In…</td><td class="hide-s">ON-25-004579</td><td class="hide-s">2015 Ram 1500</td><td class="hide-s"></td><td class="m r">$428.23</td><td><span class="sp g"><svg class="ic"><use href="#i-chk"/></svg>Matched</span></td></tr>
-    <tr><td class="d">Jan 20</td><td>Online Check</td><td></td><td class="hide-s"></td><td class="hide-s"></td><td class="hide-s"></td><td class="m r">$5,451.86</td><td><span class="sp r"><svg class="ic"><use href="#i-x"/></svg>None</span></td></tr>
-    <tr><td class="d">Jan 15</td><td>Online Check</td><td>Mapfre</td><td class="hide-s">64010425001422</td><td class="hide-s">2026 Daisy Pineda</td><td class="hide-s">Daisy Pineda</td><td class="m r">$4,719.62</td><td><span class="sp y"><svg class="ic"><use href="#i-half"/></svg>Partial</span></td></tr>
-    <tr><td class="d">Jan 26</td><td>Online Check</td><td>GEICO</td><td class="hide-s">65009688</td><td class="hide-s">2026 Toyota Camry</td><td class="hide-s">Pablo Rodas</td><td class="m r">$5,418.12</td><td><span class="sp k"><svg class="ic"><use href="#i-pen"/></svg>Manual</span></td></tr>
-    <tr><td class="d">Jan 15</td><td>Online Check</td><td>Willy</td><td class="hide-s"></td><td class="hide-s"></td><td class="hide-s"></td><td class="m r">$20,000.00</td><td><span class="sp c"><svg class="ic"><use href="#i-cash"/></svg>Cash</span></td></tr>
-  </table></div>
-</div>
-<aside class="sheet">
-  <h3>All The Pills</h3>
-  <p class="sh">Each one as it sits in Deposits, so they can be made the same.</p>
-  <div class="it"><span class="lb">1 · Status (in the row)</span><span class="col2"><span class="mpill"><svg class="ic"><use href="#i-chk"/></svg>1 Match</span><span class="sp g"><svg class="ic"><use href="#i-chk"/></svg>Matched</span><span class="sp y"><svg class="ic"><use href="#i-half"/></svg>Partial</span><span class="sp r"><svg class="ic"><use href="#i-x"/></svg>None</span><span class="sp k"><svg class="ic"><use href="#i-pen"/></svg>Manual</span><span class="sp c"><svg class="ic"><use href="#i-cash"/></svg>Cash</span></span><span class="sz">28 tall each · light tint · ring and words in its color. Un-Matched is now None, in red, the same size as the rest.</span></div>
-  <div class="it"><span class="lb">2 · Match (the button)</span><span class="mb-b-demo"><button type="button" class="use"><svg class="ic"><use href="#i-chk"/></svg>Match</button></span><span class="sz">28 tall · light green · green ring · green check and words</span></div>
-  <div class="it"><span class="lb">3 · Found Match (the tag)</span><span class="tag"><svg class="ic"><use href="#i-chk"/></svg>Found Match</span><span class="sz">28 tall · light green · green ring · green check and words</span></div>
-  <div class="it"><span class="lb">4 · The amounts</span>
-    <span class="col">
+<div class="lay">
+  <div class="win">
+    <h2>Deposits</h2><p class="sub">Bank deposits matched to jobs.</p>
+    <div class="tw"><table>
+      <colgroup><col style="width:86px"><col style="width:136px"><col style="width:124px"><col class="hide-s" style="width:150px"><col class="hide-s"><col class="hide-s" style="width:150px"><col style="width:120px"><col style="width:132px"></colgroup>
+      <thead><tr><th>Date</th><th>Type</th><th>Insurance</th><th class="hide-s">Claim #</th><th class="hide-s">Vehicle</th><th class="hide-s">Customer</th><th class="r">Amount</th><th>Status</th></tr></thead>
+      <tbody id="tb"></tbody>
+    </table></div>
+  </div>
+
+  <aside class="sheet">
+    <h3>All The Pills</h3>
+    <p class="sh">Every pill is 28 tall. Color says what it means.</p>
+    <span class="grp">Status (in the row)</span>
+    <div class="it"><span class="sp y"><svg class="ic"><use href="#i-chk"/></svg>Match</span><span class="t">Yellow: a possible match is waiting. Whole row yellow.</span></div>
+    <div class="it"><span class="sp g"><svg class="ic"><use href="#i-chk"/></svg>Matched</span><span class="t">Green: done.</span></div>
+    <div class="it"><span class="sp r"><svg class="ic"><use href="#i-x"/></svg>None</span><span class="t">Red: nothing found. Whole row red.</span></div>
+    <div class="it"><span class="sp o"><svg class="ic"><use href="#i-half"/></svg>Partial</span><span class="t">Orange: part of the money is placed.</span></div>
+    <div class="it"><span class="sp k"><svg class="ic"><use href="#i-pen"/></svg>Manual</span><span class="t">Gray: details typed by hand.</span></div>
+    <div class="it"><span class="sp b"><svg class="ic"><use href="#i-cash"/></svg>Cash</span><span class="t">Blue: cash, no job.</span></div>
+    <span class="grp">In the card</span>
+    <div class="it"><span class="sp g"><svg class="ic"><use href="#i-chk"/></svg>Found Match</span><span class="t">The job it found.</span></div>
+    <div class="it"><span class="sp s"><svg class="ic"><use href="#i-search"/></svg>Search Result</span><span class="t">A job you searched for.</span></div>
+    <div class="it"><span class="sp g"><svg class="ic"><use href="#i-chk"/></svg>Match</span><span class="t">The button that matches it.</span></div>
+    <span class="grp">The amounts (142 wide each)</span>
+    <div class="col">
       <span class="fig"><i>Est. 1</i><b>$9,665.45</b></span>
       <span class="fig"><i>Ded.</i><b>$500.00</b></span>
-      <span class="fig hit"><i><svg class="ic"><use href="#i-chk"/></svg>Check</i><b>$9,165.45</b></span>
+      <span class="fig on"><i><svg class="ic"><use href="#i-chk"/></svg>Check</i><b>$9,165.45</b></span>
       <span class="fig zero"><i>Supp. 1</i><b>$0.00</b></span>
       <span class="fig zero"><i>Supp. 2</i><b>$0.00</b></span>
-    </span><span class="sz">28 tall · 130 wide each · white; the one that equals the deposit is the same green pill as the three above</span></div>
-</aside>
+    </div>
+  </aside>
 </div>
 
-<p class="note">What stays the same: the same job, the same five amounts and the same rule (the amount that equals the deposit is the one that lights up). What changes: the long "Found a match — carrier agrees" badge becomes a short "Found Match" tag; the five amount pills are exactly the same size with short labels (Est. 1, Ded., Check, Supp. 1, Supp. 2), and the one that equals the deposit is the same light-green pill as Found Match, 1 Match and the Match button; Check = Estimate 1 less the deductible; the Match button sits in the card's first line so it never scrolls off. Press Match in the demo to see it settle.</p>
+<p class="note">Rules in the module: the amount that equals the deposit is picked for you (Check = Estimate 1 less the deductible); you can pick a different amount before pressing Match. Search looks through name, claim number and car. Demo data only.</p>
 
 <script>
-document.getElementById("mode").addEventListener("click", function(e){ var b = e.target.closest("button"); if(!b) return;
-  this.querySelectorAll("button").forEach(function(x){ x.classList.toggle("on", x === b); });
-  var old = b.dataset.v === "old"; document.getElementById("newCard").hidden = old; document.getElementById("oldCard").hidden = !old; });
-document.getElementById("use").addEventListener("click", function(){
-  document.getElementById("cand").hidden = true; document.getElementById("srow").hidden = true; document.getElementById("doneMsg").hidden = false;
-  var s = document.getElementById("stp"); s.outerHTML = '<span class="sp g"><svg class="ic"><use href="#i-chk"/></svg>Matched</span>';
-  var y = document.querySelector("tr.y"); y.classList.remove("y");
-  y.cells[3].textContent = "75-94W0-25C01"; y.cells[4].textContent = "2016 Audi A3 Premium"; y.cells[5].textContent = "Justin Eckart Diaz";
+var JOBS = [
+  { id:"j1", name:"Justin Eckart Diaz", car:"2016 Audi A3 Premium", ins:"State Farm", claim:"75-94W0-25C01", est:9665.45, ded:500, s1:0, s2:0 },
+  { id:"j2", name:"Alma Rodriguez", car:"2021 Honda Civic", ins:"National General", claim:"260114598", est:9871.69, ded:0, s1:0, s2:0 },
+  { id:"j3", name:"Peter Ortega", car:"2020 Chevy Camaro", ins:"GEICO", claim:"0587787430101046", est:8250.73, ded:500, s1:1210.40, s2:0 },
+  { id:"j4", name:"Elloy Villamil", car:"2022 Tesla", ins:"Progressive", claim:"25-200048305", est:7929.01, ded:1000, s1:0, s2:0 }
+];
+var START = [
+  { id:"d1", date:"Jan 21", type:"Online Check", ins:"AAA", claim:"017565162-I-1607", car:"2024 Honda Civic", cust:"Oswaldo", amt:2303.04, st:"g" },
+  { id:"d2", date:"Jan 20", type:"Bank Transfer", ins:"State Farm", amt:9165.45, st:"y", cand:"j1" },
+  { id:"d3", date:"Jan 20", type:"Online Check", ins:"Knightbrook Ins.", claim:"ON-25-004579", car:"2015 Ram 1500", cust:"", amt:428.23, st:"g" },
+  { id:"d4", date:"Jan 20", type:"Online Check", ins:"", amt:1210.40, st:"r" },
+  { id:"d5", date:"Jan 15", type:"Online Check", ins:"Mapfre", claim:"64010425001422", car:"2026 Daisy Pineda", cust:"Daisy Pineda", amt:4719.62, st:"o" },
+  { id:"d6", date:"Jan 26", type:"Online Check", ins:"GEICO", claim:"65009688", car:"2026 Toyota Camry", cust:"Pablo Rodas", amt:5418.12, st:"k" },
+  { id:"d7", date:"Jan 15", type:"Online Check", ins:"Willy", amt:20000, st:"b" }
+];
+var DEP, OPEN = null, PICK = {}, Q = {}, MAN = {};
+var PILL = { y:["i-chk","Match"], g:["i-chk","Matched"], r:["i-x","None"], o:["i-half","Partial"], k:["i-pen","Manual"], b:["i-cash","Cash"] };
+function $(id){ return document.getElementById(id); }
+function money(v){ return "$" + v.toLocaleString("en-US", { minimumFractionDigits:2, maximumFractionDigits:2 }); }
+function esc(s){ return String(s == null ? "" : s).replace(/[&<>"]/g, function(c){ return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]; }); }
+function ic(id){ return '<svg class="ic"><use href="#' + id + '"/></svg>'; }
+function job(id){ return JOBS.filter(function(j){ return j.id === id; })[0]; }
+function slots(j){ return [["Est. 1", j.est], ["Ded.", j.ded], ["Check", j.est - j.ded], ["Supp. 1", j.s1], ["Supp. 2", j.s2]]; }
+function hitSlot(j, amt){ var s = slots(j); for(var i = 0; i < s.length; i++) if(i !== 1 && s[i][1] > 0 && Math.abs(s[i][1] - amt) < 0.005) return i; return 2; }
+function pill(d){ var p = PILL[d.st], click = d.st === "y" || d.st === "r" || d.st === "g";
+  return (click ? '<button type="button" class="sp ' + d.st + '" data-open="' + d.id + '">' : '<span class="sp ' + d.st + '">') + ic(p[0]) + p[1] + (d.st === "y" || d.st === "r" ? '<svg class="ic cv"><use href="#i-dn"/></svg>' : '') + (click ? '</button>' : '</span>'); }
+
+function candCard(d, j, kind){
+  var pick = PICK[d.id + j.id]; if(pick == null) pick = hitSlot(j, d.amt);
+  var figs = slots(j).map(function(s, i){ var on = i === pick, zero = !(s[1] > 0);
+    return '<button type="button" class="fig' + (on ? " on" : "") + (zero && !on ? " zero" : "") + '" data-pick="' + d.id + '|' + j.id + '|' + i + '"' + (i === 1 ? ' disabled style="cursor:default"' : '') + '><i>' + (on ? ic("i-chk") : "") + s[0] + '</i><b>' + money(s[1]) + '</b></button>'; }).join("");
+  return '<div class="cand"><div class="top">' + (kind === "found" ? '<span class="sp g">' + ic("i-chk") + 'Found Match</span>' : '<span class="sp s">' + ic("i-search") + 'Search Result</span>') +
+    '<span class="who"><span>' + esc(j.name) + '</span><i class="vb"></i><span>' + esc(j.car) + '</span><i class="vb"></i><span>' + esc(j.ins) + '</span><i class="vb"></i><span>' + esc(j.claim) + '</span></span>' +
+    '<button type="button" class="sp g" data-match="' + d.id + '|' + j.id + '">' + ic("i-chk") + 'Match</button></div><div class="figs">' + figs + '</div></div>';
+}
+function panel(d){
+  var h = '<div class="mc">';
+  if(d.st === "g"){
+    h += '<div class="donecard"><span>Matched to <b style="font-weight:600">' + esc(d.cust || "this job") + '</b>' + (d.slot ? ', ' + esc(d.slot) : '') + '.</span><button type="button" class="sp r" data-undo="' + d.id + '">' + ic("i-x") + 'Undo Match</button></div>';
+    return h + '</div>';
+  }
+  if(d.cand) h += candCard(d, job(d.cand), "found");
+  else h += '<div class="none">No job matched ' + money(d.amt) + ' on its own. Search for it, or enter the details by hand.</div>';
+  var q = (Q[d.id] || "").trim().toLowerCase();
+  if(q.length > 1) JOBS.filter(function(j){ return j.id !== d.cand && (j.name.toLowerCase().indexOf(q) > -1 || j.claim.toLowerCase().indexOf(q) > -1 || j.car.toLowerCase().indexOf(q) > -1); }).forEach(function(j){ h += candCard(d, j, "search"); });
+  if(MAN[d.id]) h += '<div class="mrow"><span class="sp k">' + ic("i-pen") + 'Manual</span><input placeholder="Customer" data-mf="cust"><input placeholder="Claim number" data-mf="claim"><input placeholder="Insurance" data-mf="ins"><button type="button" class="sp g" data-mansave="' + d.id + '">' + ic("i-chk") + 'Save</button></div>';
+  h += '<div class="srow"><label class="sbox">' + ic("i-search") + '<input placeholder="Search jobs: name, claim number, car" autocomplete="off" data-q="' + d.id + '" value="' + esc(Q[d.id] || "") + '"></label><button type="button" class="man" data-man="' + d.id + '">Enter Details Manually</button></div>';
+  return h + '</div>';
+}
+function draw(focusQ){
+  $("tb").innerHTML = DEP.map(function(d){
+    var cls = "row" + (d.st === "y" ? " y" : d.st === "r" ? " r" : "") + (OPEN === d.id ? " open" : "") + (d.flash ? " flash" : "");
+    var r = '<tr class="' + cls + '" data-row="' + d.id + '"><td class="d">' + d.date + '</td><td>' + esc(d.type) + '</td><td>' + esc(d.ins) + '</td><td class="hide-s">' + esc(d.claim || "") + '</td><td class="hide-s">' + esc(d.car || "") + '</td><td class="hide-s">' + esc(d.cust || "") + '</td><td class="m r">' + money(d.amt) + '</td><td>' + pill(d) + '</td></tr>';
+    if(OPEN === d.id) r += '<tr class="panel"><td colspan="8">' + panel(d) + '</td></tr>';
+    return r;
+  }).join("");
+  DEP.forEach(function(d){ d.flash = false; });
+  if(focusQ){ var i = document.querySelector('[data-q="' + focusQ + '"]'); if(i){ i.focus(); i.setSelectionRange(i.value.length, i.value.length); } }
+}
+function matchIt(did, jid){
+  var d = DEP.filter(function(x){ return x.id === did; })[0], j = job(jid); var pick = PICK[did + jid]; if(pick == null) pick = hitSlot(j, d.amt);
+  d.st = "g"; d.claim = j.claim; d.car = j.car; d.cust = j.name; d.ins = d.ins || j.ins; d.slot = slots(j)[pick][0] === "Check" ? "Check (Estimate 1 less the deductible)" : slots(j)[pick][0]; d.was = d.was || { cand:d.cand }; d.cand = null; d.flash = true; OPEN = null; draw();
+}
+document.addEventListener("click", function(e){
+  var t = e.target; if(!t.closest) return;
+  var b;
+  if((b = t.closest("[data-match]"))){ var p = b.dataset.match.split("|"); matchIt(p[0], p[1]); return; }
+  if((b = t.closest("[data-pick]"))){ if(b.disabled) return; var q = b.dataset.pick.split("|"); PICK[q[0] + q[1]] = +q[2]; draw(); return; }
+  if((b = t.closest("[data-undo]"))){ var d = DEP.filter(function(x){ return x.id === b.dataset.undo; })[0], o = START.filter(function(x){ return x.id === d.id; })[0]; Object.keys(d).forEach(function(k){ delete d[k]; }); Object.assign(d, JSON.parse(JSON.stringify(o))); if(d.st === "g"){ d.st = "r"; d.claim = d.car = d.cust = ""; } OPEN = d.id; draw(); return; }
+  if((b = t.closest("[data-man]"))){ MAN[b.dataset.man] = !MAN[b.dataset.man]; draw(); return; }
+  if((b = t.closest("[data-mansave]"))){ var row = b.closest(".mrow"), dd = DEP.filter(function(x){ return x.id === b.dataset.mansave; })[0];
+    row.querySelectorAll("[data-mf]").forEach(function(i){ if(i.value.trim()) dd[i.dataset.mf] = i.value.trim(); }); dd.st = "k"; dd.flash = true; OPEN = null; draw(); return; }
+  if((b = t.closest("[data-open]")) || ((b = t.closest("tr.row")) && !t.closest("input"))){ var id = b.dataset.open || b.dataset.row, dx = DEP.filter(function(x){ return x.id === id; })[0];
+    if(!dx || !(dx.st === "y" || dx.st === "r" || (dx.st === "g" && b.dataset.open))) return; OPEN = OPEN === id ? null : id; draw(); return; }
 });
-if(document.getElementById("mb")) document.getElementById("mb").addEventListener("click", function(e){ var b = e.target.closest("button"); if(!b) return;
-  this.querySelectorAll("button").forEach(function(x){ x.classList.toggle("on", x === b); });
-  var c = document.getElementById("newCard"); c.classList.remove("mb-b","mb-c"); if(b.dataset.v !== "a") c.classList.add("mb-" + b.dataset.v); });
+document.addEventListener("input", function(e){ var q = e.target.dataset && e.target.dataset.q; if(!q) return; Q[q] = e.target.value; draw(q); });
+$("reset").addEventListener("click", function(){ DEP = JSON.parse(JSON.stringify(START)); OPEN = "d2"; PICK = {}; Q = {}; MAN = {}; draw(); });
+DEP = JSON.parse(JSON.stringify(START)); OPEN = "d2"; draw();
 </script>
 </body>
 </html>
