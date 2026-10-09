@@ -31463,6 +31463,11 @@ html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOv
 html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4erow .v4chip{ height:32px !important; border-radius:16px !important; }
 html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #v4JdPay{ margin-top:12px !important; }
 html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .note-empty, html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .doc-empty{ color:var(--wf-soft) !important; }
+/* v3 — the fold-all arrow at the top left is a bare arrow on the icons' line; rows wash gray only under the mouse, never when open */
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .modal-header .v4alltri{ background:transparent !important; width:36px !important; height:36px !important; margin:0 10px 0 6px !important; border-radius:0 !important; box-shadow:none !important; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .modal-header .v4alltri:hover{ background:transparent !important; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bh{ background:var(--wf-win) !important; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box .v4bh:hover{ background:var(--wf-fill) !important; }
 
 </style>
 <style id="c5famBarCss">
@@ -31471,7 +31476,7 @@ html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOv
 #c5famBar button.on{ background:#16181D; color:#fff; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Details Family v2 · demo shop</span><button data-v="today">Today</button><button data-v="fam" class="on">Family</button></div>
+<div id="c5famBar"><span>Details Family v3 · demo shop</span><button data-v="today">Today</button><button data-v="fam" class="on">Family</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
   document.body.classList.add("c5famd");
