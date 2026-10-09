@@ -31493,6 +31493,10 @@ html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOv
 html body.c5emYellow:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4empty{ background-color:#FFF4C2 !important; }
 /* v10 — hovering a row hides the line below it too (the line above is already under the pill) */
 html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box.v4closed:hover + .v4box{ background:var(--wf-win) !important; }
+/* v11 — Frank: yellow how it was before. The original #FFF8D6 box with the gray hint words, no dot; the switch is gone */
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4empty, html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody :is(.v4cd, .review-pair, .cp-box) > .review-field :is(input, select, textarea, .v4mbtn).v4empty, html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4dt input.v4empty{ background-color:#FFF8D6 !important; color:inherit !important; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4empty:not(.v4dtx):not(select){ background-image:none !important; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4empty::placeholder{ color:#9A9CA4 !important; }
 
 </style>
 <style id="c5famBarCss">
@@ -31502,7 +31506,7 @@ html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOv
 #c5famBar i{ width:1px; background:#E2E4DF; margin:6px 6px; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Details Family v10 · app 5.252 · demo shop</span><button data-v="today">Today</button><button data-v="fam" class="on">Family</button><i></i><button data-e="c5emYellow" class="on">Empties: Yellow</button><button data-e="c5emDot">Dot</button><button data-e="c5emNone">Words only</button></div>
+<div id="c5famBar"><span>Details Family v11 · app 5.252 · demo shop</span><button data-v="today">Today</button><button data-v="fam" class="on">Family</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
   document.body.classList.add("c5famd"); document.body.classList.add("c5emYellow");
