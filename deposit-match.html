@@ -58,6 +58,8 @@ tr.row.flash td{ animation:rowok 1.4s ease-out; }
 .sp.b{ background:var(--btint); color:var(--blue); box-shadow:inset 0 0 0 1.5px var(--blue); }
 .sp.s{ background:#fff; color:#3A3F47; box-shadow:inset 0 0 0 1.5px #C9CAD0; }
 button.sp:hover{ filter:brightness(.97); }
+.sp.st{ width:98px; padding:0 10px; }
+.sp.st .cv{ margin-left:auto !important; }
 .sp .cv{ width:10px; height:10px; margin-left:1px; transition:transform .18s; }
 tr.open .sp .cv{ transform:rotate(180deg); }
 
@@ -119,7 +121,7 @@ button.fig:hover{ box-shadow:inset 0 0 0 1.5px #C9CAD0; }
 
 <div class="head">
   <h1>Deposit Match Card</h1>
-  <span class="ver">Version 8 · Oct 9, 2:10 PM · module only, not in the app</span>
+  <span class="ver">Version 9 · Oct 9, 1:55 PM · module only, not in the app</span>
   <p>Click it. A yellow row has a possible match: its whole row is yellow and its pill says <b>Match</b> in yellow. Click the row or the pill and the card drops down with the green <b>Found Match</b> job; the amount that equals the deposit is already picked (click another amount to pick that one), then press <b>Match</b>. A red row found nothing: click it to search the jobs or enter the details by hand. Click a green <b>Matched</b> pill to undo it.</p>
   <button type="button" class="reset" id="reset">Start Over</button>
 </div>
@@ -138,12 +140,12 @@ button.fig:hover{ box-shadow:inset 0 0 0 1.5px #C9CAD0; }
     <h3>All The Pills</h3>
     <p class="sh">Every pill is 28 tall. Color says what it means.</p>
     <span class="grp">Status (in the row)</span>
-    <div class="it"><span class="sp y"><svg class="ic"><use href="#i-chk"/></svg>Match</span><span class="t">Yellow: a possible match is waiting. Whole row yellow.</span></div>
-    <div class="it"><span class="sp g"><svg class="ic"><use href="#i-chk"/></svg>Matched</span><span class="t">Green: done.</span></div>
-    <div class="it"><span class="sp r"><svg class="ic"><use href="#i-x"/></svg>None</span><span class="t">Red: nothing found. Whole row red.</span></div>
-    <div class="it"><span class="sp o"><svg class="ic"><use href="#i-half"/></svg>Partial</span><span class="t">Orange: part of the money is placed.</span></div>
-    <div class="it"><span class="sp k"><svg class="ic"><use href="#i-pen"/></svg>Manual</span><span class="t">Gray: details typed by hand.</span></div>
-    <div class="it"><span class="sp b"><svg class="ic"><use href="#i-cash"/></svg>Cash</span><span class="t">Blue: cash, no job.</span></div>
+    <div class="it"><span class="sp st y"><svg class="ic"><use href="#i-chk"/></svg>Match</span><span class="t">Yellow: a possible match is waiting. Whole row yellow.</span></div>
+    <div class="it"><span class="sp st g"><svg class="ic"><use href="#i-chk"/></svg>Matched</span><span class="t">Green: done.</span></div>
+    <div class="it"><span class="sp st r"><svg class="ic"><use href="#i-x"/></svg>None</span><span class="t">Red: nothing found. Whole row red.</span></div>
+    <div class="it"><span class="sp st o"><svg class="ic"><use href="#i-half"/></svg>Partial</span><span class="t">Orange: part of the money is placed.</span></div>
+    <div class="it"><span class="sp st k"><svg class="ic"><use href="#i-pen"/></svg>Manual</span><span class="t">Gray: details typed by hand.</span></div>
+    <div class="it"><span class="sp st b"><svg class="ic"><use href="#i-cash"/></svg>Cash</span><span class="t">Blue: cash, no job.</span></div>
     <span class="grp">In the card</span>
     <div class="it"><span class="sp g"><svg class="ic"><use href="#i-chk"/></svg>Found Match</span><span class="t">The job it found.</span></div>
     <div class="it"><span class="sp s"><svg class="ic"><use href="#i-search"/></svg>Search Result</span><span class="t">A job you searched for.</span></div>
@@ -187,7 +189,7 @@ function job(id){ return JOBS.filter(function(j){ return j.id === id; })[0]; }
 function slots(j){ return [["Est. 1", j.est], ["Ded.", j.ded], ["Check", j.est - j.ded], ["Supp. 1", j.s1], ["Supp. 2", j.s2]]; }
 function hitSlot(j, amt){ var s = slots(j); for(var i = 0; i < s.length; i++) if(i !== 1 && s[i][1] > 0 && Math.abs(s[i][1] - amt) < 0.005) return i; return 2; }
 function pill(d){ var p = PILL[d.st], click = d.st === "y" || d.st === "r" || d.st === "g";
-  return (click ? '<button type="button" class="sp ' + d.st + '" data-open="' + d.id + '">' : '<span class="sp ' + d.st + '">') + ic(p[0]) + p[1] + (d.st === "y" || d.st === "r" ? '<svg class="ic cv"><use href="#i-dn"/></svg>' : '') + (click ? '</button>' : '</span>'); }
+  return (click ? '<button type="button" class="sp st ' + d.st + '" data-open="' + d.id + '">' : '<span class="sp st ' + d.st + '">') + ic(p[0]) + p[1] + (d.st === "y" || d.st === "r" ? '<svg class="ic cv"><use href="#i-dn"/></svg>' : '') + (click ? '</button>' : '</span>'); }
 
 function candCard(d, j, kind){
   var pick = PICK[d.id + j.id]; if(pick == null) pick = hitSlot(j, d.amt);
