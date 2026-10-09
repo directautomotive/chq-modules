@@ -106,6 +106,14 @@ button:focus-visible, input:focus-visible{ outline:2px solid var(--orange); outl
 .pg b{ color:var(--ink); font-size:17px; }
 .note{ max-width:980px; margin:0 auto 32px; padding:0 16px; color:#3A3F47; font-size:13px; line-height:1.55; }
 @media (prefers-reduced-motion:reduce){ .dd, .spot{ animation:none; } }
+.dd{ gap:6px; padding:8px; }
+.dd button.pk{ background:var(--box); border-radius:18px; padding:10px 16px; gap:3px; }
+.dd button.pk:hover{ background:#E8E8EE; }
+.dd .l1{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; font:500 14px var(--words); color:var(--ink); }
+.dd .l1 b{ font-weight:600; }
+.dd .vb{ width:1px; height:14px; background:#C9CAD0; display:inline-block; }
+.dd .l2{ font:400 13px var(--words); color:var(--gray); }
+.dd .new{ padding:8px 16px; }
 .c5back{ position:fixed; z-index:50; top:calc(env(safe-area-inset-top, 0px) + 10px); left:16px; display:inline-flex; align-items:center; gap:4px; height:40px; padding:0 14px 0 10px; border-radius:20px; text-decoration:none; color:#16181D; font:600 15px Inter, -apple-system, sans-serif; background:rgba(255,255,255,.6); -webkit-backdrop-filter:blur(2px) saturate(170%); backdrop-filter:blur(2px) saturate(170%); box-shadow:inset 0 1px 1px rgba(255,255,255,.95), inset 0 -1px 1px rgba(0,0,0,.12), 0 6px 18px rgba(0,0,0,.14); }
 .c5back svg{ width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
 .head{ padding-top:calc(env(safe-area-inset-top, 0px) + 64px) !important; }
@@ -126,7 +134,7 @@ button:focus-visible, input:focus-visible{ outline:2px solid var(--orange); outl
 
 <div class="head">
   <h1>Customer Search In Details</h1>
-  <span class="ver">Version 3 · Oct 9, 9:15 AM · module only, not in the app</span>
+  <span class="ver">Version 4 · Oct 9, 10:12 AM · module only, not in the app</span>
   <p>The real Details window from the app (version 5.211), Customer Details open. The only new thing is the search button inside the Customer Name box, built the same as Decode. Type a name like always; Enter does nothing new. If the name is already in Settings › Customers, the button quietly turns green. Press it and a small card drops down with the matching customers; click one and their phone, email and address fill in. No green, no match, just keep going.</p>
   <div class="try"><span>Try:</span>
     <button type="button" class="chip" data-t="Taya Jones">Taya Jones</button>
@@ -213,7 +221,7 @@ function card(){
   var p = parts(), dd = $("dd");
   var re = new RegExp("^(" + rx(p.f) + ")(\\s+)(" + rx(p.l) + ")", "i");
   dd.innerHTML = hits.map(function(c, i){
-    return '<button type="button" data-i="' + i + '"><span class="nm">' + esc(c.name).replace(re, "<mark>$1</mark>$2<mark>$3</mark>") + '</span><span class="mt"><span class="n">' + c.phone + '</span> · ' + esc(c.addr) + '</span><span class="mt">' + esc(c.car) + ' · ' + c.jobs + (c.jobs === 1 ? " job" : " jobs") + ', last ' + c.last + '</span></button>';
+    return '<button type="button" class="pk" data-i="' + i + '"><span class="l1"><b>' + esc(c.name) + '</b><i class="vb"></i>' + c.phone + '<i class="vb"></i>' + esc(c.car) + '</span><span class="l2">Address: ' + esc(c.addr) + '</span></button>';
   }).join("") + '<button type="button" class="new" data-none="1">None of these, new customer</button>';
   dd.hidden = false;
 }
