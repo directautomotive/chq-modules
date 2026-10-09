@@ -31489,6 +31489,8 @@ html body.c5emDot:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsO
 html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box + .v4box{ background:linear-gradient(#CFD2CC, #CFD2CC) 30px 0 / calc(100% - 60px) 1px no-repeat, var(--wf-win) !important; }
 /* v8 — the folded lines a shade darker still, so they read on a high-resolution screen */
 html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box + .v4box{ background:linear-gradient(#C3C6C0, #C3C6C0) 30px 0 / calc(100% - 60px) 1px no-repeat, var(--wf-win) !important; }
+/* v9 — empties, third choice: the Edit Estimate look (soft yellow box, amber words), like "Not Found" */
+html body.c5emYellow:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4empty{ background-color:#FFF4C2 !important; }
 
 </style>
 <style id="c5famBarCss">
@@ -31498,13 +31500,15 @@ html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOv
 #c5famBar i{ width:1px; background:#E2E4DF; margin:6px 6px; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Details Family v8 · app 5.252 · demo shop</span><button data-v="today">Today</button><button data-v="fam" class="on">Family</button><i></i><button data-e="c5emDot" class="on">Empties: Dot</button><button data-e="c5emNone">Words only</button></div>
+<div id="c5famBar"><span>Details Family v9 · app 5.252 · demo shop</span><button data-v="today">Today</button><button data-v="fam" class="on">Family</button><i></i><button data-e="c5emYellow" class="on">Empties: Yellow</button><button data-e="c5emDot">Dot</button><button data-e="c5emNone">Words only</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
-  document.body.classList.add("c5famd"); document.body.classList.add("c5emDot");
+  document.body.classList.add("c5famd"); document.body.classList.add("c5emYellow");
   document.querySelectorAll("#c5famBar button[data-e]").forEach(function(b){ b.addEventListener("click", function(){ document.querySelectorAll("#c5famBar button[data-e]").forEach(function(x){ x.classList.toggle("on", x===b); document.body.classList.remove(x.dataset.e); }); document.body.classList.add(b.dataset.e); }); });
   document.querySelectorAll("#c5famBar button").forEach(function(b){ b.addEventListener("click", function(){ document.querySelectorAll("#c5famBar button").forEach(function(x){ x.classList.toggle("on", x===b); }); document.body.classList.toggle("c5famd", b.dataset.v==="fam"); }); });
   setInterval(function(){ if(!document.body.classList.contains("c5famd")) return; document.querySelectorAll("#jobDetailsOverlay .v4cfadd .btn, #jobDetailsOverlay .v4supadd .btn").forEach(function(b){ var t=b.textContent; if(t.indexOf("+ ")===0) b.textContent=t.slice(2); }); }, 400);
+  /* the mouse wheel scrolls Details from anywhere on the window, the title row and footer included */
+  document.addEventListener("wheel", function(e){ var o=document.getElementById("jobDetailsOverlay"); if(!o || getComputedStyle(o).display==="none") return; var m=e.target.closest("#jobDetailsOverlay .modal"); if(!m) return; var body=m.querySelector(".modal-body"); if(!body || body.contains(e.target)) return; body.scrollTop += e.deltaY; e.preventDefault(); }, {passive:false});
   var n=0, t=setInterval(function(){ n++; var td=document.querySelector("#tableBody td.v4jobno"); if(td){ clearInterval(t); td.dispatchEvent(new MouseEvent("dblclick",{bubbles:true})); } else if(n>60) clearInterval(t); }, 250);
 })();
 </script>
