@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Add Job Press</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+:root{ color-scheme:light; --ink:#16181D; --gray:#6C6C73; --fill:#F2F2F7; --fill2:#E5E5EA; --down:#DCDCE2; --orange:#E8792B; --words:Inter, -apple-system, "Segoe UI", Arial, sans-serif; --nums:"Courier New", Courier, monospace; }
+*{ box-sizing:border-box; }
+body{ margin:0; background:#E6E7EB; color:var(--ink); font:400 14px/1.45 var(--words); -webkit-font-smoothing:antialiased; }
+button{ font-family:var(--words); color:var(--ink); border:0; cursor:pointer; -webkit-tap-highlight-color:transparent; background:none; }
+.head{ max-width:1400px; margin:0 auto; padding:24px 16px 10px; }
+.head h1{ margin:0; font:800 22px var(--words); }
+.head .ver{ font:700 13px var(--nums); color:var(--orange); }
+.head p{ margin:6px 0 0; color:#3A3F47; max-width:84ch; }
+.grid{ max-width:1400px; margin:14px auto 40px; padding:0 16px; display:flex; flex-wrap:wrap; gap:28px; align-items:flex-start; }
+.col{ display:flex; flex-direction:column; gap:10px; }
+.lab{ font:600 12.5px var(--words); color:#56616C; padding-left:6px; }
+.lab b{ display:block; font:700 15px var(--words); color:var(--ink); }
+/* the Add Job window as it is in the app: 630 wide, 36 corners, title 30 bold, round gray X 64 */
+.win{ width:630px; background:#fff; border-radius:36px; box-shadow:0 0 0 .5px rgba(0,0,0,.06), 0 30px 80px rgba(0,0,0,.28); padding:28px 30px 30px; }
+.tt{ display:flex; align-items:center; justify-content:space-between; margin-bottom:22px; }
+.tt h2{ margin:0; font:700 30px var(--words); }
+.x{ width:64px; height:64px; border-radius:32px; background:var(--fill); display:grid; place-items:center; }
+.x svg{ width:20px; height:20px; fill:none; stroke:var(--ink); stroke-width:2.2; stroke-linecap:round; }
+.row{ display:flex; align-items:center; gap:22px; width:100%; height:96px; padding:0 30px 0 16px; border-radius:48px; background:var(--fill); text-align:left; margin-top:14px; }
+.row:first-of-type{ margin-top:0; }
+.ic{ width:64px; height:64px; border-radius:32px; background:#fff; display:grid; place-items:center; flex:none; }
+.ic svg{ width:28px; height:28px; fill:none; stroke:#D0342C; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.ic.plus svg{ stroke:var(--ink); }
+.tx{ flex:1; }
+.tx b{ display:block; font:600 20px var(--words); }
+.tx span{ font:400 17px var(--words); color:var(--gray); }
+.ch{ width:18px; height:18px; fill:none; stroke:#B9BBC2; stroke-width:2.4; stroke-linecap:round; stroke-linejoin:round; }
+.row:hover{ background:#E9E9EE; }
+.x:hover{ background:var(--fill2); }
+/* A: today — only the hover tint, no press */
+/* B: the bar press, 96 percent */
+.p96 .row, .p96 .x{ transition:transform .18s cubic-bezier(.2,.9,.3,1.35), background-color .12s; will-change:transform; }
+.p96 .row:active, .p96 .x:active{ transform:scale(.96); transition:transform .09s ease-out, background-color .09s; background-color:var(--down); }
+/* C: the row press, 98.5 percent — same darkening, same timing, less travel on a wide row */
+.p985 .row, .p985 .x{ transition:transform .18s cubic-bezier(.2,.9,.3,1.35), background-color .12s; will-change:transform; }
+.p985 .row:active{ transform:scale(.985); transition:transform .09s ease-out, background-color .09s; background-color:var(--down); }
+.p985 .x:active{ transform:scale(.96); transition:transform .09s ease-out, background-color .09s; background-color:var(--down); }
+@media (prefers-reduced-motion:reduce){ .row, .x, .row:active, .x:active{ transform:none !important; transition:background-color .1s !important; } }
+.log{ font:400 13px var(--words); color:var(--gray); padding-left:6px; min-height:20px; }
+</style>
+</head>
+<body>
+<div class="head">
+  <h1>Add Job Press</h1>
+  <div class="ver">Version 1 · Oct 10 · module only, not in the app</div>
+  <p>Press and hold the rows. Three copies of the Add Job window: how it is today, the bar buttons' press (shrinks to 96 percent), and a lighter press made for a wide row (98.5 percent). Same darkening and timing as the Button Press module: down in 0.09 seconds, back in 0.18 seconds. The X always gets the 96 percent press.</p>
+</div>
+<div class="grid">
+  <div class="col">
+    <div class="lab"><b>A · Today</b>hover tint only, nothing on the click</div>
+    <div class="win">
+      <div class="tt"><h2>Add Job</h2><button class="x" type="button" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+      <button class="row" type="button"><span class="ic"><svg viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7z M14 3v5h5 M10 13h5 M10 17h5"/></svg></span><span class="tx"><b>Upload An Estimate</b><span>PDF File · Automatic Reader</span></span><svg class="ch" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+      <button class="row" type="button"><span class="ic plus"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span><span class="tx"><b>Blank Job</b><span>Fill it in by hand</span></span><svg class="ch" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+    <div class="log">Click a row.</div>
+  </div>
+  <div class="col p96">
+    <div class="lab"><b>B · Bar press</b>shrinks to 96 percent, like Save or Add Job</div>
+    <div class="win">
+      <div class="tt"><h2>Add Job</h2><button class="x" type="button" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+      <button class="row" type="button"><span class="ic"><svg viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7z M14 3v5h5 M10 13h5 M10 17h5"/></svg></span><span class="tx"><b>Upload An Estimate</b><span>PDF File · Automatic Reader</span></span><svg class="ch" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+      <button class="row" type="button"><span class="ic plus"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span><span class="tx"><b>Blank Job</b><span>Fill it in by hand</span></span><svg class="ch" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+    <div class="log">Click a row.</div>
+  </div>
+  <div class="col p985">
+    <div class="lab"><b>C · Row press</b>shrinks to 98.5 percent — my pick for wide rows</div>
+    <div class="win">
+      <div class="tt"><h2>Add Job</h2><button class="x" type="button" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+      <button class="row" type="button"><span class="ic"><svg viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7z M14 3v5h5 M10 13h5 M10 17h5"/></svg></span><span class="tx"><b>Upload An Estimate</b><span>PDF File · Automatic Reader</span></span><svg class="ch" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+      <button class="row" type="button"><span class="ic plus"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span><span class="tx"><b>Blank Job</b><span>Fill it in by hand</span></span><svg class="ch" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+    </div>
+    <div class="log">Click a row.</div>
+  </div>
+</div>
+<script>
+document.querySelectorAll(".col").forEach(function(c){ c.addEventListener("click", function(e){ var b = e.target.closest("button"); if(!b) return; c.querySelector(".log").textContent = "Pressed: " + (b.getAttribute("aria-label") || b.querySelector("b").textContent); }); });
+</script>
+</body>
+</html>
