@@ -7767,6 +7767,23 @@ html body:not(.chq5off) #c5eDec > button.c5edx{ position:absolute; top:12px; rig
 html body:not(.chq5off) #c5eDec > button.c5edx:hover{ background:#E6E6EC; }
 html body:not(.chq5off) #c5eDec > button.c5edx:active{ scale:.96; transition-duration:.09s; }
 html body:not(.chq5off) #c5eDec > button.c5edx svg{ width:14px; height:14px; fill:none; stroke:#16181D; stroke-width:1.8; stroke-linecap:round; }
+
+/* ---------- v5.257: estimate preview drawn by the app — fits the width, no scrollbar inside, a thin pill outside the box ---------- */
+#pdfReviewOverlay .pdf-preview-pane{ position:relative; }
+#c5Pdf{ position:absolute; inset:0; z-index:2; overflow-x:hidden; overflow-y:auto; overscroll-behavior:contain; scrollbar-width:none; background:#525659; padding:12px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; gap:12px; border-radius:inherit; }
+#c5Pdf::-webkit-scrollbar{ display:none; width:0; height:0; }
+#c5Pdf[hidden], .pdf-review-split.no-preview #c5Pdf, .pdf-preview-pane.c5enf #c5Pdf{ display:none !important; }
+#c5Pdf canvas{ flex:none; background:#fff; box-shadow:0 2px 10px rgba(0,0,0,.3); }
+#c5PdfPill{ position:fixed; z-index:100050; width:6px; border-radius:3px; background:rgba(0,0,0,.24); cursor:grab; transition:background-color .12s; }
+#c5PdfPill:hover, #c5PdfPill.on{ background:rgba(0,0,0,.42); }
+#c5PdfPill[hidden]{ display:none; }
+
+/* ---------- v5.258 (Frank Oct 10 10:24 AM): the VIN inside both VIN cards (Details and Edit Estimate) uses the same font as the VIN box (--c5-id, Consolas), not Courier New ---------- */
+html body:not(.chq5off) #jobDetailsOverlay #jobDetailsBody .c5vin .c5vdd .c5vr b.c5vn, html body:not(.chq5off) #c5eDec .r b.n{ font:400 14px var(--c5-id, Consolas, "JetBrains Mono", "Courier New", monospace) !important; letter-spacing:0 !important; color:#16181D !important; }
+
+/* ---------- v5.260: the green "Policy: 80/20" pill by the title (same as Read As) ---------- */
+html body:not(.chq5off) #pdfReviewOverlay #c5ePol{ display:inline-flex; align-items:center; height:24px; padding:0 10px; border-radius:12px; font:600 12px var(--v4-word, Inter, Arial), sans-serif; white-space:nowrap; background:#E7F4EA; color:#1E7B34; flex:none; }
+html body:not(.chq5off) #pdfReviewOverlay #c5ePol[hidden]{ display:none; }
 </style>
 </head>
 <!-- Starts locked so the board never flashes up before we know who this is.
@@ -7803,7 +7820,7 @@ html body:not(.chq5off) #c5eDec > button.c5edx svg{ width:14px; height:14px; fil
          changed width — and the Save label changes width constantly. -->
     <div class="topbar-brand">
       <div class="app-title">Collision<span class="hq">HQ</span>
-        <span class="version-badge" id="versionBadge">HQ v5.256</span></div>
+        <span class="version-badge" id="versionBadge">HQ v5.260</span></div>
     </div>
 
     <div class="topbar-right">
@@ -16958,7 +16975,7 @@ html body #signInOverlay#signInOverlay :is(.sign-in-switch,.field-hint){ display
     chqPhShow("sheet full", true);
   }
   CHQPH_CSS += "\n/* v4.129 */\n.dv{flex:none;font-size:13px;font-weight:600;color:var(--p-mute);padding:8px 8px 0}\n.cA.dn{opacity:.62}\n.phone.lg .dv{font-size:15px;padding:10px 12px 0}\n/* bottom: search always showing, then Jobs | Leads | Status and the orange + ; both sit low now that the Netlify tag is off */\n.phone.lg .nav{bottom:calc(14px + env(safe-area-inset-bottom,0px))}\n.phone.lg .fab{bottom:calc(14px + env(safe-area-inset-bottom,0px))}\n.phone.lg .srow{display:flex;top:auto;bottom:calc(80px + env(safe-area-inset-bottom,0px))}\n.phone.lg .search{background:rgba(255,255,255,.72);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(255,255,255,.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.14);height:48px;border-radius:24px;color:#111114}\n.phone.lg .search::placeholder{color:#6C6C73}\n.phone.lg .toast{bottom:calc(144px + env(safe-area-inset-bottom,0px))}\n/* top: filter | month | DA */\n.phone.lg .brand .fbtn{background:rgba(255,255,255,.72);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(255,255,255,.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.14);width:44px;height:44px;border-radius:22px;flex:none}\n.phone.lg .brand .fbtn[hidden]{display:grid;visibility:hidden}\n.phone.lg .brand .fbtn.on{background:rgba(255,243,232,.9)}\n.phone.lg .mon .lab{padding-left:0}\n.phone.lg .brand .acct{background-size:cover;background-position:center}\n.phone.lg .chips{top:calc(66px + env(safe-area-inset-top,0px))}\n.phone.lg .monmenu{left:68px;right:68px}\n.phone.lg .list{padding-bottom:220px;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 calc(74px + env(safe-area-inset-top,0px)),#000 calc(100% - 210px),transparent calc(100% - 100px));mask-image:linear-gradient(to bottom,transparent 0,#000 calc(74px + env(safe-area-inset-top,0px)),#000 calc(100% - 210px),transparent calc(100% - 100px))}\n.phone.lg.fo .list{padding-top:calc(118px + env(safe-area-inset-top,0px));-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 calc(120px + env(safe-area-inset-top,0px)),#000 calc(100% - 210px),transparent calc(100% - 100px));mask-image:linear-gradient(to bottom,transparent 0,#000 calc(120px + env(safe-area-inset-top,0px)),#000 calc(100% - 210px),transparent calc(100% - 100px))}\n/* card: #1 | Name on the first line, status across the last line */\n.phone.lg .cA .nm{display:flex;align-items:center;gap:8px;overflow:visible}\n.phone.lg .cA .nm .jn{flex:none;font-size:17px;font-weight:600;color:var(--p-mute)}\n.phone.lg .cA .nm .vsep{height:18px}\n.phone.lg .cA .nm .nmt{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}\n.phone.lg .cA:not(.ld) .row2 .st.fx{flex:1 1 auto;max-width:none}\n.phone.lg .soon{text-align:center;align-items:center;padding:36px 20px;margin-top:20px}\n.phone.lg .soon b{font-size:22px}\n.phone.lg .soon span{font-size:15px;font-weight:600;color:var(--p-orange)}\n.phone.lg .soon p{font-size:15px;color:var(--p-mute);margin:6px 0 0}\n/* status menu: drops from the chip, same width, scrolls */\n.phone.lg .kv .st.fx{width:250px}\n.phone.lg .stm{margin:-2px 0 10px auto;width:250px;max-height:344px;overflow:auto;border:none;border-radius:22px;padding:6px;box-sizing:border-box;box-shadow:0 10px 30px rgba(0,0,0,.16)}\n.phone.lg .stm button{height:46px;padding:0 6px;border-top-color:#EEEEF1;gap:6px}\n.phone.lg .stm .st.fx{width:auto;flex:1}\n.phone.lg .stm button:has(b){background:rgba(232,121,43,.10);border-radius:14px;border-top-color:transparent}\n.phone.lg .stm button b{font-size:15px;color:var(--p-orange);flex:none;width:18px}\n.phone.lg .stadd{border-top:1px solid #E3E3E8;margin-top:4px;padding:8px 2px 2px;display:flex;flex-direction:column;gap:6px}\n.phone.lg .stadd input{height:40px;border-radius:14px;border:1px solid #E3E3E8;padding:0 12px;font-size:16px;width:100%;box-sizing:border-box;background:#fff;color:var(--p-fg)}\n.phone.lg .stadd div{display:grid;grid-template-columns:1fr 1fr;gap:6px}\n.phone.lg .stadd button{height:38px;border-radius:19px;border:none;background:#F2F2F7;font-size:14px;font-weight:600;color:var(--p-fg);justify-content:center;padding:0}\n.phone.lg .stadd button#stList{background:var(--p-orange);color:#fff}\n/* settings: tap the circle to change the shop picture */\n.phone.lg .sav{border:none;padding:0;overflow:hidden;font-family:var(--word);transition:opacity .15s}\n.phone.lg .sav:active{opacity:.6}\n.phone.lg .sav img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}\n/* shop photo editor */\n.phone.lg .rbk{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));width:44px;height:44px;border-radius:22px;background:rgba(255,255,255,.72);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(255,255,255,.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.14);display:grid;place-items:center;font-size:18px;color:#111114;z-index:2;padding:0}\n.phone.lg .rbk.l{left:16px}\n.phone.lg .rbk.r{right:16px;background:rgba(232,121,43,.88);border-color:rgba(255,255,255,.35);color:#fff;font-weight:700;box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 8px 24px rgba(232,121,43,.35)}\n.phone.lg .pbw{position:relative;width:200px;height:200px;margin:14px auto 0;flex:none}\n.phone.lg .pbig{width:200px;height:200px;border-radius:100px;object-fit:cover;display:block;box-shadow:0 14px 34px rgba(0,0,0,.18)}\n.phone.lg .prm{position:absolute;right:6px;top:6px;width:36px;height:36px;border-radius:18px;background:rgba(255,255,255,.72);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(255,255,255,.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.14);display:grid;place-items:center;font-size:22px;line-height:1;color:#111114;padding:0 0 2px}\n.phone.lg .pcrop{align-self:center;display:flex;align-items:center;gap:8px;height:44px;padding:0 20px;border-radius:22px;background:rgba(255,255,255,.72);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(255,255,255,.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.14);font-size:15px;font-weight:600;color:#111114;flex:none}\n.phone.lg .pcrop svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}\n.phone.lg .pcrop:disabled{opacity:.4}\n.phone.lg .pcrop *{pointer-events:none}\n.phone.lg .psec{font-size:17px;font-weight:600;padding:6px 4px 0;flex:none}\n.phone.lg .prow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;flex:none}\n.phone.lg .pc{aspect-ratio:1;width:100%;border-radius:50%;border:none;padding:0;display:grid;place-items:center;align-content:center;gap:2px;font-size:26px;font-weight:700;background-size:cover;background-position:center}\n.phone.lg .pc.tool{background:rgba(255,255,255,.72);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(255,255,255,.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.14);color:#111114;font-size:11px;font-weight:600}\n.phone.lg .pc.tool svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}\n.phone.lg .pc.on{outline:3px solid var(--p-orange);outline-offset:3px}\n.phone.lg .pc *{pointer-events:none}\n/* crop */\n.phone.lg .sheet.crop{background:#000}\n.phone.lg .sheet.crop .sttl{color:#fff}\n.phone.lg .sheet.crop .rbk.l{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.28);color:#fff;box-shadow:none}\n.phone.lg .cwrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;padding:0 16px 40px}\n.phone.lg .cbox{position:relative;width:min(100%,340px);aspect-ratio:1;touch-action:none}\n.phone.lg .cbox canvas{width:100%;height:100%;display:block;touch-action:none}\n.phone.lg .cbox::after{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle closest-side,transparent 99.4%,rgba(0,0,0,.55) 100%)}\n.phone.lg .czm{width:min(100%,300px);accent-color:#E8792B}\n.phone.lg .chint{color:rgba(255,255,255,.7);font-size:15px}\n";   /* v4.129 */
-  var CHQ_LAST_PHONE = "5.256", CHQ_LAST_DESK = "5.256";   /* v4.129: which side a version changed */
+  var CHQ_LAST_PHONE = "5.260", CHQ_LAST_DESK = "5.260";   /* v4.129: which side a version changed */
   /* the phone list in the Ledger's order: open jobs, Potential Job, completed, Claim Denied; then the Ledger's own sort column */
   function chqPhSorted(key){
     var jobs = chqPhMonthJobs(key).slice(), field = sortState.field, dir = sortState.dir;
@@ -22582,14 +22599,14 @@ document.addEventListener("focusout", function(e){ try{ var t = e.target; if(t &
     try{
       var SEL = "#rf_custphone, #rf_adjphone, #jd_custPhone, .c240pv, #njTel, #edTel, #c219CustPage input[data-f=phone]";
       var EXT = /\s*(?:x|ext\.?|#|×)\s*(\d*)\s*$/i;
-      var fmt = function(v){
-        var ext = null, m = EXT.exec(v); if(m){ ext = m[1]; v = v.slice(0, m.index); }
+      var fmt = function(v, deleting){
+        var ext = null, m = EXT.exec(v); if(m){ ext = m[1]; v = v.slice(0, m.index); if(deleting && ext === "") ext = null; }   /* backspacing the last extension digit removes "Ext" too */
         var d = v.replace(/\D/g, ""); if(d.length === 11 && d.charAt(0) === "1") d = d.slice(1);
         if(d.length > 10 && ext === null){ ext = d.slice(10); d = d.slice(0, 10); }
-        if(!d) return ext !== null ? " x" + ext : "";
+        if(!d) return ext !== null ? "Ext " + ext : "";
         var out = d.length <= 3 ? "(" + d : "(" + d.slice(0, 3) + ") " + d.slice(3, 6) + (d.length > 6 ? "-" + d.slice(6, 10) : "");
         if(d.length < 4 && ext === null) out = d.length === 3 ? "(" + d + ")" : "(" + d;
-        return out + (ext !== null ? " x" + ext : "");
+        return out + (ext !== null ? " Ext " + ext : "");   /* v5.259: the extension reads "Ext 1903" right in the box — keep typing digits after the 10-digit number */
       };
       var digitsBefore = function(s, at){ return s.slice(0, at).replace(/\D/g, "").length; };
       var posAfter = function(s, n){ if(n <= 0){ var f = s.search(/\d/); return f < 0 ? s.length : f; } for(var i = 0, c = 0; i < s.length; i++){ if(/\d/.test(s.charAt(i))){ c++; if(c === n) return i + 1; } } return s.length; };
@@ -22600,7 +22617,7 @@ document.addEventListener("focusout", function(e){ try{ var t = e.target; if(t &
           var pd = t._c254prev.replace(/\D/g, ""), nd = v.replace(/\D/g, "");
           if(pd === nd && at > 0){ var n = digitsBefore(v, at); if(n > 0){ var p = posAfter(v, n); v = v.slice(0, p - 1) + v.slice(p); at = p - 1; } }
         }
-        var keep = digitsBefore(v, at), nv = fmt(v);
+        var keep = digitsBefore(v, at), nv = fmt(v, /^delete/.test(e.inputType || ""));
         if(nv !== t.value){ t._c254 = 1; t.value = nv; try{ var np = posAfter(nv, keep); if(at >= v.length) np = nv.length; t.setSelectionRange(np, np); }catch(x){} t._c254 = 0; }
         t._c254prev = t.value;
       }, true);
@@ -22714,6 +22731,107 @@ document.addEventListener("focusout", function(e){ try{ var t = e.target; if(t &
     closePdfReview = function(){ LABN++; var b = document.getElementById("labPdf"); if(b){ b.innerHTML = ""; b.hidden = true; } var pl = document.getElementById("labPill"); if(pl) pl.hidden = true; return cl.apply(this, arguments); };
   })();
 
+
+  /* ---------- v5.257 (Frank Oct 10 10:20 AM, from the Estimate Lab v4): the estimate preview draws the PDF pages itself (pdf.js) instead of Chrome's PDF viewer —
+     the pages fit the box's width (nothing moves left to right), the box has no scrollbar of its own, and a thin gray scroll pill sits outside the box in the gap
+     to the window's edge. The page box, the X and the bottom-right button end on the same line. Chrome's viewer stays loaded underneath, so Print works as before.
+     Runs only when the preview's file changes (one watcher on one element) and on window resize. ---------- */
+  (function(){
+    try{
+      var N = 0, box = null, pill = null, cur = "";
+      var fr = document.getElementById("pdfPreviewFrame"); if(!fr) return;
+      function ov(){ return document.getElementById("pdfReviewOverlay"); }
+      function open(){ var o = ov(); return !!(o && o.style.display !== "none" && getComputedStyle(o).display !== "none"); }
+      function ensure(){
+        if(box && box.isConnected) return;
+        var host = fr.parentNode; box = document.createElement("div"); box.id = "c5Pdf"; host.appendChild(box);
+        pill = document.createElement("i"); pill.id = "c5PdfPill"; pill.hidden = true; document.body.appendChild(pill);
+        box.addEventListener("scroll", bar, { passive:true });
+        var drag = false, sy = 0, st = 0;
+        pill.addEventListener("pointerdown", function(e){ drag = true; sy = e.clientY; st = box.scrollTop; pill.setPointerCapture(e.pointerId); pill.classList.add("on"); e.preventDefault(); });
+        pill.addEventListener("pointermove", function(e){ if(!drag) return; var h = box.clientHeight, H = box.scrollHeight; box.scrollTop = st + (e.clientY - sy) * (H - h) / Math.max(1, h - pill.offsetHeight); });
+        pill.addEventListener("pointerup", function(){ drag = false; pill.classList.remove("on"); });
+      }
+      function bar(){
+        if(!box || !pill) return; var md = fr.closest(".modal");
+        if(!md || !open() || box.hidden){ pill.hidden = true; return; }
+        var h = box.clientHeight, H = box.scrollHeight; if(H <= h + 2 || !h){ pill.hidden = true; return; }
+        var br = box.getBoundingClientRect(), mr = md.getBoundingClientRect(), ph = Math.max(36, h * h / H), top = (h - ph) * box.scrollTop / Math.max(1, H - h);
+        pill.hidden = false; pill.style.left = Math.round(br.right + (mr.right - br.right) / 2 - 3) + "px"; pill.style.top = Math.round(br.top + top) + "px"; pill.style.height = Math.round(ph) + "px";
+      }
+      async function draw(u){
+        var n = ++N; ensure(); box.innerHTML = ""; box.scrollTop = 0; box.hidden = !u || typeof pdfjsLib === "undefined"; bar(); if(box.hidden) return;
+        try{
+          var doc = await pdfjsLib.getDocument(u).promise; if(n !== N) return;
+          for(var i = 1; i <= doc.numPages; i++){
+            var pg = await doc.getPage(i); if(n !== N) return;
+            var w = Math.max(240, box.clientWidth - 24), v1 = pg.getViewport({ scale:1 }), dpr = window.devicePixelRatio || 1, vp = pg.getViewport({ scale:(w / v1.width) * dpr });
+            var cv = document.createElement("canvas"); cv.width = Math.floor(vp.width); cv.height = Math.floor(vp.height); cv.style.width = Math.floor(vp.width / dpr) + "px"; cv.style.height = Math.floor(vp.height / dpr) + "px";
+            box.appendChild(cv); await pg.render({ canvasContext:cv.getContext("2d"), viewport:vp }).promise; if(n !== N) return; bar();
+          }
+        }catch(e){ console.warn("v5.257 preview", e); if(n === N){ box.hidden = true; bar(); } }   /* if pdf.js can't read it, Chrome's viewer underneath still shows it */
+      }
+      function check(){ var u = String(fr.getAttribute("src") || "").split("#")[0]; if(u === "about:blank") u = ""; if(u === cur) return; cur = u; draw(u); }
+      new MutationObserver(check).observe(fr, { attributes:true, attributeFilter:["src"] });
+      var rt = 0; window.addEventListener("resize", function(){ if(!open()) return; bar(); clearTimeout(rt); rt = setTimeout(function(){ if(cur && open()) draw(cur); }, 250); });
+      var o = ov(); if(o) new MutationObserver(function(){ if(!open() && pill) pill.hidden = true; else bar(); }).observe(o, { attributes:true, attributeFilter:["style"] });
+    }catch(e){ console.warn("v5.257 preview", e); }
+  })();
+
+  /* ---------- v5.260 (Frank Oct 10 10:30 AM): the estimate's payment policy (80/20 or 70/30).
+     1. Read it: if the estimate's text anywhere says "80/20 Policy" / "70/30 Policy" (any spacing, slash or dash), that is the policy; otherwise Standard.
+     2. Show it: a Policy box right under Deductible in Review / Edit Estimate (Standard · 80/20 · 70/30), changeable before saving.
+     3. Flag it: a green "Policy: 80/20" pill by the title — only for 80/20 and 70/30.
+     4. Save it: the job's Policy (paymentRule) — the same as picking it on the board, so the holdback math follows. The Deductible box keeps the
+        customer's deductible amount, as the board already does for 80/20 jobs. ---------- */
+  (function(){
+    try{
+      var LAST = "", READ = null;
+      var RX = /\b([78])0\s*[\/\-–—]\s*([23])0\s*%?\s*(?:pay(?:ment)?\s*)?polic/i;
+      var detect = function(t){ var m = RX.exec(String(t || "")) || /polic[a-z]*\W{0,24}([78])0\s*[\/\-–—]\s*([23])0/i.exec(String(t || "")); if(!m) return ""; var r = m[1] + "0/" + m[2] + "0"; return (r === "80/20" || r === "70/30") ? r : ""; };
+      var ex0 = extractTextFromPdfDoc; extractTextFromPdfDoc = async function(){ var t = await ex0.apply(this, arguments); LAST = String(t || ""); return t; };
+      var oc0 = ocrPdfDoc; ocrPdfDoc = async function(){ var t = await oc0.apply(this, arguments); LAST += "\n" + String(t || ""); return t; };
+      var rp0 = runPdfExtraction; runPdfExtraction = async function(){ LAST = ""; var r = await rp0.apply(this, arguments); try{ var p = detect(LAST); if(r && r.fields) r.fields.paymentRule = p || r.fields.paymentRule || ""; READ = p; }catch(e){} return r; };
+      function pill(){
+        var ov = $("pdfReviewOverlay"), hd = ov && ov.querySelector(".modal-header"), sel = $("rf_policy"); if(!hd) return;
+        var p = $("c5ePol"); if(!p){ p = document.createElement("span"); p.id = "c5ePol"; var sys = $("c5eSys"); if(sys && sys.parentNode === hd) sys.after(p); else hd.insertBefore(p, hd.children[1] || null); }
+        var v = sel ? sel.value : "Standard", t = v && v !== "Standard" ? "Policy: " + v : ""; if(p.textContent !== t) p.textContent = t; p.hidden = !t;
+      }
+      var op0 = openPdfReview;
+      openPdfReview = function(fields, filename, objectUrl, warningMessage, mode, jobId){
+        var r = op0.apply(this, arguments);
+        try{
+          var ded = $("rf_deductible"), f = ded && ded.closest(".review-field");
+          if(f && !$("rf_policy")){
+            var job = (mode === "edit" || mode === "attach") && jobId ? findJobById(jobId) : null;
+            var v = (fields && fields.paymentRule) || (job && job.paymentRule) || "Standard";
+            var row = document.createElement("div"); row.className = "review-field c5pol";
+            row.innerHTML = '<label for="rf_policy">Policy</label><select id="rf_policy">' + ["Standard", "80/20", "70/30"].map(function(o){ return '<option' + (o === v ? " selected" : "") + '>' + o + '</option>'; }).join("") + '</select>';
+            f.after(row);
+            $("rf_policy").addEventListener("change", pill);
+          }
+          pill();
+        }catch(e){ console.warn("v5.260 policy", e); }
+        return r;
+      };
+      var rf0 = readReviewForm; readReviewForm = function(){ var f = rf0.apply(this, arguments); var s = $("rf_policy"); if(s) f.paymentRule = s.value; return f; };
+      /* after Add To Tracker / Add as New Row / Update This Job / Save Changes: write the Policy onto the job that was just added or changed */
+      var snap = null;
+      function all(){ var o = {}; Object.keys(data.months).forEach(function(mk){ data.months[mk].jobs.forEach(function(j){ o[j.id] = j; }); }); return o; }
+      document.addEventListener("click", function(e){
+        var b = e.target && e.target.closest && e.target.closest("#confirmPdfReviewBtn, #addAsNewRowBtn"); if(!b) return;
+        var s = $("rf_policy"); if(!s) return; var pol = s.value, before = {}, A = all(); Object.keys(A).forEach(function(id){ before[id] = A[id].updatedAt || ""; });
+        var editId = currentReviewJobId, tries = 0;
+        (function look(){
+          tries++; var J = all(), hit = null;
+          if(editId && J[editId] && J[editId].updatedAt !== before[editId]) hit = J[editId];
+          if(!hit) Object.keys(J).some(function(id){ if(!(id in before) || J[id].updatedAt !== before[id]){ hit = J[id]; return true; } return false; });
+          if(hit){ if((hit.paymentRule || "Standard") !== pol){ hit.paymentRule = pol; if(pol !== "Standard" && hit.deductibleType !== "Custom"){ var a = deductibleAmount(hit); hit.deductibleType = "Custom"; hit.deductibleCustomAmount = a; } saveData(); try{ renderTable(); }catch(x){} } return; }
+          if(tries < 30) setTimeout(look, 100);   /* saving a new PDF can take a moment; stop looking after 3 seconds */
+        })();
+      }, true);
+    }catch(e){ console.warn("v5.260 policy", e); }
+  })();
   /* HQ v4: display-only touches after the table is drawn. Values and saving are untouched. */
   var V5_MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
   function v5Date(v){ if(!/^\d{4}-\d{2}-\d{2}$/.test(v || "")) return ""; var p = v.split("-"); return V5_MON[+p[1]-1] + " " + p[2] + (+p[0] === new Date().getFullYear() ? "" : " \u2019" + p[0].slice(2)); }
