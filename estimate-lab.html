@@ -22683,21 +22683,35 @@ document.addEventListener("focusout", function(e){ try{ var t = e.target; if(t &
     async function preview(u){
       var n = ++LABN, fr = $("pdfPreviewFrame"); if(!fr) return; var host = fr.parentNode, box = document.getElementById("labPdf");
       if(!box){ box = document.createElement("div"); box.id = "labPdf"; host.style.position = host.style.position || "relative"; host.appendChild(box); }
-      box.innerHTML = ""; box.hidden = !u; if(!u || typeof pdfjsLib === "undefined") return;
+      box.innerHTML = ""; box.hidden = !u; bar(); if(!u || typeof pdfjsLib === "undefined") return;
       try{
         var doc = await pdfjsLib.getDocument(u).promise; if(n !== LABN) return;
         for(var i = 1; i <= doc.numPages; i++){
           var pg = await doc.getPage(i); if(n !== LABN) return;
-          var w = Math.max(300, box.clientWidth - 32), v1 = pg.getViewport({ scale:1 }), sc = w / v1.width, dpr = window.devicePixelRatio || 1, vp = pg.getViewport({ scale:sc * dpr });
+          var w = Math.max(300, box.clientWidth - 24), v1 = pg.getViewport({ scale:1 }), sc = w / v1.width, dpr = window.devicePixelRatio || 1, vp = pg.getViewport({ scale:sc * dpr });
           var cv = document.createElement("canvas"); cv.width = vp.width; cv.height = vp.height; cv.style.width = (vp.width / dpr) + "px"; cv.style.height = (vp.height / dpr) + "px";
-          box.appendChild(cv); await pg.render({ canvasContext:cv.getContext("2d"), viewport:vp }).promise;
+          box.appendChild(cv); await pg.render({ canvasContext:cv.getContext("2d"), viewport:vp }).promise; bar();
         }
       }catch(e){ console.warn("lab preview", e); }
+    }
+    /* the scroll pill: outside the page box, in the gap between the box and the window edge */
+    function bar(){
+      var box = document.getElementById("labPdf"), fr = $("pdfPreviewFrame"); if(!box || !fr) return; var md = fr.closest(".modal"); if(!md) return;
+      var pill = document.getElementById("labPill"); if(!pill){ pill = document.createElement("i"); pill.id = "labPill"; document.body.appendChild(pill);
+        box.addEventListener("scroll", bar, { passive:true }); window.addEventListener("resize", bar);
+        var dragging = false, sy = 0, st = 0;
+        pill.addEventListener("pointerdown", function(e){ dragging = true; sy = e.clientY; st = box.scrollTop; pill.setPointerCapture(e.pointerId); pill.classList.add("on"); e.preventDefault(); });
+        pill.addEventListener("pointermove", function(e){ if(!dragging) return; var r = box.clientHeight, H = box.scrollHeight, ph = pill.offsetHeight; box.scrollTop = st + (e.clientY - sy) * (H - r) / Math.max(1, r - ph); });
+        pill.addEventListener("pointerup", function(){ dragging = false; pill.classList.remove("on"); }); }
+      var br = box.getBoundingClientRect(), mr = md.getBoundingClientRect(), h = box.clientHeight, H = box.scrollHeight;
+      if(box.hidden || H <= h + 2){ pill.hidden = true; return; } pill.hidden = false;
+      var ph = Math.max(36, h * h / H), top = (h - ph) * box.scrollTop / Math.max(1, H - h);
+      pill.style.left = (br.right + (mr.right - br.right) / 2 - 3) + "px"; pill.style.top = (br.top + top) + "px"; pill.style.height = ph + "px";
     }
     var op = openPdfReview;
     openPdfReview = function(){ var r = op.apply(this, arguments); try{ setTimeout(function(){ preview(currentPdfObjectUrl); }, 60); }catch(e){} return r; };
     var cl = closePdfReview;
-    closePdfReview = function(){ LABN++; var b = document.getElementById("labPdf"); if(b){ b.innerHTML = ""; b.hidden = true; } return cl.apply(this, arguments); };
+    closePdfReview = function(){ LABN++; var b = document.getElementById("labPdf"); if(b){ b.innerHTML = ""; b.hidden = true; } var pl = document.getElementById("labPill"); if(pl) pl.hidden = true; return cl.apply(this, arguments); };
   })();
 
   /* HQ v4: display-only touches after the table is drawn. Values and saving are untouched. */
@@ -31700,8 +31714,12 @@ document.addEventListener("focusout", function(e){ try{ var t = e.target; if(t &
 #labList button i{ font-style:normal; font:700 12px "Courier New", monospace; color:#8A919C; width:24px; }
 #labList button em{ font-style:normal; color:#6C6C73; font-size:12.5px; margin-left:auto; }
 /* keep every window clear of the lab bar */
-#labPdf{ position:absolute; inset:0; overflow:auto; background:#525659; padding:16px; display:flex; flex-direction:column; align-items:center; gap:12px; z-index:2; border-radius:inherit; }
+#labPdf{ position:absolute; inset:0; overflow-x:hidden; overflow-y:auto; scrollbar-width:none; overscroll-behavior:contain; background:#525659; padding:12px; display:flex; flex-direction:column; align-items:center; gap:12px; z-index:2; border-radius:inherit; }
 #labPdf[hidden]{ display:none; }
+#labPdf::-webkit-scrollbar{ display:none; width:0; height:0; }
+#labPill{ position:fixed; width:6px; border-radius:3px; background:rgba(0,0,0,.24); z-index:2147482000; cursor:grab; transition:background .12s; }
+#labPill:hover, #labPill.on{ background:rgba(0,0,0,.42); }
+#labPill[hidden]{ display:none; }
 #labPdf canvas{ background:#fff; box-shadow:0 2px 10px rgba(0,0,0,.3); flex:none; }
 </style>
 <div id="labList" hidden></div>
