@@ -22677,6 +22677,27 @@ document.addEventListener("focusout", function(e){ try{ var t = e.target; if(t &
       },
       close:close
     };
+    /* The PDF preview: the app shows the file in the browser's own PDF viewer; inside the chat page (and some sandboxes) that viewer is blocked and the box stays gray.
+       The lab draws the pages itself with pdf.js on top of it, so the preview always shows. */
+    var LABN = 0;
+    async function preview(u){
+      var n = ++LABN, fr = $("pdfPreviewFrame"); if(!fr) return; var host = fr.parentNode, box = document.getElementById("labPdf");
+      if(!box){ box = document.createElement("div"); box.id = "labPdf"; host.style.position = host.style.position || "relative"; host.appendChild(box); }
+      box.innerHTML = ""; box.hidden = !u; if(!u || typeof pdfjsLib === "undefined") return;
+      try{
+        var doc = await pdfjsLib.getDocument(u).promise; if(n !== LABN) return;
+        for(var i = 1; i <= doc.numPages; i++){
+          var pg = await doc.getPage(i); if(n !== LABN) return;
+          var w = Math.max(300, box.clientWidth - 32), v1 = pg.getViewport({ scale:1 }), sc = w / v1.width, dpr = window.devicePixelRatio || 1, vp = pg.getViewport({ scale:sc * dpr });
+          var cv = document.createElement("canvas"); cv.width = vp.width; cv.height = vp.height; cv.style.width = (vp.width / dpr) + "px"; cv.style.height = (vp.height / dpr) + "px";
+          box.appendChild(cv); await pg.render({ canvasContext:cv.getContext("2d"), viewport:vp }).promise;
+        }
+      }catch(e){ console.warn("lab preview", e); }
+    }
+    var op = openPdfReview;
+    openPdfReview = function(){ var r = op.apply(this, arguments); try{ setTimeout(function(){ preview(currentPdfObjectUrl); }, 60); }catch(e){} return r; };
+    var cl = closePdfReview;
+    closePdfReview = function(){ LABN++; var b = document.getElementById("labPdf"); if(b){ b.innerHTML = ""; b.hidden = true; } return cl.apply(this, arguments); };
   })();
 
   /* HQ v4: display-only touches after the table is drawn. Values and saving are untouched. */
@@ -31678,6 +31699,9 @@ document.addEventListener("focusout", function(e){ try{ var t = e.target; if(t &
 #labList button em{ font-style:normal; color:#6C6C73; font-size:12.5px; margin-left:auto; }
 /* keep every window clear of the lab bar */
 .modal-overlay{ padding-bottom:76px !important; box-sizing:border-box; }
+#labPdf{ position:absolute; inset:0; overflow:auto; background:#525659; padding:16px; display:flex; flex-direction:column; align-items:center; gap:12px; z-index:2; border-radius:inherit; }
+#labPdf[hidden]{ display:none; }
+#labPdf canvas{ background:#fff; box-shadow:0 2px 10px rgba(0,0,0,.3); flex:none; }
 </style>
 <div id="labList" hidden></div>
 <div id="labBar">
