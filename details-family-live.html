@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><script>try{localStorage.setItem("chq_demo","1")}catch(e){}</script>
+<head><script>try{localStorage.setItem("chq_demo","1")}catch(e){}
+/* v16: Details sections open and fold instantly — the app checks reduced-motion before sliding rows, so answer yes for that one question */
+(function(){ var mm = window.matchMedia; window.matchMedia = function(q){ var r = mm.call(window, q); if(/prefers-reduced-motion/.test(q)) return { matches:true, media:q, addListener:function(){}, removeListener:function(){}, addEventListener:function(){}, removeEventListener:function(){}, onchange:null, dispatchEvent:function(){ return false; } }; return r; }; 
+  /* and the base fold still slides the section body open with a Web Animation; inside Details, finish it at once */
+  var an = Element.prototype.animate; Element.prototype.animate = function(k, o){ if(this.closest && this.closest("#jobDetailsOverlay")){ var fake = { cancel:function(){}, finish:function(){}, pause:function(){}, play:function(){}, playState:"finished", finished:Promise.resolve() }; var fn = null; Object.defineProperty(fake, "onfinish", { get:function(){ return fn; }, set:function(f){ fn = f; setTimeout(function(){ try{ f && f(); }catch(e){} }, 0); } }); return fake; } return an.apply(this, arguments); }; })();</script>
 <meta charset="UTF-8">
 <script>try{var u=+sessionStorage.getItem("chq_upd");if(u&&Date.now()-u<20000)document.documentElement.classList.add("chq5-upd");}catch(e){}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
@@ -31514,6 +31518,11 @@ html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOv
 /* v15 — lines never flicker: the hover pill starts 1 px under the line above, and an open header's line stays drawn on top of the pill */
 html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ height:59px !important; margin-top:1px !important; }
 html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bh:hover{ background:linear-gradient(#C3C6C0, #C3C6C0) 30px bottom / calc(100% - 60px) 1px no-repeat, var(--wf-fill) !important; }
+/* v16 — opening or folding a section is instant: no fade, no slide, so the rows and their lines never drift */
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bb, html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box, html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ transition:none !important; animation:none !important; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bb{ opacity:1 !important; transform:none !important; }
+/* v16b — a line above Customer Details too, so the list is closed at the top like it is between rows */
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:first-child{ background:linear-gradient(#C3C6C0, #C3C6C0) 30px 0 / calc(100% - 60px) 1px no-repeat, var(--wf-win) !important; }
 
 </style>
 <style id="c5famBarCss">
@@ -31523,7 +31532,7 @@ html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOv
 #c5famBar i{ width:1px; background:#E2E4DF; margin:6px 6px; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Details Family v15 · app 5.252 · demo shop</span><button data-v="today">Today</button><button data-v="fam" class="on">Family</button></div>
+<div id="c5famBar"><span>Details Family v16 · app 5.252 · demo shop</span><button data-v="today">Today</button><button data-v="fam" class="on">Family</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
   document.body.classList.add("c5famd"); document.body.classList.add("c5emYellow");
