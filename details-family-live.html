@@ -31878,48 +31878,72 @@ document.addEventListener("focusout", function(e){ try{ var t = e.target; if(t &
 })();
 </script>
 <style id="c5famCss">
-/* ---------- Details Family (live) — on top of app 5.270. Five list looks, picked by a body class ---------- */
-:root{ --wf-win:#FFFFFF; --wf-fill:#F2F2F7; --wf-fill2:#E5E5EA; --wf-line:#E2E4DF; --wf-ink:#16181D; --wf-soft:#6C6C73; }
-/* shared: undo 5.268's dark 30-in lines so each look draws its own; rows keep the hover pill and the instant fold */
-html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box, html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box + .v4box, html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:first-child{ background:var(--wf-win) !important; border:0 !important; }
-html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bh, html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bh:hover, html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box.v4closed .v4bh:hover{ background-image:none !important; }
+/* ---------- Details Family (live) — on top of app 5.270. Ten list looks, picked by a body class c5m1 … c5m10 ---------- */
+:root{ --wf-win:#FFFFFF; --wf-fill:#F2F2F7; --wf-fill2:#E5E5EA; --wf-soft-fill:#F7F7F9; --wf-line:#E2E4DF; --wf-ink:#16181D; --wf-soft:#6C6C73; }
+/* shared: undo 5.268's dark lines; rows keep the instant fold; hover handled per look */
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box, html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box + .v4box, html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:first-child{ background:var(--wf-win) !important; border:0 !important; border-radius:0 !important; margin:0 !important; overflow:visible !important; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bh, html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bh:hover, html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box.v4closed .v4bh:hover, html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ background-image:none !important; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ margin-top:0 !important; height:60px !important; background-color:transparent !important; border-radius:30px !important; }
 html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box .v4bh:hover{ background-color:var(--wf-fill) !important; }
-html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ margin-top:0 !important; height:60px !important; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .modal-body{ padding:0 20px 20px !important; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5grp{ display:none; }
 
-/* 1 · Faint hairlines, edge to edge — no line above the first row */
-html body.c5lA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box + .v4box{ border-top:1px solid var(--wf-line) !important; }
-html body.c5lA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bb{ border-top:1px solid var(--wf-line) !important; }
+/* 1 · Gray pills — every row is a #F2F2F7 pill, 8 apart (the Add Job rows); hover a shade darker */
+html body.c5m1:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ background-color:var(--wf-fill) !important; }
+html body.c5m1:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box .v4bh:hover{ background-color:var(--wf-fill2) !important; }
+html body.c5m1:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box + .v4box{ margin-top:8px !important; }
 
-/* 2 · No lines, air — 56-tall rows with a 6 gap; the hover pill separates */
-html body.c5lB:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ height:56px !important; }
-html body.c5lB:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box + .v4box{ margin-top:6px !important; }
-html body.c5lB:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bb{ border-top:0 !important; }
+/* 2 · Soft pills — lighter fill (#F7F7F9), 16 corners instead of full round, 10 apart */
+html body.c5m2:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ background-color:var(--wf-soft-fill) !important; border-radius:16px !important; }
+html body.c5m2:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box .v4bh:hover{ background-color:var(--wf-fill) !important; }
+html body.c5m2:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box + .v4box{ margin-top:10px !important; }
 
-/* 3 · One card — the seven rows inside one 16-corner bordered card, faint hairlines inside */
-html body.c5lC:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .modal-body{ padding:0 20px 20px !important; }
-html body.c5lC:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody{ border:1px solid var(--wf-line); border-radius:16px; overflow:hidden; }
-html body.c5lC:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box + .v4box{ border-top:1px solid var(--wf-line) !important; }
-html body.c5lC:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ border-radius:0 !important; }
-html body.c5lC:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bb{ border-top:1px solid var(--wf-line) !important; }
+/* 3 · White cards — each row white with the 1-px hairline border, 16 corners, 8 apart (the family's list card, one per row) */
+html body.c5m3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ background-color:var(--wf-win) !important; border-radius:16px !important; box-shadow:0 0 0 1px var(--wf-line); }
+html body.c5m3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box .v4bh:hover{ background-color:var(--wf-soft-fill) !important; }
+html body.c5m3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box + .v4box{ margin-top:8px !important; }
 
-/* 4 · Two groups — Job (first three) and Files & Notes (last four), each its own card with a small gray label */
-html body.c5lD:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .modal-body{ padding:0 20px 20px !important; }
-html body.c5lD:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box{ border-left:1px solid var(--wf-line) !important; border-right:1px solid var(--wf-line) !important; }
-html body.c5lD:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box + .v4box{ border-top:1px solid var(--wf-line) !important; }
-html body.c5lD:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5grp + .v4box{ border-top:1px solid var(--wf-line) !important; border-radius:16px 16px 0 0 !important; overflow:hidden; }
-html body.c5lD:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:has(+ .c5grp), html body.c5lD:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:last-child{ border-bottom:1px solid var(--wf-line) !important; border-radius:0 0 16px 16px !important; overflow:hidden; }
-html body.c5lD:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5grp{ display:block; font:600 12.5px Inter, Arial, sans-serif; color:var(--wf-soft); padding:0 0 8px 14px; }
-html body.c5lD:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5grp + .v4box{ border-top:1px solid var(--wf-line) !important; }
-html body.c5lD:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5grp.b{ padding-top:22px; }
-html body:not(.c5lD) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5grp{ display:none; }
-html body.c5lD:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ border-radius:0 !important; }
-html body.c5lD:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bb{ border-top:1px solid var(--wf-line) !important; }
+/* 4 · Tiles — two columns of 96-tall gray tiles: icon and title on the first line, the hint under; an open section spans both columns */
+html body.c5m4:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody{ display:grid !important; grid-template-columns:1fr 1fr; gap:10px; align-content:start !important; }
+html body.c5m4:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed){ grid-column:1 / -1; }
+html body.c5m4:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ height:96px !important; border-radius:16px !important; background-color:var(--wf-fill) !important; flex-wrap:wrap !important; align-content:center !important; padding:0 18px 0 14px !important; row-gap:4px; }
+html body.c5m4:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh .v4hsep{ display:none !important; }
+html body.c5m4:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh .v4hint{ flex-basis:100% !important; padding-left:46px; }
+html body.c5m4:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh .v4tri{ position:absolute; right:14px; top:50%; translate:0 -50%; }
+html body.c5m4:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ position:relative; }
+html body.c5m4:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box .v4bh:hover{ background-color:var(--wf-fill2) !important; }
 
-/* 5 · Window hugs the list — look 1, and the window is only as tall as what is in it */
-html body.c5lE:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box + .v4box{ border-top:1px solid var(--wf-line) !important; }
-html body.c5lE:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bb{ border-top:1px solid var(--wf-line) !important; }
-html body.c5lE:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay > .modal{ height:auto !important; max-height:92vh !important; min-height:0 !important; }
-html body.c5lE:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .modal-body{ flex:0 1 auto !important; max-height:none !important; }
+/* 5 · Icon circles, no lines — rows 72 tall, the icon back in a 44 gray circle, more air, nothing else */
+html body.c5m5:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ height:72px !important; border-radius:36px !important; }
+html body.c5m5:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh::before{ background-color:var(--wf-fill) !important; width:44px !important; height:44px !important; border-radius:22px !important; }
+html body.c5m5:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box .v4bh:hover{ background-color:var(--wf-soft-fill) !important; }
+
+/* 6 · Zebra — no lines; every other row tinted #F7F7F5 edge to edge like the board, 56 tall, square */
+html body.c5m6:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .modal-body{ padding:0 0 20px !important; }
+html body.c5m6:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ height:56px !important; border-radius:0 !important; padding:0 32px 0 30px !important; }
+html body.c5m6:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:nth-child(even) .v4bh{ background-color:#F7F7F5 !important; }
+html body.c5m6:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box .v4bh:hover{ background-color:var(--wf-fill) !important; }
+
+/* 7 · Indented hairlines — faint lines that start where the words start (after the icon), the iPhone list */
+html body.c5m7:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box + .v4box .v4bh{ background-image:linear-gradient(var(--wf-line), var(--wf-line)) !important; background-size:calc(100% - 52px) 1px !important; background-position:52px 0 !important; background-repeat:no-repeat !important; border-radius:0 !important; }
+html body.c5m7:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box .v4bh:hover{ background-color:var(--wf-soft-fill) !important; }
+
+/* 8 · Tight, hover only — no lines, 52-tall rows, no gaps; the pill shows up only under the mouse */
+html body.c5m8:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ height:52px !important; border-radius:26px !important; }
+html body.c5m8:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh .v4bt{ font-size:15px !important; }
+
+/* 9 · Gray panel, white rows — the whole list on a #F7F7F9 panel with 22 corners; each row a white pill inside */
+html body.c5m9:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody{ background:var(--wf-fill); border-radius:22px; padding:10px; }
+html body.c5m9:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box{ background:transparent !important; }
+html body.c5m9:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ background-color:var(--wf-win) !important; border-radius:30px !important; }
+html body.c5m9:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box + .v4box{ margin-top:8px !important; }
+html body.c5m9:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box .v4bh:hover{ background-color:var(--wf-fill2) !important; }
+html body.c5m9:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bb{ background:var(--wf-win); border-radius:16px; margin-top:8px; }
+
+/* 10 · Chevron buttons — no lines, 60 rows; the chevron on the right sits in its own 36 gray circle, so each row reads as a button */
+html body.c5m10:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh .v4tri{ background-color:var(--wf-fill) !important; width:36px !important; height:36px !important; border-radius:18px !important; }
+html body.c5m10:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box .v4bh:hover{ background-color:var(--wf-soft-fill) !important; }
+html body.c5m10:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box .v4bh:hover .v4tri{ background-color:var(--wf-fill2) !important; }
 
 </style>
 <style id="c5famBarCss">
@@ -31929,10 +31953,10 @@ html body.c5lE:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
 #c5famBar i{ width:1px; background:#E2E4DF; margin:6px 6px; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Details list v17 · app 5.270 · demo shop</span><button data-v="today">5.270</button><button data-v="fam" class="on">Try</button><i></i><button data-e="c5lA" class="on">1 Hairlines</button><button data-e="c5lB">2 Air</button><button data-e="c5lC">3 One card</button><button data-e="c5lD">4 Two groups</button><button data-e="c5lE">5 Hugs</button></div>
+<div id="c5famBar"><span>Details list v18 · app 5.270</span><button data-v="today">5.270</button><button data-v="fam" class="on">Try</button><i></i><button data-e="c5m1" class="on">1 Gray pills</button><button data-e="c5m2">2 Soft pills</button><button data-e="c5m3">3 White cards</button><button data-e="c5m4">4 Tiles</button><button data-e="c5m5">5 Circles</button><button data-e="c5m6">6 Zebra</button><button data-e="c5m7">7 Indent</button><button data-e="c5m8">8 Tight</button><button data-e="c5m9">9 Panel</button><button data-e="c5m10">10 Chevrons</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
-  document.body.classList.add("c5famd"); document.body.classList.add("c5lA");
+  document.body.classList.add("c5famd"); document.body.classList.add("c5m1");
   document.querySelectorAll("#c5famBar button[data-e]").forEach(function(b){ b.addEventListener("click", function(){ document.querySelectorAll("#c5famBar button[data-e]").forEach(function(x){ x.classList.toggle("on", x===b); document.body.classList.remove(x.dataset.e); }); document.body.classList.add(b.dataset.e); }); });
   document.querySelectorAll("#c5famBar button").forEach(function(b){ b.addEventListener("click", function(){ document.querySelectorAll("#c5famBar button").forEach(function(x){ x.classList.toggle("on", x===b); }); document.body.classList.toggle("c5famd", b.dataset.v==="fam"); }); });
   setInterval(function(){ if(!document.body.classList.contains("c5famd")) return; document.querySelectorAll("#jobDetailsOverlay .v4cfadd .btn, #jobDetailsOverlay .v4supadd .btn").forEach(function(b){ var t=b.textContent; if(t.indexOf("+ ")===0) b.textContent=t.slice(2); }); }, 400);
@@ -31940,8 +31964,6 @@ html body.c5lE:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
   document.addEventListener("wheel", function(e){ var o=document.getElementById("jobDetailsOverlay"); if(!o || getComputedStyle(o).display==="none") return; var m=e.target.closest("#jobDetailsOverlay .modal"); if(!m) return; var body=m.querySelector(".modal-body"); if(!body || body.contains(e.target)) return; body.scrollTop += e.deltaY; e.preventDefault(); }, {passive:false});
   /* a click on the title pill (anywhere from the arrow to the insurance name) does what the arrow does */
   document.addEventListener("click", function(e){ var h=e.target.closest("#jobDetailsOverlay .modal-header h2"); if(!h || !document.body.classList.contains("c5famd")) return; if(e.target.closest("#v4JdAll")) return; var a=h.querySelector("#v4JdAll"); if(a) a.click(); });
-  /* look 4: group labels above the first and fourth sections */
-  setInterval(function(){ var body=document.getElementById("jobDetailsBody"); if(!body || body.querySelector(".c5grp")) return; var bs=body.querySelectorAll(":scope > .v4box"); if(bs.length<4) return; var a=document.createElement("div"); a.className="c5grp a"; a.textContent="Job"; var b=document.createElement("div"); b.className="c5grp b"; b.textContent="Files & Notes"; body.insertBefore(a, bs[0]); body.insertBefore(b, bs[3]); }, 500);
   var n=0, t=setInterval(function(){ n++; var td=document.querySelector("#tableBody td.v4jobno"); if(td){ clearInterval(t); td.dispatchEvent(new MouseEvent("dblclick",{bubbles:true})); } else if(n>60) clearInterval(t); }, 250);
 })();
 </script>
