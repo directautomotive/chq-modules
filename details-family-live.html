@@ -7745,6 +7745,124 @@ html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .
 /* v5 — the line between rows stops where the pill starts curving (30 in from each side) */
 html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box + .v4box{ border-top:0 !important; background:linear-gradient(var(--wf-line), var(--wf-line)) 30px 0 / calc(100% - 60px) 1px no-repeat, var(--wf-win) !important; }
 
+
+/* ---------- v5.253 (Frank Oct 10 9:30 AM): Edit Estimate — (1) "Already On The Board" no longer floats over the middle of the title row, where it covered the
+   other notice; it sits in the same row right after the other pills, and long pills cut off with "…". (2) An empty date box shows only "Not Found", not the browser's mm/dd/yyyy under it. ---------- */
+html body:not(.chq5off) #pdfReviewOverlay.v4ee #c5eNotesC{ position:static !important; left:auto; right:auto; flex:0 1 auto; min-width:0; justify-content:flex-start; overflow:hidden; margin-left:8px; }
+html body:not(.chq5off) #pdfReviewOverlay.v4ee #c5eNotesC span{ max-width:360px; overflow:hidden; text-overflow:ellipsis; }
+html body:not(.chq5off) #pdfReviewOverlay.v4ee .review-field.c5eemp input[type=date]:not(:focus)::-webkit-datetime-edit{ color:transparent; }
+
+/* ---------- v5.256 (Frank Oct 10 9:52 AM): Edit Estimate VIN card = the Details window's VIN card — title "Year Make Model | Trim · Body", gray labels, a round gray X top right (36 pixels), no Decode Again ---------- */
+html body:not(.chq5off) #c5eDec{ padding:16px 18px 14px !important; }
+html body:not(.chq5off) #c5eDec .t{ display:flex; align-items:center; flex-wrap:wrap; gap:4px 10px; font:700 15px/1.3 Inter, -apple-system, "Segoe UI", Arial, sans-serif !important; color:#16181D; padding:0 46px 12px 0 !important; min-height:36px; border-bottom:1px solid #ECECF0; margin-bottom:10px !important; }
+html body:not(.chq5off) #c5eDec .t i{ width:1px; height:16px; background:#D0D0D6; display:inline-block; }
+html body:not(.chq5off) #c5eDec .t em{ font-style:normal; font-weight:500; color:#5C5C66; }
+html body:not(.chq5off) #c5eDec .r span{ color:#8E8E93; }
+html body:not(.chq5off) #c5eDec .r b{ font-weight:600; color:#16181D; text-align:right; }
+html body:not(.chq5off) #c5eDec .r b.m{ font-weight:500; color:#8E8E93; }
+html body:not(.chq5off) #c5eDec .r b.n{ font:600 13px "Courier New", monospace; letter-spacing:.04em; }
+html body:not(.chq5off) #c5eDec > button.c5edx{ position:absolute; top:12px; right:12px; width:36px; height:36px; padding:0; border:0; border-radius:50%; background:#F2F2F7; display:grid; place-items:center; cursor:pointer; transition:scale .18s cubic-bezier(.2,.9,.3,1.35), background-color .12s; }
+html body:not(.chq5off) #c5eDec > button.c5edx:hover{ background:#E6E6EC; }
+html body:not(.chq5off) #c5eDec > button.c5edx:active{ scale:.96; transition-duration:.09s; }
+html body:not(.chq5off) #c5eDec > button.c5edx svg{ width:14px; height:14px; fill:none; stroke:#16181D; stroke-width:1.8; stroke-linecap:round; }
+
+/* ---------- v5.257: estimate preview drawn by the app — fits the width, no scrollbar inside, a thin pill outside the box ---------- */
+#pdfReviewOverlay .pdf-preview-pane{ position:relative; }
+#c5Pdf{ position:absolute; inset:0; z-index:2; overflow-x:hidden; overflow-y:auto; overscroll-behavior:contain; scrollbar-width:none; background:#525659; padding:12px; box-sizing:border-box; display:flex; flex-direction:column; align-items:center; gap:12px; border-radius:inherit; }
+#c5Pdf::-webkit-scrollbar{ display:none; width:0; height:0; }
+#c5Pdf[hidden], .pdf-review-split.no-preview #c5Pdf, .pdf-preview-pane.c5enf #c5Pdf{ display:none !important; }
+#c5Pdf canvas{ flex:none; background:#fff; box-shadow:0 2px 10px rgba(0,0,0,.3); }
+#c5PdfPill{ position:fixed; z-index:100050; width:6px; border-radius:3px; background:rgba(0,0,0,.24); cursor:grab; transition:background-color .12s; }
+#c5PdfPill:hover, #c5PdfPill.on{ background:rgba(0,0,0,.42); }
+#c5PdfPill[hidden]{ display:none; }
+
+/* ---------- v5.258 (Frank Oct 10 10:24 AM): the VIN inside both VIN cards (Details and Edit Estimate) uses the same font as the VIN box (--c5-id, Consolas), not Courier New ---------- */
+html body:not(.chq5off) #jobDetailsOverlay #jobDetailsBody .c5vin .c5vdd .c5vr b.c5vn, html body:not(.chq5off) #c5eDec .r b.n{ font:400 14px var(--c5-id, Consolas, "JetBrains Mono", "Courier New", monospace) !important; letter-spacing:0 !important; color:#16181D !important; }
+
+/* ---------- v5.260: the green "Policy: 80/20" pill by the title (same as Read As) ---------- */
+html body:not(.chq5off) #pdfReviewOverlay #c5ePol{ display:inline-flex; align-items:center; height:24px; padding:0 10px; border-radius:12px; font:600 12px var(--v4-word, Inter, Arial), sans-serif; white-space:nowrap; background:#E7F4EA; color:#1E7B34; flex:none; }
+html body:not(.chq5off) #pdfReviewOverlay #c5ePol[hidden]{ display:none; }
+
+/* ---------- v5.262: a form dropdown's arrow points up while its menu is open (Details, Edit Estimate, Deposits) ---------- */
+html body:not(.chq5off) :is(#jobDetailsBody, #pdfReviewBody, #depositsOverlay) :is(.review-field, .v4jobv, td, div) select.v4ddopen.v4ddopen{ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235B6472' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 15l6-6 6 6'/%3E%3C/svg%3E") !important; }
+html body:not(.chq5off) #v4SrcMenu#v4SrcMenu.c5form .c5gone.c5gone{ display:none !important; }
+
+/* v5.263 — VIN value bold like the other right-hand values; no Policy pill in the header (the Policy row shows it) */
+html body:not(.chq5off) #jobDetailsOverlay #jobDetailsBody .c5vin .c5vdd .c5vr b.c5vn, html body:not(.chq5off) #c5eDec .r b.n{ font-weight:600 !important; }
+html body:not(.chq5off) #pdfReviewOverlay #c5ePol#c5ePol{ display:none !important; }
+
+/* v5.264 — "Already On The Board" pill matches the X and the window buttons: 44 px tall, 14 px text */
+html body:not(.chq5off) #pdfReviewOverlay.v4ee #c5eNotesC span{ height:44px; line-height:44px; padding:0 24px; border-radius:22px; font:600 14px/44px var(--v4-word, Inter, Arial), sans-serif; max-width:420px; }
+
+/* v5.265 — "Already On The Board" sits centered in the open space between the title pills and the X (over the page) */
+html body:not(.chq5off) #pdfReviewOverlay.v4ee #c5eNotesC{ flex:1 1 auto !important; justify-content:center !important; margin-right:16px; }
+
+/* v5.266 — "Already On The Board" centered exactly over the page preview (the preview spans 476 px from the window's left edge to 20 px from its right edge); narrow windows keep the 5.265 flow */
+@media (min-width:1280px){
+  html body:not(.chq5off) #pdfReviewOverlay.v4ee #c5eNotesC#c5eNotesC{ position:absolute !important; left:476px; right:20px; top:16px; bottom:auto; height:44px; margin:0; justify-content:center !important; overflow:visible; pointer-events:none; }
+}
+
+/* ---------- v5.268 (Frank Oct 9 4:30 PM – Oct 10 11:23 AM, module details-family-live v6–v16): the Details list, finished. Lines between rows a shade darker (#C3C6C0) and ALWAYS on — a line above Customer Details, between every row, and under an open section's header; the hover pill starts 1 px under the line so it never covers one. Yellow empties back (#FFF8D6, "the yellow looks fine"). The title (arrow · Details · car · insurance) is one hover pill; a click anywhere on it folds or opens everything (add50c.js). The mouse wheel scrolls Details from the title row and footer too (add50c.js). Opening or folding a section is instant — no slide, no fade, no row ever moves (add50c.js). Looks and feel only; nothing moves or resizes. ---------- */
+/* v7a — the lines between folded rows show (the row's own white was covering them); the hover pill covers the line exactly, so nothing sticks out */
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box.v4closed .v4bh{ background:transparent !important; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box.v4closed .v4bh:hover{ background:var(--wf-fill) !important; }
+/* v7b — empties: gray box, amber hint words, and a small amber mark. Edge = a 3 px amber stripe on the left; Dot = an 8 px amber dot at the right */
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4empty::placeholder, html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4empty{ color:#9A6B00 !important; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4empty::placeholder{ color:#B8860B !important; opacity:1 !important; }
+/* date boxes and dropdowns keep their own icon; they show the amber words only */
+/* v7c — the folded lines were there but too faint on white; a shade darker */
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box + .v4box{ background:linear-gradient(#CFD2CC, #CFD2CC) 30px 0 / calc(100% - 60px) 1px no-repeat, var(--wf-win) !important; }
+/* v8 — the folded lines a shade darker still, so they read on a high-resolution screen */
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box + .v4box{ background:linear-gradient(#C3C6C0, #C3C6C0) 30px 0 / calc(100% - 60px) 1px no-repeat, var(--wf-win) !important; }
+/* v9 — empties, third choice: the Edit Estimate look (soft yellow box, amber words), like "Not Found" */
+/* v10 — hovering a row hides the line below it too (the line above is already under the pill) */
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box.v4closed:hover + .v4box{ background:var(--wf-win) !important; }
+/* v11 — Frank: yellow how it was before. The original #FFF8D6 box with the gray hint words, no dot; the switch is gone */
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4empty, html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody :is(.v4cd, .review-pair, .cp-box) > .review-field :is(input, select, textarea, .v4mbtn).v4empty, html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4dt input.v4empty{ background-color:#FFF8D6 !important; color:inherit !important; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4empty:not(.v4dtx):not(select){ background-image:none !important; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4empty::placeholder{ color:#9A9CA4 !important; }
+/* v12 — the title (arrow · Details · car · insurance) is one pill: hover washes it, a click anywhere on it folds or opens everything */
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .modal-header h2{ display:inline-flex !important; align-items:center !important; height:44px !important; padding:0 18px 0 0 !important; border-radius:22px !important; cursor:pointer; user-select:none; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .modal-header h2:hover{ background:var(--wf-fill) !important; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .modal-header h2 .v4alltri:hover{ background:transparent !important; }
+/* v12b — an open section keeps the line above it too (its header was painting white over the line) */
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bh{ background:transparent !important; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bh:hover{ background:var(--wf-fill) !important; }
+/* v13 — try: the lines stay at all times; the hover pill sits on top of its own row and never hides the line below */
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box.v4closed:hover + .v4box{ background:linear-gradient(#C3C6C0, #C3C6C0) 30px 0 / calc(100% - 60px) 1px no-repeat, var(--wf-win) !important; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box{ position:relative; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ position:relative; z-index:1; }
+/* v14 — an open section gets a line under its header too (same 30-in line), so the title row is separated from what's inside */
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bh{ background:linear-gradient(#C3C6C0, #C3C6C0) 30px bottom / calc(100% - 60px) 1px no-repeat !important; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bh:hover{ background:var(--wf-fill) !important; }
+/* v15 — lines never flicker: the hover pill starts 1 px under the line above, and an open header's line stays drawn on top of the pill */
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ height:59px !important; margin-top:1px !important; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bh:hover{ background:linear-gradient(#C3C6C0, #C3C6C0) 30px bottom / calc(100% - 60px) 1px no-repeat, var(--wf-fill) !important; }
+/* v16 — opening or folding a section is instant: no fade, no slide, so the rows and their lines never drift */
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bb, html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box, html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ transition:none !important; animation:none !important; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bb{ opacity:1 !important; transform:none !important; }
+/* v16b — a line above Customer Details too, so the list is closed at the top like it is between rows */
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:first-child{ background:linear-gradient(#C3C6C0, #C3C6C0) 30px 0 / calc(100% - 60px) 1px no-repeat, var(--wf-win) !important; }
+
+/* v5.268 (Frank Oct 10 11:20 AM, module add-job-press v1): the press on long buttons — rows that run the width of a window shrink to 98.5 percent (small things stay at 96), same darkening and timing as 5.247. The Add Job choices first. */
+html body:not(.chq5off) #addJobOverlay .add-choice{ transition:scale .18s cubic-bezier(.2,.9,.3,1.35), filter .12s, background-color .12s !important; }
+html body:not(.chq5off) #addJobOverlay .add-choice:is(:active, .c5press){ scale:.985; filter:brightness(.93); transition:scale .09s ease-out, filter .09s, background-color .09s !important; }
+@media (prefers-reduced-motion:reduce){ html body:not(.chq5off) #addJobOverlay .add-choice:is(:active, .c5press){ scale:1; } }
+
+/* v5.269 — Review Extracted Estimate footer: Cancel left · Print center · Add As New Job + Update This Job right; every button one size (44 px tall, at least 168 px wide); Read gone */
+html body:not(.chq5off) #pdfReviewOverlay.v4ee .modal-footer{ display:grid !important; grid-template-columns:1fr auto 1fr; align-items:center; column-gap:10px; }
+html body:not(.chq5off) #pdfReviewOverlay.v4ee .modal-footer .c5fl{ grid-column:1; display:flex; gap:10px; justify-self:start; }
+html body:not(.chq5off) #pdfReviewOverlay.v4ee .modal-footer #printPdfBtn{ grid-column:2; grid-row:1; }
+html body:not(.chq5off) #pdfReviewOverlay.v4ee .modal-footer .c5fr{ grid-column:3; grid-row:1; justify-self:end; margin-left:0 !important; }
+html body:not(.chq5off) #pdfReviewOverlay.v4ee .modal-footer .btn{ min-width:168px; justify-content:center; text-align:center; }
+html body:not(.chq5off) #pdfReviewOverlay.v4ee .modal-footer #c5eRead{ display:none !important; }
+
+/* ---------- v5.270 (Frank Oct 10 5:39 PM): Edit Estimate (Review Extracted Estimate) window. 1) Hovering a card (Claim & Customer, Vehicle, Amounts, More) no longer "erases" its top: the base .v4bh:hover painted an off-white square over the card's round top corners. Those headers are labels, not buttons — no hover at all. 2) The press on every button inside: all are small things, so 96 percent, same darkening and timing as 5.247. ---------- */
+html body:not(.chq5off) #pdfReviewOverlay#pdfReviewOverlay .v4box .v4bh:hover{ background:transparent !important; }
+html body:not(.chq5off) #pdfReviewOverlay#pdfReviewOverlay .v4box .v4bh:hover .v4tri{ background:transparent !important; }
+html body:not(.chq5off) #pdfReviewOverlay#pdfReviewOverlay :is(.modal-footer .btn, .vin-row .btn, #rf_suppAdd, .c5eadd, [data-supp-remove], #pdfDocUploadBtn, .c5wf, .v4mode button){ transition:scale .18s cubic-bezier(.2,.9,.3,1.35), filter .12s, background-color .12s, color .12s !important; }
+html body:not(.chq5off) #pdfReviewOverlay#pdfReviewOverlay :is(.modal-footer .btn, .vin-row .btn, #rf_suppAdd, .c5eadd, [data-supp-remove], #pdfDocUploadBtn, .c5wf, .v4mode button):is(:active, .c5press){ scale:.96; filter:brightness(.93); transition:scale .09s ease-out, filter .09s, background-color .09s, color .09s !important; }
+@media (prefers-reduced-motion:reduce){ html body:not(.chq5off) #pdfReviewOverlay#pdfReviewOverlay :is(.modal-footer .btn, .vin-row .btn, #rf_suppAdd, .c5eadd, [data-supp-remove], #pdfDocUploadBtn, .c5wf, .v4mode button):is(:active, .c5press){ scale:1; } }
 </style>
 </head>
 <!-- Starts locked so the board never flashes up before we know who this is.
@@ -7781,7 +7899,7 @@ html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .
          changed width — and the Save label changes width constantly. -->
     <div class="topbar-brand">
       <div class="app-title">Collision<span class="hq">HQ</span>
-        <span class="version-badge" id="versionBadge">HQ v5.252</span></div>
+        <span class="version-badge" id="versionBadge">HQ v5.270</span></div>
     </div>
 
     <div class="topbar-right">
@@ -8214,7 +8332,7 @@ html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .
         <div style="display:flex; gap:10px; margin-left:auto;">
           <button class="btn btn-secondary" id="cancelPdfReviewBtn">Cancel</button>
           <button class="btn btn-secondary" id="skipPdfReviewBtn" style="display:none;">Skip This One</button>
-          <button class="btn btn-secondary" id="addAsNewRowBtn" style="display:none;">Add as New Row</button>
+          <button class="btn btn-secondary" id="addAsNewRowBtn" style="display:none;">Add As New Job</button>
           <button class="btn btn-primary" id="confirmPdfReviewBtn">Add To Tracker</button>
         </div>
       </div>
@@ -16936,7 +17054,7 @@ html body #signInOverlay#signInOverlay :is(.sign-in-switch,.field-hint){ display
     chqPhShow("sheet full", true);
   }
   CHQPH_CSS += "\n/* v4.129 */\n.dv{flex:none;font-size:13px;font-weight:600;color:var(--p-mute);padding:8px 8px 0}\n.cA.dn{opacity:.62}\n.phone.lg .dv{font-size:15px;padding:10px 12px 0}\n/* bottom: search always showing, then Jobs | Leads | Status and the orange + ; both sit low now that the Netlify tag is off */\n.phone.lg .nav{bottom:calc(14px + env(safe-area-inset-bottom,0px))}\n.phone.lg .fab{bottom:calc(14px + env(safe-area-inset-bottom,0px))}\n.phone.lg .srow{display:flex;top:auto;bottom:calc(80px + env(safe-area-inset-bottom,0px))}\n.phone.lg .search{background:rgba(255,255,255,.72);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(255,255,255,.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.14);height:48px;border-radius:24px;color:#111114}\n.phone.lg .search::placeholder{color:#6C6C73}\n.phone.lg .toast{bottom:calc(144px + env(safe-area-inset-bottom,0px))}\n/* top: filter | month | DA */\n.phone.lg .brand .fbtn{background:rgba(255,255,255,.72);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(255,255,255,.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.14);width:44px;height:44px;border-radius:22px;flex:none}\n.phone.lg .brand .fbtn[hidden]{display:grid;visibility:hidden}\n.phone.lg .brand .fbtn.on{background:rgba(255,243,232,.9)}\n.phone.lg .mon .lab{padding-left:0}\n.phone.lg .brand .acct{background-size:cover;background-position:center}\n.phone.lg .chips{top:calc(66px + env(safe-area-inset-top,0px))}\n.phone.lg .monmenu{left:68px;right:68px}\n.phone.lg .list{padding-bottom:220px;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 calc(74px + env(safe-area-inset-top,0px)),#000 calc(100% - 210px),transparent calc(100% - 100px));mask-image:linear-gradient(to bottom,transparent 0,#000 calc(74px + env(safe-area-inset-top,0px)),#000 calc(100% - 210px),transparent calc(100% - 100px))}\n.phone.lg.fo .list{padding-top:calc(118px + env(safe-area-inset-top,0px));-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 calc(120px + env(safe-area-inset-top,0px)),#000 calc(100% - 210px),transparent calc(100% - 100px));mask-image:linear-gradient(to bottom,transparent 0,#000 calc(120px + env(safe-area-inset-top,0px)),#000 calc(100% - 210px),transparent calc(100% - 100px))}\n/* card: #1 | Name on the first line, status across the last line */\n.phone.lg .cA .nm{display:flex;align-items:center;gap:8px;overflow:visible}\n.phone.lg .cA .nm .jn{flex:none;font-size:17px;font-weight:600;color:var(--p-mute)}\n.phone.lg .cA .nm .vsep{height:18px}\n.phone.lg .cA .nm .nmt{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}\n.phone.lg .cA:not(.ld) .row2 .st.fx{flex:1 1 auto;max-width:none}\n.phone.lg .soon{text-align:center;align-items:center;padding:36px 20px;margin-top:20px}\n.phone.lg .soon b{font-size:22px}\n.phone.lg .soon span{font-size:15px;font-weight:600;color:var(--p-orange)}\n.phone.lg .soon p{font-size:15px;color:var(--p-mute);margin:6px 0 0}\n/* status menu: drops from the chip, same width, scrolls */\n.phone.lg .kv .st.fx{width:250px}\n.phone.lg .stm{margin:-2px 0 10px auto;width:250px;max-height:344px;overflow:auto;border:none;border-radius:22px;padding:6px;box-sizing:border-box;box-shadow:0 10px 30px rgba(0,0,0,.16)}\n.phone.lg .stm button{height:46px;padding:0 6px;border-top-color:#EEEEF1;gap:6px}\n.phone.lg .stm .st.fx{width:auto;flex:1}\n.phone.lg .stm button:has(b){background:rgba(232,121,43,.10);border-radius:14px;border-top-color:transparent}\n.phone.lg .stm button b{font-size:15px;color:var(--p-orange);flex:none;width:18px}\n.phone.lg .stadd{border-top:1px solid #E3E3E8;margin-top:4px;padding:8px 2px 2px;display:flex;flex-direction:column;gap:6px}\n.phone.lg .stadd input{height:40px;border-radius:14px;border:1px solid #E3E3E8;padding:0 12px;font-size:16px;width:100%;box-sizing:border-box;background:#fff;color:var(--p-fg)}\n.phone.lg .stadd div{display:grid;grid-template-columns:1fr 1fr;gap:6px}\n.phone.lg .stadd button{height:38px;border-radius:19px;border:none;background:#F2F2F7;font-size:14px;font-weight:600;color:var(--p-fg);justify-content:center;padding:0}\n.phone.lg .stadd button#stList{background:var(--p-orange);color:#fff}\n/* settings: tap the circle to change the shop picture */\n.phone.lg .sav{border:none;padding:0;overflow:hidden;font-family:var(--word);transition:opacity .15s}\n.phone.lg .sav:active{opacity:.6}\n.phone.lg .sav img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}\n/* shop photo editor */\n.phone.lg .rbk{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));width:44px;height:44px;border-radius:22px;background:rgba(255,255,255,.72);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(255,255,255,.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.14);display:grid;place-items:center;font-size:18px;color:#111114;z-index:2;padding:0}\n.phone.lg .rbk.l{left:16px}\n.phone.lg .rbk.r{right:16px;background:rgba(232,121,43,.88);border-color:rgba(255,255,255,.35);color:#fff;font-weight:700;box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 8px 24px rgba(232,121,43,.35)}\n.phone.lg .pbw{position:relative;width:200px;height:200px;margin:14px auto 0;flex:none}\n.phone.lg .pbig{width:200px;height:200px;border-radius:100px;object-fit:cover;display:block;box-shadow:0 14px 34px rgba(0,0,0,.18)}\n.phone.lg .prm{position:absolute;right:6px;top:6px;width:36px;height:36px;border-radius:18px;background:rgba(255,255,255,.72);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(255,255,255,.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.14);display:grid;place-items:center;font-size:22px;line-height:1;color:#111114;padding:0 0 2px}\n.phone.lg .pcrop{align-self:center;display:flex;align-items:center;gap:8px;height:44px;padding:0 20px;border-radius:22px;background:rgba(255,255,255,.72);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(255,255,255,.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.14);font-size:15px;font-weight:600;color:#111114;flex:none}\n.phone.lg .pcrop svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}\n.phone.lg .pcrop:disabled{opacity:.4}\n.phone.lg .pcrop *{pointer-events:none}\n.phone.lg .psec{font-size:17px;font-weight:600;padding:6px 4px 0;flex:none}\n.phone.lg .prow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;flex:none}\n.phone.lg .pc{aspect-ratio:1;width:100%;border-radius:50%;border:none;padding:0;display:grid;place-items:center;align-content:center;gap:2px;font-size:26px;font-weight:700;background-size:cover;background-position:center}\n.phone.lg .pc.tool{background:rgba(255,255,255,.72);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(255,255,255,.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.14);color:#111114;font-size:11px;font-weight:600}\n.phone.lg .pc.tool svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}\n.phone.lg .pc.on{outline:3px solid var(--p-orange);outline-offset:3px}\n.phone.lg .pc *{pointer-events:none}\n/* crop */\n.phone.lg .sheet.crop{background:#000}\n.phone.lg .sheet.crop .sttl{color:#fff}\n.phone.lg .sheet.crop .rbk.l{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.28);color:#fff;box-shadow:none}\n.phone.lg .cwrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;padding:0 16px 40px}\n.phone.lg .cbox{position:relative;width:min(100%,340px);aspect-ratio:1;touch-action:none}\n.phone.lg .cbox canvas{width:100%;height:100%;display:block;touch-action:none}\n.phone.lg .cbox::after{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle closest-side,transparent 99.4%,rgba(0,0,0,.55) 100%)}\n.phone.lg .czm{width:min(100%,300px);accent-color:#E8792B}\n.phone.lg .chint{color:rgba(255,255,255,.7);font-size:15px}\n";   /* v4.129 */
-  var CHQ_LAST_PHONE = "5.252", CHQ_LAST_DESK = "5.252";   /* v4.129: which side a version changed */
+  var CHQ_LAST_PHONE = "5.270", CHQ_LAST_DESK = "5.270";   /* v4.129: which side a version changed */
   /* the phone list in the Ledger's order: open jobs, Potential Job, completed, Claim Denied; then the Ledger's own sort column */
   function chqPhSorted(key){
     var jobs = chqPhMonthJobs(key).slice(), field = sortState.field, dir = sortState.dir;
@@ -18805,7 +18923,7 @@ html body #signInOverlay#signInOverlay :is(.sign-in-switch,.field-hint){ display
     /* v5.076: a dropdown opened from a box inside Details is a "form dropdown": it drops straight down from its box, same width, no close button */
     try{
       var fs = (m && m.id !== "v4Card" && typeof V4DD !== "undefined" && V4DD.sel && V4DD.sel.closest && V4DD.sel.closest("#jobDetailsBody, #depositsOverlay, #pdfReviewBody") && window.innerWidth >= 701) ? V4DD.sel : null;   /* v5.155: Edit Estimate too */
-      m.classList.toggle("c5form", !!fs); m.classList.toggle("c5forms", !!fs && (fs.id === "jd_insurance" || fs.id === "rf_insurance"));
+      m.classList.toggle("c5form", !!fs); m.classList.toggle("c5forms", !!fs && /^(jd_insurance|rf_insurance|jd_source|rf_source)$/.test(fs.id));   /* v5.262: Source gets the search box too */
       if(!fs){ m.style.removeProperty("width"); m.style.removeProperty("max-height"); }
       else {
         var anc = fs.closest(".v4jobv") || fs; if(fs.id === "jdMoveMonth" && document.getElementById("v4MonBtn")) anc = document.getElementById("v4MonBtn"); else if(!anc.getBoundingClientRect().width && fs.previousElementSibling) anc = fs.previousElementSibling;   /* v5.219: a hidden list (Board Month) hangs from the box you see, never the screen corner */
@@ -20686,7 +20804,7 @@ html body #signInOverlay#signInOverlay :is(.sign-in-switch,.field-hint){ display
       var ov = $("pdfReviewOverlay"); if(!ov) return; var hd = ov.querySelector(".modal-header"), t = $("c5eSys"); if(!hd) return;
       if(!t){ t = document.createElement("span"); t.id = "c5eSys"; hd.insertBefore(t, hd.children[1] || null); }
       var name = SYS[CUR.plat];
-      t.className = name || CUR.ai ? "ok" : "warn"; t.hidden = !wide() || !CUR.file || (!name && !CUR.ai && !CUR.done);
+      t.className = name || CUR.ai ? "ok" : "warn"; t.hidden = !wide() || !CUR.file || !!name || (!name && !CUR.ai && !CUR.done);   /* v5.264: a known system shows in the Work File ID pill, so no "Read As" tag */
       t.textContent = name ? "Read As " + name + (CUR.ai ? " \u00b7 Checked By AI" : "") : CUR.ai ? "Read By AI" : "Format Not Recognized. Check Every Figure.";
       var wf = $("rf_workfile"), box = wf && wf.parentNode; if(box){ var g = box.querySelector(".c5ewf"); if(name && !g){ g = document.createElement("span"); g.className = "c5ewf"; box.appendChild(g); } if(g){ g.textContent = name || ""; g.hidden = !name; } }
     }
@@ -20985,8 +21103,12 @@ html body #signInOverlay#signInOverlay :is(.sign-in-switch,.field-hint){ display
       var c = card(); if(!c){ c = document.createElement("div"); c.id = "c5eDec"; document.body.appendChild(c); }
       var r = ST.rec, v = $("rf_vin"), veh = $("rf_vehicle"), nm = name(r), bx = (v.closest(".v4box") || v).getBoundingClientRect(), vr = v.getBoundingClientRect(), out = [];
       function row(k, val, cls){ if(val) out.push('<div class="r"><span>' + k + '</span><b class="' + (cls || "") + '">' + escapeHtml(val) + '</b></div>'); }
-      row("Trim", trim(r)); row("Engine", engine(r)); row("Body", body(r)); row("Built In", builtIn(r)); row("Country", W(r.PlantCountry)); row("VIN", ST.vin, "n");
-      c.innerHTML = '<div class="t">' + escapeHtml(nm) + '</div><div class="kv">' + out.join("") + '</div><div class="b">' + (veh && veh.value.trim() !== nm ? '<button type="button" class="use">Use For Vehicle</button>' : '') + '<button type="button" class="again">Decode Again</button></div>';
+      /* v5.256 (Frank Oct 10 9:52 AM): the same card as the Details window — "Year Make Model | Trim · Body", Trim, Engine, Body, Built in, Paint code, Country, VIN, and a round X; no Decode Again ("it's not going to change the answer") */
+      row("Trim", trim(r)); row("Engine", engine(r).replace(/ Cylinder/, " cylinder")); row("Body", body(r).replace(/ Door/, " door")); row("Built in", builtIn(r));
+      out.push('<div class="r"><span>Paint code</span><b class="m">\u2014</b></div>'); row("Country", W(r.PlantCountry)); row("VIN", ST.vin, "n");
+      var sub = [trim(r), body(r).replace(/ Door/, " door")].filter(Boolean).join(" \u00b7 ");
+      c.innerHTML = '<div class="t">' + escapeHtml(nm) + (sub ? '<i></i><em>' + escapeHtml(sub) + '</em>' : '') + '</div><div class="kv">' + out.join("") + '</div>' +
+        '<button type="button" class="c5edx" title="Close" aria-label="Close"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M3 3l8 8M11 3l-8 8"/></svg></button>';
       c.classList.add("show"); c.style.left = bx.left + "px"; c.style.width = bx.width + "px";
       var ch = c.offsetHeight, up = window.innerHeight - vr.bottom < ch + 12 && vr.top > ch + 12; c.style.top = (up ? vr.top - ch - 6 : vr.bottom + 6) + "px"; paint();
     }
@@ -21007,7 +21129,7 @@ html body #signInOverlay#signInOverlay :is(.sign-in-switch,.field-hint){ display
         if(c && c.classList.contains("show")){ shut(); return; }
         if(ST.rec && v && cleanVin(v.value) === ST.vin) open(); else run(true); return; }
       var cc = t.closest("#c5eDec");
-      if(cc){ e.stopPropagation(); if(t.closest(".use")){ var veh = $("rf_vehicle"); if(veh && ST.rec){ veh.value = name(ST.rec); try{ veh.dispatchEvent(new Event("input", { bubbles:true })); }catch(x){} } shut(); } else if(t.closest(".again")){ shut(); ST.rec = null; run(true); } return; }
+      if(cc){ e.stopPropagation(); if(t.closest(".c5edx")){ shut(); return; } if(t.closest(".use")){ var veh = $("rf_vehicle"); if(veh && ST.rec){ veh.value = name(ST.rec); try{ veh.dispatchEvent(new Event("input", { bubbles:true })); }catch(x){} } shut(); } else if(t.closest(".again")){ shut(); ST.rec = null; run(true); } return; }
       if(card() && card().classList.contains("show")) shut();
     }, true);
     document.addEventListener("input", function(e){ if(e.target && e.target.id === "rf_vin"){ shut(); paint(); } }, true);
@@ -22497,6 +22619,284 @@ document.addEventListener("focusout", function(e){ try{ var t = e.target; if(t &
       window.addEventListener("blur", up);
     }catch(e){ console.warn("v5.247 press", e); }
   })();
+
+  /* ---------- v5.253 (Frank Oct 10 9:30 AM: "this should be instant"): scanned PDFs (pictures of pages, like Progressive's Mitchell photo estimates) read much faster.
+     Before: every page started a brand-new reader (Tesseract.recognize), which loads the whole English model again — several seconds per page, one page at a time.
+     Now: two readers are started once and kept, and they read two pages at the same time; the text still comes back in page order. Cancel still stops it.
+     And a Mitchell estimate (Frank: "everything always sits in the same place") is read from page 1, the last page and the one before it only — not every page. ---------- */
+  (function(){
+    try{
+      var pool = null;
+      var mk = async function(){
+        var w;
+        try{ w = await Tesseract.createWorker(); if(typeof w.loadLanguage === "function"){ await w.loadLanguage("eng"); await w.initialize("eng"); } }
+        catch(e){ w = await Tesseract.createWorker("eng", 1); }
+        return w;
+      };
+      var getPool = function(){
+        if(pool) return pool;
+        if(typeof Tesseract === "undefined") return Promise.resolve([]);
+        pool = Promise.all([mk(), mk()]).catch(function(e){ console.warn("v5.253 ocr pool", e); pool = null; return []; });
+        return pool;
+      };
+      var ocr0 = ocrPdfDoc;
+      ocrPdfDoc = async function(pdfDoc, onProgress){
+        if(typeof Tesseract === "undefined") return "";
+        var ws = await getPool(); if(!ws || ws.length < 1) return ocr0(pdfDoc, onProgress);
+        var n = pdfDoc.numPages, got = {}, done = 0, total = n;
+        window.CHQ_OCR_STOP = false; try{ var ob = document.getElementById("c5OcrStop"); if(ob){ ob.hidden = false; ob.disabled = false; ob.textContent = "Cancel"; } }catch(e){}
+        var say = function(){ if(onProgress) onProgress("This PDF is pictures of pages — reading them: " + done + " of " + total + " pages done…"); };
+        var read = async function(w, num){
+          if(window.CHQ_OCR_STOP || got[num] !== undefined) return;
+          var page = await pdfDoc.getPage(num), vp = page.getViewport({ scale:2.0 }), cv = document.createElement("canvas");
+          cv.width = vp.width; cv.height = vp.height;
+          await page.render({ canvasContext:cv.getContext("2d"), viewport:vp }).promise;
+          try{ var r = await w.recognize(cv); got[num] = (r && r.data && r.data.text) || ""; }catch(e){ console.error("OCR failed on page " + num, e); got[num] = ""; }
+          cv.width = cv.height = 0; done++; say();
+        };
+        var lanes = async function(list){ var k = 0; await Promise.all(ws.map(async function(w){ while(k < list.length && !window.CHQ_OCR_STOP){ await read(w, list[k++]); } })); };
+        say();
+        /* 1. the first page (who, what car, claim) and the last page (totals) together */
+        await Promise.all([ read(ws[0], 1), n > 1 ? read(ws[1] || ws[0], n) : null ]);
+        /* 2. a Mitchell estimate always keeps everything in the same places: the header on page 1, the totals at the end — so only the page before the last is added.
+              Anything else reads the usual pages. */
+        var mitchell = false; try{ mitchell = detectEstimatePlatform(got[1] || "") === "mitchell" || detectEstimatePlatform(got[n] || "") === "mitchell"; }catch(e){}
+        var rest = mitchell ? (n >= 3 ? [n - 1] : []) : v4PagePick(n).filter(function(x){ return x !== 1 && x !== n; });
+        total = done + rest.length; say();
+        await lanes(rest);
+        return Object.keys(got).map(Number).sort(function(a, b){ return a - b; }).map(function(k){ return got[k] + "\n\n"; }).join("");
+      };
+      /* start the two readers quietly once the app has settled, so the first scanned PDF doesn't wait for them */
+      var warm = function(){ try{ getPool(); }catch(e){} };
+      if("requestIdleCallback" in window) setTimeout(function(){ requestIdleCallback(warm, { timeout:8000 }); }, 6000); else setTimeout(warm, 8000);
+    }catch(e){ console.warn("v5.253 ocr", e); }
+  })();
+
+  /* ---------- v5.254 (Frank Oct 10 9:39 AM): phone boxes read (###) ###-#### while you type — Edit Estimate Customer / Adjuster Phone, Details Customer / Adjuster Phone,
+     new job, edit customer, Settings › Customers. An extension stays after it ("x1352190"). The cursor stays where you were typing; Backspace over ")" or "-" removes the digit before it. ---------- */
+  (function(){
+    try{
+      var SEL = "#rf_custphone, #rf_adjphone, #jd_custPhone, .c240pv, #njTel, #edTel, #c219CustPage input[data-f=phone]";
+      var EXT = /\s*(?:x|ext\.?|#|×)\s*(\d*)\s*$/i;
+      var fmt = function(v, deleting){
+        var ext = null, m = EXT.exec(v); if(m){ ext = m[1]; v = v.slice(0, m.index); if(deleting && ext === "") ext = null; }   /* backspacing the last extension digit removes "Ext" too */
+        var d = v.replace(/\D/g, ""); if(d.length === 11 && d.charAt(0) === "1") d = d.slice(1);
+        if(d.length > 10 && ext === null){ ext = d.slice(10); d = d.slice(0, 10); }
+        if(!d) return ext !== null ? "Ext " + ext : "";
+        var out = d.length <= 3 ? "(" + d : "(" + d.slice(0, 3) + ") " + d.slice(3, 6) + (d.length > 6 ? "-" + d.slice(6, 10) : "");
+        if(d.length < 4 && ext === null) out = d.length === 3 ? "(" + d + ")" : "(" + d;
+        return out + (ext !== null ? " Ext " + ext : "");   /* v5.259: the extension reads "Ext 1903" right in the box — keep typing digits after the 10-digit number */
+      };
+      var digitsBefore = function(s, at){ return s.slice(0, at).replace(/\D/g, "").length; };
+      var posAfter = function(s, n){ if(n <= 0){ var f = s.search(/\d/); return f < 0 ? s.length : f; } for(var i = 0, c = 0; i < s.length; i++){ if(/\d/.test(s.charAt(i))){ c++; if(c === n) return i + 1; } } return s.length; };
+      document.addEventListener("input", function(e){
+        var t = e.target; if(!t || !t.matches || !t.matches(SEL) || t._c254) return;
+        var v = t.value, at = t.selectionStart == null ? v.length : t.selectionStart;
+        if(e.inputType === "deleteContentBackward" && t._c254prev != null){   /* deleted only a ( ) - or space: take the digit before it too */
+          var pd = t._c254prev.replace(/\D/g, ""), nd = v.replace(/\D/g, "");
+          if(pd === nd && at > 0){ var n = digitsBefore(v, at); if(n > 0){ var p = posAfter(v, n); v = v.slice(0, p - 1) + v.slice(p); at = p - 1; } }
+        }
+        var keep = digitsBefore(v, at), nv = fmt(v, /^delete/.test(e.inputType || ""));
+        if(nv !== t.value){ t._c254 = 1; t.value = nv; try{ var np = posAfter(nv, keep); if(at >= v.length) np = nv.length; t.setSelectionRange(np, np); }catch(x){} t._c254 = 0; }
+        t._c254prev = t.value;
+      }, true);
+      document.addEventListener("focusin", function(e){ var t = e.target; if(t && t.matches && t.matches(SEL)) t._c254prev = t.value; }, true);
+      document.addEventListener("focusout", function(e){ var t = e.target; if(!t || !t.matches || !t.matches(SEL)) return; var nv = fmt(t.value); if(t.value.trim() && nv !== t.value){ t.value = nv; t.dispatchEvent(new Event("input", { bubbles:true })); } }, true);
+    }catch(e){ console.warn("v5.254 phone format", e); }
+  })();
+
+  /* ---------- v5.255 (Frank Oct 10 9:43 AM): "Already On The Board" tells a real duplicate from the same car coming back with a new claim.
+     Before: a job matched on the claim number OR the VIN — so a new accident on a car already on the board was called a duplicate, and pressing the main button
+     would have written the new claim over the old job. Now:
+     - same claim number (letters and digits only; "260827376" and "260827376-1" count as the same claim) → Already On The Board, Update This Job (as before)
+     - same VIN but a different claim number → NOT a duplicate: a yellow "Same Car, New Claim" note names the month and the old claim, and the job is added as a new row
+     - same VIN and one side has no claim number → still treated as the same job (nothing to tell them apart) ---------- */
+  (function(){
+    try{
+      var norm = function(c){ return String(c || "").toLowerCase().replace(/[^a-z0-9]/g, ""); };
+      var base = function(c){ return String(c || "").trim().toLowerCase().replace(/[-\s]+s?0*\d{1,2}$/, "").replace(/[^a-z0-9]/g, ""); };
+      var sameClaim = function(a, b){ if(!a || !b) return false; var na = norm(a), nb = norm(b); if(!na || !nb) return false; return na === nb || base(a) === nb || base(b) === na || (base(a) && base(a) === base(b)); };
+      var sameVin = function(a, b){ return !!(a && b && String(a).trim().toUpperCase() === String(b).trim().toUpperCase()); };
+      var LAST_CAR = null;
+      findMatchingJob = function(claimNumber, vin){
+        LAST_CAR = null; if(!claimNumber && !vin) return null;
+        var byClaim = null, byVinOnly = null, car = null;
+        Object.keys(data.months).forEach(function(mk){ data.months[mk].jobs.forEach(function(j){
+          var hit = { monthKey:mk, monthLabel:data.months[mk].label, job:j };
+          if(!byClaim && sameClaim(claimNumber, j.claimNumber)){ byClaim = hit; return; }
+          if(sameVin(vin, j.vin)){
+            if(!claimNumber || !String(j.claimNumber || "").trim()){ if(!byVinOnly) byVinOnly = hit; }
+            else if(!car) car = hit;
+          }
+        }); });
+        var m = byClaim || byVinOnly; if(!m) LAST_CAR = car; return m;
+      };
+      var db0 = dupeBannerHtml;
+      dupeBannerHtml = function(claimNumber, vin){
+        var h = db0.apply(this, arguments); if(h || !LAST_CAR) return h;
+        var c = LAST_CAR;
+        return '<div class="review-warning samecar"><span>Same Car, New Claim · ' + escapeHtml(c.monthLabel) + (c.job.claimNumber ? ' (Claim ' + escapeHtml(c.job.claimNumber) + ')' : '') + '</span></div>';
+      };
+    }catch(e){ console.warn("v5.255 duplicate", e); }
+  })();
+
+  /* ---------- v5.257 (Frank Oct 10 10:20 AM, from the Estimate Lab v4): the estimate preview draws the PDF pages itself (pdf.js) instead of Chrome's PDF viewer —
+     the pages fit the box's width (nothing moves left to right), the box has no scrollbar of its own, and a thin gray scroll pill sits outside the box in the gap
+     to the window's edge. The page box, the X and the bottom-right button end on the same line. Chrome's viewer stays loaded underneath, so Print works as before.
+     Runs only when the preview's file changes (one watcher on one element) and on window resize. ---------- */
+  (function(){
+    try{
+      var N = 0, box = null, pill = null, cur = "";
+      var fr = document.getElementById("pdfPreviewFrame"); if(!fr) return;
+      function ov(){ return document.getElementById("pdfReviewOverlay"); }
+      function open(){ var o = ov(); return !!(o && o.style.display !== "none" && getComputedStyle(o).display !== "none"); }
+      function ensure(){
+        if(box && box.isConnected) return;
+        var host = fr.parentNode; box = document.createElement("div"); box.id = "c5Pdf"; host.appendChild(box);
+        pill = document.createElement("i"); pill.id = "c5PdfPill"; pill.hidden = true; document.body.appendChild(pill);
+        box.addEventListener("scroll", bar, { passive:true });
+        var drag = false, sy = 0, st = 0;
+        pill.addEventListener("pointerdown", function(e){ drag = true; sy = e.clientY; st = box.scrollTop; pill.setPointerCapture(e.pointerId); pill.classList.add("on"); e.preventDefault(); });
+        pill.addEventListener("pointermove", function(e){ if(!drag) return; var h = box.clientHeight, H = box.scrollHeight; box.scrollTop = st + (e.clientY - sy) * (H - h) / Math.max(1, h - pill.offsetHeight); });
+        pill.addEventListener("pointerup", function(){ drag = false; pill.classList.remove("on"); });
+      }
+      function bar(){
+        if(!box || !pill) return; var md = fr.closest(".modal");
+        if(!md || !open() || box.hidden){ pill.hidden = true; return; }
+        var h = box.clientHeight, H = box.scrollHeight; if(H <= h + 2 || !h){ pill.hidden = true; return; }
+        var br = box.getBoundingClientRect(), mr = md.getBoundingClientRect(), ph = Math.max(36, h * h / H), top = (h - ph) * box.scrollTop / Math.max(1, H - h);
+        pill.hidden = false; pill.style.left = Math.round(br.right + (mr.right - br.right) / 2 - 3) + "px"; pill.style.top = Math.round(br.top + top) + "px"; pill.style.height = Math.round(ph) + "px";
+      }
+      async function draw(u){
+        var n = ++N; ensure(); box.innerHTML = ""; box.scrollTop = 0; box.hidden = !u || typeof pdfjsLib === "undefined"; bar(); if(box.hidden) return;
+        try{
+          var doc = await pdfjsLib.getDocument(u).promise; if(n !== N) return;
+          for(var i = 1; i <= doc.numPages; i++){
+            var pg = await doc.getPage(i); if(n !== N) return;
+            var w = Math.max(240, box.clientWidth - 24), v1 = pg.getViewport({ scale:1 }), dpr = window.devicePixelRatio || 1, vp = pg.getViewport({ scale:(w / v1.width) * dpr });
+            var cv = document.createElement("canvas"); cv.width = Math.floor(vp.width); cv.height = Math.floor(vp.height); cv.style.width = Math.floor(vp.width / dpr) + "px"; cv.style.height = Math.floor(vp.height / dpr) + "px";
+            box.appendChild(cv); await pg.render({ canvasContext:cv.getContext("2d"), viewport:vp }).promise; if(n !== N) return; bar();
+          }
+        }catch(e){ console.warn("v5.257 preview", e); if(n === N){ box.hidden = true; bar(); } }   /* if pdf.js can't read it, Chrome's viewer underneath still shows it */
+      }
+      function check(){ var u = String(fr.getAttribute("src") || "").split("#")[0]; if(u === "about:blank") u = ""; if(u === cur) return; cur = u; draw(u); }
+      new MutationObserver(check).observe(fr, { attributes:true, attributeFilter:["src"] });
+      var rt = 0; window.addEventListener("resize", function(){ if(!open()) return; bar(); clearTimeout(rt); rt = setTimeout(function(){ if(cur && open()) draw(cur); }, 250); });
+      var o = ov(); if(o) new MutationObserver(function(){ if(!open() && pill) pill.hidden = true; else bar(); }).observe(o, { attributes:true, attributeFilter:["style"] });
+    }catch(e){ console.warn("v5.257 preview", e); }
+  })();
+
+  /* ---------- v5.260 (Frank Oct 10 10:30 AM): the estimate's payment policy (80/20 or 70/30).
+     1. Read it: if the estimate's text anywhere says "80/20 Policy" / "70/30 Policy" (any spacing, slash or dash), that is the policy; otherwise Standard.
+     2. Show it: a Policy box right under Deductible in Review / Edit Estimate (Standard · 80/20 · 70/30), changeable before saving.
+     3. Flag it: a green "Policy: 80/20" pill by the title — only for 80/20 and 70/30.
+     4. Save it: the job's Policy (paymentRule) — the same as picking it on the board, so the holdback math follows. The Deductible box keeps the
+        customer's deductible amount, as the board already does for 80/20 jobs. ---------- */
+  (function(){
+    try{
+      var LAST = "", READ = null;
+      var RX = /\b([78])0\s*[\/\-–—]\s*([23])0\s*%?\s*(?:pay(?:ment)?\s*)?polic/i;
+      var detect = function(t){ var m = RX.exec(String(t || "")) || /polic[a-z]*\W{0,24}([78])0\s*[\/\-–—]\s*([23])0/i.exec(String(t || "")); if(!m) return ""; var r = m[1] + "0/" + m[2] + "0"; return (r === "80/20" || r === "70/30") ? r : ""; };
+      var ex0 = extractTextFromPdfDoc; extractTextFromPdfDoc = async function(){ var t = await ex0.apply(this, arguments); LAST = String(t || ""); return t; };
+      var oc0 = ocrPdfDoc; ocrPdfDoc = async function(){ var t = await oc0.apply(this, arguments); LAST += "\n" + String(t || ""); return t; };
+      var rp0 = runPdfExtraction; runPdfExtraction = async function(){ LAST = ""; var r = await rp0.apply(this, arguments); try{ var p = detect(LAST); if(r && r.fields) r.fields.paymentRule = p || r.fields.paymentRule || ""; READ = p; }catch(e){} return r; };
+      function pill(){
+        var ov = $("pdfReviewOverlay"), hd = ov && ov.querySelector(".modal-header"), sel = $("rf_policy"); if(!hd) return;
+        var p = $("c5ePol"); if(!p){ p = document.createElement("span"); p.id = "c5ePol"; var sys = $("c5eSys"); if(sys && sys.parentNode === hd) sys.after(p); else hd.insertBefore(p, hd.children[1] || null); }
+        var v = sel ? sel.value : "Standard", t = v && v !== "Standard" ? "Policy: " + v : ""; if(p.textContent !== t) p.textContent = t; p.hidden = !t;
+      }
+      var op0 = openPdfReview;
+      openPdfReview = function(fields, filename, objectUrl, warningMessage, mode, jobId){
+        var r = op0.apply(this, arguments);
+        try{
+          var ded = $("rf_deductible"), f = ded && ded.closest(".review-field");
+          if(f && !$("rf_policy")){
+            var job = (mode === "edit" || mode === "attach") && jobId ? findJobById(jobId) : null;
+            var v = (fields && fields.paymentRule) || (job && job.paymentRule) || "Standard";
+            var row = document.createElement("div"); row.className = "review-field c5pol";
+            row.innerHTML = '<label for="rf_policy">Policy</label><select id="rf_policy">' + ["Standard", "80/20", "70/30"].map(function(o){ return '<option' + (o === v ? " selected" : "") + '>' + o + '</option>'; }).join("") + '</select>';
+            f.after(row);
+            $("rf_policy").addEventListener("change", pill);
+          }
+          pill();
+        }catch(e){ console.warn("v5.260 policy", e); }
+        return r;
+      };
+      var rf0 = readReviewForm; readReviewForm = function(){ var f = rf0.apply(this, arguments); var s = $("rf_policy"); if(s) f.paymentRule = s.value; return f; };
+      /* after Add To Tracker / Add as New Row / Update This Job / Save Changes: write the Policy onto the job that was just added or changed */
+      var snap = null;
+      function all(){ var o = {}; Object.keys(data.months).forEach(function(mk){ data.months[mk].jobs.forEach(function(j){ o[j.id] = j; }); }); return o; }
+      document.addEventListener("click", function(e){
+        var b = e.target && e.target.closest && e.target.closest("#confirmPdfReviewBtn, #addAsNewRowBtn"); if(!b) return;
+        var s = $("rf_policy"); if(!s) return; var pol = s.value, before = {}, A = all(); Object.keys(A).forEach(function(id){ before[id] = A[id].updatedAt || ""; });
+        var editId = currentReviewJobId, tries = 0;
+        (function look(){
+          tries++; var J = all(), hit = null;
+          if(editId && J[editId] && J[editId].updatedAt !== before[editId]) hit = J[editId];
+          if(!hit) Object.keys(J).some(function(id){ if(!(id in before) || J[id].updatedAt !== before[id]){ hit = J[id]; return true; } return false; });
+          if(hit){ if((hit.paymentRule || "Standard") !== pol){ hit.paymentRule = pol; if(pol !== "Standard" && hit.deductibleType !== "Custom"){ var a = deductibleAmount(hit); hit.deductibleType = "Custom"; hit.deductibleCustomAmount = a; } saveData(); try{ renderTable(); }catch(x){} } return; }
+          if(tries < 30) setTimeout(look, 100);   /* saving a new PDF can take a moment; stop looking after 3 seconds */
+        })();
+      }, true);
+    }catch(e){ console.warn("v5.260 policy", e); }
+  })();
+
+  /* ---------- v5.261 (Frank Oct 10 10:35 AM): the Policy box opens the app's own dropdown (like Month on the Board / Insurance), not the browser's list ---------- */
+  (function(){
+    try{
+      var k1 = v4DdKind;
+      v4DdKind = function(s){ var k = k1(s); if(k) return k; if(s && s.id === "rf_policy" && !s.disabled && window.innerWidth >= 701 && !document.body.classList.contains("chq5off")) return "Policy"; return ""; };
+    }catch(e){ console.warn("v5.261 policy dropdown", e); }
+  })();
+
+  /* ---------- v5.262 (Frank Oct 10 10:37 AM): the Source dropdown in Details / Edit Estimate gets the same Search box on top as Insurance
+     (type to narrow the list, Enter picks the first one left). ---------- */
+  (function(){
+    try{
+      var rows = function(m){ var l = m.querySelector(":scope > .g") || m.querySelector(":scope > .v4jdsc"); return l ? Array.prototype.filter.call(l.children, function(x){ return x.matches(".srow, button[data-v4setsrc], button[data-v4ddv], button.clr"); }) : []; };
+      var add = function(){
+        var m = document.getElementById("v4SrcMenu"); if(!m || !m.classList.contains("c5forms") || m.querySelector(".c5top2")) return;
+        var l = m.querySelector(":scope > .v4jdsc"); if(!l) return;
+        var top = document.createElement("div"); top.className = "c5top2";
+        top.innerHTML = '<input class="c5ms c5srcq" type="text" placeholder="Search" autocomplete="off" spellcheck="false"><button type="button" class="c5x" aria-label="Close">✕</button>';
+        m.insertBefore(top, l); setTimeout(function(){ var i = top.querySelector("input"); if(i) try{ i.focus({ preventScroll:true }); }catch(e){} }, 0);
+      };
+      var mp = chq5MenuPlace; chq5MenuPlace = function(m){ var r = mp.apply(this, arguments); try{ if(m && m.id === "v4SrcMenu") add(); }catch(e){} return r; };
+      window.addEventListener("input", function(e){ var t = e.target; if(!t || !t.classList || !t.classList.contains("c5srcq")) return; e.stopImmediatePropagation();
+        var m = t.closest("#v4SrcMenu"), k = t.value.trim().toLowerCase(), n = 0; rows(m).forEach(function(b){ var hit = !k || b.textContent.toLowerCase().indexOf(k) >= 0; b.classList.toggle("c5gone", !hit); if(hit) n++; }); }, true);
+      window.addEventListener("keydown", function(e){ var t = e.target; if(!t || !t.classList || !t.classList.contains("c5srcq") || e.key !== "Enter") return; e.preventDefault(); e.stopImmediatePropagation();
+        var b = rows(t.closest("#v4SrcMenu")).filter(function(x){ return !x.classList.contains("c5gone"); })[0]; if(b) (b.matches("button") ? b : b.querySelector("button")).click(); }, true);
+    }catch(e){ console.warn("v5.262 source search", e); }
+  })();
+
+  /* ---------- v5.268 (module details-family-live v12–v16): the Details title is one button; the wheel scrolls Details from anywhere on the window; sections open and fold instantly ---------- */
+  (function(){
+    try{
+      /* a click on the title pill (anywhere from the arrow to the insurance name) does what the fold-all arrow does */
+      document.addEventListener("click", function(e){ var h = e.target.closest("#jobDetailsOverlay .modal-header h2"); if(!h) return; if(e.target.closest("#v4JdAll")) return; var a = h.querySelector("#v4JdAll"); if(a) a.click(); });
+      /* the mouse wheel over the title row or the footer scrolls the body */
+      document.addEventListener("wheel", function(e){ var o = document.getElementById("jobDetailsOverlay"); if(!o || getComputedStyle(o).display === "none") return; var m = e.target.closest("#jobDetailsOverlay .modal"); if(!m) return; var body = m.querySelector(".modal-body"); if(!body || body.contains(e.target)) return; body.scrollTop += e.deltaY; e.preventDefault(); }, { passive:false });
+      /* no slide, no fade: a section opens or folds in one frame, and the rows below never travel (Frank Oct 9 5:18 PM: "they shouldn't move") */
+      v4JdSlide = function(box){
+        var bb = box.querySelector(":scope > .v4bb");
+        if(bb && bb.__v4anim){ try{ bb.__v4anim.cancel(); }catch(e){} bb.__v4anim = null; }
+        box.classList.remove("v4closing"); box.classList.toggle("v4closed"); if(bb) bb.style.overflow = "";
+      };
+    }catch(e){ console.error("5.268 details", e); }
+  })();
+
+/* ---------- v5.269 (Frank Oct 10 11:23 AM): Review Extracted Estimate footer — Cancel on the left, Print in the center, Add As New Job / Update This Job on the right; no Read button ("it already did it once").
+   Cancel and Attach A Different PDF move once into a left group; their click listeners go with the elements. */
+(function(){
+  try{
+    var ov = $("pdfReviewOverlay"), ft = ov && ov.querySelector(".modal-footer"), cx = $("cancelPdfReviewBtn"), ra = $("reattachPdfReviewBtn");
+    if(!ft || !cx || ft.querySelector(".c5fl")) return;
+    var L = document.createElement("div"); L.className = "c5fl";
+    L.appendChild(cx); if(ra) L.appendChild(ra);
+    ft.insertBefore(L, ft.firstChild);
+    var R = ft.querySelector("#confirmPdfReviewBtn"); if(R && R.parentNode) R.parentNode.classList.add("c5fr");
+  }catch(e){ console.error("v5.269 footer", e); }
+})();
   /* HQ v4: display-only touches after the table is drawn. Values and saving are untouched. */
   var V5_MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
   function v5Date(v){ if(!/^\d{4}-\d{2}-\d{2}$/.test(v || "")) return ""; var p = v.split("-"); return V5_MON[+p[1]-1] + " " + p[2] + (+p[0] === new Date().getFullYear() ? "" : " \u2019" + p[0].slice(2)); }
@@ -29312,7 +29712,7 @@ document.addEventListener("focusout", function(e){ try{ var t = e.target; if(t &
         var ocrText = await ocrPdfDoc(pdfDoc, say);
         if(ocrText && ocrText.trim().length >= 40){
           text = ocrText; scanned = true;
-          warning = "This PDF is pictures of pages, not text, so it was read like a scan (OCR). Check every field against the preview.";
+          warning = "";
         } else {
           text = "";
           warning = (typeof Tesseract === "undefined")
@@ -29341,7 +29741,7 @@ document.addEventListener("focusout", function(e){ try{ var t = e.target; if(t &
           try{ fields = v4CrossCheck(fields, ai, !scanned && !!fields.platform && fields.platform !== "audatex"); }catch(ccErr){ console.error("cross-check failed", ccErr); fields.v4readErr = String(ccErr && ccErr.message || ccErr); }
           fields.aiRead = true; aiWasUsed = true;
           var nFlag = Object.keys(fields.v4flags || {}).length;
-          warning = (scanned ? "This PDF is pictures of pages; it was read by AI from the page images. " : "") +
+          warning = "" +
                     (nFlag ? nFlag + (nFlag === 1 ? " field was" : " fields were") + " read two different ways — marked yellow. Check those against the preview." : "");
         } else if(ai && ai.v4err){
           console.error("AI page reading failed", ai.v4err);
@@ -31478,51 +31878,48 @@ document.addEventListener("focusout", function(e){ try{ var t = e.target; if(t &
 })();
 </script>
 <style id="c5famCss">
-/* ---------- Details Family (live) — on top of app 5.252; "Today" is 5.252 as shipped, "Family" adds what's below ---------- */
-:root{ --wf-win:#FFFFFF; --wf-fill:#F2F2F7; --wf-fill2:#E5E5EA; --wf-line:#E2E4DF; --wf-navy:#16181D; --wf-alt:#F7F7F5; --wf-ink:#16181D; --wf-soft:#6C6C73; --wf-green:#1E7B34; --wf-greenbg:#E7F4EA; }
-/* v7a — the lines between folded rows show (the row's own white was covering them); the hover pill covers the line exactly, so nothing sticks out */
-html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box.v4closed .v4bh{ background:transparent !important; }
-html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box.v4closed .v4bh:hover{ background:var(--wf-fill) !important; }
-/* v7b — empties: gray box, amber hint words, and a small amber mark. Edge = a 3 px amber stripe on the left; Dot = an 8 px amber dot at the right */
-html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4empty::placeholder, html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4empty{ color:#9A6B00 !important; }
-html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4empty::placeholder{ color:#B8860B !important; opacity:1 !important; }
-html body.c5emEdge:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4empty{ box-shadow:inset 4px 0 0 #F2C14E !important; }
-html body.c5emDot:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4empty:not(select):not(.v4dtx):not(.v4dtp){ background-image:radial-gradient(circle, #F2C14E 0 4px, transparent 4.5px) !important; background-repeat:no-repeat !important; background-position:right 14px center !important; background-size:10px 10px !important; }
-/* date boxes and dropdowns keep their own icon; they show the amber words only */
-/* v7c — the folded lines were there but too faint on white; a shade darker */
-html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box + .v4box{ background:linear-gradient(#CFD2CC, #CFD2CC) 30px 0 / calc(100% - 60px) 1px no-repeat, var(--wf-win) !important; }
-/* v8 — the folded lines a shade darker still, so they read on a high-resolution screen */
-html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box + .v4box{ background:linear-gradient(#C3C6C0, #C3C6C0) 30px 0 / calc(100% - 60px) 1px no-repeat, var(--wf-win) !important; }
-/* v9 — empties, third choice: the Edit Estimate look (soft yellow box, amber words), like "Not Found" */
-html body.c5emYellow:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4empty{ background-color:#FFF4C2 !important; }
-/* v10 — hovering a row hides the line below it too (the line above is already under the pill) */
-html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box.v4closed:hover + .v4box{ background:var(--wf-win) !important; }
-/* v11 — Frank: yellow how it was before. The original #FFF8D6 box with the gray hint words, no dot; the switch is gone */
-html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4empty, html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody :is(.v4cd, .review-pair, .cp-box) > .review-field :is(input, select, textarea, .v4mbtn).v4empty, html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4dt input.v4empty{ background-color:#FFF8D6 !important; color:inherit !important; }
-html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4empty:not(.v4dtx):not(select){ background-image:none !important; }
-html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4empty::placeholder{ color:#9A9CA4 !important; }
-/* v12 — the title (arrow · Details · car · insurance) is one pill: hover washes it, a click anywhere on it folds or opens everything */
-html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .modal-header h2{ display:inline-flex !important; align-items:center !important; height:44px !important; padding:0 18px 0 0 !important; border-radius:22px !important; cursor:pointer; user-select:none; }
-html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .modal-header h2:hover{ background:var(--wf-fill) !important; }
-html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .modal-header h2 .v4alltri:hover{ background:transparent !important; }
-/* v12b — an open section keeps the line above it too (its header was painting white over the line) */
-html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bh{ background:transparent !important; }
-html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bh:hover{ background:var(--wf-fill) !important; }
-/* v13 — try: the lines stay at all times; the hover pill sits on top of its own row and never hides the line below */
-html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box.v4closed:hover + .v4box{ background:linear-gradient(#C3C6C0, #C3C6C0) 30px 0 / calc(100% - 60px) 1px no-repeat, var(--wf-win) !important; }
-html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box{ position:relative; }
-html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ position:relative; z-index:1; }
-/* v14 — an open section gets a line under its header too (same 30-in line), so the title row is separated from what's inside */
-html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bh{ background:linear-gradient(#C3C6C0, #C3C6C0) 30px bottom / calc(100% - 60px) 1px no-repeat !important; }
-html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bh:hover{ background:var(--wf-fill) !important; }
-/* v15 — lines never flicker: the hover pill starts 1 px under the line above, and an open header's line stays drawn on top of the pill */
-html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ height:59px !important; margin-top:1px !important; }
-html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bh:hover{ background:linear-gradient(#C3C6C0, #C3C6C0) 30px bottom / calc(100% - 60px) 1px no-repeat, var(--wf-fill) !important; }
-/* v16 — opening or folding a section is instant: no fade, no slide, so the rows and their lines never drift */
-html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bb, html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box, html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ transition:none !important; animation:none !important; }
-html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bb{ opacity:1 !important; transform:none !important; }
-/* v16b — a line above Customer Details too, so the list is closed at the top like it is between rows */
-html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:first-child{ background:linear-gradient(#C3C6C0, #C3C6C0) 30px 0 / calc(100% - 60px) 1px no-repeat, var(--wf-win) !important; }
+/* ---------- Details Family (live) — on top of app 5.270. Five list looks, picked by a body class ---------- */
+:root{ --wf-win:#FFFFFF; --wf-fill:#F2F2F7; --wf-fill2:#E5E5EA; --wf-line:#E2E4DF; --wf-ink:#16181D; --wf-soft:#6C6C73; }
+/* shared: undo 5.268's dark 30-in lines so each look draws its own; rows keep the hover pill and the instant fold */
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box, html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box + .v4box, html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:first-child{ background:var(--wf-win) !important; border:0 !important; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bh, html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bh:hover, html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box.v4closed .v4bh:hover{ background-image:none !important; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box .v4bh:hover{ background-color:var(--wf-fill) !important; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ margin-top:0 !important; height:60px !important; }
+
+/* 1 · Faint hairlines, edge to edge — no line above the first row */
+html body.c5lA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box + .v4box{ border-top:1px solid var(--wf-line) !important; }
+html body.c5lA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bb{ border-top:1px solid var(--wf-line) !important; }
+
+/* 2 · No lines, air — 56-tall rows with a 6 gap; the hover pill separates */
+html body.c5lB:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ height:56px !important; }
+html body.c5lB:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box + .v4box{ margin-top:6px !important; }
+html body.c5lB:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bb{ border-top:0 !important; }
+
+/* 3 · One card — the seven rows inside one 16-corner bordered card, faint hairlines inside */
+html body.c5lC:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .modal-body{ padding:0 20px 20px !important; }
+html body.c5lC:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody{ border:1px solid var(--wf-line); border-radius:16px; overflow:hidden; }
+html body.c5lC:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box + .v4box{ border-top:1px solid var(--wf-line) !important; }
+html body.c5lC:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ border-radius:0 !important; }
+html body.c5lC:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bb{ border-top:1px solid var(--wf-line) !important; }
+
+/* 4 · Two groups — Job (first three) and Files & Notes (last four), each its own card with a small gray label */
+html body.c5lD:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .modal-body{ padding:0 20px 20px !important; }
+html body.c5lD:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box{ border-left:1px solid var(--wf-line) !important; border-right:1px solid var(--wf-line) !important; }
+html body.c5lD:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box + .v4box{ border-top:1px solid var(--wf-line) !important; }
+html body.c5lD:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5grp + .v4box{ border-top:1px solid var(--wf-line) !important; border-radius:16px 16px 0 0 !important; overflow:hidden; }
+html body.c5lD:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:has(+ .c5grp), html body.c5lD:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:last-child{ border-bottom:1px solid var(--wf-line) !important; border-radius:0 0 16px 16px !important; overflow:hidden; }
+html body.c5lD:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5grp{ display:block; font:600 12.5px Inter, Arial, sans-serif; color:var(--wf-soft); padding:0 0 8px 14px; }
+html body.c5lD:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5grp + .v4box{ border-top:1px solid var(--wf-line) !important; }
+html body.c5lD:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5grp.b{ padding-top:22px; }
+html body:not(.c5lD) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5grp{ display:none; }
+html body.c5lD:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ border-radius:0 !important; }
+html body.c5lD:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bb{ border-top:1px solid var(--wf-line) !important; }
+
+/* 5 · Window hugs the list — look 1, and the window is only as tall as what is in it */
+html body.c5lE:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box + .v4box{ border-top:1px solid var(--wf-line) !important; }
+html body.c5lE:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bb{ border-top:1px solid var(--wf-line) !important; }
+html body.c5lE:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay > .modal{ height:auto !important; max-height:92vh !important; min-height:0 !important; }
+html body.c5lE:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .modal-body{ flex:0 1 auto !important; max-height:none !important; }
 
 </style>
 <style id="c5famBarCss">
@@ -31532,10 +31929,10 @@ html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOv
 #c5famBar i{ width:1px; background:#E2E4DF; margin:6px 6px; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Details Family v16 · app 5.252 · demo shop</span><button data-v="today">Today</button><button data-v="fam" class="on">Family</button></div>
+<div id="c5famBar"><span>Details list v17 · app 5.270 · demo shop</span><button data-v="today">5.270</button><button data-v="fam" class="on">Try</button><i></i><button data-e="c5lA" class="on">1 Hairlines</button><button data-e="c5lB">2 Air</button><button data-e="c5lC">3 One card</button><button data-e="c5lD">4 Two groups</button><button data-e="c5lE">5 Hugs</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
-  document.body.classList.add("c5famd"); document.body.classList.add("c5emYellow");
+  document.body.classList.add("c5famd"); document.body.classList.add("c5lA");
   document.querySelectorAll("#c5famBar button[data-e]").forEach(function(b){ b.addEventListener("click", function(){ document.querySelectorAll("#c5famBar button[data-e]").forEach(function(x){ x.classList.toggle("on", x===b); document.body.classList.remove(x.dataset.e); }); document.body.classList.add(b.dataset.e); }); });
   document.querySelectorAll("#c5famBar button").forEach(function(b){ b.addEventListener("click", function(){ document.querySelectorAll("#c5famBar button").forEach(function(x){ x.classList.toggle("on", x===b); }); document.body.classList.toggle("c5famd", b.dataset.v==="fam"); }); });
   setInterval(function(){ if(!document.body.classList.contains("c5famd")) return; document.querySelectorAll("#jobDetailsOverlay .v4cfadd .btn, #jobDetailsOverlay .v4supadd .btn").forEach(function(b){ var t=b.textContent; if(t.indexOf("+ ")===0) b.textContent=t.slice(2); }); }, 400);
@@ -31543,6 +31940,8 @@ html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOv
   document.addEventListener("wheel", function(e){ var o=document.getElementById("jobDetailsOverlay"); if(!o || getComputedStyle(o).display==="none") return; var m=e.target.closest("#jobDetailsOverlay .modal"); if(!m) return; var body=m.querySelector(".modal-body"); if(!body || body.contains(e.target)) return; body.scrollTop += e.deltaY; e.preventDefault(); }, {passive:false});
   /* a click on the title pill (anywhere from the arrow to the insurance name) does what the arrow does */
   document.addEventListener("click", function(e){ var h=e.target.closest("#jobDetailsOverlay .modal-header h2"); if(!h || !document.body.classList.contains("c5famd")) return; if(e.target.closest("#v4JdAll")) return; var a=h.querySelector("#v4JdAll"); if(a) a.click(); });
+  /* look 4: group labels above the first and fourth sections */
+  setInterval(function(){ var body=document.getElementById("jobDetailsBody"); if(!body || body.querySelector(".c5grp")) return; var bs=body.querySelectorAll(":scope > .v4box"); if(bs.length<4) return; var a=document.createElement("div"); a.className="c5grp a"; a.textContent="Job"; var b=document.createElement("div"); b.className="c5grp b"; b.textContent="Files & Notes"; body.insertBefore(a, bs[0]); body.insertBefore(b, bs[3]); }, 500);
   var n=0, t=setInterval(function(){ n++; var td=document.querySelector("#tableBody td.v4jobno"); if(td){ clearInterval(t); td.dispatchEvent(new MouseEvent("dblclick",{bubbles:true})); } else if(n>60) clearInterval(t); }, 250);
 })();
 </script>
