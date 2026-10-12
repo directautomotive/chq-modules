@@ -32167,9 +32167,9 @@ html body.c5eedrop:not(.chq5off) #pdfReviewOverlay.v4ee .modal-header:has(.c5edd
 html body.c5eedrop:not(.chq5off) #pdfReviewOverlay.v4ee #c5eSys.warn{ display:none !important; }
 
 /* ---------- Edit Estimate form: the Add Supplement button (module) ---------- */
-/* A · right side, lined up with the amount fields; same dashed pill as today */
+/* A · centered under the amount fields (the pills above); same dashed pill as today */
 html body.c5addA:not(.chq5off) #pdfReviewOverlay.v4ee #rf_suppAddWrap{ display:grid !important; grid-template-columns:124px 1fr !important; justify-content:normal !important; align-items:center; }
-html body.c5addA:not(.chq5off) #pdfReviewOverlay.v4ee #rf_suppAddWrap > #rf_suppAdd{ grid-column:2 !important; justify-self:end; }
+html body.c5addA:not(.chq5off) #pdfReviewOverlay.v4ee #rf_suppAddWrap > #rf_suppAdd{ grid-column:2 !important; justify-self:center; }
 /* B · the family add row (like Details › Add Supplement): fills the amount column, gray, green plus */
 html body.c5addB:not(.chq5off) #pdfReviewOverlay.v4ee #rf_suppAddWrap{ display:grid !important; grid-template-columns:124px 1fr !important; justify-content:normal !important; align-items:center; }
 html body.c5addB:not(.chq5off) #pdfReviewOverlay.v4ee #rf_suppAddWrap > #rf_suppAdd{ grid-column:2 !important; justify-self:stretch; display:inline-flex; align-items:center; gap:12px; height:36px; padding:0 8px; border-radius:18px; background:#F2F2F7; box-shadow:none; color:#16181D; font:600 13px var(--v4-word, Inter, Arial), sans-serif; font-size:0; }
@@ -32220,7 +32220,7 @@ html body:is(.c5addA, .c5addB):not(.chq5off) #pdfReviewOverlay.v4ee .rf-supp-wra
 #c5famBar button.on{ background:#16181D; color:#fff; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Add Supplement v8 · app 5.282</span><button data-e="c5addA" class="on">Right, lined up</button><button data-e="c5addB">Family add row</button><button data-e="c5none">Today (5.282)</button></div>
+<div id="c5famBar"><span>Add Supplement v9 · app 5.282</span><button data-e="c5addA" class="on">Centered under the amounts</button><button data-e="c5addB">Family add row</button><button data-e="c5none">Today (5.282)</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
   document.body.classList.add("c5eedrop"); document.body.classList.add("c5addA");
