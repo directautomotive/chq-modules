@@ -31995,6 +31995,27 @@ html body.c5m9d:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 html body.c5m9d:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bb{ background:var(--wf-win); margin-top:2px; border-top:0 !important; }
 html body.c5m9d:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:last-child:not(.v4closed) .v4bb{ border-radius:0 0 20px 20px; }
 
+/* E1 · Open section becomes a card — folded rows stay as they are (5.271); the section you open turns into the Edit Estimate card: 1-px hairline, 22 corners, its row at the top inside, its contents under */
+html body.c5e1:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed){ border:1px solid var(--wf-line) !important; border-radius:22px !important; padding:6px 6px 10px !important; margin-top:8px !important; margin-bottom:8px !important; }
+html body.c5e1:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bh{ border-radius:24px !important; }
+html body.c5e1:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bb{ margin-top:4px !important; border-radius:16px !important; border-top:0 !important; }
+
+/* E2 · Every section is a card — the Edit Estimate look all the way: each of the seven sections sits in its own hairline card, 22 corners, 10 apart; folded = just the row inside, open = row and contents */
+html body.c5e2:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box{ border:1px solid var(--wf-line) !important; border-radius:22px !important; padding:6px !important; }
+html body.c5e2:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed){ padding-bottom:10px !important; }
+html body.c5e2:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box + .v4box{ margin-top:10px !important; }
+html body.c5e2:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ border-radius:24px !important; height:56px !important; }
+html body.c5e2:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bb{ margin-top:4px !important; border-radius:16px !important; border-top:0 !important; }
+
+/* E3 · Every section is a card, headers like Edit Estimate — the row loses its hover pill and reads as the card's title line (bold 16), a hairline under it when open */
+html body.c5e3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box{ border:1px solid var(--wf-line) !important; border-radius:22px !important; padding:4px 10px !important; }
+html body.c5e3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box + .v4box{ margin-top:10px !important; }
+html body.c5e3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ border-radius:0 !important; height:56px !important; }
+html body.c5e3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box .v4bh:hover{ background-color:transparent !important; }
+html body.c5e3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:hover{ background:#FAFAFB !important; }
+html body.c5e3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bh{ background-image:linear-gradient(var(--wf-line), var(--wf-line)) !important; background-size:100% 1px !important; background-position:0 bottom !important; background-repeat:no-repeat !important; }
+html body.c5e3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bb{ margin-top:0 !important; border-radius:0 !important; border-top:0 !important; padding-top:16px !important; }
+
 </style>
 <style id="c5famBarCss">
 #c5famBar{ position:fixed; left:50%; top:10px; transform:translateX(-50%); z-index:99999; display:flex; gap:2px; background:#fff; border-radius:22px; padding:3px; box-shadow:0 6px 24px rgba(0,0,0,.22); font-family:Inter, Arial, sans-serif; }
@@ -32003,7 +32024,7 @@ html body.c5m9d:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 #c5famBar i{ width:1px; background:#E2E4DF; margin:6px 6px; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Details list v22 · app 5.271</span><button data-v="today">5.271</button><button data-v="fam" class="on">Try</button><i></i><button data-e="c5m9o" class="on">Current (5.271)</button><button data-e="c5m9">9 Panel</button><button data-e="c5m9b">9b Soft panel</button><button data-e="c5m9c">9c Seams</button><button data-e="c5m9d">9d Navy seams</button></div>
+<div id="c5famBar"><span>Details list v23 · app 5.271</span><button data-v="today">5.271</button><button data-v="fam" class="on">Try</button><i></i><button data-e="c5m9o" class="on">Current (5.271)</button><button data-e="c5m9">9 Panel</button><button data-e="c5m9b">9b Soft panel</button><button data-e="c5m9c">9c Seams</button><button data-e="c5m9d">9d Navy seams</button><i></i><button data-e="c5e1">E1 Open card</button><button data-e="c5e2">E2 All cards</button><button data-e="c5e3">E3 Estimate cards</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
   document.body.classList.add("c5famd"); document.body.classList.add("c5m9o");
