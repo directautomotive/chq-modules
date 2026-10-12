@@ -31977,6 +31977,12 @@ document.addEventListener("focusout", function(e){ try{ var t = e.target; if(t &
 </script>
 <style id="c5famCss">
 /* ---------- Details Family (live) — on top of app 5.278. Nothing changes in size; Customer Details opens unfolded (the JS in the bar does it) ---------- */
+/* E · the cards end where the X and Save end: the scrollbar lane is a fixed 10 pixels and the list keeps 10 pixels of padding on the right instead of 20, so 10 + 10 = the 20 the header and footer use */
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody{ padding-right:10px !important; scrollbar-width:thin; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody::-webkit-scrollbar{ width:10px; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody::-webkit-scrollbar-track{ background:transparent; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody::-webkit-scrollbar-thumb{ background:#D5D8DC; border-radius:5px; border:2px solid transparent; background-clip:padding-box; }
+html body.c5famd:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody::-webkit-scrollbar-button{ display:none; height:0; }
 
 </style>
 <style id="c5famBarCss">
@@ -31986,7 +31992,7 @@ document.addEventListener("focusout", function(e){ try{ var t = e.target; if(t &
 #c5famBar i{ width:1px; background:#E2E4DF; margin:6px 6px; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Details opening v26 · app 5.278</span><button data-v="today">5.278</button><button data-v="fam" class="on">Try</button><i></i><button data-e="c5notes" class="on">Notes open</button><button data-e="c5cust">Customer Details open</button><button data-e="c5none">All folded (5.278)</button></div>
+<div id="c5famBar"><span>Details opening v27 · app 5.278</span><button data-v="today">5.278</button><button data-v="fam" class="on">Try</button><i></i><button data-e="c5notes" class="on">Notes open</button><button data-e="c5cust">Customer Details open</button><button data-e="c5none">All folded (5.278)</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
   document.body.classList.add("c5famd"); document.body.classList.add("c5notes");
