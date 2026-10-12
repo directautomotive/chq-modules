@@ -31933,7 +31933,7 @@ html body.c5m8:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
 html body.c5m8:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh .v4bt{ font-size:15px !important; }
 
 /* 9 · Gray panel, white rows — the whole list on a #F7F7F9 panel with 22 corners; each row a white pill inside */
-html body.c5m9:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody{ background:var(--wf-fill); border-radius:22px; padding:10px; }
+html body.c5m9:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5panel{ background:var(--wf-fill); border-radius:22px; padding:10px; }
 html body.c5m9:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box{ background:transparent !important; }
 html body.c5m9:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ background-color:var(--wf-win) !important; border-radius:30px !important; }
 html body.c5m9:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box + .v4box{ margin-top:8px !important; }
@@ -31945,6 +31945,25 @@ html body.c5m10:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 html body.c5m10:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box .v4bh:hover{ background-color:var(--wf-soft-fill) !important; }
 html body.c5m10:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box .v4bh:hover .v4tri{ background-color:var(--wf-fill2) !important; }
 
+/* 9b · Soft panel — lighter panel (#F7F7F9, 22 corners), white rows with 16 corners and a faint hairline, 6 apart */
+html body.c5m9b:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5panel{ background:var(--wf-soft-fill); border-radius:22px; padding:8px; }
+html body.c5m9b:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box{ background:transparent !important; }
+html body.c5m9b:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ background-color:var(--wf-win) !important; border-radius:16px !important; box-shadow:0 0 0 1px #ECECF0; }
+html body.c5m9b:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box + .v4box{ margin-top:6px !important; }
+html body.c5m9b:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box .v4bh:hover{ background-color:#FAFAFB !important; box-shadow:0 0 0 1px var(--wf-line); }
+html body.c5m9b:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bb{ background:var(--wf-win); border-radius:16px; margin-top:6px; }
+
+/* 9c · Seams — the panel shows through as 2-px seams between white rows that touch; only the outer corners are round (one segmented card) */
+html body.c5m9c:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5panel{ background:var(--wf-fill); border-radius:22px; padding:2px; overflow:hidden; }
+html body.c5m9c:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box{ background:transparent !important; }
+html body.c5m9c:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ background-color:var(--wf-win) !important; border-radius:0 !important; }
+html body.c5m9c:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box + .v4box{ margin-top:2px !important; }
+html body.c5m9c:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:first-child .v4bh{ border-radius:20px 20px 0 0 !important; }
+html body.c5m9c:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:last-child.v4closed .v4bh{ border-radius:0 0 20px 20px !important; }
+html body.c5m9c:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box .v4bh:hover{ background-color:#FAFAFB !important; }
+html body.c5m9c:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bb{ background:var(--wf-win); margin-top:2px; }
+html body.c5m9c:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:last-child:not(.v4closed) .v4bb{ border-radius:0 0 20px 20px; }
+
 </style>
 <style id="c5famBarCss">
 #c5famBar{ position:fixed; left:50%; top:10px; transform:translateX(-50%); z-index:99999; display:flex; gap:2px; background:#fff; border-radius:22px; padding:3px; box-shadow:0 6px 24px rgba(0,0,0,.22); font-family:Inter, Arial, sans-serif; }
@@ -31953,10 +31972,10 @@ html body.c5m10:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 #c5famBar i{ width:1px; background:#E2E4DF; margin:6px 6px; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Details list v18 · app 5.270</span><button data-v="today">5.270</button><button data-v="fam" class="on">Try</button><i></i><button data-e="c5m1" class="on">1 Gray pills</button><button data-e="c5m2">2 Soft pills</button><button data-e="c5m3">3 White cards</button><button data-e="c5m4">4 Tiles</button><button data-e="c5m5">5 Circles</button><button data-e="c5m6">6 Zebra</button><button data-e="c5m7">7 Indent</button><button data-e="c5m8">8 Tight</button><button data-e="c5m9">9 Panel</button><button data-e="c5m10">10 Chevrons</button></div>
+<div id="c5famBar"><span>Details list v19 · app 5.270</span><button data-v="today">5.270</button><button data-v="fam" class="on">Try</button><i></i><button data-e="c5m9" class="on">9 Panel</button><button data-e="c5m9b">9b Soft panel</button><button data-e="c5m9c">9c Seams</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
-  document.body.classList.add("c5famd"); document.body.classList.add("c5m1");
+  document.body.classList.add("c5famd"); document.body.classList.add("c5m9");
   document.querySelectorAll("#c5famBar button[data-e]").forEach(function(b){ b.addEventListener("click", function(){ document.querySelectorAll("#c5famBar button[data-e]").forEach(function(x){ x.classList.toggle("on", x===b); document.body.classList.remove(x.dataset.e); }); document.body.classList.add(b.dataset.e); }); });
   document.querySelectorAll("#c5famBar button").forEach(function(b){ b.addEventListener("click", function(){ document.querySelectorAll("#c5famBar button").forEach(function(x){ x.classList.toggle("on", x===b); }); document.body.classList.toggle("c5famd", b.dataset.v==="fam"); }); });
   setInterval(function(){ if(!document.body.classList.contains("c5famd")) return; document.querySelectorAll("#jobDetailsOverlay .v4cfadd .btn, #jobDetailsOverlay .v4supadd .btn").forEach(function(b){ var t=b.textContent; if(t.indexOf("+ ")===0) b.textContent=t.slice(2); }); }, 400);
@@ -31964,6 +31983,8 @@ html body.c5m10:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
   document.addEventListener("wheel", function(e){ var o=document.getElementById("jobDetailsOverlay"); if(!o || getComputedStyle(o).display==="none") return; var m=e.target.closest("#jobDetailsOverlay .modal"); if(!m) return; var body=m.querySelector(".modal-body"); if(!body || body.contains(e.target)) return; body.scrollTop += e.deltaY; e.preventDefault(); }, {passive:false});
   /* a click on the title pill (anywhere from the arrow to the insurance name) does what the arrow does */
   document.addEventListener("click", function(e){ var h=e.target.closest("#jobDetailsOverlay .modal-header h2"); if(!h || !document.body.classList.contains("c5famd")) return; if(e.target.closest("#v4JdAll")) return; var a=h.querySelector("#v4JdAll"); if(a) a.click(); });
+  /* the panel looks: keep the seven sections inside one .c5panel box (the app rebuilds the body now and then, so re-wrap when it is missing) */
+  setInterval(function(){ var body=document.getElementById("jobDetailsBody"); if(!body) return; var boxes=body.querySelectorAll(":scope > .v4box"); if(!boxes.length) return; var pan=document.createElement("div"); pan.className="c5panel"; body.insertBefore(pan, boxes[0]); boxes.forEach(function(b){ pan.appendChild(b); }); }, 400);
   var n=0, t=setInterval(function(){ n++; var td=document.querySelector("#tableBody td.v4jobno"); if(td){ clearInterval(t); td.dispatchEvent(new MouseEvent("dblclick",{bubbles:true})); } else if(n>60) clearInterval(t); }, 250);
 })();
 </script>
