@@ -31964,6 +31964,12 @@ html body.c5m9c:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 html body.c5m9c:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bb{ background:var(--wf-win); margin-top:2px; }
 html body.c5m9c:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:last-child:not(.v4closed) .v4bb{ border-radius:0 0 20px 20px; }
 
+/* 9o · The original "Panel" from the ten-look build, exactly as it rendered: no panel showing, white rows 8 apart, no lines, the #F2F2F7 pill on hover */
+html body.c5m9o:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4bh{ background-color:var(--wf-win) !important; border-radius:30px !important; }
+html body.c5m9o:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box + .v4box{ margin-top:8px !important; }
+html body.c5m9o:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box .v4bh:hover{ background-color:var(--wf-fill) !important; }
+html body.c5m9o:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box:not(.v4closed) .v4bb{ background:var(--wf-win); border-radius:16px; margin-top:8px; }
+
 </style>
 <style id="c5famBarCss">
 #c5famBar{ position:fixed; left:50%; top:10px; transform:translateX(-50%); z-index:99999; display:flex; gap:2px; background:#fff; border-radius:22px; padding:3px; box-shadow:0 6px 24px rgba(0,0,0,.22); font-family:Inter, Arial, sans-serif; }
@@ -31972,10 +31978,10 @@ html body.c5m9c:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 #c5famBar i{ width:1px; background:#E2E4DF; margin:6px 6px; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Details list v19 · app 5.270</span><button data-v="today">5.270</button><button data-v="fam" class="on">Try</button><i></i><button data-e="c5m9" class="on">9 Panel</button><button data-e="c5m9b">9b Soft panel</button><button data-e="c5m9c">9c Seams</button></div>
+<div id="c5famBar"><span>Details list v20 · app 5.270</span><button data-v="today">5.270</button><button data-v="fam" class="on">Try</button><i></i><button data-e="c5m9o" class="on">9 Original</button><button data-e="c5m9">9 Panel</button><button data-e="c5m9b">9b Soft panel</button><button data-e="c5m9c">9c Seams</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
-  document.body.classList.add("c5famd"); document.body.classList.add("c5m9");
+  document.body.classList.add("c5famd"); document.body.classList.add("c5m9o");
   document.querySelectorAll("#c5famBar button[data-e]").forEach(function(b){ b.addEventListener("click", function(){ document.querySelectorAll("#c5famBar button[data-e]").forEach(function(x){ x.classList.toggle("on", x===b); document.body.classList.remove(x.dataset.e); }); document.body.classList.add(b.dataset.e); }); });
   document.querySelectorAll("#c5famBar button").forEach(function(b){ b.addEventListener("click", function(){ document.querySelectorAll("#c5famBar button").forEach(function(x){ x.classList.toggle("on", x===b); }); document.body.classList.toggle("c5famd", b.dataset.v==="fam"); }); });
   setInterval(function(){ if(!document.body.classList.contains("c5famd")) return; document.querySelectorAll("#jobDetailsOverlay .v4cfadd .btn, #jobDetailsOverlay .v4supadd .btn").forEach(function(b){ var t=b.textContent; if(t.indexOf("+ ")===0) b.textContent=t.slice(2); }); }, 400);
