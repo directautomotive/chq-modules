@@ -31976,10 +31976,7 @@ document.addEventListener("focusout", function(e){ try{ var t = e.target; if(t &
 })();
 </script>
 <style id="c5famCss">
-/* ---------- Details Family (live) — on top of app 5.278. The window hugs the list ---------- */
-/* H · Hugs — the window is as tall as what is in it: about 620 folded, grows as sections open, stops at 92 percent of the screen and scrolls inside from there */
-html body.c5hug:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay > .modal{ height:auto !important; min-height:0 !important; max-height:92vh !important; }
-html body.c5hug:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .modal-body{ flex:0 1 auto !important; max-height:none !important; }
+/* ---------- Details Family (live) — on top of app 5.278. Nothing changes in size; Customer Details opens unfolded (the JS in the bar does it) ---------- */
 
 </style>
 <style id="c5famBarCss">
@@ -31989,10 +31986,10 @@ html body.c5hug:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 #c5famBar i{ width:1px; background:#E2E4DF; margin:6px 6px; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Details height v25 · app 5.278</span><button data-v="today">5.278</button><button data-v="fam" class="on">Try</button><i></i><button data-e="c5hug" class="on">Hugs the list</button><button data-e="c5none">Fixed height (5.278)</button></div>
+<div id="c5famBar"><span>Details opening v26 · app 5.278</span><button data-v="today">5.278</button><button data-v="fam" class="on">Try</button><i></i><button data-e="c5notes" class="on">Notes open</button><button data-e="c5cust">Customer Details open</button><button data-e="c5none">All folded (5.278)</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
-  document.body.classList.add("c5famd"); document.body.classList.add("c5hug");
+  document.body.classList.add("c5famd"); document.body.classList.add("c5notes");
   document.querySelectorAll("#c5famBar button[data-e]").forEach(function(b){ b.addEventListener("click", function(){ document.querySelectorAll("#c5famBar button[data-e]").forEach(function(x){ x.classList.toggle("on", x===b); document.body.classList.remove(x.dataset.e); }); document.body.classList.add(b.dataset.e); }); });
   document.querySelectorAll("#c5famBar button").forEach(function(b){ b.addEventListener("click", function(){ document.querySelectorAll("#c5famBar button").forEach(function(x){ x.classList.toggle("on", x===b); }); document.body.classList.toggle("c5famd", b.dataset.v==="fam"); }); });
   setInterval(function(){ if(!document.body.classList.contains("c5famd")) return; document.querySelectorAll("#jobDetailsOverlay .v4cfadd .btn, #jobDetailsOverlay .v4supadd .btn").forEach(function(b){ var t=b.textContent; if(t.indexOf("+ ")===0) b.textContent=t.slice(2); }); }, 400);
@@ -32000,6 +31997,8 @@ html body.c5hug:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
   document.addEventListener("wheel", function(e){ var o=document.getElementById("jobDetailsOverlay"); if(!o || getComputedStyle(o).display==="none") return; var m=e.target.closest("#jobDetailsOverlay .modal"); if(!m) return; var body=m.querySelector(".modal-body"); if(!body || body.contains(e.target)) return; body.scrollTop += e.deltaY; e.preventDefault(); }, {passive:false});
   /* a click on the title pill (anywhere from the arrow to the insurance name) does what the arrow does */
   document.addEventListener("click", function(e){ var h=e.target.closest("#jobDetailsOverlay .modal-header h2"); if(!h || !document.body.classList.contains("c5famd")) return; if(e.target.closest("#v4JdAll")) return; var a=h.querySelector("#v4JdAll"); if(a) a.click(); });
+  /* Customer Details opens unfolded each time Details opens (not when paging with the arrows: the window stays up then) */
+  (function(){ var o=document.getElementById("jobDetailsOverlay"); if(!o) return; var was=false; new MutationObserver(function(){ var on=getComputedStyle(o).display!=="none"; if(on && !was){ var nm=document.body.classList.contains("c5notes")?"Notes":(document.body.classList.contains("c5cust")?"Customer Details":null); if(nm) setTimeout(function(){ var h=o.querySelector('.v4box[data-v4box="'+nm+'"].v4closed > .v4bh'); if(h) h.click(); }, 30); } was=on; }).observe(o,{attributes:true,attributeFilter:["style","class"]}); })();
   var n=0, t=setInterval(function(){ n++; var td=document.querySelector("#tableBody td.v4jobno"); if(td){ clearInterval(t); td.dispatchEvent(new MouseEvent("dblclick",{bubbles:true})); } else if(n>60) clearInterval(t); }, 250);
 })();
 </script>
