@@ -32423,6 +32423,18 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor > .c5sf:not(.c5tot):not(.c5lk){ flex:1 1 0 !important; min-width:0; margin-right:0 !important; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor > .c5sf.c5lk{ margin-left:0; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor .v4dt, html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor .v4dtx, html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor select.tl-stype, html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor .tl-days, html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor > .c5sf:not(.c5tot) .c5amt{ width:100% !important; min-width:0 !important; box-sizing:border-box; }
+/* Frank Oct 13 2:49 PM, step 1: Start Date, End Date, Storage take exactly Bill To's width, split in three with 8 gaps — (half the row − 8) − 16, over 3 = 139 each */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor > .c5sf.c5sf.c5sf:nth-child(-n+3){ flex:0 0 calc((50% - 8px - 16px) / 3) !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor > .c5sf.c5rt.c5rt.c5rt{ margin-left:auto !important; flex:0 0 120px !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor > .c5sf.c5rt + .c5sf.c5sf.c5sf{ flex:0 0 120px !important; }
+/* step 2 (Frank Oct 13 2:50 PM): the right half is three equal slots like the left — Days, Rate / Day, and Total + lock together make the third slot (slot − 8 − 36 = Total's width) */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor > .c5sf.c5rt.c5rt.c5rt{ margin-left:auto !important; flex:0 0 calc((50% - 8px - 16px) / 3) !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor > .c5sf.c5rt + .c5sf.c5sf.c5sf{ flex:0 0 calc((50% - 8px - 16px) / 3) !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor > .c5sf.c5tot.c5tot.c5tot{ flex:0 0 calc((50% - 8px - 16px) / 3 - 44px) !important; min-width:0; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor .c5sf.c5tot .c5amt{ width:100% !important; min-width:0 !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor .tl-days, html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor .c5rt + .c5sf .c5amt{ width:100% !important; min-width:0 !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5stor input.c5stot{ padding:0 10px 0 22px !important; font-size:13px !important; }   /* the 95-wide Total pill: tighter so "$ 5,250.00" fits */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor .c5sf.c5tot .c5amt::before{ left:10px; }
 
 /* ---------- Additional Charges: five ways to add (module). body.c5g1 … c5g5 ---------- */
 /* shared: the ghost row (always one empty row ready to fill) */
@@ -32619,7 +32631,7 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
 #c5famBar button.on{ background:#16181D; color:#fff; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Total Loss v41 · app 5.285</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5none">Today (5.285)</button></div>
+<div id="c5famBar"><span>Total Loss v42 · app 5.285</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5none">Today (5.285)</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
   document.body.classList.add("c5tlA","c5h40","c5g3");
