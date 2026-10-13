@@ -32362,6 +32362,14 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5taxr > .c5sf > .tl-il{ font:600 13px var(--v4-word, Inter, Arial), sans-serif !important; color:#56616C !important; line-height:16px; white-space:nowrap; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5taxr .c5pct{ display:flex; align-items:center; gap:8px; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5taxr .c5pct > .tl-il{ font:400 14px var(--v4-word, Inter, Arial), sans-serif !important; color:#6C6C73 !important; }
+/* Sales Tax folded into the Invoice box (Frank Oct 13 10:23 AM): its own row above goes away; on the "Sales Tax" line the rate box, its % and the Taxable / Exempt dropdown sit after the words, small (32 tall) so the line keeps its height; the amount stays at the right */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .tl-fieldset.c5taxfs{ display:none !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-line em.c5taxin{ display:inline-flex !important; align-items:center; gap:8px; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-line em.c5taxin .c5pct{ display:inline-flex; align-items:center; gap:6px; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-line em.c5taxin .c5pct > .tl-il{ font:400 13px var(--v4-word, Inter, Arial), sans-serif !important; color:#6C6C73 !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .tl-line em.c5taxin #tl_taxrate{ width:76px !important; min-width:0 !important; height:32px !important; min-height:0 !important; border-radius:16px !important; padding:0 12px !important; font-size:13px !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .tl-line em.c5taxin #tl_taxmode{ height:32px !important; min-height:0 !important; border-radius:16px !important; padding:0 30px 0 12px !important; font-size:13px !important; background-position:right 10px center !important; background-size:14px !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line:has(em.c5taxin){ min-height:44px; }
 
 /* ---------- Additional Charges: five ways to add (module). body.c5g1 … c5g5 ---------- */
 /* shared: the ghost row (always one empty row ready to fill) */
@@ -32471,6 +32479,13 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
     if(!(s.previousElementSibling && s.previousElementSibling.classList.contains("c5sumt"))){ var d = document.createElement("div"); d.className = "tl-fieldset-title c5sumt"; d.textContent = "Invoice"; s.parentNode.insertBefore(d, s); }
     /* every money amount in the box: "$4,000.00" becomes a $ in its own column and the number — same as Payments */
     s.querySelectorAll(".tl-line > span:last-child:not(.c5sm)").forEach(function(sp){ var m = /^\s*(-?)\$\s*([\d,]+\.\d{2})\s*$/.exec(sp.textContent); if(!m) return; sp.className += " c5sm"; sp.innerHTML = "<i>" + m[1] + "$</i><b>" + m[2] + "</b>"; });
+    /* Sales Tax lives on its own line in the box (Frank Oct 13 10:23 AM): the rate box with its % and the Taxable / Exempt dropdown are moved into that line, right after the words */
+    var r = document.getElementById("tl_taxrate"), m = document.getElementById("tl_taxmode");
+    if(r && m){ var line = null; s.querySelectorAll(".tl-line > span:first-child").forEach(function(sp){ if(!line && /^Sales Tax/.test(sp.textContent.trim())) line = sp; });
+      var fs = r.closest(".tl-fieldset"); if(fs && !fs.querySelector(".tl-summary")) fs.classList.add("c5taxfs");   /* the old Sales Tax row, now empty, is hidden */
+      if(line && !line.querySelector(".c5taxin")){ var em = line.querySelector("em") || line.appendChild(document.createElement("em")); em.textContent = ""; em.className = "c5taxin";
+        var g = r.closest(".c5pct"); if(!g){ g = document.createElement("span"); g.className = "c5pct"; g.appendChild(r); var pc = document.createElement("span"); pc.className = "tl-il"; pc.textContent = "%"; g.appendChild(pc); }
+        em.appendChild(g); em.appendChild(m); } }
     /* every amount box gets a $ at its left: the box is wrapped, the wrapper draws the sign */
     document.querySelectorAll("#jdTotalLoss #tl_rate, #jdTotalLoss #tlExtras input[data-x-amt]").forEach(function(inp){ if(inp.parentNode.classList.contains("c5amt")) return; var w = document.createElement("span"); w.className = "c5amt"; inp.parentNode.insertBefore(w, inp); w.appendChild(inp); }); }
   var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
@@ -32536,7 +32551,7 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
 #c5famBar button.on{ background:#16181D; color:#fff; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Total Loss v25 · app 5.285</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5none">Today (5.285)</button></div>
+<div id="c5famBar"><span>Total Loss v26 · app 5.285</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5none">Today (5.285)</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
   document.body.classList.add("c5tlA","c5h40","c5g3");
