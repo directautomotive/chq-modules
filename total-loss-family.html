@@ -32705,8 +32705,8 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
         }   /* exempt: the pill reads 0.00, the real rate waits hidden for when tax comes back */
         /* no dropdown on this row (Frank Oct 13 10:50 AM) — the × and the + are the only switch */
 
-        document.addEventListener("click", function(){ w.classList.remove("open"); });   /* the dropdown stays in the page, hidden — the × drives it */
-        row.querySelector(".c5tx").addEventListener("click", function(){ m.value = (m.value === "waived") ? "all" : "waived"; m.dispatchEvent(new Event("change", { bubbles:true })); });
+        /* (a leftover document click listener from the dropdown days was here — it threw "w is not defined" on every click; gone, Frank Oct 13 4:12 PM) */
+        var flip = function(){ m.value = (m.value === "waived") ? "all" : "waived"; m.dispatchEvent(new Event("change", { bubbles:true })); }; row.querySelector(".c5tx").addEventListener("click", flip); row.querySelector(".c5tn").addEventListener("click", flip);   /* the circle or the words — either flips it */
         var g = ex.parentNode.querySelector(".c5ghost"); ex.parentNode.insertBefore(row, ex0 ? (g ? g.nextSibling : ex.nextSibling) : (g || ex.nextSibling));   /* taxable: with the real charges, above the ready row; exempt: under it (Frank Oct 13 2:26 PM) */ } }
     /* every amount box gets a $ at its left: the box is wrapped, the wrapper draws the sign */
     document.querySelectorAll("#jdTotalLoss #tl_rate, #jdTotalLoss #tlExtras input[data-x-amt]").forEach(function(inp){ if(inp.parentNode.classList.contains("c5amt")) return; var w = document.createElement("span"); w.className = "c5amt"; inp.parentNode.insertBefore(w, inp); w.appendChild(inp); }); }
@@ -32844,7 +32844,7 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
 #c5famBar button.on{ background:#16181D; color:#fff; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Total Loss v64 · app 5.288</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5tlA c5h40 c5g3 c5lt">Light</button><button data-e="c5none">Today (5.288)</button></div>
+<div id="c5famBar"><span>Total Loss v65 · app 5.288</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5tlA c5h40 c5g3 c5lt">Light</button><button data-e="c5none">Today (5.288)</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
   document.body.classList.add("c5tlA","c5h40","c5g3");
