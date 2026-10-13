@@ -32407,6 +32407,15 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5taxrow > .c5pc.c5showamt::before{ content:"$"; color:#6C6C73; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5taxrow > .c5pc.c5showamt::after{ content:none; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5taxrow #tl_taxrate.c5hid{ display:none !important; }
+/* Bill To / Pick Up match the row under them (Frank Oct 13 2:31 PM): Bill To is as long as Start Date through Storage, Pick Up starts where Days starts and ends at the lock */
+html body.c5tlA.c5tlH:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .review-pair:has(#tl_billto){ grid-template-columns:384px 292px !important; justify-content:space-between !important; column-gap:0 !important; }
+/* B · stretch: Bill To / Pick Up stay half and half; the storage row is a grid on the same halves — Start Date, End Date, Storage share the left half, Days, Rate / Day and the lock the right half (an empty 0-wide column in the middle makes the 16 gap) */
+html body.c5tlA.c5tlB:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-inline.c5stor{ display:grid !important; grid-template-columns:repeat(3, calc((50% - 24px) / 3)) 0px repeat(2, calc((50% - 60px) / 2)) 36px; column-gap:8px; align-items:end; }
+html body.c5tlA.c5tlB:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor > .c5sf{ min-width:0; }
+html body.c5tlA.c5tlB:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor > .c5sf.c5rt{ grid-column:5; margin-left:0; }
+html body.c5tlA.c5tlB:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor > .c5sf.c5rt + .c5sf{ grid-column:6; }
+html body.c5tlA.c5tlB:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor > .c5sf.c5lk{ grid-column:7; }
+html body.c5tlA.c5tlB:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor .v4dt, html body.c5tlA.c5tlB:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor .v4dtx, html body.c5tlA.c5tlB:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor select.tl-stype, html body.c5tlA.c5tlB:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor .tl-days, html body.c5tlA.c5tlB:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor .c5amt{ width:100% !important; min-width:0 !important; box-sizing:border-box; }
 
 /* ---------- Additional Charges: five ways to add (module). body.c5g1 … c5g5 ---------- */
 /* shared: the ghost row (always one empty row ready to fill) */
@@ -32600,10 +32609,10 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
 #c5famBar button.on{ background:#16181D; color:#fff; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Total Loss v34 · app 5.285</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5none">Today (5.285)</button></div>
+<div id="c5famBar"><span>Total Loss v35 · app 5.285</span><button data-e="c5tlA c5h40 c5g3 c5tlH" class="on">A · Gap</button><button data-e="c5tlA c5h40 c5g3 c5tlB">B · Stretch</button><button data-e="c5none">Today (5.285)</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
-  document.body.classList.add("c5tlA","c5h40","c5g3");
+  document.body.classList.add("c5tlA","c5h40","c5g3","c5tlH");
   document.querySelectorAll("#c5famBar button[data-e]").forEach(function(b){ b.addEventListener("click", function(){ document.querySelectorAll("#c5famBar button[data-e]").forEach(function(x){ x.classList.toggle("on", x===b); x.dataset.e.split(" ").forEach(function(c){ document.body.classList.remove(c); }); }); b.dataset.e.split(" ").forEach(function(c){ document.body.classList.add(c); }); }); });
   /* a test job, marked Total Loss, with 21 days of storage and a tow charge; Details open on the invoice */
   function iso(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
