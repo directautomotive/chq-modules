@@ -32390,6 +32390,11 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5taxrow input.c5zero{ width:100% !important; height:40px !important; min-height:0 !important; margin:0 !important; padding:0 30px 0 14px !important; border:0 !important; border-radius:20px !important; background:#F2F2F7 !important; box-shadow:none !important; color:#16181D !important; font:400 14px var(--v4-num, "Courier New", monospace) !important; text-align:right !important; text-align-last:right !important; box-sizing:border-box !important; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5taxrow.off > .c5pc{ opacity:1; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5taxrow.off > .c5pc input.c5zero{ color:#8A919C !important; }
+/* exempt (Frank Oct 13 10:46 AM): the amount pill is the ready row's twin — outlined, no fill, "$ 0.00" in grey; taxable, it is the filled pill with the rate and its % */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5taxrow.off > .c5pc::before{ content:"$"; color:#9AA1AB; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5taxrow.off > .c5pc::after{ content:none; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5taxrow.off input.c5zero{ background:transparent !important; border:1.5px solid #C7CAD1 !important; padding:0 14px 0 28px !important; color:#9A9AA3 !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5taxrow.off > .c5tn em{ color:inherit; font-size:14px; }
 
 /* ---------- Additional Charges: five ways to add (module). body.c5g1 … c5g5 ---------- */
 /* shared: the ghost row (always one empty row ready to fill) */
@@ -32503,7 +32508,7 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
     var r = document.getElementById("tl_taxrate"), m = document.getElementById("tl_taxmode"), ex = document.getElementById("tlExtras");
     if(r && m && ex){ var fs = r.closest(".tl-fieldset"); if(fs && !fs.querySelector(".tl-summary") && !fs.querySelector("#tlExtras")) fs.classList.add("c5taxfs");
       if(!ex.parentNode.querySelector(".c5taxrow")){ var ex0 = (m.value === "waived"); var row = document.createElement("div"); row.className = "c5taxrow" + (ex0 ? " off" : "");
-        row.innerHTML = '<span class="c5tn c5btw"><button type="button" class="c5tnb">Sales Tax' + (ex0 ? ' <em>exempt</em>' : '') + '</button><div class="c5btm"><button type="button" data-v="all"' + (ex0 ? '' : ' class="on"') + '>Taxable</button><button type="button" data-v="waived"' + (ex0 ? ' class="on"' : '') + '>Exempt</button></div></span><span class="c5amt c5pc">' + (ex0 ? '<input type="text" class="c5zero" value="0.00" readonly tabindex="-1">' : '') + '</span><button type="button" class="c5tx" aria-label="' + (ex0 ? "Charge sales tax again" : "Make this invoice tax exempt") + '" title="' + (ex0 ? "Charge sales tax again" : "Tax exempt — no sales tax on this invoice") + '"></button>';
+        row.innerHTML = '<span class="c5tn c5btw"><button type="button" class="c5tnb">Sales Tax' + (ex0 ? ' <em>Exempt/em>' : '') + '</button><div class="c5btm"><button type="button" data-v="all"' + (ex0 ? '' : ' class="on"') + '>Taxable</button><button type="button" data-v="waived"' + (ex0 ? ' class="on"' : '') + '>Exempt</button></div></span><span class="c5amt c5pc">' + (ex0 ? '<input type="text" class="c5zero" value="0.00" readonly tabindex="-1">' : '') + '</span><button type="button" class="c5tx" aria-label="' + (ex0 ? "Charge sales tax again" : "Make this invoice tax exempt") + '" title="' + (ex0 ? "Charge sales tax again" : "Tax exempt — no sales tax on this invoice") + '"></button>';
         if(ex0) r.classList.add("c5hid"); row.querySelector(".c5pc").appendChild(r); m.classList.add("c5hid");   /* exempt: the pill reads 0.00, the real rate waits hidden for when tax comes back */
         var w = row.querySelector(".c5tn"), tb = row.querySelector(".c5tnb"); tb.addEventListener("click", function(e){ e.stopPropagation(); w.classList.toggle("open"); });
         row.querySelector(".c5btm").addEventListener("click", function(e){ var b = e.target.closest("button[data-v]"); if(!b) return; w.classList.remove("open"); if(m.value !== b.getAttribute("data-v")){ m.value = b.getAttribute("data-v"); m.dispatchEvent(new Event("change", { bubbles:true })); } });
@@ -32575,7 +32580,7 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
 #c5famBar button.on{ background:#16181D; color:#fff; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Total Loss v29 · app 5.285</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5none">Today (5.285)</button></div>
+<div id="c5famBar"><span>Total Loss v30 · app 5.285</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5none">Today (5.285)</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
   document.body.classList.add("c5tlA","c5h40","c5g3");
