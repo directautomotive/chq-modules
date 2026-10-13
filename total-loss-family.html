@@ -32311,13 +32311,6 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary{ margin-top:0 !important; }
 /* Policy does not apply on a Total Loss (Frank Oct 12 5:27 PM) */
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box[data-v4box="Total Loss Invoice"] .v4paypol{ display:none !important; }
-/* storage row (Frank Oct 13 9:03 AM): the dates stay left; Rate / Day, the day count and the lock move to the right and line up with the charge rows' columns — the count pill in the amount column (same 120 as the 185 pill), the lock in the × column (36 round) */
-html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-fieldset:has(#tl_rate) .tl-inline{ display:flex !important; align-items:center; gap:8px !important; }
-html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-fieldset:has(#tl_rate) .tl-inline > .tl-il:nth-child(6){ margin-left:auto; }   /* "Rate / Day" and what follows go to the right */
-html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #tl_rate{ width:120px !important; min-width:120px !important; order:1; }
-html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-days{ order:2; margin-left:0 !important; }
-html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-lock{ order:3; width:36px !important; height:36px !important; }
-html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-fieldset:has(#tl_rate) .tl-inline > .tl-il:nth-child(6){ order:0; }
 html body.c5tlA.c5h40:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-lock, html body.c5tlA.c5h44:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-lock{ width:36px !important; height:36px !important; border-radius:50% !important; }
 /* the lock is a true 36-pixel circle in every state (the size list above carried an id and was winning); its icon stays put when it flips between open and closed */
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .tl-lock.tl-lock.tl-lock, html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .tl-lock.tl-lock.is-locked{ width:36px !important; min-width:36px !important; max-width:36px !important; height:36px !important; min-height:36px !important; max-height:36px !important; padding:0 !important; margin:0 !important; border:0 !important; border-radius:50% !important; box-sizing:border-box !important; transform:none !important; }
@@ -32326,13 +32319,6 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .v4dt .v4dtx{ background-color:#F2F2F7 !important; border:0 !important; box-shadow:none !important; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .v4dt .v4dtx.v4empty{ background-color:#FFF8D6 !important; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .v4dt .v4dtx:focus{ background-color:#fff !important; box-shadow:inset 0 0 0 1.5px #E8792B !important; }
-/* Outdoor lines up with Sep 28: the "Storage Fee" title and the "Storage Starts" label take the same width, so both pills start on the same line */
-html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-fieldset:has(#tl_rate) > .tl-fieldset-title{ display:flex !important; align-items:center; gap:0 !important; }
-html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-fieldset:has(#tl_rate) > .tl-fieldset-title::before{ content:"Storage Fee"; display:inline-block; width:132px; margin-right:8px; flex:none; }   /* 132 + the row's 8 gap: Outdoor starts exactly where the Storage Starts date does */
-html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-fieldset:has(#tl_rate) > .tl-fieldset-title{ font-size:0 !important; }
-html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-fieldset:has(#tl_rate) > .tl-fieldset-title::before{ font:600 15px var(--v4-word, Inter, Arial), sans-serif; color:#16181D; }
-html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-fieldset:has(#tl_rate) > .tl-fieldset-title > select.tl-stype{ font-size:14px !important; }
-html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-fieldset:has(#tl_rate) .tl-inline > .tl-il:first-child{ display:inline-block; width:132px; flex:none; }
 /* amounts: right-aligned, said with more weight than any app rule */
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss #tlExtras input[data-x-amt], html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5ghost input.a, html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss #tl_rate, html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss #tl_taxrate{ text-align:right !important; text-align-last:right !important; direction:ltr; }   /* the app says text-align-last:left on every Details input (line 3621) — that is what kept the numbers at the left */
 
@@ -32341,12 +32327,25 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5amt > input{ width:100% !important; min-width:0 !important; padding-left:28px !important; padding-right:14px !important; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5amt::before{ content:"$"; position:absolute; left:14px; top:50%; transform:translateY(-50%); pointer-events:none; font:400 14px var(--v4-num, "Courier New", monospace); color:#6C6C73; line-height:1; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5amt:focus-within::before{ color:#16181D; }
-html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-fieldset:has(#tl_rate) .tl-inline > .c5amt{ order:1; }   /* the wrapper takes the Rate / Day box's place in the row */
 /* the invoice summary: the dollar sign stands in its own column and the numbers line up under each other, like Payments */
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line > span.c5sm{ display:inline-flex !important; justify-content:space-between; align-items:center; width:124px; gap:8px; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line > span.c5sm > i{ font-style:normal; font-weight:400; color:#6C6C73; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line.tl-total > span.c5sm > i{ color:#C0392B; font-weight:700; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line > span.c5sm > b{ font-weight:inherit; }
+
+/* Storage Fee reads as one row of labelled pills (Frank Oct 13 10:03 AM): Start Date · End Date · Storage (Outdoor / Indoor) · Rate / Day · Days · lock — the script lays it out; each label sits over its pill like Bill To / Pick Up */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-fieldset:has(#tl_rate) > .tl-fieldset-title{ display:block !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-inline.c5stor{ display:flex !important; align-items:flex-end; gap:8px !important; flex-wrap:nowrap; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor > .c5sf{ display:flex; flex-direction:column; align-items:stretch; gap:4px; flex:none; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor > .c5sf.c5rt{ margin-left:auto; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor > .c5sf > .tl-il{ font:600 13px var(--v4-word, Inter, Arial), sans-serif !important; color:#56616C !important; line-height:16px; white-space:nowrap; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor > .c5sf > .v4dt{ margin:0 !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor select.tl-stype{ margin:0 !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor .c5amt{ width:120px; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor .tl-days{ margin:0 !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor .c5sf.c5lk > .tl-il{ visibility:hidden; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss #tl_rate{ width:100% !important; min-width:0 !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor > .c5sf.c5lk{ padding-bottom:2px; }   /* the 36 lock sits centered on the 40 pills */
 
 /* ---------- Additional Charges: five ways to add (module). body.c5g1 … c5g5 ---------- */
 /* shared: the ghost row (always one empty row ready to fill) */
@@ -32463,6 +32462,20 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
   build();
 })();
 
+/* the Storage Fee row: labels over pills, in reading order — Start Date, End Date, Storage (Outdoor / Indoor, moved down from the title), then at the right Rate / Day, Days and the lock. Elements are moved, never copied, so the app's own listeners stay; rebuilt in the same frame as the card's redraw */
+(function(){
+  function cell(label, el, cls){ var c = document.createElement("span"); c.className = "c5sf" + (cls ? " " + cls : ""); var l = document.createElement("span"); l.className = "tl-il"; l.textContent = label; c.appendChild(l); c.appendChild(el); return c; }
+  function build(){ var fs = document.querySelector("#jdTotalLoss .tl-fieldset:has(#tl_rate)"); if(!fs) return; var row = fs.querySelector(".tl-inline"); if(!row || row.classList.contains("c5stor")) return;
+    var st = fs.querySelector("select.tl-stype"), d1 = row.querySelector("#tl_start"), d2 = row.querySelector("#tl_end"), lock = row.querySelector(".tl-lock"), rate = row.querySelector("#tl_rate"), days = row.querySelector(".tl-days"); if(!st || !d1 || !d2 || !rate) return;
+    var w1 = d1.closest(".v4dt") || d1, w2 = d2.closest(".v4dt") || d2, wr = rate.closest(".c5amt") || rate;
+    row.classList.add("c5stor"); row.querySelectorAll(":scope > .tl-il").forEach(function(l){ l.remove(); });
+    row.appendChild(cell("Start Date", w1)); row.appendChild(cell("End Date", w2)); row.appendChild(cell("Storage", st));
+    row.appendChild(cell("Rate / Day", wr, "c5rt")); if(days) row.appendChild(cell("Days", days)); if(lock) row.appendChild(cell("Lock", lock, "c5lk")); }
+  var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
+  new MutationObserver(function(ms){ for(var i = 0; i < ms.length; i++){ var tg = ms[i].target; if(tg && tg.closest && tg.closest(".c5stor")) continue; build(); return; } }).observe(ov, { childList:true, subtree:true });
+  build();
+})();
+
 /* the ready row: one empty charge row under the list. Typing a name or an amount and pressing Enter, or clicking +, adds a real charge through the app's own + button and moves the words into it. */
 (function(){
   var t = null;
@@ -32495,7 +32508,7 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
 #c5famBar button.on{ background:#16181D; color:#fff; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Total Loss v21 · app 5.285</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5none">Today (5.285)</button></div>
+<div id="c5famBar"><span>Total Loss v22 · app 5.285</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5none">Today (5.285)</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
   document.body.classList.add("c5tlA","c5h40","c5g3");
