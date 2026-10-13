@@ -32524,7 +32524,7 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5paid.on i{ -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4.5 12.5l4.5 4.5L19.5 7'/%3E%3C/svg%3E"); mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4.5 12.5l4.5 4.5L19.5 7'/%3E%3C/svg%3E"); }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5paid.on:hover{ background:#D7ECDC; }
 /* Negotiated Total row in the charge list: the Sales Tax row's twin — filled with a × when set, outlined with a + when empty; the hidden "Negotiated Settlement" charge stays out of the list (it shows in the Invoice box) */
-html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #tlExtras .tl-extra-row:has([data-x-desc][value="Negotiated Settlement"]){ display:none !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #tlExtras .tl-extra-row.c5hidneg{ display:none !important; }   /* the settlement row once it holds the minus (the script marks it) */
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5negrow{ display:flex; align-items:center; gap:8px; margin-top:8px; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5negrow > .c5tn{ flex:1; min-width:0; display:flex; align-items:center; gap:8px; height:40px; padding:0 16px; border-radius:20px; background:#F2F2F7; font:400 14px var(--v4-word, Inter, Arial), sans-serif; color:#16181D; box-sizing:border-box; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5negrow > .c5pc::after{ content:none; }
@@ -32731,7 +32731,7 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
   function apply(agreed){
     var r = negRow();
     if(!agreed){ if(r){ var x = r.querySelector("[data-x-del]"); if(x) x.click(); } return; }
-    var cur = totalNow(), have = r ? (parseFloat(r.querySelector("[data-x-amt]").value) || 0) : 0;
+    var cur = totalNow(), have = r ? (parseFloat(r.querySelector("[data-x-amt]").value) || 0) : 0;   /* a plus "have" is the agreed number just typed, not yet a minus */
     var tm = document.getElementById("tl_taxmode"), tr = document.getElementById("tl_taxrate"), rate = (tm && tm.value !== "waived") ? (parseFloat(tr && tr.value) || 0) / 100 : 0;
     var full = cur - have * (1 + rate);   /* the invoice without the settlement line */
     var adj = Math.round(((agreed - full) / (1 + rate)) * 100) / 100;   /* taxable: the minus is taxed too, so it is scaled back */
@@ -32740,9 +32740,14 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
     var before = document.querySelectorAll("#tlExtras .tl-extra-row").length, add = document.getElementById("tlAddExtra"); if(add) add.click();
     setTimeout(function(){ var rows = document.querySelectorAll("#tlExtras .tl-extra-row"); if(rows.length <= before) return; var nr = rows[rows.length - 1]; set(nr.querySelector("[data-x-desc]"), NEG); setTimeout(function(){ var r2 = negRow(); if(r2) set(r2.querySelector("[data-x-amt]"), String(adj)); }, 80); }, 80);
   }
+  /* the charge list already has "Negotiated Settlement" (Frank Oct 13 3:41 PM: "searchable, like type a charge or browse the list"). Type it in the ready row or pick it, give it the number agreed — a plus number, never a minus — and the row becomes the settlement: the minus is worked out, the row reads "Negotiated Total $1,000.00". */
+  var converting = false;
+  function convert(){ if(converting) return; var rows = document.querySelectorAll("#tlExtras .tl-extra-row"); for(var i = 0; i < rows.length; i++){ var d = rows[i].querySelector("[data-x-desc]"), a = rows[i].querySelector("[data-x-amt]"); if(!d || !a) continue; var nm = d.value.trim(); if((nm === NEG || nm === "Negotiated Total") && (parseFloat(a.value) || 0) > 0 && document.activeElement !== a && document.activeElement !== d){ var agreed = parseFloat(a.value); converting = true; if(nm !== NEG) set(d, NEG); setTimeout(function(){ converting = false; apply(agreed); }, 80); return; } } }
   function build(){
-    var ex = document.getElementById("tlExtras"); if(!ex) return; var host = ex.parentNode; if(host.querySelector(".c5negrow")) return;
-    var r = negRow(), on = !!r;
+    var ex = document.getElementById("tlExtras"); if(!ex) return; var host = ex.parentNode; convert();
+    document.querySelectorAll("#tlExtras .tl-extra-row").forEach(function(rw){ var d = rw.querySelector("[data-x-desc]"), a = rw.querySelector("[data-x-amt]"); rw.classList.toggle("c5hidneg", !!(d && a && d.value.trim() === NEG && (parseFloat(a.value) || 0) < 0)); });
+    if(host.querySelector(".c5negrow")) return;
+    var r = negRow(), on = !!(r && (parseFloat(r.querySelector("[data-x-amt]").value) || 0) < 0); if(!on) return;   /* the row shows only once a number is agreed (the minus is in) */
     var row = document.createElement("div"); row.className = "c5negrow" + (on ? "" : " off");
     row.innerHTML = '<span class="c5tn">Negotiated Total' + (on ? '' : '') + '</span><span class="c5amt c5pc"><input type="text" class="c5negin" inputmode="decimal" placeholder="0.00"></span><button type="button" class="c5tx" aria-label="' + (on ? "Back to the full invoice" : "Set the agreed total") + '"></button>';
     var inp = row.querySelector(".c5negin"); if(on) inp.value = fmt(totalNow());
@@ -32757,6 +32762,7 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
   }
   var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
   new MutationObserver(function(ms){ for(var i = 0; i < ms.length; i++){ var tg = ms[i].target; if(tg && tg.closest && tg.closest(".c5negrow")) continue; build(); return; } }).observe(ov, { childList:true, subtree:true });
+  ov.addEventListener("focusout", function(e){ if(e.target && e.target.matches && e.target.matches("#tlExtras [data-x-amt]")) setTimeout(convert, 120); });   /* the amount typed, the box left: convert */
   build();
 })();
 
@@ -32776,6 +32782,13 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
       setTimeout(function(){ var rows = document.querySelectorAll("#tlExtras .tl-extra-row"); if(rows.length <= before) return; var r = rows[rows.length - 1], ni = r.querySelector("[data-x-desc]"), ai = r.querySelector("[data-x-amt]");
         function set(el, v){ if(!el) return; el.value = v; el.dispatchEvent(new Event("input", { bubbles:true })); el.dispatchEvent(new Event("change", { bubbles:true })); }
         if(name) set(ni, name); if(amt) set(ai, amt); n.value = ""; a.value = ""; setTimeout(function(){ var gg = document.querySelector("#jdTotalLoss .c5ghost .n"); if(gg) gg.focus(); }, 60); }, 60); }
+    /* the ready row searches like a real row (Frank Oct 13 3:41 PM): the first letter typed makes the real row and the typing carries on there, with the app's own suggestion list under it; the chevron opens the full list the same way */
+    function hand(text, browse){ var before = ex.querySelectorAll(".tl-extra-row").length; var add = document.getElementById("tlAddExtra"); if(add) add.click();
+      setTimeout(function(){ var rows = document.querySelectorAll("#tlExtras .tl-extra-row"); if(rows.length <= before) return; var r = rows[rows.length - 1], ni = r.querySelector("[data-x-desc]"); if(!ni) return;
+        n.value = ""; if(browse){ var bb = r.querySelector(".charge-browse"); if(bb) bb.click(); ni.focus(); return; }
+        ni.value = text; ni.focus(); try{ ni.setSelectionRange(text.length, text.length); }catch(e){} ni.dispatchEvent(new Event("input", { bubbles:true })); }, 60); }
+    n.addEventListener("input", function(){ var v = n.value; if(v.trim()) hand(v, false); });
+    n.addEventListener("click", function(e){ var r = n.getBoundingClientRect(); if(e.clientX > r.right - 40) hand("", true); });
     g.querySelector(".p").addEventListener("click", commit);
     [n, a].forEach(function(el){ el.addEventListener("keydown", function(e){ if(e.key === "Enter"){ e.preventDefault(); commit(); } }); });
     a.addEventListener("blur", function(){ if(n.value.trim() && a.value.trim()) commit(); });
@@ -32792,7 +32805,7 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
 #c5famBar button.on{ background:#16181D; color:#fff; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Total Loss v54 · app 5.285</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5none">Today (5.285)</button></div>
+<div id="c5famBar"><span>Total Loss v55 · app 5.285</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5none">Today (5.285)</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
   document.body.classList.add("c5tlA","c5h40","c5g3");
