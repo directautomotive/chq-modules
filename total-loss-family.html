@@ -32398,6 +32398,9 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 /* the exempt row is the ready row's twin in color too: grey words, grey outline */
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5taxrow.off > .c5tn{ color:#9A9AA3; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5taxrow.off > .c5tn em{ color:#9A9AA3; }
+/* Frank Oct 13 2:14 PM: the day-count pill is the same grey pill as the others (it was white with a shadow and bold); the $ column in the Invoice box starts where the $ in the amount pills does */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .tl-days{ background:#F2F2F7 !important; box-shadow:none !important; border:0 !important; font-weight:400 !important; color:#16181D !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line > span.c5sm{ width:133px; }
 
 /* ---------- Additional Charges: five ways to add (module). body.c5g1 … c5g5 ---------- */
 /* shared: the ghost row (always one empty row ready to fill) */
@@ -32583,7 +32586,7 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
 #c5famBar button.on{ background:#16181D; color:#fff; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Total Loss v32 · app 5.285</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5none">Today (5.285)</button></div>
+<div id="c5famBar"><span>Total Loss v33 · app 5.285</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5none">Today (5.285)</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
   document.body.classList.add("c5tlA","c5h40","c5g3");
@@ -32599,7 +32602,7 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
         setTimeout(function(){ var b=document.querySelector('#v4JdMode button[data-v4mode="tl"]'); if(b) b.click();
           setTimeout(function(){ var ok=document.getElementById("confirmOkBtn"); if(ok) ok.click();
             setTimeout(function(){ document.querySelectorAll('#jobDetailsOverlay .v4box[data-v4box="Total Loss Invoice"].v4closed > .v4bh, #jobDetailsOverlay .v4box[data-v4box="Estimates"].v4closed > .v4bh, #jobDetailsOverlay .v4box[data-v4box="Documents"].v4closed > .v4bh, #jobDetailsOverlay .v4box[data-v4box="Notes"]:not(.v4closed) > .v4bh').forEach(function(h){ h.click(); });
-              setTimeout(function(){ setv(document.getElementById("tl_billto"), "Copart"); setv(document.getElementById("tl_start"), iso(new Date(Date.now()-21*864e5))); var tm=document.getElementById("tl_taxmode"); if(tm){ tm.value = tm.options[0].value; [].forEach.call(tm.options, function(o){ if(/tax/i.test(o.textContent) && !/exempt/i.test(o.textContent)) tm.value=o.value; }); tm.dispatchEvent(new Event("change",{bubbles:true})); }
+              setTimeout(function(){ setv(document.getElementById("tl_billto"), "Copart"); setv(document.getElementById("tl_start"), iso(new Date(Date.now()-21*864e5))); var tm=document.getElementById("tl_taxmode"); if(tm){ tm.value = tm.options[0].value; tm.value = "waived";   /* a total loss starts tax exempt (Frank Oct 13 2:14 PM) — the + on the row adds the tax */ tm.dispatchEvent(new Event("change",{bubbles:true})); }
                 var add=document.getElementById("tlAddExtra"); if(add) add.click();
                 setTimeout(function(){ setv(document.querySelector('[data-x-desc="0"]'), "Tow"); setv(document.querySelector('[data-x-amt="0"]'), "185"); var body=document.getElementById("jobDetailsBody"); if(body) body.scrollTop=0; }, 300);
               }, 400); }, 700); }, 500); }, 1000); }, 2600); }, 300); } else if(n>60) clearInterval(t); }, 250);
