@@ -33464,6 +33464,10 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cd > .review-field.v4cfld{ order:1; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cd > .v4cfadd{ order:2; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cd > .v4cfadd:is(.v4cfadd, #c5x1):is(.v4cfadd, #c5x2):is(.v4cfadd, #c5x4){ margin-top:0 !important; align-self:end !important; }   /* the button sits in its cell like any pill — same gap as the rows above (Frank Oct 13 4:46 PM) */
+/* Frank Oct 13 4:46 PM: a long custom field name is cut with … at the end, never wrapping or pushing the row */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cfld > label{ overflow:hidden; white-space:nowrap; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cfld > label .v4cfl, html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody input.v4cfin{ overflow:hidden !important; white-space:nowrap !important; text-overflow:ellipsis !important; min-width:0; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cfld input:not(.v4cfin){ text-overflow:ellipsis; }
 
 /* ---------- Additional Charges: five ways to add (module). body.c5g1 … c5g5 ---------- */
 /* shared: the ghost row (always one empty row ready to fill) */
