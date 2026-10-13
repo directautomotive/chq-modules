@@ -32349,6 +32349,19 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 /* Frank Oct 13 10:08 AM: the date words start where Outdoor's and Copart's do (16 in from the pill's edge); Outdoor and Taxable are not bold, same weight as the dates */
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .v4dt .v4dtx{ padding-left:16px !important; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss :is(select.tl-stype, #tl_taxmode){ font-weight:400 !important; text-align:left !important; text-align-last:left !important; padding-left:16px !important; }
+/* one system (Frank Oct 13 10:15 AM): no bold section titles inside the card — every pill carries a small label over it, like Bill To / Pick Up; the thin lines keep the sections apart */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .tl-fieldset > .tl-fieldset-title:not(.c5sumt){ display:none !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5sumt{ padding:14px 0 0 !important; margin:0 0 4px !important; border-top:1px solid #ECECF0; font:600 13px var(--v4-word, Inter, Arial), sans-serif !important; color:#56616C !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .tl-fieldset:has(#tl_rate){ padding-top:14px; border-top:1px solid #ECECF0; }
+/* Additional Charges: "Charge" and "Amount" over the columns, same label style */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5chh{ display:flex !important; align-items:flex-end; gap:8px; margin:0 0 4px; padding:0; font:600 13px var(--v4-word, Inter, Arial), sans-serif; color:#56616C; line-height:16px; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5chh .n{ flex:1; } html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5chh .a{ width:120px; flex:none; } html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5chh .x{ width:36px; flex:none; }
+/* Sales Tax: "Tax Rate" over the rate pill (the % right after it), "Taxable" over the dropdown — laid out by the script like the storage row */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-inline.c5taxr{ display:flex !important; align-items:flex-end; gap:8px !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5taxr > .c5sf{ display:flex; flex-direction:column; align-items:stretch; gap:4px; flex:none; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5taxr > .c5sf > .tl-il{ font:600 13px var(--v4-word, Inter, Arial), sans-serif !important; color:#56616C !important; line-height:16px; white-space:nowrap; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5taxr .c5pct{ display:flex; align-items:center; gap:8px; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5taxr .c5pct > .tl-il{ font:400 14px var(--v4-word, Inter, Arial), sans-serif !important; color:#6C6C73 !important; }
 
 /* ---------- Additional Charges: five ways to add (module). body.c5g1 … c5g5 ---------- */
 /* shared: the ghost row (always one empty row ready to fill) */
@@ -32479,6 +32492,18 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
   build();
 })();
 
+/* the Sales Tax row: "Tax Rate" over the rate pill with its %, "Taxable" over the dropdown (same labelled-pill row as Storage) */
+(function(){
+  function cell(label, el){ var c = document.createElement("span"); c.className = "c5sf"; var l = document.createElement("span"); l.className = "tl-il"; l.textContent = label; c.appendChild(l); c.appendChild(el); return c; }
+  function build(){ var r = document.getElementById("tl_taxrate"), m = document.getElementById("tl_taxmode"); if(!r || !m) return; var row = r.closest(".tl-inline"); if(!row || row.classList.contains("c5taxr")) return;
+    var pct = row.querySelector(":scope > .tl-il"); row.classList.add("c5taxr");
+    var g = document.createElement("span"); g.className = "c5pct"; g.appendChild(r); if(pct) g.appendChild(pct);
+    row.appendChild(cell("Tax Rate", g)); row.appendChild(cell("Sales Tax", m)); }
+  var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
+  new MutationObserver(function(ms){ for(var i = 0; i < ms.length; i++){ var tg = ms[i].target; if(tg && tg.closest && tg.closest(".c5taxr")) continue; build(); return; } }).observe(ov, { childList:true, subtree:true });
+  build();
+})();
+
 /* the ready row: one empty charge row under the list. Typing a name or an amount and pressing Enter, or clicking +, adds a real charge through the app's own + button and moves the words into it. */
 (function(){
   var t = null;
@@ -32511,7 +32536,7 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
 #c5famBar button.on{ background:#16181D; color:#fff; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Total Loss v23 · app 5.285</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5none">Today (5.285)</button></div>
+<div id="c5famBar"><span>Total Loss v24 · app 5.285</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5none">Today (5.285)</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
   document.body.classList.add("c5tlA","c5h40","c5g3");
