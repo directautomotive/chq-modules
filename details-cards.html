@@ -32271,6 +32271,11 @@ html body.c5cB:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
 html body:is(.c5cA, .c5cB):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdAuthSection .btn-small{ width:auto !important; max-width:none !important; white-space:nowrap; }
 html body:is(.c5cA, .c5cB):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .jd-photo-actions .btn{ width:auto !important; max-width:none !important; white-space:nowrap; }
 html body:is(.c5cA, .c5cB):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .jd-photo-actions .btn-primary{ width:136px !important; }
+/* Payments in the same box as the invoice summary: light box, 1-pixel border, 12 corners, rows inside, the colored total pill at the bottom */
+html body:is(.c5cA, .c5cB):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #v4JdPay .v4payin{ background:#FAFAF8 !important; border:1px solid #E4E5E1 !important; border-radius:12px !important; padding:6px 16px 12px !important; margin-top:4px !important; }
+html body:is(.c5cA, .c5cB):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #v4JdPay .v4sumbox{ background:transparent !important; border:0 !important; border-radius:0 !important; margin:0 !important; padding:0 !important; }
+html body:is(.c5cA, .c5cB):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #v4JdPay .v4payin > h3, html body:is(.c5cA, .c5cB):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #v4JdPay .v4payin > .v4who{ display:none !important; }
+html body:is(.c5cA, .c5cB):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #v4JdPay .v4sumbox .v4bal{ margin:10px -8px 0 !important; }
 
 /* ---------- Total Loss in the family (module). #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay = the Details overlay, five ids ---------- */
 /* titles inside the invoice card read like "Payments" */
@@ -32375,7 +32380,7 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 #c5famBar button.on{ background:#16181D; color:#fff; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Details cards v2 · app 5.285</span><button data-e="c5cA" class="on">Pill rows</button><button data-e="c5cB">Pill rows + lines</button><button data-e="c5none">Today (5.285)</button></div>
+<div id="c5famBar"><span>Details cards v3 · app 5.285</span><button data-e="c5cA" class="on">Pill rows</button><button data-e="c5cB">Pill rows + lines</button><button data-e="c5none">Today (5.285)</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
   document.body.classList.add("c5cA","c5tlA","c5h40");
