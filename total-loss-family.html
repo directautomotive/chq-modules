@@ -32365,9 +32365,18 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 /* Sales Tax as the last row of the charge list (Frank Oct 13 10:31 AM): the dropdown fills the name column ("Sales Tax · Taxable" / "Sales Tax · Exempt"), the rate sits in the amount column with its % at the right, the × column stays empty */
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .tl-fieldset.c5taxfs{ display:none !important; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5taxrow{ display:flex; align-items:center; gap:8px; margin-top:8px; }
-html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5taxrow > .c5tn{ flex:1; min-width:0; display:flex; }
-html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5taxrow #tl_taxmode{ width:100% !important; margin:0 !important; }
-html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5taxrow > .x{ width:36px; flex:none; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5taxrow > .c5tn{ flex:1; min-width:0; display:flex; align-items:center; gap:8px; height:40px; padding:0 16px; border-radius:20px; background:#F2F2F7; font:400 14px var(--v4-word, Inter, Arial), sans-serif; color:#16181D; box-sizing:border-box; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5taxrow > .c5tn em{ font-style:normal; font-size:13px; color:#8A919C; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss #tl_taxmode.c5hid{ display:none !important; }
+/* the × makes the invoice tax exempt, like removing a charge; exempt, the row goes grey and the circle shows a + to charge tax again */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5taxrow > .c5tx{ position:relative; width:36px; min-width:36px; height:36px; flex:none; padding:0; border:0; border-radius:50%; background:#FBEAEA; cursor:pointer; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5taxrow > .c5tx::after{ content:""; position:absolute; inset:0; background:#C0392B; -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 6l12 12M18 6L6 18'/%3E%3C/svg%3E") center/14px 14px no-repeat; mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 6l12 12M18 6L6 18'/%3E%3C/svg%3E") center/14px 14px no-repeat; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5taxrow > .c5tx:hover{ background:#F5D5D5; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5taxrow.off > .c5tn{ color:#8A919C; background:transparent; box-shadow:inset 0 0 0 1.5px #C7CAD1; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5taxrow.off > .c5pc{ opacity:.45; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5taxrow.off > .c5tx{ background:transparent; box-shadow:inset 0 0 0 1.5px #C7CAD1; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5taxrow.off > .c5tx::after{ background:#9AA1AB; -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='M12 6v12M6 12h12'/%3E%3C/svg%3E") center/14px no-repeat; mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='M12 6v12M6 12h12'/%3E%3C/svg%3E") center/14px no-repeat; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5taxrow.off > .c5tx:hover{ background:#F2F2F7; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5taxrow > .c5pc::before{ content:none; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5taxrow > .c5pc::after{ content:"%"; position:absolute; right:14px; top:50%; transform:translateY(-50%); pointer-events:none; font:400 14px var(--v4-num, "Courier New", monospace); color:#6C6C73; line-height:1; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5taxrow #tl_taxrate{ width:100% !important; min-width:0 !important; padding-left:14px !important; padding-right:30px !important; margin:0 !important; }
@@ -32483,9 +32492,10 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
     /* Sales Tax is the last row of the charge list (Frank Oct 13 10:31 AM): the old Sales Tax section is hidden, its two controls move into a charge-shaped row under the ready row */
     var r = document.getElementById("tl_taxrate"), m = document.getElementById("tl_taxmode"), ex = document.getElementById("tlExtras");
     if(r && m && ex){ var fs = r.closest(".tl-fieldset"); if(fs && !fs.querySelector(".tl-summary") && !fs.querySelector("#tlExtras")) fs.classList.add("c5taxfs");
-      if(!ex.parentNode.querySelector(".c5taxrow")){ var row = document.createElement("div"); row.className = "c5taxrow"; row.innerHTML = '<span class="c5tn"></span><span class="c5amt c5pc"></span><span class="x"></span>';
-        [].forEach.call(m.options, function(o){ if(!/^Sales Tax/.test(o.textContent)) o.textContent = "Sales Tax \u00b7 " + o.textContent.trim(); });
-        row.querySelector(".c5tn").appendChild(m); row.querySelector(".c5pc").appendChild(r);
+      if(!ex.parentNode.querySelector(".c5taxrow")){ var ex0 = (m.value === "waived"); var row = document.createElement("div"); row.className = "c5taxrow" + (ex0 ? " off" : "");
+        row.innerHTML = '<span class="c5tn">Sales Tax' + (ex0 ? ' <em>exempt</em>' : '') + '</span><span class="c5amt c5pc"></span><button type="button" class="c5tx" aria-label="' + (ex0 ? "Charge sales tax again" : "Make this invoice tax exempt") + '" title="' + (ex0 ? "Charge sales tax again" : "Tax exempt — no sales tax on this invoice") + '"></button>';
+        row.querySelector(".c5pc").appendChild(r); m.classList.add("c5hid");   /* the dropdown stays in the page, hidden — the × drives it */
+        row.querySelector(".c5tx").addEventListener("click", function(){ m.value = (m.value === "waived") ? "all" : "waived"; m.dispatchEvent(new Event("change", { bubbles:true })); });
         var g = ex.parentNode.querySelector(".c5ghost"); ex.parentNode.insertBefore(row, g ? g.nextSibling : ex.nextSibling); } }
     /* every amount box gets a $ at its left: the box is wrapped, the wrapper draws the sign */
     document.querySelectorAll("#jdTotalLoss #tl_rate, #jdTotalLoss #tlExtras input[data-x-amt]").forEach(function(inp){ if(inp.parentNode.classList.contains("c5amt")) return; var w = document.createElement("span"); w.className = "c5amt"; inp.parentNode.insertBefore(w, inp); w.appendChild(inp); }); }
@@ -32552,7 +32562,7 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
 #c5famBar button.on{ background:#16181D; color:#fff; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Total Loss v27 · app 5.285</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5none">Today (5.285)</button></div>
+<div id="c5famBar"><span>Total Loss v28 · app 5.285</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5none">Today (5.285)</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
   document.body.classList.add("c5tlA","c5h40","c5g3");
