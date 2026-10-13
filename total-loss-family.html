@@ -32409,7 +32409,10 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5taxrow #tl_taxrate.c5hid{ display:none !important; }
 /* (Frank Oct 13 2:35 PM: tried matching Bill To / Pick Up to the storage row — went back; the top row stays half and half, the storage pills 120 wide) */
 /* Frank Oct 13 2:36 PM: wider spacing in the storage row — 36 between pills, so Start Date → Storage ends right under Bill To; the pills stay 120 */
-html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-inline.c5stor{ gap:32.5px !important; }   /* the date pills are 124 wide, Storage 120: 124 + 124 + 120 + 2 × 32.5 = 433, Bill To's width */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-inline.c5stor{ gap:8px !important; }   /* back to 8 (Frank Oct 13 2:41 PM) — a Total pill fills the row instead */   /* the date pills are 124 wide, Storage 120: 124 + 124 + 120 + 2 × 32.5 = 433, Bill To's width */
+/* Storage Total pill (Frank Oct 13 2:41 PM): Days × Rate / Day, read-only, in dollars; the right group — Days, Rate / Day, Total, lock — is as wide as Pick Up and starts under it */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor .c5sf.c5tot .c5amt{ width:133px; min-width:133px; }   /* 120 + 120 + 133 + 36 + three 8 gaps = 433 = Pick Up's width, so Days starts right under Pick Up */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5stor input.c5stot{ width:100% !important; height:40px !important; min-height:0 !important; margin:0 !important; padding:0 14px 0 28px !important; border:0 !important; border-radius:20px !important; background:#F2F2F7 !important; box-shadow:none !important; color:#16181D !important; font:400 14px var(--v4-num, "Courier New", monospace) !important; text-align:right !important; text-align-last:right !important; box-sizing:border-box !important; cursor:default; }
 
 /* ---------- Additional Charges: five ways to add (module). body.c5g1 … c5g5 ---------- */
 /* shared: the ghost row (always one empty row ready to fill) */
@@ -32553,7 +32556,10 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
     var w1 = d1.closest(".v4dt") || d1, w2 = d2.closest(".v4dt") || d2, wr = rate.closest(".c5amt") || rate;
     row.classList.add("c5stor"); row.querySelectorAll(":scope > .tl-il").forEach(function(l){ l.remove(); });
     row.appendChild(cell("Start Date", w1)); row.appendChild(cell("End Date", w2)); row.appendChild(cell("Storage", st));
-    if(days) row.appendChild(cell("Days", days, "c5rt")); row.appendChild(cell("Rate / Day", wr));   /* days first, then the rate (Frank Oct 13 10:16 AM) */ if(lock) row.appendChild(cell("Lock", lock, "c5lk")); }
+    if(days) row.appendChild(cell("Days", days, "c5rt")); row.appendChild(cell("Rate / Day", wr));   /* days first, then the rate (Frank Oct 13 10:16 AM) */
+    var nd = parseInt((days ? days.textContent : "0").replace(/[^\d]/g, ""), 10) || 0, rt = parseFloat(rate.value) || 0, tot = nd * rt;
+    var tw = document.createElement("span"); tw.className = "c5amt"; var ti = document.createElement("input"); ti.type = "text"; ti.className = "c5stot"; ti.readOnly = true; ti.tabIndex = -1; ti.value = tot.toLocaleString("en-US", { minimumFractionDigits:2, maximumFractionDigits:2 }); tw.appendChild(ti);
+    row.appendChild(cell("Total", tw, "c5tot"));   /* Days × Rate / Day (Frank Oct 13 2:41 PM) */ if(lock) row.appendChild(cell("Lock", lock, "c5lk")); }
   var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
   new MutationObserver(function(ms){ for(var i = 0; i < ms.length; i++){ var tg = ms[i].target; if(tg && tg.closest && tg.closest(".c5stor")) continue; build(); return; } }).observe(ov, { childList:true, subtree:true });
   build();
@@ -32603,7 +32609,7 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
 #c5famBar button.on{ background:#16181D; color:#fff; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Total Loss v37 · app 5.285</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5none">Today (5.285)</button></div>
+<div id="c5famBar"><span>Total Loss v38 · app 5.285</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5none">Today (5.285)</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
   document.body.classList.add("c5tlA","c5h40","c5g3");
