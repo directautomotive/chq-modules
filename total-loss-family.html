@@ -33439,6 +33439,9 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line.tl-total{ border-radius:23px !important; padding:0 16px !important; }   /* the red total row is a pill with round ends, like the family (Frank Oct 13 4:34 PM) */
 /* Frank Oct 13 4:36 PM: "what size is this glow, it's perfect" — the End Date ring: 1.5 px orange inside the edge. One glow for every box in Details (Bill To and Pick Up had a 2-px ring outside) */
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody :is(input, select, textarea):focus, html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4dtx:focus, html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .c5ghost input:focus, html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss :is(#tl_billto, #tl_pickup):focus{ box-shadow:inset 0 0 0 1.5px #E8792B !important; outline:0 !important; border-color:transparent !important; }
+/* Frank Oct 13 4:38 PM: an empty date pill (TBD) is yellow too — the app never marked Date Out as empty, so the pill goes by its own emptiness */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4dtx:placeholder-shown{ background-color:#FFF8D6 !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4dtx:placeholder-shown:focus{ background-color:#fff !important; }
 
 /* ---------- Additional Charges: five ways to add (module). body.c5g1 … c5g5 ---------- */
 /* shared: the ghost row (always one empty row ready to fill) */
@@ -33500,7 +33503,7 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
 #c5famBar button.on{ background:#16181D; color:#fff; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Total Loss v72 · app 5.288</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5tlA c5h40 c5g3 c5lt">Light</button><button data-e="c5none">Today (5.288)</button></div>
+<div id="c5famBar"><span>Total Loss v73 · app 5.288</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5tlA c5h40 c5g3 c5lt">Light</button><button data-e="c5none">Today (5.288)</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
   document.body.classList.add("c5tlA","c5h40","c5g3");
