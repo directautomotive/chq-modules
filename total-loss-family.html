@@ -32797,6 +32797,12 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 /* Frank Oct 13 4:19 PM: the days-at-rate pill runs out to the charge pills' right edge — 8 before Total, like the charge rows */
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor > .c5sf.c5tot.c5tot.c5tot.c5tot.c5tot.c5tot{ margin-left:-8px; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor > .c5sf.c5rt.c5rt.c5rt.c5rt.c5rt.c5rt{ flex:0 0 calc(50% - 8px - 16px - 156px) !important; }
+/* Frank Oct 13 4:20 PM: the ready row is a typing box, so it looks like Today's boxes — white with the thin 1-px grey line; the real charge rows stay grey pills */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5ghost input{ background-color:#fff !important; border:1px solid #E4E5E1 !important; box-shadow:none !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5ghost input.n{ background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239AA1AB' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") right 12px center / 16px no-repeat !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5ghost input:focus{ border-color:#E8792B !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5ghost .p{ background:#fff !important; border:1px solid #E4E5E1 !important; box-shadow:none !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5taxrow.off > .c5tn, html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5taxrow.off input.c5zero, html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5taxrow.off > .c5tx{ background:#fff !important; border:1px solid #E4E5E1 !important; box-shadow:none !important; }
 
 /* ---------- Additional Charges: five ways to add (module). body.c5g1 … c5g5 ---------- */
 /* shared: the ghost row (always one empty row ready to fill) */
@@ -32858,10 +32864,10 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
 #c5famBar button.on{ background:#16181D; color:#fff; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Total Loss v68 · app 5.288</span><button data-e="c5tlA c5h40 c5g3 c5lt" class="on">Light</button><button data-e="c5tlA c5h40 c5g3">Grey</button><button data-e="c5none">Today (5.288)</button></div>
+<div id="c5famBar"><span>Total Loss v68 · app 5.288</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5tlA c5h40 c5g3 c5lt">Light</button><button data-e="c5none">Today (5.288)</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
-  document.body.classList.add("c5tlA","c5h40","c5g3","c5lt");
+  document.body.classList.add("c5tlA","c5h40","c5g3");
   document.querySelectorAll("#c5famBar button[data-e]").forEach(function(b){ b.addEventListener("click", function(){ document.querySelectorAll("#c5famBar button[data-e]").forEach(function(x){ x.classList.toggle("on", x===b); x.dataset.e.split(" ").forEach(function(c){ document.body.classList.remove(c); }); }); b.dataset.e.split(" ").forEach(function(c){ document.body.classList.add(c); }); }); });
   /* a test job, marked Total Loss, with 21 days of storage and a tow charge; Details open on the invoice */
   function iso(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
