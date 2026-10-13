@@ -32413,6 +32413,11 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 /* Storage Total pill (Frank Oct 13 2:41 PM): Days × Rate / Day, read-only, in dollars; the right group — Days, Rate / Day, Total, lock — is as wide as Pick Up and starts under it */
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor .c5sf.c5tot .c5amt{ width:120px; min-width:120px; }   /* same 120 as the Amount pills under it (Frank Oct 13 2:43 PM) */
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5stor input.c5stot{ width:100% !important; height:40px !important; min-height:0 !important; margin:0 !important; padding:0 14px 0 28px !important; border:0 !important; border-radius:20px !important; background:#F2F2F7 !important; box-shadow:none !important; color:#16181D !important; font:400 14px var(--v4-num, "Courier New", monospace) !important; text-align:right !important; text-align-last:right !important; box-sizing:border-box !important; cursor:default; }
+/* Frank Oct 13 2:44 PM: the left five pills (Start Date, End Date, Storage, Days, Rate / Day) spread evenly across the row up to Total; Total and the lock stay at the right edge */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-inline.c5stor{ gap:0 !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor > .c5sf:not(.c5tot):not(.c5lk){ margin-right:auto !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor > .c5sf.c5rt{ margin-left:0 !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor > .c5sf.c5lk{ margin-left:8px; }
 
 /* ---------- Additional Charges: five ways to add (module). body.c5g1 … c5g5 ---------- */
 /* shared: the ghost row (always one empty row ready to fill) */
@@ -32609,7 +32614,7 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
 #c5famBar button.on{ background:#16181D; color:#fff; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Total Loss v39 · app 5.285</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5none">Today (5.285)</button></div>
+<div id="c5famBar"><span>Total Loss v40 · app 5.285</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5none">Today (5.285)</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
   document.body.classList.add("c5tlA","c5h40","c5g3");
