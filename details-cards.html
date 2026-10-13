@@ -32272,18 +32272,114 @@ html body:is(.c5cA, .c5cB):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jo
 html body:is(.c5cA, .c5cB):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .jd-photo-actions .btn{ width:auto !important; max-width:none !important; white-space:nowrap; }
 html body:is(.c5cA, .c5cB):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .jd-photo-actions .btn-primary{ width:136px !important; }
 
-</style>
+/* ---------- Total Loss in the family (module). #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay = the Details overlay, five ids ---------- */
+/* titles inside the invoice card read like "Payments" */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-fieldset-title{ font:600 15px var(--v4-word, Inter, Arial), sans-serif !important; color:#16181D !important; margin:0 0 8px !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-fieldset{ padding:14px 0 !important; border-top:1px solid #ECECF0 !important; margin:0 !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-il{ font:500 12.5px var(--v4-word, Inter, Arial), sans-serif !important; color:#6C6C73 !important; }
+/* every select is the family pill: gray, 36 tall, round ends, the chevron pinned at the right */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay :is(select.tl-stype, #tl_taxmode){ -webkit-appearance:none !important; appearance:none !important; height:36px !important; min-height:0 !important; padding:0 34px 0 16px !important; border:0 !important; border-radius:18px !important; background:#F2F2F7 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2316181D' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") right 12px center / 16px no-repeat !important; box-shadow:none !important; color:#16181D !important; font:600 13px var(--v4-word, Inter, Arial), sans-serif !important; cursor:pointer; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay :is(select.tl-stype, #tl_taxmode):hover{ background-color:#E9E9EE !important; }
+/* money boxes: gray pills, numbers in the number font */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay :is(#tl_rate, #tl_taxrate, .tl-extra-row input[type=number]){ height:36px !important; padding:0 14px !important; border:0 !important; border-radius:18px !important; background:#F2F2F7 !important; box-shadow:none !important; color:#16181D !important; font:400 14px var(--v4-num, "Courier New", monospace) !important; text-align:right; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay :is(#tl_rate, #tl_taxrate, .tl-extra-row input[type=number]):focus{ background:#fff !important; box-shadow:inset 0 0 0 1.5px #E8792B !important; outline:0; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-inline{ gap:10px !important; }
+/* the lock: a round gray button like every small button */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-lock{ width:36px !important; height:36px !important; border:0 !important; border-radius:18px !important; background:#F2F2F7 !important; color:#16181D !important; box-shadow:none !important; display:inline-flex; align-items:center; justify-content:center; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-lock:hover{ background:#E9E9EE !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-lock.is-locked{ background:#16181D !important; color:#fff !important; }
+/* the day count: a white count pill */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-days{ height:36px !important; width:auto !important; padding:0 16px !important; border:0 !important; border-radius:18px !important; background:#fff !important; box-shadow:0 0 0 .5px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06) !important; color:#16181D !important; font:600 13px var(--v4-word, Inter, Arial), sans-serif !important; }
+/* charges: the row is name pill · amount pill · round x; the add row is the family add row with the green plus */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-extras{ gap:8px !important; margin:0 0 8px !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-extra-row{ gap:8px !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-extra-row .charge-name-wrap input[type=text]{ height:36px !important; padding:0 40px 0 16px !important; border:0 !important; border-radius:18px !important; background:#F2F2F7 !important; box-shadow:none !important; font:400 14px var(--v4-word, Inter, Arial), sans-serif !important; color:#16181D !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-extra-row .charge-name-wrap input[type=text]:focus{ background:#fff !important; box-shadow:inset 0 0 0 1.5px #E8792B !important; outline:0; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-extra-row .charge-browse{ width:36px !important; height:36px !important; right:0 !important; top:0 !important; border:0 !important; background:transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2316181D' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") center / 16px no-repeat !important; font-size:0 !important; color:transparent !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-extra-row input[type=number]{ width:120px !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-extra-row [data-x-del]{ position:relative; width:36px !important; min-width:36px !important; height:36px !important; min-height:0 !important; padding:0 !important; border:0 !important; border-radius:50% !important; background:#FBEAEA !important; font-size:0 !important; color:transparent !important; box-shadow:none !important; flex:none; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-extra-row [data-x-del]::after{ content:""; position:absolute; inset:0; background:#C0392B; -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 6l12 12M18 6L6 18'/%3E%3C/svg%3E") center/14px 14px no-repeat; mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 6l12 12M18 6L6 18'/%3E%3C/svg%3E") center/14px 14px no-repeat; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-extra-row [data-x-del]:hover{ background:#F5D5D5 !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #tlAddExtra{ display:inline-flex !important; align-items:center !important; gap:12px !important; height:44px !important; width:100% !important; max-width:none !important; margin:0 !important; padding:0 8px !important; border:0 !important; border-radius:22px !important; background:#F2F2F7 !important; filter:none !important; opacity:1 !important; color:#16181D !important; font:600 14px var(--v4-word, Inter, Arial), sans-serif !important; font-size:0 !important; box-shadow:none !important; text-align:left !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #tlAddExtra:hover{ background:#E9E9EE !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #tlAddExtra::before{ content:""; width:28px; height:28px; border-radius:14px; flex:none; background:var(--wf-greenbg, #E3F3E7) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231E7B34' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M12 6v12M6 12h12'/%3E%3C/svg%3E") center/14px no-repeat; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #tlAddExtra::after{ content:"Add Charge"; font:600 14px var(--v4-word, Inter, Arial), sans-serif; }
+/* the summary box stays exactly as today (Frank: "I really like it like this") */
+/* Print: the family pill, no emoji */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-print-row{ display:flex; justify-content:flex-end; margin-top:12px; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #tlPrintBtn{ width:136px !important; height:44px !important; min-height:0 !important; padding:0 !important; border:0 !important; border-radius:22px !important; background:#16181D !important; color:#fff !important; box-shadow:none !important; font-size:0 !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #tlPrintBtn::after{ content:"Print"; font:600 14px var(--v4-word, Inter, Arial), sans-serif; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #tlPrintBtn:hover{ background:#2C2F36 !important; }
+/* Estimates card on a Total Loss job: the paper is the invoice — no estimate or supplement rows */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box.v4tlg #jdPdfSection .est-doc, html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box.v4tlg #v4SupRows, html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box.v4tlg .v4supprow{ display:none !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box.v4tlg #jdPdfSection .c5inv{ display:flex !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5inv .v4chip{ cursor:default; }
+/* size: every pill in the card one height — 40 (Bill To's) or 44 (the footer buttons') */
+html body.c5tlA.c5h40:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay :is(select.tl-stype, #tl_taxmode, #tl_rate, #tl_taxrate, .tl-extra-row input[type=number], .tl-extra-row .charge-name-wrap input[type=text], .tl-lock, .tl-days, #jdTotalLoss .v4dtx){ height:40px !important; min-height:40px !important; border-radius:20px !important; }
+html body.c5tlA.c5h40:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-lock{ width:40px !important; } html body.c5tlA.c5h40:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-extra-row .charge-browse{ height:40px !important; width:40px !important; }
+html body.c5tlA.c5h40:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay :is(select.tl-stype, #tl_taxmode){ font-size:14px !important; } html body.c5tlA.c5h40:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-days{ font-size:14px !important; }
+html body.c5tlA.c5h44:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay :is(select.tl-stype, #tl_taxmode, #tl_rate, #tl_taxrate, .tl-extra-row input[type=number], .tl-extra-row .charge-name-wrap input[type=text], .tl-lock, .tl-days, #jdTotalLoss .v4dtx, #tl_billto, #tl_pickup){ height:44px !important; min-height:44px !important; border-radius:22px !important; }
+html body.c5tlA.c5h44:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-lock{ width:44px !important; } html body.c5tlA.c5h44:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-extra-row .charge-browse{ height:44px !important; width:44px !important; }
+html body.c5tlA.c5h44:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay :is(select.tl-stype, #tl_taxmode){ font-size:14px !important; } html body.c5tlA.c5h44:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-days{ font-size:14px !important; }
+html body.c5tlA.c5h44:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .v4dt{ height:44px !important; }
+
+/* a Total Loss job has no Estimates card at all — its paper is the invoice, its estimate PDFs live in Documents */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box.v4tlg{ height:0 !important; min-height:0 !important; margin:0 !important; padding:0 !important; border:0 !important; overflow:hidden !important; opacity:0; pointer-events:none; }
+/* the invoice card's title in red, with its icon */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box[data-v4box="Total Loss Invoice"] > .v4bh .v4bt{ color:#C0392B !important; }
+/* Payments lives inside the invoice card on a total loss (moved there by the script), with a line above */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box[data-v4box="Total Loss Invoice"] #v4JdPay{ margin-top:14px; padding-top:14px; border-top:1px solid #ECECF0; }
+/* the charge list that drops from a charge name: the family menu — white card, 22 corners, the shadow, 44 rows, price in the number font */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .charge-suggest{ top:calc(100% + 6px) !important; border:0 !important; border-radius:22px !important; padding:8px !important; box-shadow:0 0 0 .5px rgba(0,0,0,.10), 0 14px 36px rgba(0,0,0,.18) !important; max-height:320px !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .charge-opt{ height:44px !important; padding:0 14px !important; border:0 !important; border-radius:22px !important; font:400 14px var(--v4-word, Inter, Arial), sans-serif !important; color:#16181D !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .charge-opt + .charge-opt{ margin-top:2px; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .charge-opt:hover, html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .charge-opt.active{ background:#F2F2F7 !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .charge-opt .co-price{ font:400 14px var(--v4-num, "Courier New", monospace) !important; color:#6C6C73 !important; }
+/* estimate PDFs in Documents on a total loss (rows added by the script) */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4drow.c5tldoc .est-doc-label{ color:#16181D; }
+
+/* Policy does not apply on a Total Loss */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box[data-v4box="Total Loss Invoice"] .v4paypol{ display:none !important; }
+
+</style><script>
+/* Total Loss (module v3): on a Total Loss job the Estimates card is gone; Payments moves into the Total Loss Invoice card (under Print); the estimate and supplement PDFs show as rows in Documents. Everything is the app's own element moved or mirrored — nothing is re-made. */
+(function(){
+  var t = null;
+  function tl(){ var sw = document.getElementById("v4JdMode"); return !!(sw && sw.classList.contains("tl")); }
+  function build(){
+    var body = document.getElementById("jobDetailsBody"); if(!body) return;
+    var pay = document.getElementById("v4JdPay"), inv = document.getElementById("jdTotalLoss"), est = body.querySelector("#jdPdfSection"), estBox = est && est.closest(".v4box");
+    if(tl() && pay && inv){ var ib = inv.parentNode; if(ib && pay.parentNode !== ib) ib.appendChild(pay); }   /* beside #jdTotalLoss, not inside it: the card redraws its own insides on every change */
+    else if(pay && estBox && pay.parentNode !== estBox.querySelector(".v4bb")){ var bb = estBox.querySelector(".v4bb"); if(bb) bb.appendChild(pay); }
+    /* estimate PDFs as Documents rows */
+    var list = body.querySelector("#jdDocSection .doc-list"); if(!list) return;
+    var want = tl() ? [].slice.call(body.querySelectorAll("#jdPdfSection .est-doc[data-doc-kind]")).filter(function(r){ return r.querySelector(".attachment-chip"); }) : [];
+    var have = list.querySelectorAll(".c5tldoc");
+    if(have.length !== want.length){ have.forEach(function(x){ x.remove(); }); var sep = list.querySelector(".v4dsep");
+      want.forEach(function(r){ var kind = r.getAttribute("data-doc-kind"), chip = r.querySelector(".attachment-chip"), lab = r.querySelector(".est-doc-label");
+        var d = document.createElement("div"); d.className = "est-doc v4erow v4drow c5tldoc";
+        d.innerHTML = '<span class="est-doc-label">' + (lab ? lab.textContent.trim() : kind) + '</span><span class="attachment-chip v4chip" title="' + (chip.getAttribute("title") || "") + '">' + chip.innerHTML + '</span><button type="button" class="btn btn-secondary btn-small" data-c5tlview="' + kind + '">View</button><button type="button" class="btn btn-danger btn-small v4xbtn" data-c5tlrm="' + kind + '" title="Remove">✕</button><span class="v4sp"></span>';
+        if(sep) list.insertBefore(d, sep); else list.appendChild(d); }); }
+  }
+  var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
+  new MutationObserver(function(ms){ for(var i = 0; i < ms.length; i++){ var tg = ms[i].target; if(tg && tg.closest && tg.closest(".c5tldoc")) continue; clearTimeout(t); t = setTimeout(build, 40); return; } }).observe(ov, { childList:true, subtree:true, attributes:true, attributeFilter:["class"] });
+  ov.addEventListener("click", function(e){ var v = e.target.closest && e.target.closest("[data-c5tlview], [data-c5tlrm]"); if(!v) return; e.preventDefault(); e.stopImmediatePropagation();
+    var k = v.getAttribute("data-c5tlview") || v.getAttribute("data-c5tlrm"), sel = v.hasAttribute("data-c5tlview") ? '[data-doc-view="' + k + '"]' : '[data-doc-remove="' + k + '"]';
+    var real = document.querySelector("#jdPdfSection " + sel); if(real) real.click(); }, true);
+})();
+
+</script>
 <style id="c5famBarCss">
 #c5famBar{ position:fixed; left:50%; top:10px; transform:translateX(-50%); z-index:99999; display:flex; gap:2px; background:#fff; border-radius:22px; padding:3px; box-shadow:0 6px 24px rgba(0,0,0,.22); font-family:Inter, Arial, sans-serif; }
 #c5famBar button{ height:38px; padding:0 16px; border:0; border-radius:19px; background:transparent; font:600 14px Inter, Arial, sans-serif; color:#6C6C73; cursor:pointer; }
 #c5famBar button.on{ background:#16181D; color:#fff; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Details cards v1 · app 5.285</span><button data-e="c5cA" class="on">Pill rows</button><button data-e="c5cB">Pill rows + lines</button><button data-e="c5none">Today (5.285)</button></div>
+<div id="c5famBar"><span>Details cards v2 · app 5.285</span><button data-e="c5cA" class="on">Pill rows</button><button data-e="c5cB">Pill rows + lines</button><button data-e="c5none">Today (5.285)</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
-  document.body.classList.add("c5cA");
-  document.querySelectorAll("#c5famBar button[data-e]").forEach(function(b){ b.addEventListener("click", function(){ document.querySelectorAll("#c5famBar button[data-e]").forEach(function(x){ x.classList.toggle("on", x===b); document.body.classList.remove(x.dataset.e); }); document.body.classList.add(b.dataset.e); }); });
+  document.body.classList.add("c5cA","c5tlA","c5h40");
+  document.querySelectorAll("#c5famBar button[data-e]").forEach(function(b){ b.addEventListener("click", function(){ document.querySelectorAll("#c5famBar button[data-e]").forEach(function(x){ x.classList.toggle("on", x===b); document.body.classList.remove(x.dataset.e); }); document.body.classList.add(b.dataset.e); var fam = b.dataset.e !== "c5none"; document.body.classList.toggle("c5tlA", fam); document.body.classList.toggle("c5h40", fam); }); });
   var n=0, t=setInterval(function(){ n++; var ab0=document.getElementById("addJobBtn"); if(ab0 && document.body.classList.contains("chq-demo")){ clearInterval(t);
     ab0.click();
     setTimeout(function(){ var tj=document.getElementById("chooseTestJob"); if(tj) tj.click();
