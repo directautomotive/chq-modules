@@ -32326,6 +32326,27 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .v4dt .v4dtx{ background-color:#F2F2F7 !important; border:0 !important; box-shadow:none !important; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .v4dt .v4dtx.v4empty{ background-color:#FFF8D6 !important; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .v4dt .v4dtx:focus{ background-color:#fff !important; box-shadow:inset 0 0 0 1.5px #E8792B !important; }
+/* Outdoor lines up with Sep 28: the "Storage Fee" title and the "Storage Starts" label take the same width, so both pills start on the same line */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-fieldset:has(#tl_rate) > .tl-fieldset-title{ display:flex !important; align-items:center; gap:0 !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-fieldset:has(#tl_rate) > .tl-fieldset-title::before{ content:"Storage Fee"; display:inline-block; width:132px; margin-right:8px; flex:none; }   /* 132 + the row's 8 gap: Outdoor starts exactly where the Storage Starts date does */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-fieldset:has(#tl_rate) > .tl-fieldset-title{ font-size:0 !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-fieldset:has(#tl_rate) > .tl-fieldset-title::before{ font:600 15px var(--v4-word, Inter, Arial), sans-serif; color:#16181D; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-fieldset:has(#tl_rate) > .tl-fieldset-title > select.tl-stype{ font-size:14px !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-fieldset:has(#tl_rate) .tl-inline > .tl-il:first-child{ display:inline-block; width:132px; flex:none; }
+/* amounts: right-aligned, said with more weight than any app rule */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss #tlExtras input[data-x-amt], html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5ghost input.a, html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss #tl_rate, html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss #tl_taxrate{ text-align:right !important; text-align-last:right !important; direction:ltr; }   /* the app says text-align-last:left on every Details input (line 3621) — that is what kept the numbers at the left */
+
+/* money pills carry a dollar sign (Frank Oct 13): the script wraps each amount box in .c5amt; the $ sits at the left of the pill, the number at the right, like the Estimate amount boxes */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5amt{ position:relative; display:inline-flex; width:120px; min-width:120px; flex:none; margin:0; padding:0; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5amt > input{ width:100% !important; min-width:0 !important; padding-left:28px !important; padding-right:14px !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5amt::before{ content:"$"; position:absolute; left:14px; top:50%; transform:translateY(-50%); pointer-events:none; font:400 14px var(--v4-num, "Courier New", monospace); color:#6C6C73; line-height:1; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5amt:focus-within::before{ color:#16181D; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-fieldset:has(#tl_rate) .tl-inline > .c5amt{ order:1; }   /* the wrapper takes the Rate / Day box's place in the row */
+/* the invoice summary: the dollar sign stands in its own column and the numbers line up under each other, like Payments */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line > span.c5sm{ display:inline-flex !important; justify-content:space-between; align-items:center; width:124px; gap:8px; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line > span.c5sm > i{ font-style:normal; font-weight:400; color:#6C6C73; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line.tl-total > span.c5sm > i{ color:#C0392B; font-weight:700; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line > span.c5sm > b{ font-weight:inherit; }
 
 /* ---------- Additional Charges: five ways to add (module). body.c5g1 … c5g5 ---------- */
 /* shared: the ghost row (always one empty row ready to fill) */
@@ -32335,7 +32356,7 @@ html body:is(.c5g1, .c5g2, .c5g3, .c5g5):not(.chq5off) #jobDetailsOverlay#jobDet
 html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5ghost input{ height:40px !important; min-height:40px !important; border:0 !important; border-radius:20px !important; background:#F2F2F7 !important; box-shadow:none !important; color:#16181D !important; font:400 14px var(--v4-word, Inter, Arial), sans-serif !important; padding:0 16px !important; box-sizing:border-box !important; margin:0 !important; width:auto; }
 html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5ghost input:focus{ background:#fff !important; box-shadow:inset 0 0 0 1.5px #E8792B !important; outline:0 !important; }
 html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5ghost input.n{ flex:1 !important; width:auto !important; }
-html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5ghost input.a{ width:120px !important; flex:none !important; text-align:right !important; font:400 14px var(--v4-num, "Courier New", monospace) !important; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5ghost input.a{ width:100% !important; flex:none !important; text-align:right !important; font:400 14px var(--v4-num, "Courier New", monospace) !important; }
 html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5ghost input::placeholder{ color:#9A9AA3; }
 html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5ghost .p{ position:relative; width:36px; height:36px; flex:none; border:0; border-radius:50%; background:#F2F2F7; cursor:pointer; padding:0; }
 html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5ghost .p::after{ content:""; position:absolute; inset:0; background:#16181D; -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='M12 6v12M6 12h12'/%3E%3C/svg%3E") center/14px no-repeat; mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='M12 6v12M6 12h12'/%3E%3C/svg%3E") center/14px no-repeat; }
@@ -32431,10 +32452,14 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
 /* the summary box gets a title like the other parts of the card ("Invoice"), with the same line above; the card redraws its insides, so it is put back whenever it is missing */
 (function(){
   var t = null;
-  function build(){ var s = document.querySelector("#jdTotalLoss .tl-summary"); if(!s || (s.previousElementSibling && s.previousElementSibling.classList.contains("c5sumt"))) return;
-    var d = document.createElement("div"); d.className = "tl-fieldset-title c5sumt"; d.textContent = "Invoice"; s.parentNode.insertBefore(d, s); }
+  function build(){ var s = document.querySelector("#jdTotalLoss .tl-summary"); if(!s) return;
+    if(!(s.previousElementSibling && s.previousElementSibling.classList.contains("c5sumt"))){ var d = document.createElement("div"); d.className = "tl-fieldset-title c5sumt"; d.textContent = "Invoice"; s.parentNode.insertBefore(d, s); }
+    /* every money amount in the box: "$4,000.00" becomes a $ in its own column and the number — same as Payments */
+    s.querySelectorAll(".tl-line > span:last-child:not(.c5sm)").forEach(function(sp){ var m = /^\s*(-?)\$\s*([\d,]+\.\d{2})\s*$/.exec(sp.textContent); if(!m) return; sp.className += " c5sm"; sp.innerHTML = "<i>" + m[1] + "$</i><b>" + m[2] + "</b>"; });
+    /* every amount box gets a $ at its left: the box is wrapped, the wrapper draws the sign */
+    document.querySelectorAll("#jdTotalLoss #tl_rate, #jdTotalLoss #tlExtras input[data-x-amt]").forEach(function(inp){ if(inp.parentNode.classList.contains("c5amt")) return; var w = document.createElement("span"); w.className = "c5amt"; inp.parentNode.insertBefore(w, inp); w.appendChild(inp); }); }
   var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
-  new MutationObserver(function(ms){ for(var i = 0; i < ms.length; i++){ var tg = ms[i].target; if(tg && tg.classList && tg.classList.contains("c5sumt")) continue; build(); return; } }).observe(ov, { childList:true, subtree:true });   /* same frame as the redraw */
+  new MutationObserver(function(ms){ for(var i = 0; i < ms.length; i++){ var tg = ms[i].target; if(tg && tg.closest && tg.closest(".c5sumt, .c5sm, .c5amt")) continue; build(); return; } }).observe(ov, { childList:true, subtree:true });   /* same frame as the redraw */
   build();
 })();
 
@@ -32446,7 +32471,7 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
     if(!fs.querySelector(".c5chh")){ var h = document.createElement("div"); h.className = "c5chh"; h.innerHTML = '<span class="n">Charge</span><span class="a">Amount</span><span class="x"></span>'; ex.parentNode.insertBefore(h, ex); }
     if(fs.querySelector(".c5ghost")) return;
     var g = document.createElement("div"); g.className = "c5ghost";
-    g.innerHTML = '<input type="text" class="n" placeholder="Type a charge, or browse the list" autocomplete="off"><input type="text" class="a" placeholder="0.00" inputmode="decimal"><button type="button" class="p" aria-label="Add this charge"></button>';
+    g.innerHTML = '<input type="text" class="n" placeholder="Type a charge, or browse the list" autocomplete="off"><span class="c5amt"><input type="text" class="a" placeholder="0.00" inputmode="decimal"></span><button type="button" class="p" aria-label="Add this charge"></button>';
     ex.parentNode.insertBefore(g, ex.nextSibling);
     var n = g.querySelector(".n"), a = g.querySelector(".a");
     function commit(){ var name = n.value.trim(), amt = a.value.trim(); if(!name && !amt) return;
@@ -32470,7 +32495,7 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
 #c5famBar button.on{ background:#16181D; color:#fff; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Total Loss v20 · app 5.285</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5none">Today (5.285)</button></div>
+<div id="c5famBar"><span>Total Loss v21 · app 5.285</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5none">Today (5.285)</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
   document.body.classList.add("c5tlA","c5h40","c5g3");
