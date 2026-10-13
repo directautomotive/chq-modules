@@ -23875,10 +23875,13 @@ window.addEventListener("keydown", function(e){
         function set(el, v){ if(!el) return; el.value = v; el.dispatchEvent(new Event("input", { bubbles:true })); el.dispatchEvent(new Event("change", { bubbles:true })); }
         if(name) set(ni, name); if(amt) set(ai, amt); n.value = ""; a.value = ""; setTimeout(function(){ var gg = document.querySelector("#jdTotalLoss .c5ghost .n"); if(gg) gg.focus(); }, 60); }, 60); }
     /* the ready row searches like a real row (Frank Oct 13 3:41 PM): the first letter typed makes the real row and the typing carries on there, with the app's own suggestion list under it; the chevron opens the full list the same way */
-    function hand(text, browse){ var before = ex.querySelectorAll(".tl-extra-row").length; var add = document.getElementById("tlAddExtra"); if(add) add.click();
-      setTimeout(function(){ var rows = document.querySelectorAll("#tlExtras .tl-extra-row"); if(rows.length <= before) return; var r = rows[rows.length - 1], ni = r.querySelector("[data-x-desc]"); if(!ni) return;
-        n.value = ""; if(browse){ var bb = r.querySelector(".charge-browse"); if(bb) bb.click(); ni.focus(); return; }
-        ni.value = text; ni.focus(); try{ ni.setSelectionRange(text.length, text.length); }catch(e){} ni.dispatchEvent(new Event("input", { bubbles:true })); }, 60); }
+    var handing = false;
+    function hand(text, browse){ if(handing) return; handing = true; var before = ex.querySelectorAll(".tl-extra-row").length; var add = document.getElementById("tlAddExtra"); if(add) add.click();
+      var go = function(){ handing = false; var rows = document.querySelectorAll("#tlExtras .tl-extra-row"); if(rows.length <= before) return; var r = rows[rows.length - 1], ni = r.querySelector("[data-x-desc]"); if(!ni) return;
+        var typed = n.value; n.value = "";   /* whatever was typed up to this moment, not only the first letter (fast typing lost letters) */
+        if(browse){ var bb = r.querySelector(".charge-browse"); if(bb) bb.click(); ni.focus(); return; }
+        ni.value = typed; ni.focus(); try{ ni.setSelectionRange(typed.length, typed.length); }catch(e){} ni.dispatchEvent(new Event("input", { bubbles:true })); };
+      if(ex.querySelectorAll(".tl-extra-row").length > before) go(); else setTimeout(go, 60); }   /* the app redraws at once; the timeout is only a fallback */
     n.addEventListener("input", function(){ var v = n.value; if(v.trim()) hand(v, false); });
     n.addEventListener("click", function(e){ var r = n.getBoundingClientRect(); if(e.clientX > r.right - 40) hand("", true); });
     g.querySelector(".p").addEventListener("click", commit);
@@ -33417,6 +33420,16 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5ghost input, html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5ghost .p{ border-color:#C7CAD1 !important; }
 /* Frank Oct 13 4:26 PM: one focus glow everywhere — the 1.5-px orange ring, on the ready row too (its thin line gave it a thinner glow) */
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5ghost input:focus{ border-color:transparent !important; box-shadow:inset 0 0 0 1.5px #E8792B !important; background-color:#fff !important; }
+/* Frank Oct 13 4:33 PM: the "Create Custom Field" row (and its family: Add Documents, Add Photos, Add Supplement) is the ready row's twin — white, the 1-px line, grey words at the left, the outlined + circle at the right; no green */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody :is(.v4cfadd .btn, .v4supadd .btn, #jdAddDocsBtn, #jdAddPhotosBtn){ background:#fff !important; border:1px solid #C7CAD1 !important; box-shadow:none !important; color:#9A9AA3 !important; font:400 14px var(--v4-word, Inter, Arial), sans-serif !important; padding:0 2px 0 16px !important; height:40px !important; min-height:40px !important; border-radius:20px !important; gap:12px !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody :is(.v4cfadd .btn, .v4supadd .btn, #jdAddDocsBtn, #jdAddPhotosBtn):hover{ background:#F7F7F9 !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody :is(.v4cfadd .btn, .v4supadd .btn, #jdAddDocsBtn, #jdAddPhotosBtn)::before{ order:2; margin-left:auto; width:36px !important; height:36px !important; border-radius:50% !important; background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239AA1AB' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='M12 6v12M6 12h12'/%3E%3C/svg%3E") center/14px no-repeat !important; border:1px solid #C7CAD1; box-sizing:border-box; flex:none; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cfadd .btn:is(.btn, #c5x9){ font-size:0 !important; }   /* the old words go (the :is above carries an id, so this one does too) */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cfadd .btn::after{ content:"Add a custom field"; font:400 14px var(--v4-word, Inter, Arial), sans-serif; color:#9A9AA3; order:1; }
+/* Frank Oct 13 4:34 PM: Bill To and Pick Up are yellow while empty, like every empty box in Customer Details */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss :is(#tl_billto, #tl_pickup):placeholder-shown{ background-color:#FFF8D6 !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss :is(#tl_billto, #tl_pickup):placeholder-shown:focus{ background-color:#fff !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line.tl-total{ border-radius:23px !important; padding:0 16px !important; }   /* the red total row is a pill with round ends, like the family (Frank Oct 13 4:34 PM) */
 
 /* ---------- Additional Charges: five ways to add (module). body.c5g1 … c5g5 ---------- */
 /* shared: the ghost row (always one empty row ready to fill) */
@@ -33478,7 +33491,7 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
 #c5famBar button.on{ background:#16181D; color:#fff; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Total Loss v70 · app 5.288</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5tlA c5h40 c5g3 c5lt">Light</button><button data-e="c5none">Today (5.288)</button></div>
+<div id="c5famBar"><span>Total Loss v71 · app 5.288</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5tlA c5h40 c5g3 c5lt">Light</button><button data-e="c5none">Today (5.288)</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
   document.body.classList.add("c5tlA","c5h40","c5g3");
