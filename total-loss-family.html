@@ -32263,6 +32263,219 @@ window.addEventListener("keydown", function(e){
   initApp();
   initCloud();
 
+
+/* ===== module script (CHQ Modules) ===== */
+/* Total Loss (module v3): on a Total Loss job the Estimates card is gone; Payments moves into the Total Loss Invoice card (under Print); the estimate and supplement PDFs show as rows in Documents. Everything is the app's own element moved or mirrored — nothing is re-made. */
+(function(){
+  var t = null;
+  function tl(){ var sw = document.getElementById("v4JdMode"); return !!(sw && sw.classList.contains("tl")); }
+  function build(){
+    var body = document.getElementById("jobDetailsBody"); if(!body) return;
+    var pay = document.getElementById("v4JdPay"), inv = document.getElementById("jdTotalLoss"), est = body.querySelector("#jdPdfSection"), estBox = est && est.closest(".v4box");
+    if(tl() && pay && inv){ var ib = inv.parentNode; if(ib && pay.parentNode !== ib) ib.appendChild(pay); }   /* beside #jdTotalLoss, not inside it: the card redraws its own insides on every change */
+    else if(pay && estBox && pay.parentNode !== estBox.querySelector(".v4bb")){ var bb = estBox.querySelector(".v4bb"); if(bb) bb.appendChild(pay); }
+    /* estimate PDFs as Documents rows */
+    var list = body.querySelector("#jdDocSection .doc-list"); if(!list) return;
+    var want = tl() ? [].slice.call(body.querySelectorAll("#jdPdfSection .est-doc[data-doc-kind]")).filter(function(r){ return r.querySelector(".attachment-chip"); }) : [];
+    var have = list.querySelectorAll(".c5tldoc");
+    if(have.length !== want.length){ have.forEach(function(x){ x.remove(); }); var sep = list.querySelector(".v4dsep");
+      want.forEach(function(r){ var kind = r.getAttribute("data-doc-kind"), chip = r.querySelector(".attachment-chip"), lab = r.querySelector(".est-doc-label");
+        var d = document.createElement("div"); d.className = "est-doc v4erow v4drow c5tldoc";
+        d.innerHTML = '<span class="est-doc-label">' + (lab ? lab.textContent.trim() : kind) + '</span><span class="attachment-chip v4chip" title="' + (chip.getAttribute("title") || "") + '">' + chip.innerHTML + '</span><button type="button" class="btn btn-secondary btn-small" data-c5tlview="' + kind + '">View</button><button type="button" class="btn btn-danger btn-small v4xbtn" data-c5tlrm="' + kind + '" title="Remove">✕</button><span class="v4sp"></span>';
+        if(sep) list.insertBefore(d, sep); else list.appendChild(d); }); }
+  }
+  var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
+  new MutationObserver(function(ms){ for(var i = 0; i < ms.length; i++){ var tg = ms[i].target; if(tg && tg.closest && tg.closest(".c5tldoc")) continue; clearTimeout(t); t = setTimeout(build, 40); return; } }).observe(ov, { childList:true, subtree:true, attributes:true, attributeFilter:["class"] });
+  ov.addEventListener("click", function(e){ var v = e.target.closest && e.target.closest("[data-c5tlview], [data-c5tlrm]"); if(!v) return; e.preventDefault(); e.stopImmediatePropagation();
+    var k = v.getAttribute("data-c5tlview") || v.getAttribute("data-c5tlrm"), sel = v.hasAttribute("data-c5tlview") ? '[data-doc-view="' + k + '"]' : '[data-doc-remove="' + k + '"]';
+    var real = document.querySelector("#jdPdfSection " + sel); if(real) real.click(); }, true);
+})();
+/* Bill To dropdown: Copart and IAA on top, a line, then the insurance companies from Settings (read off the Insurance list in Customer Details). Picking one writes the box and fires the app's own input/change. Typing still works. */
+(function(){
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]; }); }
+  function wire(){
+    var inp = document.getElementById("tl_billto"); if(!inp || inp.parentNode.classList.contains("c5btw")) return;
+    var w = document.createElement("div"); w.className = "c5btw"; inp.parentNode.insertBefore(w, inp); w.appendChild(inp);
+    var m = document.createElement("div"); m.className = "c5btm"; w.appendChild(m);
+    function names(){ var out = ["Copart", "IAA"], seen = { copart:1, iaa:1 }; document.querySelectorAll("#jd_insurance option").forEach(function(o){ var v = o.value.trim(); if(!v || /^(unknown|other|customer pay)$/i.test(v) || seen[v.toLowerCase()]) return; seen[v.toLowerCase()] = 1; out.push(v); }); return out; }
+    function draw(){ var cur = inp.value.trim().toLowerCase(), list = names(), h = "";
+      list.forEach(function(n, i){ if(i === 2) h += "<hr>"; h += '<button type="button" data-v="' + esc(n) + '"' + (n.toLowerCase() === cur ? ' class="on"' : '') + '>' + esc(n) + '</button>'; });
+      if(m.innerHTML !== h) m.innerHTML = h; }
+    function open(){ draw(); w.classList.add("open"); } function close(){ w.classList.remove("open"); }
+    inp.addEventListener("click", function(){ if(w.classList.contains("open")) close(); else open(); });
+    inp.addEventListener("input", function(){ if(w.classList.contains("open")) draw(); });
+    m.addEventListener("mousedown", function(e){ e.preventDefault(); });
+    m.addEventListener("click", function(e){ var b = e.target.closest("button[data-v]"); if(!b) return; inp.value = b.getAttribute("data-v"); inp.dispatchEvent(new Event("input", { bubbles:true })); inp.dispatchEvent(new Event("change", { bubbles:true })); close(); });
+    document.addEventListener("click", function(e){ if(!w.contains(e.target)) close(); });
+    document.addEventListener("keydown", function(e){ if(e.key === "Escape" && w.classList.contains("open")){ e.stopImmediatePropagation(); close(); } }, true);
+  }
+  var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
+  new MutationObserver(function(){ var i = document.getElementById("tl_billto"); if(i && !i.parentNode.classList.contains("c5btw")) wire(); }).observe(ov, { childList:true, subtree:true });
+})();
+/* the summary box gets a title like the other parts of the card ("Invoice"), with the same line above; the card redraws its insides, so it is put back whenever it is missing */
+(function(){
+  var t = null;
+  function build(){ var s = document.querySelector("#jdTotalLoss .tl-summary"); if(!s) return;
+    if(!(s.previousElementSibling && s.previousElementSibling.classList.contains("c5sumt"))){ var d = document.createElement("div"); d.className = "tl-fieldset-title c5sumt"; d.textContent = "Invoice"; s.parentNode.insertBefore(d, s); }
+    s.querySelectorAll(".tl-line > span:first-child > em").forEach(function(em){ if(em.textContent.trim() === "exempt") em.textContent = "Exempt"; });   /* capital E (Frank Oct 13 4:09 PM) */
+    /* every money amount in the box: "$4,000.00" becomes a $ in its own column and the number — same as Payments */
+    s.querySelectorAll(".tl-line > span:last-child:not(.c5sm)").forEach(function(sp){ var m = /^\s*(-?)\$\s*(-?)([\d,]+\.\d{2})\s*$/.exec(sp.textContent); if(!m) return; var neg = !!(m[1] || m[2]); sp.className += " c5sm" + (neg ? " c5minus" : ""); sp.innerHTML = "<i>$</i><b>" + (neg ? "\u2212" : "") + m[3] + "</b>"; });   /* the minus sits right before the number; the $ stays in its column (Frank Oct 13 3:46 PM) */
+    /* Sales Tax is the last row of the charge list (Frank Oct 13 10:31 AM): the old Sales Tax section is hidden, its two controls move into a charge-shaped row under the ready row */
+    var r = document.getElementById("tl_taxrate"), m = document.getElementById("tl_taxmode"), ex = document.getElementById("tlExtras");
+    if(r && m && ex){ var fs = r.closest(".tl-fieldset"); if(fs && !fs.querySelector(".tl-summary") && !fs.querySelector("#tlExtras")) fs.classList.add("c5taxfs");
+      /* Sales Tax through the charge list (Frank Oct 13 4:13 PM): exempt is the standard and shows nothing; a charge row named "Sales Tax" (typed or picked) turns the tax on — its amount, if one was typed and it is 100 or less, is the rate — and the row itself goes away, the real Sales Tax row takes its place */
+      (function(){ var rows = ex.querySelectorAll(".tl-extra-row"); for(var i = 0; i < rows.length; i++){ var d = rows[i].querySelector("[data-x-desc]"), a = rows[i].querySelector("[data-x-amt]"); if(!d || !/^sales\s*tax$/i.test(d.value.trim()) || document.activeElement === d || document.activeElement === a) continue;
+        var v = parseFloat(a && a.value) || 0;
+        /* one step per redraw (each change redraws the card): the rate, then tax on, then the helper row goes */
+        if(v > 0 && v <= 100 && String(parseFloat(r.value)) !== String(v)){ r.value = String(v); r.dispatchEvent(new Event("change", { bubbles:true })); return; }
+        if(m.value !== "all"){ m.value = "all"; m.dispatchEvent(new Event("change", { bubbles:true })); return; }
+        var x = rows[i].querySelector("[data-x-del]"); if(x) x.click(); return; } })();
+      if(!ex.parentNode.querySelector(".c5taxrow")){ var ex0 = (m.value === "waived"); var row = document.createElement("div"); row.className = "c5taxrow" + (ex0 ? " off" : "");
+        row.innerHTML = '<span class="c5tn">Sales Tax' + (ex0 ? ' <em>Exempt</em>' : '') + '</span><span class="c5amt c5pc">' + (ex0 ? '<input type="text" class="c5zero" value="0.00" readonly tabindex="-1">' : '') + '</span><button type="button" class="c5tx" aria-label="' + (ex0 ? "Charge sales tax again" : "Make this invoice tax exempt") + '" title="' + (ex0 ? "Charge sales tax again" : "Tax exempt — no sales tax on this invoice") + '"></button>';
+        if(ex0) r.classList.add("c5hid"); row.querySelector(".c5pc").appendChild(r); m.classList.add("c5hid");
+        if(!ex0){ /* taxable (Frank Oct 13 2:25 PM): the pill shows the tax in dollars like every other amount; click it to see and type the rate with its %, Enter or leaving the box puts the dollars back */
+          var taxLine = null; s.querySelectorAll(".tl-line").forEach(function(l){ var f = l.querySelector("span:first-child"); if(!taxLine && f && /^Sales Tax/.test(f.textContent.trim())) taxLine = l; });
+          var amtTxt = taxLine ? ((taxLine.querySelector(".c5sm b") || taxLine.querySelector("span:last-child")).textContent.replace(/[^\d.,-]/g, "")) : "0.00";
+          var pc = row.querySelector(".c5pc"); var a = document.createElement("input"); a.type = "text"; a.className = "c5taxamt"; a.readOnly = true; a.value = amtTxt; a.title = "Click to change the tax rate"; pc.insertBefore(a, r); r.classList.add("c5hid"); pc.classList.add("c5showamt");
+          a.addEventListener("focus", function(){ pc.classList.remove("c5showamt"); a.classList.add("c5hid"); r.classList.remove("c5hid"); r.focus(); r.select(); });
+          r.addEventListener("keydown", function(e){ if(e.key === "Enter"){ e.preventDefault(); r.blur(); } });
+          r.addEventListener("blur", function(){ r.dispatchEvent(new Event("change", { bubbles:true })); });   /* the card redraws with the new rate and the dollars come back */
+        }   /* exempt: the pill reads 0.00, the real rate waits hidden for when tax comes back */
+        /* no dropdown on this row (Frank Oct 13 10:50 AM) — the × and the + are the only switch */
+
+        /* (a leftover document click listener from the dropdown days was here — it threw "w is not defined" on every click; gone, Frank Oct 13 4:12 PM) */
+        var flip = function(){ m.value = (m.value === "waived") ? "all" : "waived"; m.dispatchEvent(new Event("change", { bubbles:true })); }; row.querySelector(".c5tx").addEventListener("click", flip); row.querySelector(".c5tn").addEventListener("click", flip);   /* the circle or the words — either flips it */
+        var g = ex.parentNode.querySelector(".c5ghost"); ex.parentNode.insertBefore(row, ex0 ? (g ? g.nextSibling : ex.nextSibling) : (g || ex.nextSibling));   /* taxable: with the real charges, above the ready row; exempt: under it (Frank Oct 13 2:26 PM) */ } }
+    /* every amount box gets a $ at its left: the box is wrapped, the wrapper draws the sign */
+    document.querySelectorAll("#jdTotalLoss #tl_rate, #jdTotalLoss #tlExtras input[data-x-amt]").forEach(function(inp){ if(inp.parentNode.classList.contains("c5amt")) return; var w = document.createElement("span"); w.className = "c5amt"; inp.parentNode.insertBefore(w, inp); w.appendChild(inp); }); }
+  var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
+  new MutationObserver(function(ms){ for(var i = 0; i < ms.length; i++){ var tg = ms[i].target; if(tg && tg.closest && tg.closest(".c5sumt, .c5sm, .c5amt, .c5taxrow")) continue; build(); return; } }).observe(ov, { childList:true, subtree:true });   /* same frame as the redraw */
+  build();
+})();
+
+/* the Storage Fee row: labels over pills, in reading order — Start Date, End Date, Storage (Outdoor / Indoor, moved down from the title), then at the right Rate / Day, Days and the lock. Elements are moved, never copied, so the app's own listeners stay; rebuilt in the same frame as the card's redraw */
+(function(){
+  function cell(label, el, cls){ var c = document.createElement("span"); c.className = "c5sf" + (cls ? " " + cls : ""); var l = document.createElement("span"); l.className = "tl-il"; l.textContent = label; c.appendChild(l); c.appendChild(el); return c; }
+  function build(){ var fs = document.querySelector("#jdTotalLoss .tl-fieldset:has(#tl_rate)"); if(!fs) return; var row = fs.querySelector(".tl-inline"); if(!row || row.classList.contains("c5stor")) return;
+    var st = fs.querySelector("select.tl-stype"), d1 = row.querySelector("#tl_start"), d2 = row.querySelector("#tl_end"), lock = row.querySelector(".tl-lock"), rate = row.querySelector("#tl_rate"), days = row.querySelector(".tl-days"); if(!st || !d1 || !d2 || !rate) return;
+    var w1 = d1.closest(".v4dt") || d1, w2 = d2.closest(".v4dt") || d2, wr = rate.closest(".c5amt") || rate;
+    row.classList.add("c5stor"); row.querySelectorAll(":scope > .tl-il").forEach(function(l){ l.remove(); });
+    row.appendChild(cell("Start Date", w1)); row.appendChild(cell("End Date", w2)); row.appendChild(cell("Storage", st));
+    /* one pill for the storage math (Frank Oct 13 3:00 PM): "9 days @ $ 250" — the day count is words inside it, the rate is the box you type in */
+    var dr = document.createElement("span"); dr.className = "c5dr"; if(days){ days.classList.add("c5dtxt"); dr.appendChild(days); } var at = document.createElement("span"); at.className = "c5at"; at.textContent = "at"; dr.appendChild(at); dr.appendChild(wr); var pd = document.createElement("span"); pd.className = "c5at c5pd"; pd.textContent = "per day"; dr.appendChild(pd);   /* "11 days at $250 per day", centered (Frank Oct 13 3:22 PM) */
+    row.appendChild(cell("Days · Storage Rate", dr, "c5rt"));
+    var nd = parseInt((days ? days.textContent : "0").replace(/[^\d]/g, ""), 10) || 0, rt = parseFloat(rate.value) || 0, tot = nd * rt;
+    var tw = document.createElement("span"); tw.className = "c5amt"; var ti = document.createElement("input"); ti.type = "text"; ti.className = "c5stot"; ti.readOnly = true; ti.tabIndex = -1; ti.value = tot.toLocaleString("en-US", { minimumFractionDigits:2, maximumFractionDigits:2 }); tw.appendChild(ti);
+    row.appendChild(cell("Total", tw, "c5tot")); if(lock) row.appendChild(cell("Lock", lock, "c5lk")); }
+  var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
+  new MutationObserver(function(ms){ for(var i = 0; i < ms.length; i++){ var tg = ms[i].target; if(tg && tg.closest && tg.closest(".c5stor")) continue; build(); return; } }).observe(ov, { childList:true, subtree:true });
+  build();
+})();
+
+/* the Sales Tax row: "Tax Rate" over the rate pill with its %, "Taxable" over the dropdown (same labelled-pill row as Storage) */
+(function(){
+  function cell(label, el){ var c = document.createElement("span"); c.className = "c5sf"; var l = document.createElement("span"); l.className = "tl-il"; l.textContent = label; c.appendChild(l); c.appendChild(el); return c; }
+  function build(){ var r = document.getElementById("tl_taxrate"), m = document.getElementById("tl_taxmode"); if(!r || !m) return; var row = r.closest(".tl-inline"); if(!row || row.classList.contains("c5taxr")) return;
+    var pct = row.querySelector(":scope > .tl-il"); row.classList.add("c5taxr");
+    var g = document.createElement("span"); g.className = "c5pct"; g.appendChild(r); if(pct) g.appendChild(pct);
+    row.appendChild(cell("Tax Rate", g)); row.appendChild(cell("Sales Tax", m)); }
+  var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
+  new MutationObserver(function(ms){ for(var i = 0; i < ms.length; i++){ var tg = ms[i].target; if(tg && tg.closest && tg.closest(".c5taxr")) continue; build(); return; } }).observe(ov, { childList:true, subtree:true });
+  build();
+})();
+/* Paid / Not Paid (Frank Oct 13 3:27 PM, 3:37 PM): on a Total Loss the Payments section goes away. The Print row carries it: at the left a pill — ✕ Not Paid (red) / ✓ Paid (green), one fixed size — Print stays at the right. The pill flips the app's own Invoice paid mark (the [data-v4ck="e"] button inside Payments, job.estimate1Paid), so the board's paid / balance numbers stay right. */
+(function(){
+  function build(){
+    var pay = document.getElementById("v4JdPay"), pr = document.querySelector("#jdTotalLoss .tl-print-row"); if(!pay || !pr) return;
+    var tl = document.querySelector('#v4JdMode button[data-v4mode="tl"].on'); if(!tl){ var old = pr.querySelector(".c5paid"); if(old) old.remove(); return; }
+    var ck = pay.querySelector('[data-v4ck="e"]'), paid = !!(ck && ck.classList.contains("ok"));
+    var b = pr.querySelector(".c5paid");
+    if(!b){ b = document.createElement("button"); b.type = "button"; b.className = "c5paid"; b.innerHTML = '<i></i><span></span>'; pr.insertBefore(b, pr.firstChild);
+      b.addEventListener("click", function(){ var x = document.querySelector('#v4JdPay [data-v4ck="e"]'); if(x) x.click(); setTimeout(build, 0); }); }
+    b.classList.toggle("on", paid); b.querySelector("span").textContent = paid ? "Paid" : "Not Paid"; b.title = paid ? "Click to mark it not paid" : "Click to mark it paid";
+  }
+  var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
+  new MutationObserver(function(ms){ for(var i = 0; i < ms.length; i++){ var tg = ms[i].target; if(tg && tg.closest && tg.closest(".c5paid")) continue; build(); return; } }).observe(ov, { childList:true, subtree:true, attributes:true, attributeFilter:["class"] });
+  build();
+})();
+/* Negotiated Total as a charge row (Frank Oct 13 3:37 PM): the last fixed row of the charge list, like Sales Tax — outlined and empty ("Full invoice") with a +; type the number agreed with Copart / the insurer and it becomes a filled row with a ×. Behind it one hidden charge, "Negotiated Settlement", holds the difference (a minus), so the Invoice box shows the write-down and Current Total Charges reads the agreed number. × clears it. */
+(function(){
+  try{ var ct1 = chargeTypes; chargeTypes = function(){ var l = ct1.apply(this, arguments).slice(); if(!l.some(function(c){ return c && /^sales\s*tax$/i.test(c.name || ""); })) l.push({ name:"Sales Tax", price:0 }); return l; }; }catch(e){ console.warn("sales tax in the charge list", e); }
+  var NEG = "Negotiated Settlement";
+  function negRow(){ var rows = document.querySelectorAll("#tlExtras .tl-extra-row"); for(var i = 0; i < rows.length; i++){ var d = rows[i].querySelector("[data-x-desc]"); if(d && d.value.trim() === NEG) return rows[i]; } return null; }
+  function totalNow(){ var t = document.querySelector("#jdTotalLoss .tl-line.tl-total > span:last-child"); return parseFloat((t ? t.textContent : "0").replace(/[^\d.-]/g, "")) || 0; }
+  function fmt(n){ return n.toLocaleString("en-US", { minimumFractionDigits:2, maximumFractionDigits:2 }); }
+  function set(el, v){ el.value = v; el.dispatchEvent(new Event("input", { bubbles:true })); el.dispatchEvent(new Event("change", { bubbles:true })); }
+  function apply(agreed){
+    var r = negRow();
+    if(!agreed){ if(r){ var x = r.querySelector("[data-x-del]"); if(x) x.click(); } return; }
+    var cur = totalNow(), have = r ? (parseFloat(r.querySelector("[data-x-amt]").value) || 0) : 0;   /* a plus "have" is the agreed number just typed, not yet a minus */
+    var tm = document.getElementById("tl_taxmode"), tr = document.getElementById("tl_taxrate"), rate = (tm && tm.value !== "waived") ? (parseFloat(tr && tr.value) || 0) / 100 : 0;
+    var full = cur - have * (1 + rate);   /* the invoice without the settlement line */
+    var adj = Math.round(((agreed - full) / (1 + rate)) * 100) / 100;   /* taxable: the minus is taxed too, so it is scaled back */
+    if(adj >= 0){ if(r){ var x2 = r.querySelector("[data-x-del]"); if(x2) x2.click(); } else { var ni = document.querySelector("#jdTotalLoss .c5negin"); if(ni) ni.value = ""; } return; }   /* agreed at the full amount or more: nothing to take off */
+    if(r){ set(r.querySelector("[data-x-amt]"), String(adj)); return; }
+    var before = document.querySelectorAll("#tlExtras .tl-extra-row").length, add = document.getElementById("tlAddExtra"); if(add) add.click();
+    setTimeout(function(){ var rows = document.querySelectorAll("#tlExtras .tl-extra-row"); if(rows.length <= before) return; var nr = rows[rows.length - 1]; set(nr.querySelector("[data-x-desc]"), NEG); setTimeout(function(){ var r2 = negRow(); if(r2) set(r2.querySelector("[data-x-amt]"), String(adj)); }, 80); }, 80);
+  }
+  /* the charge list already has "Negotiated Settlement" (Frank Oct 13 3:41 PM: "searchable, like type a charge or browse the list"). Type it in the ready row or pick it, give it the number agreed — a plus number, never a minus — and the row becomes the settlement: the minus is worked out, the row reads "Negotiated Total $1,000.00". */
+  var converting = false;
+  function convert(){ if(converting) return; var rows = document.querySelectorAll("#tlExtras .tl-extra-row"); for(var i = 0; i < rows.length; i++){ var d = rows[i].querySelector("[data-x-desc]"), a = rows[i].querySelector("[data-x-amt]"); if(!d || !a) continue; var nm = d.value.trim(); if((nm === NEG || nm === "Negotiated Total") && (parseFloat(a.value) || 0) > 0 && document.activeElement !== a && document.activeElement !== d){ var agreed = parseFloat(a.value); converting = true; if(nm !== NEG) set(d, NEG); setTimeout(function(){ converting = false; apply(agreed); }, 80); return; } } }
+  function build(){
+    var ex = document.getElementById("tlExtras"); if(!ex) return; var host = ex.parentNode; convert();
+    document.querySelectorAll("#tlExtras .tl-extra-row").forEach(function(rw){ var d = rw.querySelector("[data-x-desc]"), a = rw.querySelector("[data-x-amt]"); rw.classList.toggle("c5hidneg", !!(d && a && d.value.trim() === NEG && (parseFloat(a.value) || 0) < 0)); });
+    if(host.querySelector(".c5negrow")) return;
+    var r = negRow(), on = !!(r && (parseFloat(r.querySelector("[data-x-amt]").value) || 0) < 0); if(!on) return;   /* the row shows only once a number is agreed (the minus is in) */
+    var row = document.createElement("div"); row.className = "c5negrow" + (on ? "" : " off");
+    row.innerHTML = '<span class="c5tn">Negotiated Total' + (on ? '' : '') + '</span><span class="c5amt c5pc"><input type="text" class="c5negin" inputmode="decimal" placeholder="0.00"></span><button type="button" class="c5tx" aria-label="' + (on ? "Back to the full invoice" : "Set the agreed total") + '"></button>';
+    var inp = row.querySelector(".c5negin"); if(on) inp.value = fmt(totalNow());
+    function commit(){ apply(parseFloat(inp.value.replace(/[^\d.]/g, "")) || 0); }
+    inp.addEventListener("keydown", function(e){ if(e.key === "Enter"){ e.preventDefault(); inp.blur(); } });
+    inp.addEventListener("blur", function(){ setTimeout(commit, 0); });
+    row.querySelector(".c5tx").addEventListener("click", function(){ if(on) apply(0); else { inp.focus(); } });
+    /* filled: with the real charges (after a taxable Sales Tax row, before the ready row); empty: under the Sales Tax row */
+    var g = host.querySelector(".c5ghost"), tx = host.querySelector(".c5taxrow");
+    if(on){ var tOn = tx && !tx.classList.contains("off") ? tx : null; host.insertBefore(row, (tOn || ex).nextSibling); if(g && g.compareDocumentPosition(row) & Node.DOCUMENT_POSITION_PRECEDING) host.insertBefore(row, g); }
+    else { var last = (tx && tx.classList.contains("off")) ? tx : (g || ex); host.insertBefore(row, last.nextSibling); }
+  }
+  var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
+  new MutationObserver(function(ms){ for(var i = 0; i < ms.length; i++){ var tg = ms[i].target; if(tg && tg.closest && tg.closest(".c5negrow")) continue; build(); return; } }).observe(ov, { childList:true, subtree:true });
+  ov.addEventListener("focusout", function(e){ if(e.target && e.target.matches && e.target.matches("#tlExtras [data-x-amt]")) setTimeout(convert, 120); });   /* the amount typed, the box left: convert */
+  build();
+})();
+
+/* the ready row: one empty charge row under the list. Typing a name or an amount and pressing Enter, or clicking +, adds a real charge through the app's own + button and moves the words into it. */
+(function(){
+  var t = null;
+  function build(){
+    var fs = document.querySelector("#jdTotalLoss .tl-fieldset:has(#tlAddExtra)"), ex = document.getElementById("tlExtras"); if(!fs || !ex) return;
+    if(!fs.querySelector(".c5chh")){ var h = document.createElement("div"); h.className = "c5chh"; h.innerHTML = '<span class="n">Charge</span><span class="a">Amount</span><span class="x"></span>'; ex.parentNode.insertBefore(h, ex); }
+    if(fs.querySelector(".c5ghost")) return;
+    var g = document.createElement("div"); g.className = "c5ghost";
+    g.innerHTML = '<input type="text" class="n" placeholder="Type a charge, or browse the list" autocomplete="off"><span class="c5amt"><input type="text" class="a" placeholder="0.00" inputmode="decimal"></span><button type="button" class="p" aria-label="Add this charge"></button>';
+    var ons = ex.parentNode.querySelectorAll(".c5taxrow:not(.off), .c5negrow:not(.off)"), tr = ons.length ? ons[ons.length - 1] : null; ex.parentNode.insertBefore(g, (tr || ex).nextSibling);   /* under the real charges — a taxable Sales Tax row counts as one */
+    var n = g.querySelector(".n"), a = g.querySelector(".a");
+    function commit(){ var name = n.value.trim(), amt = a.value.trim(); if(!name && !amt) return;
+      var before = ex.querySelectorAll(".tl-extra-row").length; var add = document.getElementById("tlAddExtra"); if(add) add.click();
+      setTimeout(function(){ var rows = document.querySelectorAll("#tlExtras .tl-extra-row"); if(rows.length <= before) return; var r = rows[rows.length - 1], ni = r.querySelector("[data-x-desc]"), ai = r.querySelector("[data-x-amt]");
+        function set(el, v){ if(!el) return; el.value = v; el.dispatchEvent(new Event("input", { bubbles:true })); el.dispatchEvent(new Event("change", { bubbles:true })); }
+        if(name) set(ni, name); if(amt) set(ai, amt); n.value = ""; a.value = ""; setTimeout(function(){ var gg = document.querySelector("#jdTotalLoss .c5ghost .n"); if(gg) gg.focus(); }, 60); }, 60); }
+    /* the ready row searches like a real row (Frank Oct 13 3:41 PM): the first letter typed makes the real row and the typing carries on there, with the app's own suggestion list under it; the chevron opens the full list the same way */
+    function hand(text, browse){ var before = ex.querySelectorAll(".tl-extra-row").length; var add = document.getElementById("tlAddExtra"); if(add) add.click();
+      setTimeout(function(){ var rows = document.querySelectorAll("#tlExtras .tl-extra-row"); if(rows.length <= before) return; var r = rows[rows.length - 1], ni = r.querySelector("[data-x-desc]"); if(!ni) return;
+        n.value = ""; if(browse){ var bb = r.querySelector(".charge-browse"); if(bb) bb.click(); ni.focus(); return; }
+        ni.value = text; ni.focus(); try{ ni.setSelectionRange(text.length, text.length); }catch(e){} ni.dispatchEvent(new Event("input", { bubbles:true })); }, 60); }
+    n.addEventListener("input", function(){ var v = n.value; if(v.trim()) hand(v, false); });
+    n.addEventListener("click", function(e){ var r = n.getBoundingClientRect(); if(e.clientX > r.right - 40) hand("", true); });
+    g.querySelector(".p").addEventListener("click", commit);
+    [n, a].forEach(function(el){ el.addEventListener("keydown", function(e){ if(e.key === "Enter"){ e.preventDefault(); commit(); } }); });
+    a.addEventListener("blur", function(){ if(n.value.trim() && a.value.trim()) commit(); });
+  }
+  var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
+  new MutationObserver(function(ms){ for(var i = 0; i < ms.length; i++){ var tg = ms[i].target; if(tg && tg.closest && tg.closest(".c5ghost, .c5chh")) continue; build(); return; } }).observe(ov, { childList:true, subtree:true });   /* same frame as the card's redraw — nothing under it moves */
+  build();
+})();
+
 })();
 </script>
 <style id="c5tlCss">
@@ -32579,6 +32792,8 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line > span:first-child > em{ margin:0 !important; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line.tl-total > span:first-child{ display:block; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4box[data-v4box="Total Loss Invoice"] > .v4bh .v4hsep{ background:#C0392B !important; }   /* the vertical line too (Frank Oct 13 4:11 PM) */
+/* exempt is the standard (Frank Oct 13 4:13 PM): no Sales Tax row until tax is added from the charge list */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5taxrow.off{ display:none !important; }
 
 /* ---------- Additional Charges: five ways to add (module). body.c5g1 … c5g5 ---------- */
 /* shared: the ghost row (always one empty row ready to fill) */
@@ -32633,218 +32848,14 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
 html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5ghost input:focus{ border:1.5px solid #E8792B !important; }
 html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5ghost .p{ border:1.5px solid #C7CAD1 !important; }
 
-</style><script>
-/* Total Loss (module v3): on a Total Loss job the Estimates card is gone; Payments moves into the Total Loss Invoice card (under Print); the estimate and supplement PDFs show as rows in Documents. Everything is the app's own element moved or mirrored — nothing is re-made. */
-(function(){
-  var t = null;
-  function tl(){ var sw = document.getElementById("v4JdMode"); return !!(sw && sw.classList.contains("tl")); }
-  function build(){
-    var body = document.getElementById("jobDetailsBody"); if(!body) return;
-    var pay = document.getElementById("v4JdPay"), inv = document.getElementById("jdTotalLoss"), est = body.querySelector("#jdPdfSection"), estBox = est && est.closest(".v4box");
-    if(tl() && pay && inv){ var ib = inv.parentNode; if(ib && pay.parentNode !== ib) ib.appendChild(pay); }   /* beside #jdTotalLoss, not inside it: the card redraws its own insides on every change */
-    else if(pay && estBox && pay.parentNode !== estBox.querySelector(".v4bb")){ var bb = estBox.querySelector(".v4bb"); if(bb) bb.appendChild(pay); }
-    /* estimate PDFs as Documents rows */
-    var list = body.querySelector("#jdDocSection .doc-list"); if(!list) return;
-    var want = tl() ? [].slice.call(body.querySelectorAll("#jdPdfSection .est-doc[data-doc-kind]")).filter(function(r){ return r.querySelector(".attachment-chip"); }) : [];
-    var have = list.querySelectorAll(".c5tldoc");
-    if(have.length !== want.length){ have.forEach(function(x){ x.remove(); }); var sep = list.querySelector(".v4dsep");
-      want.forEach(function(r){ var kind = r.getAttribute("data-doc-kind"), chip = r.querySelector(".attachment-chip"), lab = r.querySelector(".est-doc-label");
-        var d = document.createElement("div"); d.className = "est-doc v4erow v4drow c5tldoc";
-        d.innerHTML = '<span class="est-doc-label">' + (lab ? lab.textContent.trim() : kind) + '</span><span class="attachment-chip v4chip" title="' + (chip.getAttribute("title") || "") + '">' + chip.innerHTML + '</span><button type="button" class="btn btn-secondary btn-small" data-c5tlview="' + kind + '">View</button><button type="button" class="btn btn-danger btn-small v4xbtn" data-c5tlrm="' + kind + '" title="Remove">✕</button><span class="v4sp"></span>';
-        if(sep) list.insertBefore(d, sep); else list.appendChild(d); }); }
-  }
-  var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
-  new MutationObserver(function(ms){ for(var i = 0; i < ms.length; i++){ var tg = ms[i].target; if(tg && tg.closest && tg.closest(".c5tldoc")) continue; clearTimeout(t); t = setTimeout(build, 40); return; } }).observe(ov, { childList:true, subtree:true, attributes:true, attributeFilter:["class"] });
-  ov.addEventListener("click", function(e){ var v = e.target.closest && e.target.closest("[data-c5tlview], [data-c5tlrm]"); if(!v) return; e.preventDefault(); e.stopImmediatePropagation();
-    var k = v.getAttribute("data-c5tlview") || v.getAttribute("data-c5tlrm"), sel = v.hasAttribute("data-c5tlview") ? '[data-doc-view="' + k + '"]' : '[data-doc-remove="' + k + '"]';
-    var real = document.querySelector("#jdPdfSection " + sel); if(real) real.click(); }, true);
-})();
-/* Bill To dropdown: Copart and IAA on top, a line, then the insurance companies from Settings (read off the Insurance list in Customer Details). Picking one writes the box and fires the app's own input/change. Typing still works. */
-(function(){
-  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]; }); }
-  function wire(){
-    var inp = document.getElementById("tl_billto"); if(!inp || inp.parentNode.classList.contains("c5btw")) return;
-    var w = document.createElement("div"); w.className = "c5btw"; inp.parentNode.insertBefore(w, inp); w.appendChild(inp);
-    var m = document.createElement("div"); m.className = "c5btm"; w.appendChild(m);
-    function names(){ var out = ["Copart", "IAA"], seen = { copart:1, iaa:1 }; document.querySelectorAll("#jd_insurance option").forEach(function(o){ var v = o.value.trim(); if(!v || /^(unknown|other|customer pay)$/i.test(v) || seen[v.toLowerCase()]) return; seen[v.toLowerCase()] = 1; out.push(v); }); return out; }
-    function draw(){ var cur = inp.value.trim().toLowerCase(), list = names(), h = "";
-      list.forEach(function(n, i){ if(i === 2) h += "<hr>"; h += '<button type="button" data-v="' + esc(n) + '"' + (n.toLowerCase() === cur ? ' class="on"' : '') + '>' + esc(n) + '</button>'; });
-      if(m.innerHTML !== h) m.innerHTML = h; }
-    function open(){ draw(); w.classList.add("open"); } function close(){ w.classList.remove("open"); }
-    inp.addEventListener("click", function(){ if(w.classList.contains("open")) close(); else open(); });
-    inp.addEventListener("input", function(){ if(w.classList.contains("open")) draw(); });
-    m.addEventListener("mousedown", function(e){ e.preventDefault(); });
-    m.addEventListener("click", function(e){ var b = e.target.closest("button[data-v]"); if(!b) return; inp.value = b.getAttribute("data-v"); inp.dispatchEvent(new Event("input", { bubbles:true })); inp.dispatchEvent(new Event("change", { bubbles:true })); close(); });
-    document.addEventListener("click", function(e){ if(!w.contains(e.target)) close(); });
-    document.addEventListener("keydown", function(e){ if(e.key === "Escape" && w.classList.contains("open")){ e.stopImmediatePropagation(); close(); } }, true);
-  }
-  var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
-  new MutationObserver(function(){ var i = document.getElementById("tl_billto"); if(i && !i.parentNode.classList.contains("c5btw")) wire(); }).observe(ov, { childList:true, subtree:true });
-})();
-/* the summary box gets a title like the other parts of the card ("Invoice"), with the same line above; the card redraws its insides, so it is put back whenever it is missing */
-(function(){
-  var t = null;
-  function build(){ var s = document.querySelector("#jdTotalLoss .tl-summary"); if(!s) return;
-    if(!(s.previousElementSibling && s.previousElementSibling.classList.contains("c5sumt"))){ var d = document.createElement("div"); d.className = "tl-fieldset-title c5sumt"; d.textContent = "Invoice"; s.parentNode.insertBefore(d, s); }
-    s.querySelectorAll(".tl-line > span:first-child > em").forEach(function(em){ if(em.textContent.trim() === "exempt") em.textContent = "Exempt"; });   /* capital E (Frank Oct 13 4:09 PM) */
-    /* every money amount in the box: "$4,000.00" becomes a $ in its own column and the number — same as Payments */
-    s.querySelectorAll(".tl-line > span:last-child:not(.c5sm)").forEach(function(sp){ var m = /^\s*(-?)\$\s*(-?)([\d,]+\.\d{2})\s*$/.exec(sp.textContent); if(!m) return; var neg = !!(m[1] || m[2]); sp.className += " c5sm" + (neg ? " c5minus" : ""); sp.innerHTML = "<i>$</i><b>" + (neg ? "\u2212" : "") + m[3] + "</b>"; });   /* the minus sits right before the number; the $ stays in its column (Frank Oct 13 3:46 PM) */
-    /* Sales Tax is the last row of the charge list (Frank Oct 13 10:31 AM): the old Sales Tax section is hidden, its two controls move into a charge-shaped row under the ready row */
-    var r = document.getElementById("tl_taxrate"), m = document.getElementById("tl_taxmode"), ex = document.getElementById("tlExtras");
-    if(r && m && ex){ var fs = r.closest(".tl-fieldset"); if(fs && !fs.querySelector(".tl-summary") && !fs.querySelector("#tlExtras")) fs.classList.add("c5taxfs");
-      if(!ex.parentNode.querySelector(".c5taxrow")){ var ex0 = (m.value === "waived"); var row = document.createElement("div"); row.className = "c5taxrow" + (ex0 ? " off" : "");
-        row.innerHTML = '<span class="c5tn">Sales Tax' + (ex0 ? ' <em>Exempt</em>' : '') + '</span><span class="c5amt c5pc">' + (ex0 ? '<input type="text" class="c5zero" value="0.00" readonly tabindex="-1">' : '') + '</span><button type="button" class="c5tx" aria-label="' + (ex0 ? "Charge sales tax again" : "Make this invoice tax exempt") + '" title="' + (ex0 ? "Charge sales tax again" : "Tax exempt — no sales tax on this invoice") + '"></button>';
-        if(ex0) r.classList.add("c5hid"); row.querySelector(".c5pc").appendChild(r); m.classList.add("c5hid");
-        if(!ex0){ /* taxable (Frank Oct 13 2:25 PM): the pill shows the tax in dollars like every other amount; click it to see and type the rate with its %, Enter or leaving the box puts the dollars back */
-          var taxLine = null; s.querySelectorAll(".tl-line").forEach(function(l){ var f = l.querySelector("span:first-child"); if(!taxLine && f && /^Sales Tax/.test(f.textContent.trim())) taxLine = l; });
-          var amtTxt = taxLine ? ((taxLine.querySelector(".c5sm b") || taxLine.querySelector("span:last-child")).textContent.replace(/[^\d.,-]/g, "")) : "0.00";
-          var pc = row.querySelector(".c5pc"); var a = document.createElement("input"); a.type = "text"; a.className = "c5taxamt"; a.readOnly = true; a.value = amtTxt; a.title = "Click to change the tax rate"; pc.insertBefore(a, r); r.classList.add("c5hid"); pc.classList.add("c5showamt");
-          a.addEventListener("focus", function(){ pc.classList.remove("c5showamt"); a.classList.add("c5hid"); r.classList.remove("c5hid"); r.focus(); r.select(); });
-          r.addEventListener("keydown", function(e){ if(e.key === "Enter"){ e.preventDefault(); r.blur(); } });
-          r.addEventListener("blur", function(){ r.dispatchEvent(new Event("change", { bubbles:true })); });   /* the card redraws with the new rate and the dollars come back */
-        }   /* exempt: the pill reads 0.00, the real rate waits hidden for when tax comes back */
-        /* no dropdown on this row (Frank Oct 13 10:50 AM) — the × and the + are the only switch */
-
-        /* (a leftover document click listener from the dropdown days was here — it threw "w is not defined" on every click; gone, Frank Oct 13 4:12 PM) */
-        var flip = function(){ m.value = (m.value === "waived") ? "all" : "waived"; m.dispatchEvent(new Event("change", { bubbles:true })); }; row.querySelector(".c5tx").addEventListener("click", flip); row.querySelector(".c5tn").addEventListener("click", flip);   /* the circle or the words — either flips it */
-        var g = ex.parentNode.querySelector(".c5ghost"); ex.parentNode.insertBefore(row, ex0 ? (g ? g.nextSibling : ex.nextSibling) : (g || ex.nextSibling));   /* taxable: with the real charges, above the ready row; exempt: under it (Frank Oct 13 2:26 PM) */ } }
-    /* every amount box gets a $ at its left: the box is wrapped, the wrapper draws the sign */
-    document.querySelectorAll("#jdTotalLoss #tl_rate, #jdTotalLoss #tlExtras input[data-x-amt]").forEach(function(inp){ if(inp.parentNode.classList.contains("c5amt")) return; var w = document.createElement("span"); w.className = "c5amt"; inp.parentNode.insertBefore(w, inp); w.appendChild(inp); }); }
-  var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
-  new MutationObserver(function(ms){ for(var i = 0; i < ms.length; i++){ var tg = ms[i].target; if(tg && tg.closest && tg.closest(".c5sumt, .c5sm, .c5amt, .c5taxrow")) continue; build(); return; } }).observe(ov, { childList:true, subtree:true });   /* same frame as the redraw */
-  build();
-})();
-
-/* the Storage Fee row: labels over pills, in reading order — Start Date, End Date, Storage (Outdoor / Indoor, moved down from the title), then at the right Rate / Day, Days and the lock. Elements are moved, never copied, so the app's own listeners stay; rebuilt in the same frame as the card's redraw */
-(function(){
-  function cell(label, el, cls){ var c = document.createElement("span"); c.className = "c5sf" + (cls ? " " + cls : ""); var l = document.createElement("span"); l.className = "tl-il"; l.textContent = label; c.appendChild(l); c.appendChild(el); return c; }
-  function build(){ var fs = document.querySelector("#jdTotalLoss .tl-fieldset:has(#tl_rate)"); if(!fs) return; var row = fs.querySelector(".tl-inline"); if(!row || row.classList.contains("c5stor")) return;
-    var st = fs.querySelector("select.tl-stype"), d1 = row.querySelector("#tl_start"), d2 = row.querySelector("#tl_end"), lock = row.querySelector(".tl-lock"), rate = row.querySelector("#tl_rate"), days = row.querySelector(".tl-days"); if(!st || !d1 || !d2 || !rate) return;
-    var w1 = d1.closest(".v4dt") || d1, w2 = d2.closest(".v4dt") || d2, wr = rate.closest(".c5amt") || rate;
-    row.classList.add("c5stor"); row.querySelectorAll(":scope > .tl-il").forEach(function(l){ l.remove(); });
-    row.appendChild(cell("Start Date", w1)); row.appendChild(cell("End Date", w2)); row.appendChild(cell("Storage", st));
-    /* one pill for the storage math (Frank Oct 13 3:00 PM): "9 days @ $ 250" — the day count is words inside it, the rate is the box you type in */
-    var dr = document.createElement("span"); dr.className = "c5dr"; if(days){ days.classList.add("c5dtxt"); dr.appendChild(days); } var at = document.createElement("span"); at.className = "c5at"; at.textContent = "at"; dr.appendChild(at); dr.appendChild(wr); var pd = document.createElement("span"); pd.className = "c5at c5pd"; pd.textContent = "per day"; dr.appendChild(pd);   /* "11 days at $250 per day", centered (Frank Oct 13 3:22 PM) */
-    row.appendChild(cell("Days · Storage Rate", dr, "c5rt"));
-    var nd = parseInt((days ? days.textContent : "0").replace(/[^\d]/g, ""), 10) || 0, rt = parseFloat(rate.value) || 0, tot = nd * rt;
-    var tw = document.createElement("span"); tw.className = "c5amt"; var ti = document.createElement("input"); ti.type = "text"; ti.className = "c5stot"; ti.readOnly = true; ti.tabIndex = -1; ti.value = tot.toLocaleString("en-US", { minimumFractionDigits:2, maximumFractionDigits:2 }); tw.appendChild(ti);
-    row.appendChild(cell("Total", tw, "c5tot")); if(lock) row.appendChild(cell("Lock", lock, "c5lk")); }
-  var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
-  new MutationObserver(function(ms){ for(var i = 0; i < ms.length; i++){ var tg = ms[i].target; if(tg && tg.closest && tg.closest(".c5stor")) continue; build(); return; } }).observe(ov, { childList:true, subtree:true });
-  build();
-})();
-
-/* the Sales Tax row: "Tax Rate" over the rate pill with its %, "Taxable" over the dropdown (same labelled-pill row as Storage) */
-(function(){
-  function cell(label, el){ var c = document.createElement("span"); c.className = "c5sf"; var l = document.createElement("span"); l.className = "tl-il"; l.textContent = label; c.appendChild(l); c.appendChild(el); return c; }
-  function build(){ var r = document.getElementById("tl_taxrate"), m = document.getElementById("tl_taxmode"); if(!r || !m) return; var row = r.closest(".tl-inline"); if(!row || row.classList.contains("c5taxr")) return;
-    var pct = row.querySelector(":scope > .tl-il"); row.classList.add("c5taxr");
-    var g = document.createElement("span"); g.className = "c5pct"; g.appendChild(r); if(pct) g.appendChild(pct);
-    row.appendChild(cell("Tax Rate", g)); row.appendChild(cell("Sales Tax", m)); }
-  var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
-  new MutationObserver(function(ms){ for(var i = 0; i < ms.length; i++){ var tg = ms[i].target; if(tg && tg.closest && tg.closest(".c5taxr")) continue; build(); return; } }).observe(ov, { childList:true, subtree:true });
-  build();
-})();
-/* Paid / Not Paid (Frank Oct 13 3:27 PM, 3:37 PM): on a Total Loss the Payments section goes away. The Print row carries it: at the left a pill — ✕ Not Paid (red) / ✓ Paid (green), one fixed size — Print stays at the right. The pill flips the app's own Invoice paid mark (the [data-v4ck="e"] button inside Payments, job.estimate1Paid), so the board's paid / balance numbers stay right. */
-(function(){
-  function build(){
-    var pay = document.getElementById("v4JdPay"), pr = document.querySelector("#jdTotalLoss .tl-print-row"); if(!pay || !pr) return;
-    var tl = document.querySelector('#v4JdMode button[data-v4mode="tl"].on'); if(!tl){ var old = pr.querySelector(".c5paid"); if(old) old.remove(); return; }
-    var ck = pay.querySelector('[data-v4ck="e"]'), paid = !!(ck && ck.classList.contains("ok"));
-    var b = pr.querySelector(".c5paid");
-    if(!b){ b = document.createElement("button"); b.type = "button"; b.className = "c5paid"; b.innerHTML = '<i></i><span></span>'; pr.insertBefore(b, pr.firstChild);
-      b.addEventListener("click", function(){ var x = document.querySelector('#v4JdPay [data-v4ck="e"]'); if(x) x.click(); setTimeout(build, 0); }); }
-    b.classList.toggle("on", paid); b.querySelector("span").textContent = paid ? "Paid" : "Not Paid"; b.title = paid ? "Click to mark it not paid" : "Click to mark it paid";
-  }
-  var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
-  new MutationObserver(function(ms){ for(var i = 0; i < ms.length; i++){ var tg = ms[i].target; if(tg && tg.closest && tg.closest(".c5paid")) continue; build(); return; } }).observe(ov, { childList:true, subtree:true, attributes:true, attributeFilter:["class"] });
-  build();
-})();
-/* Negotiated Total as a charge row (Frank Oct 13 3:37 PM): the last fixed row of the charge list, like Sales Tax — outlined and empty ("Full invoice") with a +; type the number agreed with Copart / the insurer and it becomes a filled row with a ×. Behind it one hidden charge, "Negotiated Settlement", holds the difference (a minus), so the Invoice box shows the write-down and Current Total Charges reads the agreed number. × clears it. */
-(function(){
-  var NEG = "Negotiated Settlement";
-  function negRow(){ var rows = document.querySelectorAll("#tlExtras .tl-extra-row"); for(var i = 0; i < rows.length; i++){ var d = rows[i].querySelector("[data-x-desc]"); if(d && d.value.trim() === NEG) return rows[i]; } return null; }
-  function totalNow(){ var t = document.querySelector("#jdTotalLoss .tl-line.tl-total > span:last-child"); return parseFloat((t ? t.textContent : "0").replace(/[^\d.-]/g, "")) || 0; }
-  function fmt(n){ return n.toLocaleString("en-US", { minimumFractionDigits:2, maximumFractionDigits:2 }); }
-  function set(el, v){ el.value = v; el.dispatchEvent(new Event("input", { bubbles:true })); el.dispatchEvent(new Event("change", { bubbles:true })); }
-  function apply(agreed){
-    var r = negRow();
-    if(!agreed){ if(r){ var x = r.querySelector("[data-x-del]"); if(x) x.click(); } return; }
-    var cur = totalNow(), have = r ? (parseFloat(r.querySelector("[data-x-amt]").value) || 0) : 0;   /* a plus "have" is the agreed number just typed, not yet a minus */
-    var tm = document.getElementById("tl_taxmode"), tr = document.getElementById("tl_taxrate"), rate = (tm && tm.value !== "waived") ? (parseFloat(tr && tr.value) || 0) / 100 : 0;
-    var full = cur - have * (1 + rate);   /* the invoice without the settlement line */
-    var adj = Math.round(((agreed - full) / (1 + rate)) * 100) / 100;   /* taxable: the minus is taxed too, so it is scaled back */
-    if(adj >= 0){ if(r){ var x2 = r.querySelector("[data-x-del]"); if(x2) x2.click(); } else { var ni = document.querySelector("#jdTotalLoss .c5negin"); if(ni) ni.value = ""; } return; }   /* agreed at the full amount or more: nothing to take off */
-    if(r){ set(r.querySelector("[data-x-amt]"), String(adj)); return; }
-    var before = document.querySelectorAll("#tlExtras .tl-extra-row").length, add = document.getElementById("tlAddExtra"); if(add) add.click();
-    setTimeout(function(){ var rows = document.querySelectorAll("#tlExtras .tl-extra-row"); if(rows.length <= before) return; var nr = rows[rows.length - 1]; set(nr.querySelector("[data-x-desc]"), NEG); setTimeout(function(){ var r2 = negRow(); if(r2) set(r2.querySelector("[data-x-amt]"), String(adj)); }, 80); }, 80);
-  }
-  /* the charge list already has "Negotiated Settlement" (Frank Oct 13 3:41 PM: "searchable, like type a charge or browse the list"). Type it in the ready row or pick it, give it the number agreed — a plus number, never a minus — and the row becomes the settlement: the minus is worked out, the row reads "Negotiated Total $1,000.00". */
-  var converting = false;
-  function convert(){ if(converting) return; var rows = document.querySelectorAll("#tlExtras .tl-extra-row"); for(var i = 0; i < rows.length; i++){ var d = rows[i].querySelector("[data-x-desc]"), a = rows[i].querySelector("[data-x-amt]"); if(!d || !a) continue; var nm = d.value.trim(); if((nm === NEG || nm === "Negotiated Total") && (parseFloat(a.value) || 0) > 0 && document.activeElement !== a && document.activeElement !== d){ var agreed = parseFloat(a.value); converting = true; if(nm !== NEG) set(d, NEG); setTimeout(function(){ converting = false; apply(agreed); }, 80); return; } } }
-  function build(){
-    var ex = document.getElementById("tlExtras"); if(!ex) return; var host = ex.parentNode; convert();
-    document.querySelectorAll("#tlExtras .tl-extra-row").forEach(function(rw){ var d = rw.querySelector("[data-x-desc]"), a = rw.querySelector("[data-x-amt]"); rw.classList.toggle("c5hidneg", !!(d && a && d.value.trim() === NEG && (parseFloat(a.value) || 0) < 0)); });
-    if(host.querySelector(".c5negrow")) return;
-    var r = negRow(), on = !!(r && (parseFloat(r.querySelector("[data-x-amt]").value) || 0) < 0); if(!on) return;   /* the row shows only once a number is agreed (the minus is in) */
-    var row = document.createElement("div"); row.className = "c5negrow" + (on ? "" : " off");
-    row.innerHTML = '<span class="c5tn">Negotiated Total' + (on ? '' : '') + '</span><span class="c5amt c5pc"><input type="text" class="c5negin" inputmode="decimal" placeholder="0.00"></span><button type="button" class="c5tx" aria-label="' + (on ? "Back to the full invoice" : "Set the agreed total") + '"></button>';
-    var inp = row.querySelector(".c5negin"); if(on) inp.value = fmt(totalNow());
-    function commit(){ apply(parseFloat(inp.value.replace(/[^\d.]/g, "")) || 0); }
-    inp.addEventListener("keydown", function(e){ if(e.key === "Enter"){ e.preventDefault(); inp.blur(); } });
-    inp.addEventListener("blur", function(){ setTimeout(commit, 0); });
-    row.querySelector(".c5tx").addEventListener("click", function(){ if(on) apply(0); else { inp.focus(); } });
-    /* filled: with the real charges (after a taxable Sales Tax row, before the ready row); empty: under the Sales Tax row */
-    var g = host.querySelector(".c5ghost"), tx = host.querySelector(".c5taxrow");
-    if(on){ var tOn = tx && !tx.classList.contains("off") ? tx : null; host.insertBefore(row, (tOn || ex).nextSibling); if(g && g.compareDocumentPosition(row) & Node.DOCUMENT_POSITION_PRECEDING) host.insertBefore(row, g); }
-    else { var last = (tx && tx.classList.contains("off")) ? tx : (g || ex); host.insertBefore(row, last.nextSibling); }
-  }
-  var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
-  new MutationObserver(function(ms){ for(var i = 0; i < ms.length; i++){ var tg = ms[i].target; if(tg && tg.closest && tg.closest(".c5negrow")) continue; build(); return; } }).observe(ov, { childList:true, subtree:true });
-  ov.addEventListener("focusout", function(e){ if(e.target && e.target.matches && e.target.matches("#tlExtras [data-x-amt]")) setTimeout(convert, 120); });   /* the amount typed, the box left: convert */
-  build();
-})();
-
-/* the ready row: one empty charge row under the list. Typing a name or an amount and pressing Enter, or clicking +, adds a real charge through the app's own + button and moves the words into it. */
-(function(){
-  var t = null;
-  function build(){
-    var fs = document.querySelector("#jdTotalLoss .tl-fieldset:has(#tlAddExtra)"), ex = document.getElementById("tlExtras"); if(!fs || !ex) return;
-    if(!fs.querySelector(".c5chh")){ var h = document.createElement("div"); h.className = "c5chh"; h.innerHTML = '<span class="n">Charge</span><span class="a">Amount</span><span class="x"></span>'; ex.parentNode.insertBefore(h, ex); }
-    if(fs.querySelector(".c5ghost")) return;
-    var g = document.createElement("div"); g.className = "c5ghost";
-    g.innerHTML = '<input type="text" class="n" placeholder="Type a charge, or browse the list" autocomplete="off"><span class="c5amt"><input type="text" class="a" placeholder="0.00" inputmode="decimal"></span><button type="button" class="p" aria-label="Add this charge"></button>';
-    var ons = ex.parentNode.querySelectorAll(".c5taxrow:not(.off), .c5negrow:not(.off)"), tr = ons.length ? ons[ons.length - 1] : null; ex.parentNode.insertBefore(g, (tr || ex).nextSibling);   /* under the real charges — a taxable Sales Tax row counts as one */
-    var n = g.querySelector(".n"), a = g.querySelector(".a");
-    function commit(){ var name = n.value.trim(), amt = a.value.trim(); if(!name && !amt) return;
-      var before = ex.querySelectorAll(".tl-extra-row").length; var add = document.getElementById("tlAddExtra"); if(add) add.click();
-      setTimeout(function(){ var rows = document.querySelectorAll("#tlExtras .tl-extra-row"); if(rows.length <= before) return; var r = rows[rows.length - 1], ni = r.querySelector("[data-x-desc]"), ai = r.querySelector("[data-x-amt]");
-        function set(el, v){ if(!el) return; el.value = v; el.dispatchEvent(new Event("input", { bubbles:true })); el.dispatchEvent(new Event("change", { bubbles:true })); }
-        if(name) set(ni, name); if(amt) set(ai, amt); n.value = ""; a.value = ""; setTimeout(function(){ var gg = document.querySelector("#jdTotalLoss .c5ghost .n"); if(gg) gg.focus(); }, 60); }, 60); }
-    /* the ready row searches like a real row (Frank Oct 13 3:41 PM): the first letter typed makes the real row and the typing carries on there, with the app's own suggestion list under it; the chevron opens the full list the same way */
-    function hand(text, browse){ var before = ex.querySelectorAll(".tl-extra-row").length; var add = document.getElementById("tlAddExtra"); if(add) add.click();
-      setTimeout(function(){ var rows = document.querySelectorAll("#tlExtras .tl-extra-row"); if(rows.length <= before) return; var r = rows[rows.length - 1], ni = r.querySelector("[data-x-desc]"); if(!ni) return;
-        n.value = ""; if(browse){ var bb = r.querySelector(".charge-browse"); if(bb) bb.click(); ni.focus(); return; }
-        ni.value = text; ni.focus(); try{ ni.setSelectionRange(text.length, text.length); }catch(e){} ni.dispatchEvent(new Event("input", { bubbles:true })); }, 60); }
-    n.addEventListener("input", function(){ var v = n.value; if(v.trim()) hand(v, false); });
-    n.addEventListener("click", function(e){ var r = n.getBoundingClientRect(); if(e.clientX > r.right - 40) hand("", true); });
-    g.querySelector(".p").addEventListener("click", commit);
-    [n, a].forEach(function(el){ el.addEventListener("keydown", function(e){ if(e.key === "Enter"){ e.preventDefault(); commit(); } }); });
-    a.addEventListener("blur", function(){ if(n.value.trim() && a.value.trim()) commit(); });
-  }
-  var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
-  new MutationObserver(function(ms){ for(var i = 0; i < ms.length; i++){ var tg = ms[i].target; if(tg && tg.closest && tg.closest(".c5ghost, .c5chh")) continue; build(); return; } }).observe(ov, { childList:true, subtree:true });   /* same frame as the card's redraw — nothing under it moves */
-  build();
-})();
-
-</script>
+</style>
 <style id="c5famBarCss">
 #c5famBar{ position:fixed; left:50%; top:10px; transform:translateX(-50%); z-index:99999; display:flex; gap:2px; background:#fff; border-radius:22px; padding:3px; box-shadow:0 6px 24px rgba(0,0,0,.22); font-family:Inter, Arial, sans-serif; }
 #c5famBar button{ height:38px; padding:0 16px; border:0; border-radius:19px; background:transparent; font:600 14px Inter, Arial, sans-serif; color:#6C6C73; cursor:pointer; }
 #c5famBar button.on{ background:#16181D; color:#fff; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Total Loss v65 · app 5.288</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5tlA c5h40 c5g3 c5lt">Light</button><button data-e="c5none">Today (5.288)</button></div>
+<div id="c5famBar"><span>Total Loss v66 · app 5.288</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5tlA c5h40 c5g3 c5lt">Light</button><button data-e="c5none">Today (5.288)</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
   document.body.classList.add("c5tlA","c5h40","c5g3");
