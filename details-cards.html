@@ -32345,6 +32345,19 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 /* the Outdoor / Indoor pill and the day-count pill are the same size: 120 wide, centered words */
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay select.tl-stype{ width:120px !important; min-width:120px !important; padding:0 30px 0 18px !important; text-align:center; text-align-last:center; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-days{ width:120px !important; min-width:120px !important; padding:0 !important; justify-content:center !important; box-sizing:border-box; }
+/* Bill To is a dropdown: the box keeps its words, a chevron at the right; the family menu under it — Copart and IAA first (they are the ones that pick the car up), a line, then every insurance company */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5btw{ position:relative; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5btw > #tl_billto{ padding-right:40px !important; cursor:pointer; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5btw::after{ content:""; position:absolute; right:14px; top:50%; width:16px; height:16px; transform:translateY(-50%); pointer-events:none; background:#16181D; -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") center/16px no-repeat; mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") center/16px no-repeat; transition:transform .15s; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5btw.open::after{ transform:translateY(-50%) rotate(180deg); }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5btm{ display:none; position:absolute; left:0; right:0; top:calc(100% + 6px); z-index:80; padding:8px; border-radius:22px; background:#fff; box-shadow:0 0 0 .5px rgba(0,0,0,.10), 0 14px 36px rgba(0,0,0,.18); max-height:360px; overflow-y:auto; scrollbar-width:thin; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5btw.open .c5btm{ display:block; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5btm button{ position:relative; display:flex; align-items:center; width:100%; height:44px; margin:0; padding:0 40px 0 16px; border:0; border-radius:22px; background:#F2F2F7; color:#16181D; font:500 14px var(--v4-word, Inter, Arial), sans-serif; text-align:left; cursor:pointer; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5btm button + button{ margin-top:6px; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5btm button:hover{ background:#E9E9EE; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5btm button.on{ background:rgba(232,121,43,.12); font-weight:700; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5btm button.on::after{ content:""; position:absolute; right:12px; top:50%; width:16px; height:16px; transform:translateY(-50%); background:#E8792B; -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/16px no-repeat; mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/16px no-repeat; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5btm hr{ border:0; height:1px; background:#ECECF0; margin:8px 6px; }
 
 /* Policy does not apply on a Total Loss */
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box[data-v4box="Total Loss Invoice"] .v4paypol{ display:none !important; }
@@ -32375,6 +32388,28 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
     var k = v.getAttribute("data-c5tlview") || v.getAttribute("data-c5tlrm"), sel = v.hasAttribute("data-c5tlview") ? '[data-doc-view="' + k + '"]' : '[data-doc-remove="' + k + '"]';
     var real = document.querySelector("#jdPdfSection " + sel); if(real) real.click(); }, true);
 })();
+/* Bill To dropdown: Copart and IAA on top, a line, then the insurance companies from Settings (read off the Insurance list in Customer Details). Picking one writes the box and fires the app's own input/change. Typing still works. */
+(function(){
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;" }[c]; }); }
+  function wire(){
+    var inp = document.getElementById("tl_billto"); if(!inp || inp.parentNode.classList.contains("c5btw")) return;
+    var w = document.createElement("div"); w.className = "c5btw"; inp.parentNode.insertBefore(w, inp); w.appendChild(inp);
+    var m = document.createElement("div"); m.className = "c5btm"; w.appendChild(m);
+    function names(){ var out = ["Copart", "IAA"], seen = { copart:1, iaa:1 }; document.querySelectorAll("#jd_insurance option").forEach(function(o){ var v = o.value.trim(); if(!v || /^(unknown|other|customer pay)$/i.test(v) || seen[v.toLowerCase()]) return; seen[v.toLowerCase()] = 1; out.push(v); }); return out; }
+    function draw(){ var cur = inp.value.trim().toLowerCase(), list = names(), h = "";
+      list.forEach(function(n, i){ if(i === 2) h += "<hr>"; h += '<button type="button" data-v="' + esc(n) + '"' + (n.toLowerCase() === cur ? ' class="on"' : '') + '>' + esc(n) + '</button>'; });
+      if(m.innerHTML !== h) m.innerHTML = h; }
+    function open(){ draw(); w.classList.add("open"); } function close(){ w.classList.remove("open"); }
+    inp.addEventListener("click", function(){ if(w.classList.contains("open")) close(); else open(); });
+    inp.addEventListener("input", function(){ if(w.classList.contains("open")) draw(); });
+    m.addEventListener("mousedown", function(e){ e.preventDefault(); });
+    m.addEventListener("click", function(e){ var b = e.target.closest("button[data-v]"); if(!b) return; inp.value = b.getAttribute("data-v"); inp.dispatchEvent(new Event("input", { bubbles:true })); inp.dispatchEvent(new Event("change", { bubbles:true })); close(); });
+    document.addEventListener("click", function(e){ if(!w.contains(e.target)) close(); });
+    document.addEventListener("keydown", function(e){ if(e.key === "Escape" && w.classList.contains("open")){ e.stopImmediatePropagation(); close(); } }, true);
+  }
+  var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
+  new MutationObserver(function(){ var i = document.getElementById("tl_billto"); if(i && !i.parentNode.classList.contains("c5btw")) wire(); }).observe(ov, { childList:true, subtree:true });
+})();
 
 </script>
 <style id="c5famBarCss">
@@ -32383,7 +32418,7 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 #c5famBar button.on{ background:#16181D; color:#fff; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Details cards v4 · app 5.285</span><button data-e="c5cA" class="on">Pill rows</button><button data-e="c5cB">Pill rows + lines</button><button data-e="c5none">Today (5.285)</button></div>
+<div id="c5famBar"><span>Details cards v5 · app 5.285</span><button data-e="c5cA" class="on">Pill rows</button><button data-e="c5cB">Pill rows + lines</button><button data-e="c5none">Today (5.285)</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
   document.body.classList.add("c5cA","c5tlA","c5h40");
