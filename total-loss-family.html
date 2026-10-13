@@ -33060,6 +33060,11 @@ window.addEventListener("keydown", function(e){
   var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
   new MutationObserver(fill).observe(ov, { childList:true, subtree:true }); fill();
 })();
+/* custom fields fill the grid left to right (Frank Oct 13 4:43 PM): Created, then the custom fields in the order made, then "+ Add Custom Field" in the next empty cell. The app keeps Created right before the button in the DOM, so the visual order comes from CSS (grid order), not from moving boxes. A new field's name box is ready to type in. */
+(function(){
+  var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
+  ov.addEventListener("click", function(e){ var b = e.target.closest && e.target.closest(".v4cfadd .btn"); if(!b) return; setTimeout(function(){ var fs = document.querySelectorAll("#jobDetailsBody .v4cd > .review-field.v4cfld input.v4cfin"); var last = fs[fs.length - 1]; if(last && !last.value) last.focus(); }, 30); });
+})();
 
 /* the ready row: one empty charge row under the list. Typing a name or an amount and pressing Enter, or clicking +, adds a real charge through the app's own + button and moves the words into it. */
 (function(){
@@ -33448,6 +33453,16 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody :is(.v4cfadd .btn, .v4supadd .btn, #jdAddDocsBtn, #jdAddPhotosBtn)::before{ order:0 !important; margin-left:0 !important; width:auto !important; height:auto !important; border:0 !important; border-radius:0 !important; background:none !important; content:"+" !important; font:500 16px var(--v4-word, Inter, Arial), sans-serif; color:#9A9AA3; line-height:1; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody :is(.v4cfadd .btn, .v4supadd .btn, #jdAddDocsBtn, #jdAddPhotosBtn){ gap:8px !important; padding:0 16px !important; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cfadd .btn::after{ content:"Add Custom Field"; }
+/* Frank Oct 13 4:42 PM: a new custom field just turns grey — its name is typed where the label goes (plain, black, no box, no pencil), its value is the grey pill under it; the small × to take it off shows on hover */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody input.v4cfin{ height:16px !important; min-height:0 !important; padding:0 !important; border:0 !important; border-radius:0 !important; background:transparent !important; box-shadow:none !important; font:600 13px var(--v4-word, Inter, Arial), sans-serif !important; color:#000 !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody input.v4cfin:focus{ box-shadow:none !important; border-bottom:1.5px solid #E8792B !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody input.v4cfin::placeholder{ color:#9A9AA3; font-weight:500; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cfb[data-v4cfedit]{ display:none !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cfb{ width:18px; height:18px; border-radius:9px; background:transparent; color:#9A9AA3; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cd > .v4cfadd:is(.v4cfadd, #c5x1):is(.v4cfadd, #c5x2){ grid-column:auto !important; }   /* the button takes the next empty cell, left or right */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cd > .c5created{ grid-column:auto !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cd > .review-field.v4cfld{ order:1; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cd > .v4cfadd{ order:2; }
 
 /* ---------- Additional Charges: five ways to add (module). body.c5g1 … c5g5 ---------- */
 /* shared: the ghost row (always one empty row ready to fill) */
@@ -33509,7 +33524,7 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
 #c5famBar button.on{ background:#16181D; color:#fff; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Total Loss v74 · app 5.288</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5tlA c5h40 c5g3 c5lt">Light</button><button data-e="c5none">Today (5.288)</button></div>
+<div id="c5famBar"><span>Total Loss v75 · app 5.288</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5tlA c5h40 c5g3 c5lt">Light</button><button data-e="c5none">Today (5.288)</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
   document.body.classList.add("c5tlA","c5h40","c5g3");
