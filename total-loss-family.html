@@ -32401,6 +32401,12 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 /* Frank Oct 13 2:14 PM: the day-count pill is the same grey pill as the others (it was white with a shadow and bold); the $ column in the Invoice box starts where the $ in the amount pills does */
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .tl-days{ background:#F2F2F7 !important; box-shadow:none !important; border:0 !important; font-weight:400 !important; color:#16181D !important; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line > span.c5sm{ width:133px; }
+/* taxable: the Sales Tax pill reads "$ 476.76" like the charge amounts; while the rate is being typed it reads "15.00 %" */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5taxrow input.c5taxamt{ width:100% !important; height:40px !important; min-height:0 !important; margin:0 !important; padding:0 14px 0 28px !important; border:0 !important; border-radius:20px !important; background:#F2F2F7 !important; box-shadow:none !important; color:#16181D !important; font:400 14px var(--v4-num, "Courier New", monospace) !important; text-align:right !important; text-align-last:right !important; box-sizing:border-box !important; cursor:text; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5taxrow input.c5taxamt.c5hid{ display:none !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5taxrow > .c5pc.c5showamt::before{ content:"$"; color:#6C6C73; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5taxrow > .c5pc.c5showamt::after{ content:none; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5taxrow #tl_taxrate.c5hid{ display:none !important; }
 
 /* ---------- Additional Charges: five ways to add (module). body.c5g1 … c5g5 ---------- */
 /* shared: the ghost row (always one empty row ready to fill) */
@@ -32515,12 +32521,20 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
     if(r && m && ex){ var fs = r.closest(".tl-fieldset"); if(fs && !fs.querySelector(".tl-summary") && !fs.querySelector("#tlExtras")) fs.classList.add("c5taxfs");
       if(!ex.parentNode.querySelector(".c5taxrow")){ var ex0 = (m.value === "waived"); var row = document.createElement("div"); row.className = "c5taxrow" + (ex0 ? " off" : "");
         row.innerHTML = '<span class="c5tn">Sales Tax' + (ex0 ? ' <em>Exempt</em>' : '') + '</span><span class="c5amt c5pc">' + (ex0 ? '<input type="text" class="c5zero" value="0.00" readonly tabindex="-1">' : '') + '</span><button type="button" class="c5tx" aria-label="' + (ex0 ? "Charge sales tax again" : "Make this invoice tax exempt") + '" title="' + (ex0 ? "Charge sales tax again" : "Tax exempt — no sales tax on this invoice") + '"></button>';
-        if(ex0) r.classList.add("c5hid"); row.querySelector(".c5pc").appendChild(r); m.classList.add("c5hid");   /* exempt: the pill reads 0.00, the real rate waits hidden for when tax comes back */
+        if(ex0) r.classList.add("c5hid"); row.querySelector(".c5pc").appendChild(r); m.classList.add("c5hid");
+        if(!ex0){ /* taxable (Frank Oct 13 2:25 PM): the pill shows the tax in dollars like every other amount; click it to see and type the rate with its %, Enter or leaving the box puts the dollars back */
+          var taxLine = null; s.querySelectorAll(".tl-line").forEach(function(l){ var f = l.querySelector("span:first-child"); if(!taxLine && f && /^Sales Tax/.test(f.textContent.trim())) taxLine = l; });
+          var amtTxt = taxLine ? ((taxLine.querySelector(".c5sm b") || taxLine.querySelector("span:last-child")).textContent.replace(/[^\d.,-]/g, "")) : "0.00";
+          var pc = row.querySelector(".c5pc"); var a = document.createElement("input"); a.type = "text"; a.className = "c5taxamt"; a.readOnly = true; a.value = amtTxt; a.title = "Click to change the tax rate"; pc.insertBefore(a, r); r.classList.add("c5hid"); pc.classList.add("c5showamt");
+          a.addEventListener("focus", function(){ pc.classList.remove("c5showamt"); a.classList.add("c5hid"); r.classList.remove("c5hid"); r.focus(); r.select(); });
+          r.addEventListener("keydown", function(e){ if(e.key === "Enter"){ e.preventDefault(); r.blur(); } });
+          r.addEventListener("blur", function(){ r.dispatchEvent(new Event("change", { bubbles:true })); });   /* the card redraws with the new rate and the dollars come back */
+        }   /* exempt: the pill reads 0.00, the real rate waits hidden for when tax comes back */
         /* no dropdown on this row (Frank Oct 13 10:50 AM) — the × and the + are the only switch */
 
         document.addEventListener("click", function(){ w.classList.remove("open"); });   /* the dropdown stays in the page, hidden — the × drives it */
         row.querySelector(".c5tx").addEventListener("click", function(){ m.value = (m.value === "waived") ? "all" : "waived"; m.dispatchEvent(new Event("change", { bubbles:true })); });
-        var g = ex.parentNode.querySelector(".c5ghost"); ex.parentNode.insertBefore(row, g ? g.nextSibling : ex.nextSibling); } }
+        var g = ex.parentNode.querySelector(".c5ghost"); ex.parentNode.insertBefore(row, ex0 ? (g ? g.nextSibling : ex.nextSibling) : (g || ex.nextSibling));   /* taxable: with the real charges, above the ready row; exempt: under it (Frank Oct 13 2:26 PM) */ } }
     /* every amount box gets a $ at its left: the box is wrapped, the wrapper draws the sign */
     document.querySelectorAll("#jdTotalLoss #tl_rate, #jdTotalLoss #tlExtras input[data-x-amt]").forEach(function(inp){ if(inp.parentNode.classList.contains("c5amt")) return; var w = document.createElement("span"); w.className = "c5amt"; inp.parentNode.insertBefore(w, inp); w.appendChild(inp); }); }
   var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
@@ -32563,7 +32577,7 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
     if(fs.querySelector(".c5ghost")) return;
     var g = document.createElement("div"); g.className = "c5ghost";
     g.innerHTML = '<input type="text" class="n" placeholder="Type a charge, or browse the list" autocomplete="off"><span class="c5amt"><input type="text" class="a" placeholder="0.00" inputmode="decimal"></span><button type="button" class="p" aria-label="Add this charge"></button>';
-    ex.parentNode.insertBefore(g, ex.nextSibling);
+    var tr = ex.parentNode.querySelector(".c5taxrow:not(.off)"); ex.parentNode.insertBefore(g, (tr || ex).nextSibling);   /* under the real charges — a taxable Sales Tax row counts as one */
     var n = g.querySelector(".n"), a = g.querySelector(".a");
     function commit(){ var name = n.value.trim(), amt = a.value.trim(); if(!name && !amt) return;
       var before = ex.querySelectorAll(".tl-extra-row").length; var add = document.getElementById("tlAddExtra"); if(add) add.click();
@@ -32586,7 +32600,7 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
 #c5famBar button.on{ background:#16181D; color:#fff; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Total Loss v33 · app 5.285</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5none">Today (5.285)</button></div>
+<div id="c5famBar"><span>Total Loss v34 · app 5.285</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5none">Today (5.285)</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
   document.body.classList.add("c5tlA","c5h40","c5g3");
