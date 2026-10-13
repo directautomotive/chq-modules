@@ -32446,6 +32446,20 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5stor input.c5stot{ padding:0 6px 0 18px !important; font-size:14px !important; letter-spacing:-.03em; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor .c5sf.c5tot .c5amt::before{ left:7px; font-size:14px; }
 /* (step 4 — the five pills giving width to Total — was tried and taken back, Frank Oct 13 2:58 PM) */
+/* step 5 (Frank Oct 13 3:00 PM): right half = the "days @ rate" pill, then Total (120, on the Amount column) and the lock */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor > .c5sf.c5rt.c5rt.c5rt.c5rt.c5rt.c5rt{ margin-left:auto !important; flex:0 0 calc(50% - 8px - 16px - 164px) !important; min-width:0; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor > .c5sf.c5tot.c5tot.c5tot.c5tot.c5tot.c5tot{ flex:0 0 120px !important; }   /* said with more weight than the slot rules above (Total now directly follows the rate cell) */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor > .c5sf.c5lk{ margin-left:-8px; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5stor input.c5stot{ padding:0 14px 0 28px !important; letter-spacing:0; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor .c5sf.c5tot .c5amt::before{ left:14px; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stor .c5sf.c5tot .c5amt{ width:100% !important; }
+/* the combined pill: grey pill, "9 days" and "@" as words at the left, the rate box at the right with its $ — the box is transparent inside the pill */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5dr{ display:flex; align-items:center; height:40px; padding:0 0 0 16px; border-radius:20px; background:#F2F2F7; box-sizing:border-box; gap:8px; min-width:0; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5dr .tl-days.c5dtxt{ width:auto !important; min-width:0 !important; height:auto !important; padding:0 !important; background:transparent !important; border-radius:0 !important; font:400 14px var(--v4-word, Inter, Arial), sans-serif !important; color:#16181D !important; white-space:nowrap; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5dr .c5at{ font:400 14px var(--v4-word, Inter, Arial), sans-serif; color:#6C6C73; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5dr .c5amt{ flex:0 0 120px; width:120px !important; min-width:0 !important; margin-left:auto; }   /* the rate box keeps its 120 at the right of the pill, so "$ 250" reads tight */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5dr .c5amt > input{ background:transparent !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5dr .c5amt > input:focus{ background:#fff !important; }
 
 /* ---------- Additional Charges: five ways to add (module). body.c5g1 … c5g5 ---------- */
 /* shared: the ghost row (always one empty row ready to fill) */
@@ -32589,10 +32603,12 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
     var w1 = d1.closest(".v4dt") || d1, w2 = d2.closest(".v4dt") || d2, wr = rate.closest(".c5amt") || rate;
     row.classList.add("c5stor"); row.querySelectorAll(":scope > .tl-il").forEach(function(l){ l.remove(); });
     row.appendChild(cell("Start Date", w1)); row.appendChild(cell("End Date", w2)); row.appendChild(cell("Storage", st));
-    if(days) row.appendChild(cell("Days", days, "c5rt")); row.appendChild(cell("Rate / Day", wr));   /* days first, then the rate (Frank Oct 13 10:16 AM) */
+    /* one pill for the storage math (Frank Oct 13 3:00 PM): "9 days @ $ 250" — the day count is words inside it, the rate is the box you type in */
+    var dr = document.createElement("span"); dr.className = "c5dr"; if(days){ days.classList.add("c5dtxt"); dr.appendChild(days); } var at = document.createElement("span"); at.className = "c5at"; at.textContent = "@"; dr.appendChild(at); dr.appendChild(wr);
+    row.appendChild(cell("Rate / Day", dr, "c5rt"));
     var nd = parseInt((days ? days.textContent : "0").replace(/[^\d]/g, ""), 10) || 0, rt = parseFloat(rate.value) || 0, tot = nd * rt;
     var tw = document.createElement("span"); tw.className = "c5amt"; var ti = document.createElement("input"); ti.type = "text"; ti.className = "c5stot"; ti.readOnly = true; ti.tabIndex = -1; ti.value = tot.toLocaleString("en-US", { minimumFractionDigits:2, maximumFractionDigits:2 }); tw.appendChild(ti);
-    row.appendChild(cell("Total", tw, "c5tot"));   /* Days × Rate / Day (Frank Oct 13 2:41 PM) */ if(lock) row.appendChild(cell("Lock", lock, "c5lk")); }
+    row.appendChild(cell("Total", tw, "c5tot")); if(lock) row.appendChild(cell("Lock", lock, "c5lk")); }
   var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
   new MutationObserver(function(ms){ for(var i = 0; i < ms.length; i++){ var tg = ms[i].target; if(tg && tg.closest && tg.closest(".c5stor")) continue; build(); return; } }).observe(ov, { childList:true, subtree:true });
   build();
@@ -32642,7 +32658,7 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
 #c5famBar button.on{ background:#16181D; color:#fff; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Total Loss v46 · app 5.285</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5none">Today (5.285)</button></div>
+<div id="c5famBar"><span>Total Loss v47 · app 5.285</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5none">Today (5.285)</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
   document.body.classList.add("c5tlA","c5h40","c5g3");
