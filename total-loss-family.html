@@ -32311,6 +32311,14 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary{ margin-top:0 !important; }
 /* Policy does not apply on a Total Loss (Frank Oct 12 5:27 PM) */
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box[data-v4box="Total Loss Invoice"] .v4paypol{ display:none !important; }
+/* storage row (Frank Oct 13 9:03 AM): the dates stay left; Rate / Day, the day count and the lock move to the right and line up with the charge rows' columns — the count pill in the amount column (same 120 as the 185 pill), the lock in the × column (36 round) */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-fieldset:has(#tl_rate) .tl-inline{ display:flex !important; align-items:center; gap:8px !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-fieldset:has(#tl_rate) .tl-inline > .tl-il:nth-child(6){ margin-left:auto; }   /* "Rate / Day" and what follows go to the right */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #tl_rate{ width:120px !important; min-width:120px !important; order:1; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-days{ order:2; margin-left:0 !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-lock{ order:3; width:36px !important; height:36px !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-fieldset:has(#tl_rate) .tl-inline > .tl-il:nth-child(6){ order:0; }
+html body.c5tlA.c5h40:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-lock, html body.c5tlA.c5h44:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-lock{ width:36px !important; height:36px !important; border-radius:50% !important; }
 
 /* ---------- Additional Charges: five ways to add (module). body.c5g1 … c5g5 ---------- */
 /* shared: the ghost row (always one empty row ready to fill) */
@@ -32455,7 +32463,7 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
 #c5famBar button.on{ background:#16181D; color:#fff; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Total Loss v16 · app 5.285</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5none">Today (5.285)</button></div>
+<div id="c5famBar"><span>Total Loss v17 · app 5.285</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5none">Today (5.285)</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
   document.body.classList.add("c5tlA","c5h40","c5g3");
