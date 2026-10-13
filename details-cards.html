@@ -32359,6 +32359,9 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5btm button.on{ background:rgba(232,121,43,.12); font-weight:700; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5btm button.on::after{ content:""; position:absolute; right:12px; top:50%; width:16px; height:16px; transform:translateY(-50%); background:#E8792B; -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/16px no-repeat; mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E") center/16px no-repeat; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5btm hr{ border:0; height:1px; background:#ECECF0; margin:8px 6px; }
+/* the summary's title: same as the other titles in the card, a line above, the box right under it */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5sumt{ padding:14px 0 0 !important; margin:0 0 8px !important; border-top:1px solid #ECECF0; font:600 15px var(--v4-word, Inter, Arial), sans-serif !important; color:#16181D !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary{ margin-top:0 !important; }
 
 /* Policy does not apply on a Total Loss */
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box[data-v4box="Total Loss Invoice"] .v4paypol{ display:none !important; }
@@ -32411,6 +32414,15 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
   var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
   new MutationObserver(function(){ var i = document.getElementById("tl_billto"); if(i && !i.parentNode.classList.contains("c5btw")) wire(); }).observe(ov, { childList:true, subtree:true });
 })();
+/* the summary box gets a title like the other parts of the card ("Invoice"), with the same line above; the card redraws its insides, so it is put back whenever it is missing */
+(function(){
+  var t = null;
+  function build(){ var s = document.querySelector("#jdTotalLoss .tl-summary"); if(!s || (s.previousElementSibling && s.previousElementSibling.classList.contains("c5sumt"))) return;
+    var d = document.createElement("div"); d.className = "tl-fieldset-title c5sumt"; d.textContent = "Invoice"; s.parentNode.insertBefore(d, s); }
+  var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
+  new MutationObserver(function(ms){ for(var i = 0; i < ms.length; i++){ var tg = ms[i].target; if(tg && tg.classList && tg.classList.contains("c5sumt")) continue; clearTimeout(t); t = setTimeout(build, 30); return; } }).observe(ov, { childList:true, subtree:true });
+  build();
+})();
 
 </script>
 <style id="c5famBarCss">
@@ -32419,7 +32431,7 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 #c5famBar button.on{ background:#16181D; color:#fff; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Details cards v7 · app 5.285</span><button data-e="c5cA" class="on">Pill rows</button><button data-e="c5cB">Pill rows + lines</button><button data-e="c5none">Today (5.285)</button></div>
+<div id="c5famBar"><span>Details cards v8 · app 5.285</span><button data-e="c5cA" class="on">Pill rows</button><button data-e="c5cB">Pill rows + lines</button><button data-e="c5none">Today (5.285)</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
   document.body.classList.add("c5cA","c5tlA","c5h40");
