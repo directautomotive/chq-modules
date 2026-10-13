@@ -32523,6 +32523,19 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5paid:hover{ background:#F5D5D5; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5paid.on{ background:#E7F4EA; color:#1E7B34; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5paid.on:hover{ background:#D7ECDC; }
+/* the Negotiated Total box sits in the Status row, at the right; the hidden "Negotiated Settlement" charge row stays out of the charge list (it shows in the Invoice box) */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5paidrow{ flex-direction:row; align-items:flex-end; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5paidrow > .tl-il{ display:none; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5paidrow > .c5paid{ margin-right:auto; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5neg{ display:flex; flex-direction:column; align-items:stretch; gap:4px; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5neg > .tl-il{ font:600 13px var(--v4-word, Inter, Arial), sans-serif !important; color:#56616C !important; line-height:16px; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5neg .c5amt{ width:120px; min-width:120px; }   /* on the Amount column */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5neg{ margin-right:44px; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5neg input.c5negin{ width:100% !important; height:40px !important; min-height:0 !important; margin:0 !important; padding:0 14px 0 28px !important; border:0 !important; border-radius:20px !important; background:#F2F2F7 !important; box-shadow:none !important; color:#16181D !important; font:400 14px var(--v4-num, "Courier New", monospace) !important; text-align:right !important; text-align-last:right !important; box-sizing:border-box !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5neg input.c5negin:focus{ background:#fff !important; box-shadow:inset 0 0 0 1.5px #E8792B !important; outline:0; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5neg input.c5negin::placeholder{ color:#9A9AA3; font-family:var(--v4-word, Inter, Arial), sans-serif; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #tlExtras .tl-extra-row:has([data-x-desc][value="Negotiated Settlement"]){ display:none !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line > span.c5sm.c5minus{ color:#C0392B; }
 
 /* ---------- Additional Charges: five ways to add (module). body.c5g1 … c5g5 ---------- */
 /* shared: the ghost row (always one empty row ready to fill) */
@@ -32631,7 +32644,7 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
   function build(){ var s = document.querySelector("#jdTotalLoss .tl-summary"); if(!s) return;
     if(!(s.previousElementSibling && s.previousElementSibling.classList.contains("c5sumt"))){ var d = document.createElement("div"); d.className = "tl-fieldset-title c5sumt"; d.textContent = "Invoice"; s.parentNode.insertBefore(d, s); }
     /* every money amount in the box: "$4,000.00" becomes a $ in its own column and the number — same as Payments */
-    s.querySelectorAll(".tl-line > span:last-child:not(.c5sm)").forEach(function(sp){ var m = /^\s*(-?)\$\s*([\d,]+\.\d{2})\s*$/.exec(sp.textContent); if(!m) return; sp.className += " c5sm"; sp.innerHTML = "<i>" + m[1] + "$</i><b>" + m[2] + "</b>"; });
+    s.querySelectorAll(".tl-line > span:last-child:not(.c5sm)").forEach(function(sp){ var m = /^\s*(-?)\$\s*(-?)([\d,]+\.\d{2})\s*$/.exec(sp.textContent); if(!m) return; var neg = !!(m[1] || m[2]); sp.className += " c5sm" + (neg ? " c5minus" : ""); sp.innerHTML = "<i>" + (neg ? "\u2212 " : "") + "$</i><b>" + m[3] + "</b>"; });
     /* Sales Tax is the last row of the charge list (Frank Oct 13 10:31 AM): the old Sales Tax section is hidden, its two controls move into a charge-shaped row under the ready row */
     var r = document.getElementById("tl_taxrate"), m = document.getElementById("tl_taxmode"), ex = document.getElementById("tlExtras");
     if(r && m && ex){ var fs = r.closest(".tl-fieldset"); if(fs && !fs.querySelector(".tl-summary") && !fs.querySelector("#tlExtras")) fs.classList.add("c5taxfs");
@@ -32698,6 +32711,30 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
     if(!row){ row = document.createElement("div"); row.className = "c5paidrow"; row.innerHTML = '<span class="tl-il">Status</span><button type="button" class="c5paid"><i></i><span></span></button>'; s.parentNode.insertBefore(row, s.nextSibling);
       row.querySelector(".c5paid").addEventListener("click", function(){ var b = document.querySelector('#v4JdPay [data-v4ck="e"]'); if(b) b.click(); setTimeout(build, 0); }); }
     var b = row.querySelector(".c5paid"); b.classList.toggle("on", paid); b.querySelector("span").textContent = paid ? "Paid" : "Not Paid"; b.title = paid ? "Click to mark it not paid" : "Click to mark it paid";
+    /* Negotiated Total (Frank Oct 13 3:34 PM): type the number agreed with Copart / the insurer; the app writes one hidden charge, "Negotiated Settlement", for the difference (a minus), so the Invoice box shows the write-down and Current Total Charges reads the agreed number. Clear the box to go back to the full invoice. */
+    if(!row.querySelector(".c5neg")){ var ng = document.createElement("span"); ng.className = "c5neg"; ng.innerHTML = '<span class="tl-il">Negotiated Total</span><span class="c5amt"><input type="text" class="c5negin" inputmode="decimal" placeholder="Full invoice"></span>'; row.appendChild(ng);
+      var inp = ng.querySelector(".c5negin");
+      inp.addEventListener("keydown", function(e){ if(e.key === "Enter"){ e.preventDefault(); inp.blur(); } });
+      inp.addEventListener("blur", function(){ apply(parseFloat(inp.value.replace(/[^\d.]/g, "")) || 0); }); }
+    var ni = row.querySelector(".c5negin"), nr = negRow();
+    if(document.activeElement !== ni){ ni.value = nr ? agreedFrom(nr) : ""; }
+  }
+  var NEG = "Negotiated Settlement";
+  function negRow(){ var rows = document.querySelectorAll("#tlExtras .tl-extra-row"); for(var i = 0; i < rows.length; i++){ var d = rows[i].querySelector("[data-x-desc]"); if(d && d.value.trim() === NEG) return rows[i]; } return null; }
+  function totalNow(){ var t = document.querySelector("#jdTotalLoss .tl-line.tl-total > span:last-child"); return parseFloat((t ? t.textContent : "0").replace(/[^\d.-]/g, "")) || 0; }
+  function agreedFrom(r){ var t = totalNow(); return t ? t.toLocaleString("en-US", { minimumFractionDigits:2, maximumFractionDigits:2 }) : ""; }
+  function set(el, v){ el.value = v; el.dispatchEvent(new Event("input", { bubbles:true })); el.dispatchEvent(new Event("change", { bubbles:true })); }
+  function apply(agreed){
+    var r = negRow();
+    if(!agreed){ if(r){ var x = r.querySelector("[data-x-del]"); if(x) x.click(); } return; }
+    var cur = totalNow(), have = r ? (parseFloat(r.querySelector("[data-x-amt]").value) || 0) : 0;
+    var full = cur - have;   /* the invoice without the settlement line */
+    var tm = document.getElementById("tl_taxmode"), tr = document.getElementById("tl_taxrate"), rate = (tm && tm.value !== "waived") ? (parseFloat(tr && tr.value) || 0) / 100 : 0;
+    var adj = Math.round(((agreed - full) / (1 + rate)) * 100) / 100;   /* taxable: the minus is taxed too, so it is scaled back */
+    if(adj >= 0){ if(r){ var x2 = r.querySelector("[data-x-del]"); if(x2) x2.click(); } return; }   /* agreed at the full amount or more: nothing to subtract */
+    if(r){ set(r.querySelector("[data-x-amt]"), String(adj)); return; }
+    var before = document.querySelectorAll("#tlExtras .tl-extra-row").length, add = document.getElementById("tlAddExtra"); if(add) add.click();
+    setTimeout(function(){ var rows = document.querySelectorAll("#tlExtras .tl-extra-row"); if(rows.length <= before) return; var nr = rows[rows.length - 1]; set(nr.querySelector("[data-x-desc]"), NEG); setTimeout(function(){ var r2 = negRow(); if(r2) set(r2.querySelector("[data-x-amt]"), String(adj)); }, 80); }, 80);
   }
   var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
   new MutationObserver(function(ms){ for(var i = 0; i < ms.length; i++){ var tg = ms[i].target; if(tg && tg.closest && tg.closest(".c5paidrow")) continue; build(); return; } }).observe(ov, { childList:true, subtree:true, attributes:true, attributeFilter:["class"] });
@@ -32736,7 +32773,7 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
 #c5famBar button.on{ background:#16181D; color:#fff; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Total Loss v52 · app 5.285</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5none">Today (5.285)</button></div>
+<div id="c5famBar"><span>Total Loss v53 · app 5.285</span><button data-e="c5tlA c5h40 c5g3" class="on">Family</button><button data-e="c5none">Today (5.285)</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
   document.body.classList.add("c5tlA","c5h40","c5g3");
