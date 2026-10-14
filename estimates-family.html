@@ -33294,6 +33294,13 @@ window.addEventListener("keydown", function(e){
   new MutationObserver(wire).observe(ov, { childList:true, subtree:true }); wire();
 })();
 
+/* Estimates card (Frank Oct 13 6:17 PM): the deductible's state (Waived / Unpaid / Paid) reads after a thin bar next to the word Deductible, like "Sales Tax | Exempt" — moved into the first cell on every redraw */
+(function(){
+  var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
+  function fix(){ ov.querySelectorAll("#v4JdPay .v4sum select.v4dst").forEach(function(s){ var tr = s.closest("tr"), td = tr && tr.firstElementChild; if(!td || s.closest(".c5dedw")) return; var w = document.createElement("span"); w.className = "c5dedw v4khs"; td.appendChild(w); w.appendChild(s); }); }
+  new MutationObserver(fix).observe(ov, { childList:true, subtree:true }); fix();
+})();
+
 /* the ready row: one empty charge row under the list. Typing a name or an amount and pressing Enter, or clicking +, adds a real charge through the app's own + button and moves the words into it. */
 (function(){
   var t = null;
@@ -33732,6 +33739,9 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 /* Frank Oct 13 5:55 PM screenshot: the Deductible pill (Waived / Unpaid / Paid) had two chevrons drawn over its word — it is a plain pill, no chevron */
 html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody #v4JdPay select.v4dst{ background-image:none !important; }
 
+/* Frank Oct 13 6:22 PM: the red total pill's $ and number line up with the rows above (the pill reaches 8 px past the rows on each side, so its inside padding is 8 px) */
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line.tl-total{ padding:0 8px !important; }
+
 /* ---------- Additional Charges: five ways to add (module). body.c5g1 … c5g5 ---------- */
 /* shared: the ghost row (always one empty row ready to fill) */
 html body:is(.c5g1, .c5g2, .c5g3, .c5g5):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #tlAddExtra{ display:none !important; }
@@ -33879,6 +33889,37 @@ html body.c5eE:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
 html body.c5eE:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4sumbox{ display:flex; flex-direction:column; align-items:stretch; }
 html body.c5eE:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4sumbox .v4bal{ align-self:flex-end; }
 
+/* ---------- the Payments summary is the Invoice box (Frank Oct 13 6:17 PM: "put a standard on the bottom… this exact same formula… nothing should be editable… it's the invoice") ---------- */
+html body:is(.c5eA, .c5eB, .c5eC, .c5eD, .c5eE):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody #v4JdPay .v4sumbox{ background:#FAFAF8 !important; border:1px solid #E4E5E1 !important; border-radius:12px !important; padding:6px 16px 12px !important; margin:10px 0 0 !important; }
+html body:is(.c5eA, .c5eB, .c5eC, .c5eD, .c5eE):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody #v4JdPay .v4sum td{ height:36px; border-bottom:1px solid #EEEEEA !important; color:#000 !important; }
+html body:is(.c5eA, .c5eB, .c5eC, .c5eD, .c5eE):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody #v4JdPay .v4sum tr.v4oweh td{ font-weight:600; }
+html body:is(.c5eA, .c5eB, .c5eC, .c5eD, .c5eE):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody #v4JdPay .v4sum tr.tot td{ font-weight:600; border-top:0 !important; }
+html body:is(.c5eA, .c5eB, .c5eC, .c5eD, .c5eE):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody #v4JdPay .v4sum tr.v4paidrow td{ color:#000 !important; }
+html body:is(.c5eA, .c5eB, .c5eC, .c5eD, .c5eE):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody #v4JdPay .v4sum .v4khs{ color:#000 !important; }
+html body:is(.c5eA, .c5eB, .c5eC, .c5eD, .c5eE):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody #v4JdPay .v4sum .v4khs::before{ color:#C3C6CB; }
+html body:is(.c5eA, .c5eB, .c5eC, .c5eD, .c5eE):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody #v4JdPay .v4sum .c5m, html body:is(.c5eA, .c5eB, .c5eC, .c5eD, .c5eE):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody #v4JdPay .v4bal .c5m{ width:133px !important; }
+html body:is(.c5eA, .c5eB, .c5eC, .c5eD, .c5eE):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody #v4JdPay .v4sum .c5m i, html body:is(.c5eA, .c5eB, .c5eC, .c5eD, .c5eE):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody #v4JdPay .v4sum .c5m b{ color:#000 !important; font-weight:400 !important; }
+html body:is(.c5eA, .c5eB, .c5eC, .c5eD, .c5eE):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody #v4JdPay .v4sum tr.tot .c5m b{ font-weight:600 !important; }
+html body:is(.c5eA, .c5eB, .c5eC, .c5eD, .c5eE):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody #v4JdPay .v4sum .okc, html body:is(.c5eA, .c5eB, .c5eC, .c5eD, .c5eE):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody #v4JdPay .v4sum .okc .c5m :is(i, b){ color:#000 !important; }
+html body:is(.c5eA, .c5eB, .c5eC, .c5eD, .c5eE):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody #v4JdPay .v4sum .c5m svg{ display:none; }   /* the check marks on a zero balance go — the words say it */
+/* nothing to edit inside the box: the deductible's state is a word after a thin bar, like "Sales Tax | Exempt"; the lock, the hint and the collected bar are gone */
+html body:is(.c5eA, .c5eB, .c5eC, .c5eD, .c5eE):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody #v4JdPay .v4sum select.v4dst{ -webkit-appearance:none !important; appearance:none !important; height:auto !important; min-height:0 !important; width:auto !important; padding:0 !important; margin:0 0 0 10px !important; border:0 !important; border-radius:0 !important; background:transparent !important; box-shadow:none !important; font:400 14px Inter, Arial, sans-serif !important; color:#000 !important; text-align:left !important; text-align-last:left !important; cursor:default; pointer-events:none; }
+html body:is(.c5eA, .c5eB, .c5eC, .c5eD, .c5eE):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody #v4JdPay .v4sum .c5dedw::before{ content:"|"; color:#C3C6CB; margin-right:0; }
+html body:is(.c5eA, .c5eB, .c5eC, .c5eD, .c5eE):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody #v4JdPay .v4sum .v4lock, html body:is(.c5eA, .c5eB, .c5eC, .c5eD, .c5eE):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody #v4JdPay .v4prog{ display:none !important; }
+html body:is(.c5eA, .c5eB, .c5eC, .c5eD, .c5eE):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody #v4JdPay .v4sum td.v4amt{ pointer-events:none; }
+/* the bottom line: the round red (owed) or green (clear) pill inside the box, the Invoice's twin */
+html body:is(.c5eA, .c5eB, .c5eC, .c5eD, .c5eE):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody #v4JdPay .v4sumbox .v4bal{ margin:10px -8px 0 !important; padding:0 8px !important; height:46px !important; min-height:46px !important; border-radius:23px !important; font:700 15px Inter, Arial, sans-serif !important; }
+html body:is(.c5eA, .c5eB, .c5eC, .c5eD, .c5eE):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody #v4JdPay .v4bal .c5m i{ font-weight:700; }
+html body:is(.c5eA, .c5eB, .c5eC, .c5eD, .c5eE):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody #v4JdPay .v4bal .c5m{ margin-right:-9px; }   /* its $ and number sit on the rows' columns */
+html body:is(.c5eA, .c5eB, .c5eC, .c5eD, .c5eE):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody #v4JdPay .v4bal .c5m svg{ display:none; }
+html body.c5eE:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody #v4JdPay .v4sumbox{ display:block; }
+html body.c5eE:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody #v4JdPay .v4bal{ width:auto !important; display:flex !important; margin:10px -8px 0 !important; }
+
+/* Frank Oct 13 6:19 PM: the Payments line starts like every other section — same words, same size as "Estimates | Insurance Paperwork…" */
+html body:is(.c5eA, .c5eB, .c5eC, .c5eD, .c5eE):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4payh{ padding-left:0 !important; }
+html body:is(.c5eA, .c5eB, .c5eC, .c5eD, .c5eE):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4payh b{ font:700 16px Inter, Arial, sans-serif !important; color:#000 !important; }
+html body:is(.c5eA, .c5eB, .c5eC, .c5eD, .c5eE):not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4payh .v4pol{ font:400 14px Inter, Arial, sans-serif !important; color:#000 !important; }
+
 </style>
 <style id="c5famBarCss">
 #c5famBar{ position:fixed; left:50%; top:10px; transform:translateX(-50%); z-index:99999; display:flex; gap:2px; background:#fff; border-radius:22px; padding:3px; box-shadow:0 6px 24px rgba(0,0,0,.22); font-family:Inter, Arial, sans-serif; }
@@ -33886,7 +33927,7 @@ html body.c5eE:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
 #c5famBar button.on{ background:#16181D; color:#fff; }
 #c5famBar span{ align-self:center; padding:0 10px 0 14px; font:600 13px Inter, Arial, sans-serif; color:#16181D; }
 </style>
-<div id="c5famBar"><span>Estimates v1 · app 5.293</span><button data-e="c5eA" class="on">A · Pills</button><button data-e="c5eB">B · Boxes</button><button data-e="c5eC">C · Lines</button><button data-e="c5eD">D · Labels</button><button data-e="c5eE">E · Compact</button><button data-e="c5none">Today (5.293)</button></div>
+<div id="c5famBar"><span>Estimates v2 · app 5.293</span><button data-e="c5eA" class="on">A · Pills</button><button data-e="c5eB">B · Boxes</button><button data-e="c5eC">C · Lines</button><button data-e="c5eD">D · Labels</button><button data-e="c5eE">E · Compact</button><button data-e="c5none">Today (5.293)</button></div>
 <script>
 (function(){ try{ localStorage.setItem("chq_demo","1"); }catch(e){}
   document.body.classList.add("c5tlA","c5h40","c5g3","c5eA");
