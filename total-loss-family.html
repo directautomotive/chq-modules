@@ -7964,7 +7964,22 @@ html body:not(.chq5off) #v4SrcWin button:not(.v4cx):not(:disabled):is(:active, .
 html body:not(.chq5off) #v4SrcWin button:not(.v4cx){ transition:scale .18s cubic-bezier(.2,.9,.3,1.35), filter .12s, background-color .12s; }
 @media (prefers-reduced-motion:reduce){ html body:not(.chq5off) #v4SrcWin button:not(.v4cx):is(:active, .c5press){ scale:1; } }
 
-/* ========== v5.294 (Frank Oct 13, CHQ Aesthetics chat): the Total Loss Invoice card and Details in the family — module versions 1–102 (CHQ Modules › Total Loss Family); the card approved 4:25 PM "it looks crisp, it looks solid… plug this into the actual". The module's styles follow, its switches made permanent: Family look (c5tlA), 40-tall pills (c5h40), the outlined ready row (c5g3). Rules for switches the app never turns on (body.c5tlA.c5h44, body.c5tlA.c5lt Light skin, c5g1/2/4/5) ride along inert. Standard from here (Frank 4:26 PM): a box you type in is white with a real 1-px line (lands on one pixel, crisp), and every focus glow is the same 1.5-px orange ring. ========== */
+/* v5.295 — one Dates column: shared ring while arranging; the Date Out marker in its own slot before the date */
+html body:not(.chq5off).c5arr #headerRow th.c5dgrp{ box-shadow:inset 0 2px 0 #E8792B, inset 0 -2px 0 #E8792B; }
+html body:not(.chq5off).c5arr #headerRow th.c5dgrp.c5dgl{ box-shadow:inset 2px 2px 0 #E8792B, inset 0 -2px 0 #E8792B; }
+html body:not(.chq5off).c5arr #headerRow th.c5dgrp.c5dgr{ box-shadow:inset -2px 2px 0 #E8792B, inset 0 -2px 0 #E8792B; }
+html body:not(.chq5off).c5arr #headerRow th.c5dgrp.c5dgl.c5dgr{ box-shadow:inset 0 0 0 2px #E8792B; }
+html body:not(.chq5off) #tableBody td.c5do .c5mk{ position:static !important; transform:none !important; margin-right:3px; }
+html body:not(.chq5off) #tableBody td.c5do .c5dobox, html body:not(.chq5off) #tableBody td.c5do .date-out-wrap{ display:inline-flex !important; align-items:center; justify-content:center; gap:0; width:100%; height:100%; }
+html body:not(.chq5off) #tableBody td.c5do .date-out-wrap .dfmt{ flex:0 0 auto; }
+html body:not(.chq5off) #tableBody td.c5do .dfmt{ width:auto !important; flex:0 0 auto !important; padding:0 !important; }
+html body:not(.chq5off) #tableBody td.c5do .date-out-wrap{ position:static !important; padding:0 !important; }
+html body:not(.chq5off) #tableBody td.c5do .c5mk{ margin:0 3px 0 0 !important; }
+html body:not(.chq5off) #tableBody td.c5do .dfmt{ position:static !important; inset:auto !important; }
+html body:not(.chq5off) #tableBody td.c5do .date-out-wrap{ position:relative !important; }
+html body:not(.chq5off) #tableBody td.c5do .date-out-wrap .cell-date{ position:absolute !important; inset:0 !important; width:100% !important; height:100% !important; opacity:0 !important; margin:0 !important; }
+
+/* ========== v5.296 (Frank Oct 13, CHQ Aesthetics chat): the Total Loss Invoice card and Details in the family — module versions 1–103 (CHQ Modules › Total Loss Family); the card approved 4:25 PM "it looks crisp, it looks solid… plug this into the actual". The module's styles follow, its switches made permanent: Family look (c5tlA), 40-tall pills (c5h40), the outlined ready row (c5g3). Rules for switches the app never turns on (body.c5tlA.c5h44, body.c5tlA.c5lt Light skin, c5g1/2/4/5) ride along inert. Standard from here (Frank 4:26 PM): a box you type in is white with a real 1-px line (lands on one pixel, crisp), and every focus glow is the same 1.5-px orange ring. ========== */
 /* ---------- Total Loss in the family (module). #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay = the Details overlay, five ids ---------- */
 /* titles inside the invoice card read like "Payments" */
 html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-fieldset-title{ font:600 15px var(--v4-word, Inter, Arial), sans-serif !important; color:#16181D !important; margin:0 0 8px !important; }
@@ -8407,6 +8422,11 @@ html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#j
 /* paid in full: the bottom pill goes green (Frank Oct 14 9:26 AM) */
 html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line.tl-total.c5clear{ background:#E7F4EA !important; }
 html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line.tl-total.c5clear > span, html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line.tl-total.c5clear .c5sm > i, html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line.tl-total.c5clear .c5sm > b{ color:#1E7B34 !important; }
+/* the Storage pill's menu (Frank Oct 14 9:49 AM) — the wrapper is the pill's size; the select keeps its own look */
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stw{ position:relative; display:block; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stw::after{ display:none; }   /* the select draws its own chevron */
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stw > select.tl-stype{ width:100% !important; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stw .c5btm{ min-width:100%; }
 
 /* ---------- Additional Charges: five ways to add (module). body.c5g1 … c5g5 ---------- */
 /* shared: the ghost row (always one empty row ready to fill) */
@@ -8497,7 +8517,7 @@ html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#j
          changed width — and the Save label changes width constantly. -->
     <div class="topbar-brand">
       <div class="app-title">Collision<span class="hq">HQ</span>
-        <span class="version-badge" id="versionBadge">HQ v5.294</span></div>
+        <span class="version-badge" id="versionBadge">HQ v5.296</span></div>
     </div>
 
     <div class="topbar-right">
@@ -17652,7 +17672,7 @@ html body #signInOverlay#signInOverlay :is(.sign-in-switch,.field-hint){ display
     chqPhShow("sheet full", true);
   }
   CHQPH_CSS += "\n/* v4.129 */\n.dv{flex:none;font-size:13px;font-weight:600;color:var(--p-mute);padding:8px 8px 0}\n.cA.dn{opacity:.62}\n.phone.lg .dv{font-size:15px;padding:10px 12px 0}\n/* bottom: search always showing, then Jobs | Leads | Status and the orange + ; both sit low now that the Netlify tag is off */\n.phone.lg .nav{bottom:calc(14px + env(safe-area-inset-bottom,0px))}\n.phone.lg .fab{bottom:calc(14px + env(safe-area-inset-bottom,0px))}\n.phone.lg .srow{display:flex;top:auto;bottom:calc(80px + env(safe-area-inset-bottom,0px))}\n.phone.lg .search{background:rgba(255,255,255,.72);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(255,255,255,.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.14);height:48px;border-radius:24px;color:#111114}\n.phone.lg .search::placeholder{color:#6C6C73}\n.phone.lg .toast{bottom:calc(144px + env(safe-area-inset-bottom,0px))}\n/* top: filter | month | DA */\n.phone.lg .brand .fbtn{background:rgba(255,255,255,.72);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(255,255,255,.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.14);width:44px;height:44px;border-radius:22px;flex:none}\n.phone.lg .brand .fbtn[hidden]{display:grid;visibility:hidden}\n.phone.lg .brand .fbtn.on{background:rgba(255,243,232,.9)}\n.phone.lg .mon .lab{padding-left:0}\n.phone.lg .brand .acct{background-size:cover;background-position:center}\n.phone.lg .chips{top:calc(66px + env(safe-area-inset-top,0px))}\n.phone.lg .monmenu{left:68px;right:68px}\n.phone.lg .list{padding-bottom:220px;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 calc(74px + env(safe-area-inset-top,0px)),#000 calc(100% - 210px),transparent calc(100% - 100px));mask-image:linear-gradient(to bottom,transparent 0,#000 calc(74px + env(safe-area-inset-top,0px)),#000 calc(100% - 210px),transparent calc(100% - 100px))}\n.phone.lg.fo .list{padding-top:calc(118px + env(safe-area-inset-top,0px));-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 calc(120px + env(safe-area-inset-top,0px)),#000 calc(100% - 210px),transparent calc(100% - 100px));mask-image:linear-gradient(to bottom,transparent 0,#000 calc(120px + env(safe-area-inset-top,0px)),#000 calc(100% - 210px),transparent calc(100% - 100px))}\n/* card: #1 | Name on the first line, status across the last line */\n.phone.lg .cA .nm{display:flex;align-items:center;gap:8px;overflow:visible}\n.phone.lg .cA .nm .jn{flex:none;font-size:17px;font-weight:600;color:var(--p-mute)}\n.phone.lg .cA .nm .vsep{height:18px}\n.phone.lg .cA .nm .nmt{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}\n.phone.lg .cA:not(.ld) .row2 .st.fx{flex:1 1 auto;max-width:none}\n.phone.lg .soon{text-align:center;align-items:center;padding:36px 20px;margin-top:20px}\n.phone.lg .soon b{font-size:22px}\n.phone.lg .soon span{font-size:15px;font-weight:600;color:var(--p-orange)}\n.phone.lg .soon p{font-size:15px;color:var(--p-mute);margin:6px 0 0}\n/* status menu: drops from the chip, same width, scrolls */\n.phone.lg .kv .st.fx{width:250px}\n.phone.lg .stm{margin:-2px 0 10px auto;width:250px;max-height:344px;overflow:auto;border:none;border-radius:22px;padding:6px;box-sizing:border-box;box-shadow:0 10px 30px rgba(0,0,0,.16)}\n.phone.lg .stm button{height:46px;padding:0 6px;border-top-color:#EEEEF1;gap:6px}\n.phone.lg .stm .st.fx{width:auto;flex:1}\n.phone.lg .stm button:has(b){background:rgba(232,121,43,.10);border-radius:14px;border-top-color:transparent}\n.phone.lg .stm button b{font-size:15px;color:var(--p-orange);flex:none;width:18px}\n.phone.lg .stadd{border-top:1px solid #E3E3E8;margin-top:4px;padding:8px 2px 2px;display:flex;flex-direction:column;gap:6px}\n.phone.lg .stadd input{height:40px;border-radius:14px;border:1px solid #E3E3E8;padding:0 12px;font-size:16px;width:100%;box-sizing:border-box;background:#fff;color:var(--p-fg)}\n.phone.lg .stadd div{display:grid;grid-template-columns:1fr 1fr;gap:6px}\n.phone.lg .stadd button{height:38px;border-radius:19px;border:none;background:#F2F2F7;font-size:14px;font-weight:600;color:var(--p-fg);justify-content:center;padding:0}\n.phone.lg .stadd button#stList{background:var(--p-orange);color:#fff}\n/* settings: tap the circle to change the shop picture */\n.phone.lg .sav{border:none;padding:0;overflow:hidden;font-family:var(--word);transition:opacity .15s}\n.phone.lg .sav:active{opacity:.6}\n.phone.lg .sav img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}\n/* shop photo editor */\n.phone.lg .rbk{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));width:44px;height:44px;border-radius:22px;background:rgba(255,255,255,.72);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(255,255,255,.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.14);display:grid;place-items:center;font-size:18px;color:#111114;z-index:2;padding:0}\n.phone.lg .rbk.l{left:16px}\n.phone.lg .rbk.r{right:16px;background:rgba(232,121,43,.88);border-color:rgba(255,255,255,.35);color:#fff;font-weight:700;box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 8px 24px rgba(232,121,43,.35)}\n.phone.lg .pbw{position:relative;width:200px;height:200px;margin:14px auto 0;flex:none}\n.phone.lg .pbig{width:200px;height:200px;border-radius:100px;object-fit:cover;display:block;box-shadow:0 14px 34px rgba(0,0,0,.18)}\n.phone.lg .prm{position:absolute;right:6px;top:6px;width:36px;height:36px;border-radius:18px;background:rgba(255,255,255,.72);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(255,255,255,.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.14);display:grid;place-items:center;font-size:22px;line-height:1;color:#111114;padding:0 0 2px}\n.phone.lg .pcrop{align-self:center;display:flex;align-items:center;gap:8px;height:44px;padding:0 20px;border-radius:22px;background:rgba(255,255,255,.72);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(255,255,255,.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.14);font-size:15px;font-weight:600;color:#111114;flex:none}\n.phone.lg .pcrop svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}\n.phone.lg .pcrop:disabled{opacity:.4}\n.phone.lg .pcrop *{pointer-events:none}\n.phone.lg .psec{font-size:17px;font-weight:600;padding:6px 4px 0;flex:none}\n.phone.lg .prow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;flex:none}\n.phone.lg .pc{aspect-ratio:1;width:100%;border-radius:50%;border:none;padding:0;display:grid;place-items:center;align-content:center;gap:2px;font-size:26px;font-weight:700;background-size:cover;background-position:center}\n.phone.lg .pc.tool{background:rgba(255,255,255,.72);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(255,255,255,.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.14);color:#111114;font-size:11px;font-weight:600}\n.phone.lg .pc.tool svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}\n.phone.lg .pc.on{outline:3px solid var(--p-orange);outline-offset:3px}\n.phone.lg .pc *{pointer-events:none}\n/* crop */\n.phone.lg .sheet.crop{background:#000}\n.phone.lg .sheet.crop .sttl{color:#fff}\n.phone.lg .sheet.crop .rbk.l{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.28);color:#fff;box-shadow:none}\n.phone.lg .cwrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;padding:0 16px 40px}\n.phone.lg .cbox{position:relative;width:min(100%,340px);aspect-ratio:1;touch-action:none}\n.phone.lg .cbox canvas{width:100%;height:100%;display:block;touch-action:none}\n.phone.lg .cbox::after{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle closest-side,transparent 99.4%,rgba(0,0,0,.55) 100%)}\n.phone.lg .czm{width:min(100%,300px);accent-color:#E8792B}\n.phone.lg .chint{color:rgba(255,255,255,.7);font-size:15px}\n";   /* v4.129 */
-  var CHQ_LAST_PHONE = "5.294", CHQ_LAST_DESK = "5.294";   /* v4.129: which side a version changed */
+  var CHQ_LAST_PHONE = "5.296", CHQ_LAST_DESK = "5.296";   /* v4.129: which side a version changed */
   /* the phone list in the Ledger's order: open jobs, Potential Job, completed, Claim Denied; then the Ledger's own sort column */
   function chqPhSorted(key){
     var jobs = chqPhMonthJobs(key).slice(), field = sortState.field, dir = sortState.dir;
@@ -22255,7 +22275,7 @@ document.addEventListener("focusout", function(e){ try{ var t = e.target; if(t &
       /* settings: the chevron in the Days header */
       var CHEV = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';
       function headerChev(){
-        var th = document.querySelector('#headerRow th[data-col-id="daysIn"]'); if(!th || th.querySelector(".c5dhc")) return;
+        var th = document.querySelector('#headerRow th[data-col-id="daysIn"]') || document.querySelector('#headerRow th[data-col-id="dateOut"]') || document.querySelector('#headerRow th[data-col-id="dateIn"]'); if(!th || th.querySelector(".c5dhc")) return;   /* v5.295: the chevron sits on whichever of the three is showing */
         var b = document.createElement("button"); b.type = "button"; b.className = "c5dhc"; b.setAttribute("aria-label", "Days settings"); b.innerHTML = CHEV;
         (th.querySelector(".th-label") || th).appendChild(b);
         b.addEventListener("click", function(e){ e.stopPropagation(); e.preventDefault(); var p = document.getElementById("c5DaysPop"); if(p && p.classList.contains("show")) closePop(); else openPop(b); });
@@ -23818,7 +23838,55 @@ window.addEventListener("keydown", function(e){
   }catch(e){ console.warn("v5.291 press", e); }
 })();
 
-  /* ---------- v5.294 (Frank Oct 13, CHQ Aesthetics chat; replaces the 5.289 block): the Total Loss Invoice card and the Details rules, from CHQ Modules › Total Loss Family v102 (Oct 14 9:35 AM "I think it's ready, go ahead"). Since 5.289 (v71–v86): + Add Custom Field row (name as a plain label, × inside the value pill, per job); placeholders (Name, Year Make Model, 17 characters, (000) 000-0000, Claim number); Enter moves on in every card — next box in reading order, a dropdown shows its menu and Enter again keeps its pick, a date opens its calendar and Enter again closes it, Bill To → Pick Up → Start → End → Storage → rate → charges in the invoice card, stops after Work File ID (never lands on + Add Custom Field); a clicked dropdown takes the ring and the focus; Source pill carries one ring; letters never change a dropdown by accident; Adjuster Phone extension in the line — "(800) 555-0225 Ext. 1352190", no Ext pill (5:39 PM). Oct 14 (v88–v102): the red total pill lines up with the rows (8 px inside); Deductible pill has no chevron; the charge list heading reads Additional Charges; a Payments heading and one row under it — a dropdown pill (reads Check until a payment comes) with a menu like the charge list: Check / Cash · Full Amount (writes the total, follows it), Check / Cash · Settlement (type what they paid), a $ amount pill, a red × to clear; the Invoice box is a preview — "Payments | Check … $" line, and the bottom pill is the balance (green at zero); the printed invoice carries the Payments line and Balance Due / Paid in Full; no scrollbar inside the charge list; invoice names never wrap. What it does, top to bottom:
+/* ---------- v5.295 (Frank Oct 14 9:37 AM, module "Dates On The Board" version 12): Date In · Days · Date Out are ONE "Dates" column.
+   (1) Arranging: one X over the group (removes all three), one width pill (the three added up), only the group's outer edge grip. The three headers share one orange ring.
+   (2) The chevron pop-up has a "Show" section: Date In, Days, Date Out each a switch (the last one on cannot be turned off). The chevron sits on whichever of the three is showing.
+   (3) Days starts OFF, once (Frank: "let's turn off the days"); the switch brings it back.
+   (4) The Date Out marker ("!" / calendar) has its own slot before the date instead of sitting on it — CSS block v5.295. ---------- */
+(function(){
+  try{
+    var G = ["dateIn", "daysIn", "dateOut"];
+    function ths(){ var o = {}; [].forEach.call(document.querySelectorAll("#headerRow > th[data-col-id]"), function(t){ o[t.getAttribute("data-col-id")] = t; }); return o; }
+    function group(){ var t = ths(), a = G.filter(function(id){ return t[id]; }); if(a.length < 2) return null;
+      var idx = a.map(function(id){ return [].indexOf.call(t[id].parentNode.children, t[id]); }); for(var i = 1; i < idx.length; i++) if(idx[i] !== idx[i - 1] + 1) return null;   /* only when they sit side by side */
+      var r0 = t[a[0]].getBoundingClientRect(), r1 = t[a[a.length - 1]].getBoundingClientRect(); return { ids:a, left:r0.left, right:r1.right, top:r0.top, bottom:r0.bottom, first:a[0], last:a[a.length - 1] }; }
+    function ring(g){ var t = ths(); G.forEach(function(id){ if(t[id]) t[id].classList.toggle("c5dgrp", !!g && g.ids.indexOf(id) !== -1); t[id] && t[id].classList.toggle("c5dgl", !!g && g.first === id); t[id] && t[id].classList.toggle("c5dgr", !!g && g.last === id); }); }
+    /* the X layer */
+    function mergeX(){ var xl = document.getElementById("c5ArrX"); if(!xl || !xl.children.length) return; var g = group(); ring(g); if(!g) return;
+      var gs = g.ids.map(function(id){ return xl.querySelector('.g[data-g="' + id + '"]'); }).filter(Boolean); if(!gs.length || xl.querySelector('.g[data-g="c5dates"]')) return;
+      var keep = gs[0]; gs.slice(1).forEach(function(x){ x.remove(); });
+      keep.setAttribute("data-g", "c5dates"); keep.style.left = ((g.left + g.right) / 2 + window.scrollX).toFixed(1) + "px";
+      var x = keep.querySelector("[data-x]"); if(x){ x.setAttribute("data-x", "c5dates"); x.title = "Remove Dates (Date In, Days, Date Out)"; }
+      var f = keep.querySelector("[data-ft]"); if(f) f.remove(); }
+    document.addEventListener("click", function(e){ var b = e.target.closest && e.target.closest('#c5ArrX [data-x="c5dates"]'); if(!b) return; e.stopImmediatePropagation(); e.preventDefault();
+      var g = group(); (g ? g.ids : G).forEach(function(id){ try{ setColumnHidden(id, true); }catch(x){} }); }, true);
+    /* the width layer */
+    function mergeW(){ var lay = document.getElementById("c5ArrW"); if(!lay || !lay.children.length) return; var g = group(); ring(g); if(!g) return;
+      var ps = g.ids.map(function(id){ return lay.querySelector('.wp[data-c="' + id + '"]'); }).filter(Boolean); if(!ps.length || lay.querySelector('.wp[data-c="c5dates"]')) return;
+      var sum = 0; g.ids.forEach(function(id){ var t = ths()[id]; if(t) sum += t.getBoundingClientRect().width; });
+      var keep = ps[0]; ps.slice(1).forEach(function(p){ p.remove(); }); keep.setAttribute("data-c", "c5dates"); keep.textContent = Math.round(sum); keep.title = "Dates: " + g.ids.map(function(id){ return columnDefById(id).label; }).join(" + ") + ". Drag the right edge to resize.";
+      keep.style.left = ((g.left + g.right) / 2 + window.scrollX).toFixed(1) + "px";
+      g.ids.forEach(function(id){ if(id !== g.last){ var gr = lay.querySelector('.gr[data-c="' + id + '"]'); if(gr) gr.remove(); } }); }
+    document.addEventListener("click", function(e){ if(e.target.closest && e.target.closest('#c5ArrW .wp[data-c="c5dates"]')){ e.stopImmediatePropagation(); e.preventDefault(); } }, true);
+    var q = 0; function soon(){ if(q) return; q = requestAnimationFrame(function(){ q = 0; try{ mergeX(); mergeW(); }catch(e){} }); }
+    new MutationObserver(function(ms){ for(var i = 0; i < ms.length; i++){ var t = ms[i].target; if(t.id === "c5ArrX" || t.id === "c5ArrW" || (t.closest && t.closest("#c5ArrX, #c5ArrW"))){ soon(); return; } } }).observe(document.body, { childList:true, subtree:true });
+    new MutationObserver(soon).observe(document.body, { attributes:true, attributeFilter:["class"] });
+    /* (2) Show switches in the chevron pop-up, and the chevron on whichever header is showing */
+    var SHOW = [["dateIn", "Date In"], ["daysIn", "Days"], ["dateOut", "Date Out"]];
+    function addShow(){ var p = document.getElementById("c5DaysPop"); if(!p || !p.classList.contains("show") || p.querySelector(".c5dsh")) return;
+      var vis = {}; SHOW.forEach(function(x){ vis[x[0]] = !isColumnHidden(x[0]); }); var onCount = SHOW.filter(function(x){ return vis[x[0]]; }).length;
+      var h = '<div class="h c5dsh">Show</div>' + SHOW.map(function(x){ var on = vis[x[0]]; return '<button type="button" class="r sw c5dsh" data-show="' + x[0] + '"' + (on && onCount === 1 ? ' disabled title="Keep at least one"' : '') + '><span class="l">' + x[1] + '</span><span class="tg' + (on ? " on" : "") + '"></span></button>'; }).join("");
+      p.insertAdjacentHTML("afterbegin", h); }
+    document.addEventListener("click", function(e){ var b = e.target.closest && e.target.closest("#c5DaysPop [data-show]"); if(!b || b.disabled) return; e.stopImmediatePropagation(); e.preventDefault();
+      var id = b.getAttribute("data-show"); setColumnHidden(id, !isColumnHidden(id)); var p = document.getElementById("c5DaysPop"); if(p){ p.querySelectorAll(".c5dsh").forEach(function(x){ x.remove(); }); addShow(); } }, true);
+    new MutationObserver(function(){ try{ addShow(); }catch(e){} }).observe(document.documentElement, { childList:true, subtree:true, attributes:true, attributeFilter:["class"] });
+    /* (3) Days off, once */
+    function once(){ var st = data && data.settings; if(!st || st.c5d295 || !Array.isArray(st.columnOrder) || !document.getElementById("headerRow") || !document.querySelector("#headerRow th")) return; st.c5d295 = 1; if(!isColumnHidden("daysIn")) setColumnHidden("daysIn", true); else try{ saveData(); }catch(e){} }
+    new MutationObserver(function(){ try{ once(); }catch(e){} }).observe(document.documentElement, { childList:true, subtree:true });   /* the demo shop (and a sign-in) swap the data object after the scripts ran, so look again on every redraw until it is done */
+  }catch(e){ console.warn("v5.295 dates", e); }
+})();
+
+  /* ---------- v5.296 (Frank Oct 13, CHQ Aesthetics chat; replaces the 5.289 block): the Total Loss Invoice card and the Details rules, from CHQ Modules › Total Loss Family v103 (Oct 14 10:04 AM "do it"). Since 5.289 (v71–v86): + Add Custom Field row (name as a plain label, × inside the value pill, per job); placeholders (Name, Year Make Model, 17 characters, (000) 000-0000, Claim number); Enter moves on in every card — next box in reading order, a dropdown shows its menu and Enter again keeps its pick, a date opens its calendar and Enter again closes it, Bill To → Pick Up → Start → End → Storage → rate → charges in the invoice card, stops after Work File ID (never lands on + Add Custom Field); a clicked dropdown takes the ring and the focus; Source pill carries one ring; letters never change a dropdown by accident; Adjuster Phone extension in the line — "(800) 555-0225 Ext. 1352190", no Ext pill (5:39 PM). Oct 14 (v88–v102): the red total pill lines up with the rows (8 px inside); Deductible pill has no chevron; the charge list heading reads Additional Charges; a Payments heading and one row under it — a dropdown pill (reads Check until a payment comes) with a menu like the charge list: Check / Cash · Full Amount (writes the total, follows it), Check / Cash · Settlement (type what they paid), a $ amount pill, a red × to clear; the Invoice box is a preview — "Payments | Check … $" line, and the bottom pill is the balance (green at zero); the printed invoice carries the Payments line and Balance Due / Paid in Full; no scrollbar inside the charge list; invoice names never wrap. v103 (Oct 14 9:49–9:52 AM, Frank found both): the Storage pill (Outdoor / Indoor) opens the family menu, not the browser's — Enter landing on it opens it too; the paid check mark on a total loss fills the Payments row with Check · Full Amount (v4SaveJob wrapped), unchecking clears it. What it does, top to bottom:
      · Bill To is a dropdown (Copart, IAA, a line, then every insurance company); the Estimates card is gone on a total loss (its PDFs show as rows in Documents); Payments is gone from the card too.
      · One row of labelled pills: Start Date · End Date · Storage · "20 days at $250 per day" (the rate typed in that pill) · Total (days × rate, read-only) · lock. Labels over pills everywhere, no bold section titles.
      · Charges: Charge / Amount columns, $ inside every money pill, the round red ×; a ready row (white box, 1-px line, a +) that searches the charge list as you type.
@@ -24097,6 +24165,7 @@ window.addEventListener("keydown", function(e){
       nx.focus(); try{ if(nx.tagName === "INPUT" && !nx.readOnly) nx.select(); }catch(_){}
       /* landing on a dropdown opens its menu (Frank Oct 13 5:00 PM); Enter again keeps what it has and moves on */
       try{ if(nx.id === "tl_billto") nx.click(); }catch(_){}   /* landing on Bill To shows its menu */
+      try{ if(nx.classList.contains("tl-stype")) nx.dispatchEvent(new CustomEvent("c5open")); }catch(_){}   /* landing on Storage shows its menu */
       try{ if(nx.classList.contains("v4dtx") && !nx.disabled){ nx.click(); nx.focus(); } }catch(_){}   /* landing on a date opens its calendar like a click (Frank Oct 13 5:25 PM); Enter again closes it, keeps the date and moves on */
       try{ if(nx.tagName === "SELECT" && typeof v4DdKind === "function" && v4DdKind(nx) && typeof v4DdOpen === "function"){ v4DdOpen(nx); var keep = function(){ try{ document.querySelectorAll("#v4SrcMenu .c5ms, #v4InsMenu .c5ms").forEach(function(i){ i.dataset.f = "1"; }); nx.focus(); }catch(_){} }; keep(); setTimeout(keep, 0); setTimeout(keep, 80); } }catch(_){} }   /* the menu shows, but the keys stay with the dropdown (the menu's search box would otherwise take them and Enter would pick its first row) */
     if(t.id === "jd_vin") setTimeout(go, 90); else go();   /* the VIN box decodes on Enter first (its own 60 ms), then we move on */
@@ -24124,6 +24193,46 @@ window.addEventListener("keydown", function(e){
 })();
 
 
+
+/* Storage dropdown (Frank Oct 14 9:49 AM "found one"): the Outdoor / Indoor pill opened the browser's own menu. Now it opens the family menu — the Bill To menu's twin — under the pill; Enter landing on it opens it too, Enter again keeps the pick and moves on. */
+(function(){
+  var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
+  function wire(){
+    var sel = ov.querySelector("#jdTotalLoss select.tl-stype"); if(!sel || sel.parentNode.classList.contains("c5btw")) return;
+    var w = document.createElement("div"); w.className = "c5btw c5stw"; sel.parentNode.insertBefore(w, sel); w.appendChild(sel);
+    var m = document.createElement("div"); m.className = "c5btm c5stm"; w.appendChild(m);
+    function draw(){ var h = ""; for(var i = 0; i < sel.options.length; i++){ var o = sel.options[i]; h += '<button type="button" data-v="' + o.value.replace(/"/g, "&quot;") + '"' + (o.value === sel.value ? ' class="on"' : '') + '>' + o.text.replace(/</g, "&lt;") + '</button>'; } if(m.innerHTML !== h) m.innerHTML = h; }
+    function open(){ draw(); w.classList.add("open"); } function close(){ w.classList.remove("open"); }
+    var byMouse = false;
+    sel.addEventListener("mousedown", function(e){ e.preventDefault(); byMouse = true; sel.focus(); byMouse = false; if(w.classList.contains("open")) close(); else open(); });   /* no browser menu */
+    sel.addEventListener("focus", function(){ if(!byMouse && !w.classList.contains("open")) open(); });   /* reached with Enter: the menu shows */
+    sel.addEventListener("keydown", function(e){ if(e.key === " " || e.key === "ArrowDown" || e.key === "ArrowUp"){ e.preventDefault(); if(!w.classList.contains("open")) open(); } });
+    sel.addEventListener("c5open", function(){ open(); });
+    m.addEventListener("mousedown", function(e){ e.preventDefault(); });
+    m.addEventListener("click", function(e){ var b = e.target.closest("button[data-v]"); if(!b) return; close(); if(sel.value !== b.getAttribute("data-v")){ sel.value = b.getAttribute("data-v"); sel.dispatchEvent(new Event("change", { bubbles:true })); } });
+    document.addEventListener("click", function(e){ if(!w.contains(e.target)) close(); });
+    document.addEventListener("keydown", function(e){ if(e.key === "Escape" && w.classList.contains("open")){ e.stopImmediatePropagation(); close(); } }, true);
+  }
+  new MutationObserver(wire).observe(ov, { childList:true, subtree:true }); wire();
+})();
+
+/* The paid check mark (board card or Payments) on a total loss (Frank Oct 14 9:51 AM): marking it paid means a Check for the full amount — the Payments row fills itself (Check · Full Amount, Current Total Charges); unmarking it clears that payment. Done inside the app's own save, so it lands in the saved job. */
+(function(){
+  try{
+    var vsj0 = v4SaveJob;
+    v4SaveJob = function(job, fn){
+      var before = job ? job.estimate1Paid : null, self = this, args = arguments;
+      return vsj0.call(self, job, function(){
+        var r = typeof fn === "function" ? fn.apply(this, arguments) : undefined;
+        try{ if(job && typeof isTotalLoss === "function" && isTotalLoss(job) && job.estimate1Paid !== before){
+          var tl = ensureTotalLoss(job), has = !!(tl.payment && +tl.payment.amount > 0);
+          if(job.estimate1Paid === "Yes" && !has) tl.payment = { method:"Check", kind:"full", amount:Math.round(totalLossTotal(job) * 100) / 100, on:new Date().toISOString().slice(0, 10) };
+          else if(job.estimate1Paid !== "Yes" && has && tl.payment.kind === "full") tl.payment = { method:"Check", kind:"", amount:0, on:"" };
+        } }catch(e){ console.warn("paid mark → payment", e); }
+        return r; });
+    };
+  }catch(e){}
+})();
 
 /* the ready row: one empty charge row under the list. Typing a name or an amount and pressing Enter, or clicking +, adds a real charge through the app's own + button and moves the words into it. */
 (function(){
@@ -24160,8 +24269,8 @@ window.addEventListener("keydown", function(e){
   build();
 })();
 
-  /* v5.294 (was 5.289): exempt is the standard — a total loss made from now on starts with no sales tax (older ones keep whatever they had) */
-  try{ var btl0 = blankTotalLoss; blankTotalLoss = function(){ var r = btl0.apply(this, arguments); try{ if(r && !r.taxMode) r.taxMode = "waived"; }catch(e){} return r; }; }catch(e){ console.warn("v5.294 tax default", e); }
+  /* v5.296 (was 5.289): exempt is the standard — a total loss made from now on starts with no sales tax (older ones keep whatever they had) */
+  try{ var btl0 = blankTotalLoss; blankTotalLoss = function(){ var r = btl0.apply(this, arguments); try{ if(r && !r.taxMode) r.taxMode = "waived"; }catch(e){} return r; }; }catch(e){ console.warn("v5.296 tax default", e); }
   /* HQ v4: display-only touches after the table is drawn. Values and saving are untouched. */
   var V5_MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
   function v5Date(v){ if(!/^\d{4}-\d{2}-\d{2}$/.test(v || "")) return ""; var p = v.split("-"); return V5_MON[+p[1]-1] + " " + p[2] + (+p[0] === new Date().getFullYear() ? "" : " \u2019" + p[0].slice(2)); }
@@ -33468,6 +33577,19 @@ window.addEventListener("keydown", function(e){
   new MutationObserver(wire).observe(ov, { childList:true, subtree:true }); wire();
 })();
 
+/* Paid by any road (Frank Oct 14 9:51 AM, 10:12 AM "the moment I click the match and click check… automatically put payment full amount"): whenever a total loss job's Invoice mark turns Paid — the check mark on the board card, in Payments, or a deposit match confirmed — the Payments row fills itself with Check · Full Amount for Current Total Charges. Done inside the app's save (saveData), so it covers every road and lands in the saved job; a payment the app wrote itself is cleared again when the mark goes back to unpaid. */
+(function(){
+  try{
+    var sd0 = saveData;
+    saveData = function(){
+      try{ allJobsEverywhere().forEach(function(x){ var job = x.job; if(!job || typeof isTotalLoss !== "function" || !isTotalLoss(job)) return;
+        var tl = ensureTotalLoss(job), p = tl.payment, has = !!(p && +p.amount > 0), paidMark = job.estimate1Paid === "Yes";
+        if(paidMark && !has) tl.payment = { method:"Check", kind:"full", amount:Math.round(totalLossTotal(job) * 100) / 100, on:new Date().toISOString().slice(0, 10), auto:true };
+        else if(!paidMark && has && p.auto) tl.payment = { method:"Check", kind:"", amount:0, on:"" }; }); }catch(e){ console.warn("paid → payment", e); }
+      return sd0.apply(this, arguments);
+    };
+  }catch(e){}
+})();
 /* The paid check mark (board card or Payments) on a total loss (Frank Oct 14 9:51 AM): marking it paid means a Check for the full amount — the Payments row fills itself (Check · Full Amount, Current Total Charges); unmarking it clears that payment. Done inside the app's own save, so it lands in the saved job. */
 (function(){
   try{
@@ -33478,7 +33600,7 @@ window.addEventListener("keydown", function(e){
         var r = typeof fn === "function" ? fn.apply(this, arguments) : undefined;
         try{ if(job && typeof isTotalLoss === "function" && isTotalLoss(job) && job.estimate1Paid !== before){
           var tl = ensureTotalLoss(job), has = !!(tl.payment && +tl.payment.amount > 0);
-          if(job.estimate1Paid === "Yes" && !has) tl.payment = { method:"Check", kind:"full", amount:Math.round(totalLossTotal(job) * 100) / 100, on:new Date().toISOString().slice(0, 10) };
+          if(job.estimate1Paid === "Yes" && !has) tl.payment = { method:"Check", kind:"full", amount:Math.round(totalLossTotal(job) * 100) / 100, on:new Date().toISOString().slice(0, 10), auto:true };
           else if(job.estimate1Paid !== "Yes" && has && tl.payment.kind === "full") tl.payment = { method:"Check", kind:"", amount:0, on:"" };
         } }catch(e){ console.warn("paid mark → payment", e); }
         return r; });
