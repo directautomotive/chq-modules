@@ -33175,7 +33175,9 @@ window.addEventListener("keydown", function(e){
     var sm = document.querySelector("#jdTotalLoss .tl-summary"), ex = document.getElementById("tlExtras"); if(!sm || !ex) return;
     var tl = document.querySelector('#v4JdMode button[data-v4mode="tl"].on'); if(!tl){ document.querySelectorAll("#jdTotalLoss .c5paidrow, #jdTotalLoss .c5payhd, #jdTotalLoss .c5payrow").forEach(function(x){ x.remove(); }); return; }
     var jt = jobTl(), pay = (jt && jt.tl.payment) || { method:"Check", kind:"", amount:0 };
-    var totB = sm.querySelector(".tl-line.tl-total .c5sm b") || sm.querySelector(".tl-line.tl-total > span:last-child"), total = num(totB && totB.textContent);
+    var ttl = sm.querySelector(".tl-line.tl-total"), totB = ttl && (ttl.querySelector(".c5sm b") || ttl.querySelector("span:last-child"));
+    if(ttl && !ttl.dataset.c5tot && totB) ttl.dataset.c5tot = String(num(totB.textContent));   /* the real total, kept before the pill shows the balance (the card redraws fresh on every change) */
+    var total = ttl ? num(ttl.dataset.c5tot) : 0;
     if(pay.kind === "full" && jt && Math.abs((+pay.amount || 0) - total) > 0.004){ pay.amount = total; }   /* Full Amount follows Current Total Charges */
     var paid = +pay.amount || 0;
     var host = ex.parentNode, ph = host.querySelector(".c5payhd"), row = host.querySelector(".c5payrow");
@@ -33215,17 +33217,21 @@ window.addEventListener("keydown", function(e){
     if(em.textContent !== emt) em.textContent = emt; em.style.display = emt ? "" : "none";
     if(ab.textContent !== pa) ab.textContent = pa;   /* only written when it changes (a write is a mutation, and the other watchers would answer it forever) */
     line.classList.toggle("on", paid > 0 && paid + 0.005 >= total);
+    /* the red pill is the balance: Current Total Charges minus the payment; at zero it turns green (Frank Oct 14 9:26 AM) */
+    if(ttl && totB){ var bal = Math.max(0, Math.round((total - paid) * 100) / 100), bt = fmt(bal); if(totB.textContent !== bt) totB.textContent = bt; ttl.classList.toggle("c5clear", paid > 0 && bal < 0.005); }
   }
   var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
-  new MutationObserver(function(ms){ for(var i = 0; i < ms.length; i++){ var tg = ms[i].target; if(tg && tg.closest && tg.closest(".c5paidrow, .c5payrow, .c5payhd")) continue; build(); return; } }).observe(ov, { childList:true, subtree:true, attributes:true, attributeFilter:["class"] });
+  new MutationObserver(function(ms){ for(var i = 0; i < ms.length; i++){ var tg = ms[i].target; if(tg && tg.closest && tg.closest(".c5paidrow, .c5payrow, .c5payhd, .tl-total")) continue; build(); return; } }).observe(ov, { childList:true, subtree:true, attributes:true, attributeFilter:["class"] });
   build();
+  /* the printed invoice carries the same: a Payments line and Total Due as the balance */
+  try{ var ptf0 = printThroughFrame; printThroughFrame = function(html, fid, nm){ try{ if(fid === "invoicePrintFrame"){ var j = findJobById(currentDetailsJobId), p = j && j.totalLoss && j.totalLoss.payment; if(p && +p.amount > 0){ var tot = totalLossTotal(j), bal = Math.max(0, Math.round((tot - p.amount) * 100) / 100); html = html.replace(/<tr class="tot"><td>Total Due<\/td><td class="amt">[^<]*<\/td><\/tr>/, '<tr><td class="desc">Payments &nbsp;<em>' + escapeHtml(p.method || "Check") + '</em></td><td class="amt">\u2212' + formatCurrency(p.amount) + '</td></tr><tr class="tot"><td>' + (bal < 0.005 ? "Paid in Full" : "Balance Due") + '</td><td class="amt">' + formatCurrency(bal) + '</td></tr>'); } } }catch(e){ console.warn("payments print", e); } return ptf0.call(this, html, fid, nm); }; }catch(e){}
 })();
 /* Negotiated Total as a charge row (Frank Oct 13 3:37 PM): the last fixed row of the charge list, like Sales Tax — outlined and empty ("Full invoice") with a +; type the number agreed with Copart / the insurer and it becomes a filled row with a ×. Behind it one hidden charge, "Negotiated Settlement", holds the difference (a minus), so the Invoice box shows the write-down and Current Total Charges reads the agreed number. × clears it. */
 (function(){
   try{ var ct1 = chargeTypes; chargeTypes = function(){ var l = ct1.apply(this, arguments).slice(); if(!l.some(function(c){ return c && /^sales\s*tax$/i.test(c.name || ""); })) l.push({ name:"Sales Tax", price:0 }); return l; }; }catch(e){ console.warn("sales tax in the charge list", e); }
   var NEG = "Negotiated Settlement";
   function negRow(){ var rows = document.querySelectorAll("#tlExtras .tl-extra-row"); for(var i = 0; i < rows.length; i++){ var d = rows[i].querySelector("[data-x-desc]"); if(d && d.value.trim() === NEG) return rows[i]; } return null; }
-  function totalNow(){ var t = document.querySelector("#jdTotalLoss .tl-line.tl-total > span:last-child"); return parseFloat((t ? t.textContent : "0").replace(/[^\d.-]/g, "")) || 0; }
+  function totalNow(){ var l = document.querySelector("#jdTotalLoss .tl-line.tl-total"); if(l && l.dataset.c5tot) return parseFloat(l.dataset.c5tot) || 0; var t = l && l.querySelector("span:last-child"); return parseFloat((t ? t.textContent : "0").replace(/[^\d.-]/g, "")) || 0; }
   function fmt(n){ return n.toLocaleString("en-US", { minimumFractionDigits:2, maximumFractionDigits:2 }); }
   function set(el, v){ el.value = v; el.dispatchEvent(new Event("input", { bubbles:true })); el.dispatchEvent(new Event("change", { bubbles:true })); }
   function apply(agreed){
@@ -33820,6 +33826,9 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 /* Frank Oct 14 9:24 AM: no scrollbar showing inside the charge list (it still scrolls) */
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .charge-suggest, html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5btm{ scrollbar-width:none; -ms-overflow-style:none; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .charge-suggest::-webkit-scrollbar, html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5btm::-webkit-scrollbar{ display:none; width:0; height:0; }
+/* paid in full: the bottom pill goes green (Frank Oct 14 9:26 AM) */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line.tl-total.c5clear{ background:#E7F4EA !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line.tl-total.c5clear > span, html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line.tl-total.c5clear .c5sm > i, html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line.tl-total.c5clear .c5sm > b{ color:#1E7B34 !important; }
 
 /* ---------- Additional Charges: five ways to add (module). body.c5g1 … c5g5 ---------- */
 /* shared: the ghost row (always one empty row ready to fill) */
