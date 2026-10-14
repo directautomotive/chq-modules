@@ -33258,16 +33258,16 @@ window.addEventListener("keydown", function(e){
   window.addEventListener("keydown", function(e){ var t = e.target; if(!t || t.tagName !== "SELECT" || !t.closest || !card(t)) return; if(e.key && e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey){ e.preventDefault(); e.stopImmediatePropagation(); } }, true);
 })();
 
-/* Frank Oct 13 5:39 PM: Adjuster Phone keeps its extension in the line — "(800) 555-0225 ext. 1352190" — no separate Ext pill. The box is re-made without the 5.240 split; the 5.254 formatter still shapes the number as you type, and "Ext" is written "ext." */
+/* Frank Oct 13 5:39 PM: Adjuster Phone keeps its extension in the line — "(800) 555-0225 Ext. 1352190" — no separate Ext pill. The box is re-made without the 5.240 split; the 5.254 formatter still shapes the number as you type, and "Ext" is written "Ext." */
 (function(){
   var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
   function wire(){
     var w = ov.querySelector("#jobDetailsBody .c240ph"); if(!w || w.dataset.c5ext) return; w.dataset.c5ext = "1";
     var real = w.querySelector("#jd_adjusterphone"), old = w.querySelector("input.c240pv"); if(!real || !old) return;
     var pv = old.cloneNode(false); old.parentNode.replaceChild(pv, old);
-    var show = function(v){ return String(v || "").replace(/\s*(?:x|ext\.?|#|×)\s*(\d+)\s*$/i, " ext. $1"); };
+    var show = function(v){ return String(v || "").replace(/\s*(?:x|ext\.?|#|×)\s*(\d+)\s*$/i, " Ext. $1"); };
     pv.value = show(real.value); var last = real.value;
-    pv.addEventListener("input", function(){ var v = pv.value.replace(/\bExt /, "ext. "); if(v !== pv.value){ var at = pv.selectionStart, ix = pv.value.indexOf("Ext "); if(at > ix + 3) at += 1; pv.value = v; try{ pv.setSelectionRange(at, at); }catch(_){} } if(real.value !== pv.value){ real.value = pv.value; real.dispatchEvent(new Event("input", { bubbles:true })); } last = real.value; });
+    pv.addEventListener("input", function(){ var v = pv.value.replace(/\bExt /, "Ext. "); if(v !== pv.value){ var at = pv.selectionStart, ix = pv.value.indexOf("Ext "); if(at > ix + 3) at += 1; pv.value = v; try{ pv.setSelectionRange(at, at); }catch(_){} } if(real.value !== pv.value){ real.value = pv.value; real.dispatchEvent(new Event("input", { bubbles:true })); } last = real.value; });
     pv.addEventListener("blur", function(){ real.dispatchEvent(new Event("change", { bubbles:true })); });
     var tick = setInterval(function(){ if(!w.isConnected){ clearInterval(tick); return; } if(document.activeElement !== pv && real.value !== last){ pv.value = show(real.value); last = real.value; } }, 400);
   }
@@ -33705,7 +33705,7 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody select.v4ddopen:not(.v4srcrow select){ box-shadow:inset 0 0 0 1.5px #E8792B !important; outline:0 !important; border-color:transparent !important; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4jobv:has(select.v4ddopen){ box-shadow:none !important; }
 
-/* Frank Oct 13 5:39 PM: no Ext pill in Adjuster Phone — the extension reads in the same line, "(800) 555-0225 ext. 1352190" */
+/* Frank Oct 13 5:39 PM: no Ext pill in Adjuster Phone — the extension reads in the same line, "(800) 555-0225 Ext. 1352190" */
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .c240ext{ display:none !important; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .c240ph.c240x > input.c240pv{ padding-right:16px !important; }
 
