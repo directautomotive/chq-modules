@@ -33182,11 +33182,11 @@ window.addEventListener("keydown", function(e){
     var ch = host.querySelector(".c5chh:not(.c5payhd) .n"); if(ch && ch.textContent === "Charge") ch.textContent = "Additional Charges";
     if(!ph){ ph = document.createElement("div"); ph.className = "c5chh c5payhd"; ph.innerHTML = '<span class="n">Payments</span><span class="a">Amount</span><span class="x"></span>'; host.appendChild(ph); }
     if(!row){ row = document.createElement("div"); row.className = "c5payrow";
-      row.innerHTML = '<div class="c5btw c5pmw"><input type="text" class="c5paym" readonly tabindex="-1"><div class="c5btm"></div></div><span class="c5amt c5pc"><input type="text" class="c5payin c5stot" inputmode="decimal" value="0.00"></span><button type="button" class="c5px" aria-label="Clear this payment" title="Clear this payment"></button>';
+      row.innerHTML = '<div class="c5btw c5pmw"><input type="text" class="c5paym" readonly tabindex="-1"><div class="c5btm c5paymenu"></div></div><span class="c5amt c5pc"><input type="text" class="c5payin c5stot" inputmode="decimal" value="0.00"></span><button type="button" class="c5px" aria-label="Clear this payment" title="Clear this payment"></button>';
       host.appendChild(row);
       var w = row.querySelector(".c5pmw"), m = row.querySelector(".c5btm"), sel = row.querySelector(".c5paym"), inp = row.querySelector(".c5payin");
       function cur(){ var j = jobTl(); return (j && j.tl.payment) || { method:"Check", kind:"", amount:0 }; }
-      function draw(){ var c = cur(), h = ""; OPTS.forEach(function(o){ if(!o){ h += "<hr>"; return; } var on = c.method === o[0] && c.kind === o[1]; h += '<button type="button" data-m="' + o[0] + '" data-k="' + o[1] + '"' + (on ? ' class="on"' : '') + '>' + label(o[0], o[1]) + '</button>'; }); if(m.innerHTML !== h) m.innerHTML = h; }
+      function draw(){ var c = cur(), h = ""; OPTS.forEach(function(o){ if(!o){ h += "<hr>"; return; } var on = c.method === o[0] && c.kind === o[1]; var price = o[1] === "full" ? "$" + fmt(total) : (on && c.amount ? "$" + fmt(c.amount) : ""); h += '<button type="button" data-m="' + o[0] + '" data-k="' + o[1] + '"' + (on ? ' class="on"' : '') + '><span>' + label(o[0], o[1]) + '</span><b>' + price + '</b></button>'; }); if(m.innerHTML !== h) m.innerHTML = h; }   /* the charge list's twin: the words at the left, the money at the right (Frank Oct 14 9:21 AM) */
       function open(){ draw(); w.classList.add("open"); } function close(){ w.classList.remove("open"); }
       function put(p){ var j = jobTl(); if(!j) return; j.tl.payment = p; mark(j); build(); }
       function mark(j){ var sum = +(j.tl.payment && j.tl.payment.amount) || 0; var want = sum > 0 && sum + 0.005 >= total; var x = document.querySelector('#v4JdPay [data-v4ck="e"]'); if(x && x.classList.contains("ok") !== want) x.click(); }
@@ -33209,9 +33209,9 @@ window.addEventListener("keydown", function(e){
     row.classList.toggle("c5empty", !(paid > 0)); row.classList.toggle("c5full", pay.kind === "full");
     /* in the box: Paid | Check · Full Amount … $ */
     var line = sm.querySelector(".c5paidrow");
-    if(!line){ line = document.createElement("div"); line.className = "tl-line c5paidrow"; line.innerHTML = '<span>Paid<em></em></span><span class="c5sm"><i>$</i><b></b></span>'; }
+    if(!line){ line = document.createElement("div"); line.className = "tl-line c5paidrow"; line.innerHTML = '<span>Payments<em></em></span><span class="c5sm"><i>$</i><b></b></span>'; }   /* "Payments | Check … $" (Frank Oct 14 9:22 AM) */
     var tt = sm.querySelector(".tl-line.tl-total"); if(tt && line.nextElementSibling !== tt) sm.insertBefore(line, tt); else if(!tt && line.parentNode !== sm) sm.appendChild(line);
-    var em = line.querySelector("em"), emt = paid > 0 ? label(pay.method || "Check", pay.kind || "") : "", ab = line.querySelector(".c5sm b"), pa = fmt(paid);
+    var em = line.querySelector("em"), emt = paid > 0 ? (pay.method || "Check") : "", ab = line.querySelector(".c5sm b"), pa = fmt(paid);
     if(em.textContent !== emt) em.textContent = emt; em.style.display = emt ? "" : "none";
     if(ab.textContent !== pa) ab.textContent = pa;   /* only written when it changes (a write is a mutation, and the other watchers would answer it forever) */
     line.classList.toggle("on", paid > 0 && paid + 0.005 >= total);
@@ -33809,6 +33809,14 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .c5paidrow.on > span:first-child, html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .c5paidrow.on .c5sm :is(i, b){ color:#1E7B34 !important; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .tl-print-row{ justify-content:flex-end !important; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .tl-print-row .c5paid{ display:none !important; }   /* the old pill on the Print row (5.289–5.293) is gone */
+/* the payment menu reads like the charge list: plain rows, words left, money right; the pick is marked, hover is the light grey */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5btm.c5paymenu button{ justify-content:space-between; padding:0 14px !important; background:transparent; font-weight:400; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5btm.c5paymenu button + button{ margin-top:2px; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5btm.c5paymenu button:hover{ background:#F2F2F7; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5btm.c5paymenu button.on{ background:#F2F2F7; font-weight:400; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5btm.c5paymenu button.on::after{ display:none; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5btm.c5paymenu button > b{ font:400 14px var(--v4-num, "Courier New", monospace); color:#6C6C73; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5btm.c5paymenu hr{ margin:6px 6px; }
 
 /* ---------- Additional Charges: five ways to add (module). body.c5g1 … c5g5 ---------- */
 /* shared: the ghost row (always one empty row ready to fill) */
