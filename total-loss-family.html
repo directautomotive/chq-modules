@@ -7954,7 +7954,17 @@ html body:not(.chq5off) #jobDetailsBody .c5jdwf[hidden]{ display:none; }
 html.c5native #c5Pdf, html.c5native #c5PdfPill{ display:none !important; }
 html.c5native #pdfPreviewFrame{ visibility:visible; }
 
-/* ========== v5.289 (Frank Oct 13, CHQ Aesthetics chat): the Total Loss Invoice card in the family — built live over 70 module versions (CHQ Modules › Total Loss Family), approved 4:25 PM "it looks crisp, it looks solid… plug this into the actual". The module's styles follow, its switches made permanent: Family look (c5tlA), 40-tall pills (c5h40), the outlined ready row (c5g3). Rules for switches the app never turns on (body.c5tlA.c5h44, body.c5tlA.c5lt Light skin, c5g1/2/4/5) ride along inert. Standard from here (Frank 4:26 PM): a box you type in is white with a real 1-px line (lands on one pixel, crisp), and every focus glow is the same 1.5-px orange ring. ========== */
+/* v5.290 — press on every window's bottom buttons (96 percent, same darkening and timing as 5.247) */
+html body:not(.chq5off) .modal-overlay .modal-footer :is(.btn, button):not(:disabled):is(:active, .c5press){ scale:.96; filter:brightness(.93); transition:scale .09s ease-out, filter .09s, background-color .09s !important; }
+html body:not(.chq5off) .modal-overlay .modal-footer :is(.btn, button){ transition:scale .18s cubic-bezier(.2,.9,.3,1.35), filter .12s, background-color .12s; }
+@media (prefers-reduced-motion:reduce){ html body:not(.chq5off) .modal-overlay .modal-footer :is(.btn, button):is(:active, .c5press){ scale:1; } }
+
+/* v5.291 — press in the Job Sources window (Cancel, Done, Month / Year / All Years, year arrows); the X already had it */
+html body:not(.chq5off) #v4SrcWin button:not(.v4cx):not(:disabled):is(:active, .c5press){ scale:.96; filter:brightness(.93); transition:scale .09s ease-out, filter .09s, background-color .09s !important; }
+html body:not(.chq5off) #v4SrcWin button:not(.v4cx){ transition:scale .18s cubic-bezier(.2,.9,.3,1.35), filter .12s, background-color .12s; }
+@media (prefers-reduced-motion:reduce){ html body:not(.chq5off) #v4SrcWin button:not(.v4cx):is(:active, .c5press){ scale:1; } }
+
+/* ========== v5.292 (Frank Oct 13, CHQ Aesthetics chat): the Total Loss Invoice card and Details in the family — module versions 1–86 (CHQ Modules › Total Loss Family); the card approved 4:25 PM "it looks crisp, it looks solid… plug this into the actual". The module's styles follow, its switches made permanent: Family look (c5tlA), 40-tall pills (c5h40), the outlined ready row (c5g3). Rules for switches the app never turns on (body.c5tlA.c5h44, body.c5tlA.c5lt Light skin, c5g1/2/4/5) ride along inert. Standard from here (Frank 4:26 PM): a box you type in is white with a real 1-px line (lands on one pixel, crisp), and every focus glow is the same 1.5-px orange ring. ========== */
 /* ---------- Total Loss in the family (module). #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay = the Details overlay, five ids ---------- */
 /* titles inside the invoice card read like "Payments" */
 html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-fieldset-title{ font:600 15px var(--v4-word, Inter, Arial), sans-serif !important; color:#16181D !important; margin:0 0 8px !important; }
@@ -8283,6 +8293,70 @@ html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#j
 html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5ghost input, html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5ghost .p{ border-color:#C7CAD1 !important; }
 /* Frank Oct 13 4:26 PM: one focus glow everywhere — the 1.5-px orange ring, on the ready row too (its thin line gave it a thinner glow) */
 html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .c5ghost input:focus{ border-color:transparent !important; box-shadow:inset 0 0 0 1.5px #E8792B !important; background-color:#fff !important; }
+/* Frank Oct 13 4:33 PM: the "Create Custom Field" row (and its family: Add Documents, Add Photos, Add Supplement) is the ready row's twin — white, the 1-px line, grey words at the left, the outlined + circle at the right; no green */
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody :is(.v4cfadd .btn, .v4supadd .btn, #jdAddDocsBtn, #jdAddPhotosBtn){ background:#fff !important; border:1px solid #C7CAD1 !important; box-shadow:none !important; color:#9A9AA3 !important; font:400 14px var(--v4-word, Inter, Arial), sans-serif !important; padding:0 2px 0 16px !important; height:40px !important; min-height:40px !important; border-radius:20px !important; gap:12px !important; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody :is(.v4cfadd .btn, .v4supadd .btn, #jdAddDocsBtn, #jdAddPhotosBtn):hover{ background:#F7F7F9 !important; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody :is(.v4cfadd .btn, .v4supadd .btn, #jdAddDocsBtn, #jdAddPhotosBtn)::before{ order:2; margin-left:auto; width:36px !important; height:36px !important; border-radius:50% !important; background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239AA1AB' stroke-width='2.2' stroke-linecap='round'%3E%3Cpath d='M12 6v12M6 12h12'/%3E%3C/svg%3E") center/14px no-repeat !important; border:1px solid #C7CAD1; box-sizing:border-box; flex:none; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cfadd .btn:is(.btn, #c5x9){ font-size:0 !important; }   /* the old words go (the :is above carries an id, so this one does too) */
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cfadd .btn::after{ content:"Add a custom field"; font:400 14px var(--v4-word, Inter, Arial), sans-serif; color:#9A9AA3; order:1; }
+/* Frank Oct 13 4:34 PM: Bill To and Pick Up are yellow while empty, like every empty box in Customer Details */
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss :is(#tl_billto, #tl_pickup):placeholder-shown{ background-color:#FFF8D6 !important; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss :is(#tl_billto, #tl_pickup):placeholder-shown:focus{ background-color:#fff !important; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line.tl-total{ border-radius:23px !important; padding:0 16px !important; }   /* the red total row is a pill with round ends, like the family (Frank Oct 13 4:34 PM) */
+/* Frank Oct 13 4:36 PM: "what size is this glow, it's perfect" — the End Date ring: 1.5 px orange inside the edge. One glow for every box in Details (Bill To and Pick Up had a 2-px ring outside) */
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody :is(input, select, textarea):focus, html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4dtx:focus, html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .c5ghost input:focus, html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss :is(#tl_billto, #tl_pickup):focus{ box-shadow:inset 0 0 0 1.5px #E8792B !important; outline:0 !important; border-color:transparent !important; }
+/* Frank Oct 13 4:38 PM: an empty date pill (TBD) is yellow too — the app never marked Date Out as empty, so the pill goes by its own emptiness */
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4dtx:placeholder-shown{ background-color:#FFF8D6 !important; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4dtx:placeholder-shown:focus{ background-color:#fff !important; }
+/* Frank Oct 13 4:38 PM: Decode and CCC ONE are the same pill — 84 wide, 32 tall, 12.5 words, 6 off the right edge */
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .c5vin #jd_vinDecode.c5vbtn, html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .c5jdwf{ width:84px !important; min-width:84px !important; padding:0 !important; justify-content:center !important; height:32px !important; font-size:12.5px !important; right:6px !important; }
+/* Frank Oct 13 4:40 PM: no circle — a plain + at the left, then "Add Custom Field" (capitals), like the + Add Supplement pill */
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody :is(.v4cfadd .btn, .v4supadd .btn, #jdAddDocsBtn, #jdAddPhotosBtn)::before{ order:0 !important; margin-left:0 !important; width:auto !important; height:auto !important; border:0 !important; border-radius:0 !important; background:none !important; content:"+" !important; font:500 16px var(--v4-word, Inter, Arial), sans-serif; color:#9A9AA3; line-height:1; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody :is(.v4cfadd .btn, .v4supadd .btn, #jdAddDocsBtn, #jdAddPhotosBtn){ gap:8px !important; padding:0 16px !important; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cfadd .btn::after{ content:"Add Custom Field"; }
+/* Frank Oct 13 4:42 PM: a new custom field just turns grey — its name is typed where the label goes (plain, black, no box, no pencil), its value is the grey pill under it; the small × to take it off shows on hover */
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody input.v4cfin{ height:16px !important; min-height:0 !important; padding:0 !important; border:0 !important; border-radius:0 !important; background:transparent !important; box-shadow:none !important; font:600 13px var(--v4-word, Inter, Arial), sans-serif !important; color:#000 !important; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody input.v4cfin:focus{ box-shadow:none !important; border-bottom:1.5px solid #E8792B !important; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody input.v4cfin::placeholder{ color:#9A9AA3; font-weight:500; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cfb[data-v4cfedit]{ display:none !important; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cfb{ width:18px; height:18px; border-radius:9px; background:transparent; color:#9A9AA3; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cd > .v4cfadd:is(.v4cfadd, #c5x1):is(.v4cfadd, #c5x2){ grid-column:auto !important; }   /* the button takes the next empty cell, left or right */
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cd > .c5created{ grid-column:auto !important; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cd > .review-field.v4cfld{ order:1; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cd > .v4cfadd{ order:2; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cd > .v4cfadd:is(.v4cfadd, #c5x1):is(.v4cfadd, #c5x2):is(.v4cfadd, #c5x4){ margin-top:20px !important; align-self:end !important; }   /* the button has no label, so it carries the label's height (16 + 4) as a top margin: the gap to the row above matches every other row (Frank Oct 13 4:47 PM) */
+/* Frank Oct 13 4:46 PM: a long custom field name is cut with … at the end, never wrapping or pushing the row */
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cfld > label{ overflow:hidden; white-space:nowrap; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cfld > label .v4cfl, html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody input.v4cfin{ overflow:hidden !important; white-space:nowrap !important; text-overflow:ellipsis !important; min-width:0; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cfld input:not(.v4cfin){ text-overflow:ellipsis; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4dtx{ background-position:right 14px center !important; }   /* the calendar sits where the chevrons sit — 14 from the edge, same center line (Frank Oct 13 4:53 PM) */
+/* Frank Oct 13 5:06 PM: the custom field's × lives inside the value pill, at the right where a chevron would sit */
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .review-field.v4cfld{ position:relative; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cfld .v4cft{ position:absolute !important; right:12px; bottom:10px; margin:0 !important; opacity:1 !important; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cfld .v4cfb{ width:20px; height:20px; color:#000; background:transparent; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cfld .v4cfb:hover{ background:#FBEAEA; color:#C0392B; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cfld input:not(.v4cfin){ padding-right:40px !important; }
+/* the label is the ×'s containing block (the app positions it); so: the × sits 14 under the label's bottom = the middle of the pill; the label must not clip it */
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cfld > label{ overflow:visible !important; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cfld > label .v4cfl{ display:block; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; max-width:calc(100% - 32px); }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cfld .v4cft{ top:calc(100% + 23px) !important; bottom:auto !important; right:12px !important; height:20px; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cfld .v4cfb.v4cfx{ width:20px !important; height:20px !important; display:inline-flex !important; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cfld .v4cfb.v4cfx{ background:transparent !important; border:0 !important; box-shadow:none !important; color:#000 !important; font-size:15px !important; } html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cfld .v4cfb.v4cfx:hover{ color:#C0392B !important; }   /* a bare ×, like the chevron — no little box */
+/* Frank Oct 13 5:09 PM: the × drawn like the chevrons — the same thin 16-px stroke, black, 14 from the edge, nothing else */
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cfld .v4cft{ right:14px !important; top:calc(100% + 25px) !important; height:16px; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cfld .v4cfb.v4cfx{ width:16px !important; height:16px !important; min-width:0 !important; padding:0 !important; border-radius:0 !important; font-size:0 !important; color:transparent !important; background:#000 !important; -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 6l12 12M18 6L6 18'/%3E%3C/svg%3E") center/16px no-repeat; mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 6l12 12M18 6L6 18'/%3E%3C/svg%3E") center/16px no-repeat; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cfld .v4cfb.v4cfx:hover{ background:#C0392B !important; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cfld .v4cfb.v4cfx *{ display:none; }
+
+/* Frank Oct 13 5:19 PM: when Enter lands on Source, the pill (1 | icon | name) carries one crisp orange ring and the dropdown inside it gets none. Only the Source row — every other dropdown keeps its own ring as before. */
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4srcrow .v4jobv select:focus, html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4srcrow .v4jobv select.v4ddopen{ box-shadow:none !important; border-color:transparent !important; outline:0 !important; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4srcrow .v4jobv{ position:relative; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4srcrow .v4jobv:has(select:focus)::after, html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4srcrow .v4jobv:has(select.v4ddopen)::after{ content:""; position:absolute; inset:0; border-radius:inherit; box-shadow:inset 0 0 0 1.5px #E8792B; pointer-events:none; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4srcrow .v4jobv:has(select:focus), html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4srcrow .v4jobv:has(select.v4ddopen){ box-shadow:none !important; }
+
+/* Frank Oct 13 5:29 PM: a dropdown whose menu is open carries the orange ring itself (clicked or reached with Enter), the same 1.5-px ring as a box with focus; the box that had focus before lets go of its ring */
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody select.v4ddopen:not(.v4srcrow select){ box-shadow:inset 0 0 0 1.5px #E8792B !important; outline:0 !important; border-color:transparent !important; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4jobv:has(select.v4ddopen){ box-shadow:none !important; }
 
 /* ---------- Additional Charges: five ways to add (module). body.c5g1 … c5g5 ---------- */
 /* shared: the ghost row (always one empty row ready to fill) */
@@ -8373,7 +8447,7 @@ html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#j
          changed width — and the Save label changes width constantly. -->
     <div class="topbar-brand">
       <div class="app-title">Collision<span class="hq">HQ</span>
-        <span class="version-badge" id="versionBadge">HQ v5.289</span></div>
+        <span class="version-badge" id="versionBadge">HQ v5.292</span></div>
     </div>
 
     <div class="topbar-right">
@@ -17528,7 +17602,7 @@ html body #signInOverlay#signInOverlay :is(.sign-in-switch,.field-hint){ display
     chqPhShow("sheet full", true);
   }
   CHQPH_CSS += "\n/* v4.129 */\n.dv{flex:none;font-size:13px;font-weight:600;color:var(--p-mute);padding:8px 8px 0}\n.cA.dn{opacity:.62}\n.phone.lg .dv{font-size:15px;padding:10px 12px 0}\n/* bottom: search always showing, then Jobs | Leads | Status and the orange + ; both sit low now that the Netlify tag is off */\n.phone.lg .nav{bottom:calc(14px + env(safe-area-inset-bottom,0px))}\n.phone.lg .fab{bottom:calc(14px + env(safe-area-inset-bottom,0px))}\n.phone.lg .srow{display:flex;top:auto;bottom:calc(80px + env(safe-area-inset-bottom,0px))}\n.phone.lg .search{background:rgba(255,255,255,.72);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(255,255,255,.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.14);height:48px;border-radius:24px;color:#111114}\n.phone.lg .search::placeholder{color:#6C6C73}\n.phone.lg .toast{bottom:calc(144px + env(safe-area-inset-bottom,0px))}\n/* top: filter | month | DA */\n.phone.lg .brand .fbtn{background:rgba(255,255,255,.72);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(255,255,255,.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.14);width:44px;height:44px;border-radius:22px;flex:none}\n.phone.lg .brand .fbtn[hidden]{display:grid;visibility:hidden}\n.phone.lg .brand .fbtn.on{background:rgba(255,243,232,.9)}\n.phone.lg .mon .lab{padding-left:0}\n.phone.lg .brand .acct{background-size:cover;background-position:center}\n.phone.lg .chips{top:calc(66px + env(safe-area-inset-top,0px))}\n.phone.lg .monmenu{left:68px;right:68px}\n.phone.lg .list{padding-bottom:220px;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 calc(74px + env(safe-area-inset-top,0px)),#000 calc(100% - 210px),transparent calc(100% - 100px));mask-image:linear-gradient(to bottom,transparent 0,#000 calc(74px + env(safe-area-inset-top,0px)),#000 calc(100% - 210px),transparent calc(100% - 100px))}\n.phone.lg.fo .list{padding-top:calc(118px + env(safe-area-inset-top,0px));-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 calc(120px + env(safe-area-inset-top,0px)),#000 calc(100% - 210px),transparent calc(100% - 100px));mask-image:linear-gradient(to bottom,transparent 0,#000 calc(120px + env(safe-area-inset-top,0px)),#000 calc(100% - 210px),transparent calc(100% - 100px))}\n/* card: #1 | Name on the first line, status across the last line */\n.phone.lg .cA .nm{display:flex;align-items:center;gap:8px;overflow:visible}\n.phone.lg .cA .nm .jn{flex:none;font-size:17px;font-weight:600;color:var(--p-mute)}\n.phone.lg .cA .nm .vsep{height:18px}\n.phone.lg .cA .nm .nmt{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}\n.phone.lg .cA:not(.ld) .row2 .st.fx{flex:1 1 auto;max-width:none}\n.phone.lg .soon{text-align:center;align-items:center;padding:36px 20px;margin-top:20px}\n.phone.lg .soon b{font-size:22px}\n.phone.lg .soon span{font-size:15px;font-weight:600;color:var(--p-orange)}\n.phone.lg .soon p{font-size:15px;color:var(--p-mute);margin:6px 0 0}\n/* status menu: drops from the chip, same width, scrolls */\n.phone.lg .kv .st.fx{width:250px}\n.phone.lg .stm{margin:-2px 0 10px auto;width:250px;max-height:344px;overflow:auto;border:none;border-radius:22px;padding:6px;box-sizing:border-box;box-shadow:0 10px 30px rgba(0,0,0,.16)}\n.phone.lg .stm button{height:46px;padding:0 6px;border-top-color:#EEEEF1;gap:6px}\n.phone.lg .stm .st.fx{width:auto;flex:1}\n.phone.lg .stm button:has(b){background:rgba(232,121,43,.10);border-radius:14px;border-top-color:transparent}\n.phone.lg .stm button b{font-size:15px;color:var(--p-orange);flex:none;width:18px}\n.phone.lg .stadd{border-top:1px solid #E3E3E8;margin-top:4px;padding:8px 2px 2px;display:flex;flex-direction:column;gap:6px}\n.phone.lg .stadd input{height:40px;border-radius:14px;border:1px solid #E3E3E8;padding:0 12px;font-size:16px;width:100%;box-sizing:border-box;background:#fff;color:var(--p-fg)}\n.phone.lg .stadd div{display:grid;grid-template-columns:1fr 1fr;gap:6px}\n.phone.lg .stadd button{height:38px;border-radius:19px;border:none;background:#F2F2F7;font-size:14px;font-weight:600;color:var(--p-fg);justify-content:center;padding:0}\n.phone.lg .stadd button#stList{background:var(--p-orange);color:#fff}\n/* settings: tap the circle to change the shop picture */\n.phone.lg .sav{border:none;padding:0;overflow:hidden;font-family:var(--word);transition:opacity .15s}\n.phone.lg .sav:active{opacity:.6}\n.phone.lg .sav img{width:100%;height:100%;object-fit:cover;display:block;pointer-events:none}\n/* shop photo editor */\n.phone.lg .rbk{position:absolute;top:calc(14px + env(safe-area-inset-top,0px));width:44px;height:44px;border-radius:22px;background:rgba(255,255,255,.72);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(255,255,255,.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.14);display:grid;place-items:center;font-size:18px;color:#111114;z-index:2;padding:0}\n.phone.lg .rbk.l{left:16px}\n.phone.lg .rbk.r{right:16px;background:rgba(232,121,43,.88);border-color:rgba(255,255,255,.35);color:#fff;font-weight:700;box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 8px 24px rgba(232,121,43,.35)}\n.phone.lg .pbw{position:relative;width:200px;height:200px;margin:14px auto 0;flex:none}\n.phone.lg .pbig{width:200px;height:200px;border-radius:100px;object-fit:cover;display:block;box-shadow:0 14px 34px rgba(0,0,0,.18)}\n.phone.lg .prm{position:absolute;right:6px;top:6px;width:36px;height:36px;border-radius:18px;background:rgba(255,255,255,.72);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(255,255,255,.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.14);display:grid;place-items:center;font-size:22px;line-height:1;color:#111114;padding:0 0 2px}\n.phone.lg .pcrop{align-self:center;display:flex;align-items:center;gap:8px;height:44px;padding:0 20px;border-radius:22px;background:rgba(255,255,255,.72);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(255,255,255,.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.14);font-size:15px;font-weight:600;color:#111114;flex:none}\n.phone.lg .pcrop svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}\n.phone.lg .pcrop:disabled{opacity:.4}\n.phone.lg .pcrop *{pointer-events:none}\n.phone.lg .psec{font-size:17px;font-weight:600;padding:6px 4px 0;flex:none}\n.phone.lg .prow{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;flex:none}\n.phone.lg .pc{aspect-ratio:1;width:100%;border-radius:50%;border:none;padding:0;display:grid;place-items:center;align-content:center;gap:2px;font-size:26px;font-weight:700;background-size:cover;background-position:center}\n.phone.lg .pc.tool{background:rgba(255,255,255,.72);-webkit-backdrop-filter:blur(24px) saturate(180%);backdrop-filter:blur(24px) saturate(180%);border:1px solid rgba(255,255,255,.7);box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(0,0,0,.04),0 8px 24px rgba(0,0,0,.14);color:#111114;font-size:11px;font-weight:600}\n.phone.lg .pc.tool svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}\n.phone.lg .pc.on{outline:3px solid var(--p-orange);outline-offset:3px}\n.phone.lg .pc *{pointer-events:none}\n/* crop */\n.phone.lg .sheet.crop{background:#000}\n.phone.lg .sheet.crop .sttl{color:#fff}\n.phone.lg .sheet.crop .rbk.l{background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.28);color:#fff;box-shadow:none}\n.phone.lg .cwrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;padding:0 16px 40px}\n.phone.lg .cbox{position:relative;width:min(100%,340px);aspect-ratio:1;touch-action:none}\n.phone.lg .cbox canvas{width:100%;height:100%;display:block;touch-action:none}\n.phone.lg .cbox::after{content:'';position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle closest-side,transparent 99.4%,rgba(0,0,0,.55) 100%)}\n.phone.lg .czm{width:min(100%,300px);accent-color:#E8792B}\n.phone.lg .chint{color:rgba(255,255,255,.7);font-size:15px}\n";   /* v4.129 */
-  var CHQ_LAST_PHONE = "5.289", CHQ_LAST_DESK = "5.289";   /* v4.129: which side a version changed */
+  var CHQ_LAST_PHONE = "5.292", CHQ_LAST_DESK = "5.292";   /* v4.129: which side a version changed */
   /* the phone list in the Ledger's order: open jobs, Potential Job, completed, Claim Denied; then the Ledger's own sort column */
   function chqPhSorted(key){
     var jobs = chqPhMonthJobs(key).slice(), field = sortState.field, dir = sortState.dir;
@@ -23670,7 +23744,31 @@ window.addEventListener("keydown", function(e){
     }catch(e){ console.warn("v5.287 native viewer", e); }
   })();
 
-  /* ---------- v5.289 (Frank Oct 13 4:25 PM, CHQ Aesthetics chat): the Total Loss Invoice card in the family. Approved from CHQ Modules › Total Loss Family v70. What it does, top to bottom:
+/* ---------- v5.290 (Frank Oct 13 5:04 PM: "get those going"): the press on every window's bottom buttons — Deleted Jobs (Cancel, Empty Bin, Done), Deposits, Statistics, Settings Save, Confirm, Prompt, Add Job, and the rest. Same look and timing as 5.247; nothing moves or changes color. */
+(function(){
+  try{
+    var SEL = ".modal-overlay .modal-footer .btn, .modal-overlay .modal-footer button", cur = null;
+    var up = function(){ if(cur){ var c = cur; cur = null; c.classList.remove("c5press"); } };
+    document.addEventListener("pointerdown", function(e){ if(e.button !== 0) return; var b = e.target && e.target.closest && e.target.closest(SEL); if(!b || b.disabled || b.classList.contains("c5press")) return; up(); cur = b; b.classList.add("c5press"); }, true);
+    ["pointerup", "pointercancel", "dragstart"].forEach(function(t){ document.addEventListener(t, up, true); });
+    document.addEventListener("pointerout", function(e){ if(cur && e.target === cur && !cur.contains(e.relatedTarget)) up(); }, true);
+    window.addEventListener("blur", up);
+  }catch(e){ console.warn("v5.290 press", e); }
+})();
+
+/* ---------- v5.291 (Frank Oct 13 5:07 PM): the press in the Job Sources window — Cancel, Done, Month / Year / All Years, the year arrows. */
+(function(){
+  try{
+    var SEL = "#v4SrcWin button:not(.v4cx)", cur = null;
+    var up = function(){ if(cur){ var c = cur; cur = null; c.classList.remove("c5press"); } };
+    document.addEventListener("pointerdown", function(e){ if(e.button !== 0) return; var b = e.target && e.target.closest && e.target.closest(SEL); if(!b || b.disabled || b.classList.contains("c5press")) return; up(); cur = b; b.classList.add("c5press"); }, true);
+    ["pointerup", "pointercancel", "dragstart"].forEach(function(t){ document.addEventListener(t, up, true); });
+    document.addEventListener("pointerout", function(e){ if(cur && e.target === cur && !cur.contains(e.relatedTarget)) up(); }, true);
+    window.addEventListener("blur", up);
+  }catch(e){ console.warn("v5.291 press", e); }
+})();
+
+  /* ---------- v5.292 (Frank Oct 13, CHQ Aesthetics chat; replaces the 5.289 block): the Total Loss Invoice card and the Details rules, from CHQ Modules › Total Loss Family v86 (5:33 PM "looks good, go ahead and integrate"). Since 5.289 (v71–v86): + Add Custom Field row (name as a plain label, × inside the value pill, per job); placeholders (Name, Year Make Model, 17 characters, (000) 000-0000, Claim number); Enter moves on in every card — next box in reading order, a dropdown shows its menu and Enter again keeps its pick, a date opens its calendar and Enter again closes it, Bill To → Pick Up → Start → End → Storage → rate → charges in the invoice card, stops after Work File ID (never lands on + Add Custom Field); a clicked dropdown takes the ring and the focus; Source pill carries one ring; letters never change a dropdown by accident. What it does, top to bottom:
      · Bill To is a dropdown (Copart, IAA, a line, then every insurance company); the Estimates card is gone on a total loss (its PDFs show as rows in Documents); Payments is gone from the card too.
      · One row of labelled pills: Start Date · End Date · Storage · "20 days at $250 per day" (the rate typed in that pill) · Total (days × rate, read-only) · lock. Labels over pills everywhere, no bold section titles.
      · Charges: Charge / Amount columns, $ inside every money pill, the round red ×; a ready row (white box, 1-px line, a +) that searches the charge list as you type.
@@ -23857,6 +23955,59 @@ window.addEventListener("keydown", function(e){
   ov.addEventListener("focusout", function(e){ if(e.target && e.target.matches && e.target.matches("#tlExtras [data-x-amt]")) setTimeout(convert, 120); });   /* the amount typed, the box left: convert */
   build();
 })();
+/* placeholders (Frank Oct 13 4:35 PM): an empty box says what goes in it, the way Adjuster Phone says (000) 000-0000 */
+(function(){
+  var P = { jd_customer:"Name", jd_vehicle:"Year Make Model", jd_vin:"17 characters", jd_claim:"Claim number", jd_adjuster:"Name", jd_custPhone:"(000) 000-0000", jd_adjusterphone:"(000) 000-0000", tl_pickup:"Start typing an address…", tl_billto:"Copart, IAA or the insurance company" };
+  function fill(){ for(var id in P){ var e = document.getElementById(id); if(e && !e.placeholder) e.placeholder = P[id]; } }
+  var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
+  new MutationObserver(fill).observe(ov, { childList:true, subtree:true }); fill();
+})();
+/* custom fields fill the grid left to right (Frank Oct 13 4:43 PM): Created, then the custom fields in the order made, then "+ Add Custom Field" in the next empty cell. The app keeps Created right before the button in the DOM, so the visual order comes from CSS (grid order), not from moving boxes. A new field's name box is ready to type in. */
+(function(){
+  var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
+  ov.addEventListener("click", function(e){ var b = e.target.closest && e.target.closest(".v4cfadd .btn"); if(!b) return; setTimeout(function(){ var fs = document.querySelectorAll("#jobDetailsBody .v4cd > .review-field.v4cfld input.v4cfin"); var last = fs[fs.length - 1]; if(last && !last.value) last.focus(); }, 30); });
+})();
+/* Enter moves on (Frank Oct 13 4:47 PM, 4:50 PM): in Customer Details, Enter goes to the next box in reading order — left, right, next row — through every box: name, Source, phone, email, address, vehicle, VIN, the dates, Location, Status, Board Month, Insurance, claim, adjuster, phone, Estimate Date, Work File ID, the custom fields (name → value) and the + Add Custom Field button. A dropdown, the month button or a date keeps what it has and just moves on; Created is skipped. (The app's v5.168 walk only knew the jd_ inputs; this one runs after it on the same window listener and has the last word.) */
+(function(){
+  function keyOf(e){ if(!e) return ""; if(e.id) return "#" + e.id; var ds = e.dataset || {}; if(ds.xDesc != null) return "xd" + ds.xDesc; if(ds.xAmt != null) return "xa" + ds.xAmt; var d = e.closest && e.closest(".v4dt"); if(d){ var di = d.querySelector("input[type=date]"); if(di && di.id) return "dt#" + di.id; } var f = e.closest && e.closest(".review-field"); return (f && f.querySelector("label") ? f.querySelector("label").textContent.trim() : "") + ">" + e.tagName + "." + String(e.className).split(" ")[0]; }
+  function card(t){ return t.closest("#jobDetailsBody .v4cd") || t.closest("#jdTotalLoss"); }   /* the walk runs inside one card: Customer Details or the Total Loss Invoice (Frank Oct 13 5:09 PM) */
+  function stops(cd){ if(!cd) return [];
+    var all = [].slice.call(cd.querySelectorAll("input, select, button, .v4dtx"));
+    all = all.filter(function(e){ if(e.disabled || e.hidden) return false; if(e.tagName === "INPUT" && /^(date|hidden|file|checkbox|radio)$/.test(e.type)) return false; if(e.readOnly && !e.classList.contains("v4dtx")) return false; if(e.classList.contains("v4cfb") || e.classList.contains("c219sb") || e.id === "jd_vinDecode" || e.classList.contains("c230pill") || e.id === "jd_created") return false;
+      if(e.tagName === "BUTTON") return false;   /* + Add Custom Field is not a stop (Frank Oct 13 5:20 PM): after Work File ID (or the last custom field) Enter just stops */   /* in the invoice card the lock, the ×s, the +s, Paid and Print are clicks, not stops */
+      if(e.classList.contains("c5hid") || e.classList.contains("c5zero") || e.classList.contains("c5stot") || e.classList.contains("c5taxamt")) return false;
+      var r = e.getBoundingClientRect(); return r.width > 0 && r.height > 0 && e.offsetParent !== null; });
+    all.sort(function(a, b){ var ra = a.getBoundingClientRect(), rb = b.getBoundingClientRect(); return Math.abs(ra.top - rb.top) > 12 ? ra.top - rb.top : ra.left - rb.left; });
+    return all; }
+  window.addEventListener("keydown", function(e){ if(e.key !== "Enter" || e.shiftKey || e.ctrlKey || e.metaKey || e.altKey || e.isComposing) return; var t = e.target;
+    var typedInMenu = false;
+    try{ if(typeof V4DD !== "undefined" && V4DD.sel && card(V4DD.sel)){ if(t && t.classList && t.classList.contains("c5ms") && t.value.trim()) typedInMenu = true; t = V4DD.sel; } }catch(_){}   /* with a menu open the keys land in its search box; an empty box + Enter keeps the pick and moves on, a typed search + Enter picks the match (the app does that) and then moves on */
+    if(!t || !t.closest) return; var cd = card(t); if(!cd && !t.isConnected){ cd = document.getElementById("jdTotalLoss"); } if(!cd) return; if(t.tagName === "TEXTAREA") return;
+    if(t.tagName === "BUTTON" && t.closest(".v4cfadd")) return;   /* Enter on + Add Custom Field is a click: it makes the field */
+    if(t.closest(".c5ghost") && t.classList.contains("a")) return;   /* Enter in the ready row's amount adds the charge (its own handler); the next ready row's name is focused by it */
+    var key = keyOf(t), list = stops(cd), i = list.indexOf(t); if(i < 0){ for(var q = 0; q < list.length; q++){ if(keyOf(list[q]) === key){ i = q; break; } } } if(i < 0) return;   /* the invoice card redraws on Enter (the app's own handler runs first), so the box is found again by its name */
+    var nx = list[i + 1];
+    if(typedInMenu){ setTimeout(function(){ try{ if(typeof V4DD !== "undefined" && V4DD.sel) v4DdClose(); }catch(_){} go(); }, 80); return; }
+    e.preventDefault(); e.stopImmediatePropagation();
+    if(t.tagName === "INPUT" && !t.readOnly){ try{ t.dispatchEvent(new Event("change", { bubbles:true })); }catch(_){} }
+    try{ if(typeof V4DD !== "undefined" && V4DD.sel) v4DdClose(); }catch(_){}   /* a menu that was open keeps its pick and closes */
+    try{ var c5c = document.getElementById("c5Cal"); if(c5c && c5c.classList.contains("show")){ c5c.classList.remove("show"); document.querySelectorAll(".c5date.open").forEach(function(b){ b.classList.remove("open"); }); } if(typeof V4CAL !== "undefined" && V4CAL.inp && typeof v4CalClose === "function") v4CalClose(); }catch(_){}   /* an open calendar closes; the date stays */
+    try{ document.querySelectorAll("#jdTotalLoss .c5btw.open").forEach(function(w){ w.classList.remove("open"); }); }catch(_){}   /* the Bill To menu too */
+    var nxKey = keyOf(nx), cdId = cd.id || "", tries = 0;
+    function go(){ if(!nx){ try{ t.blur(); }catch(_){} return; }
+      if(!nx.isConnected){ var fresh = stops(cdId === "jdTotalLoss" ? document.getElementById("jdTotalLoss") : document.querySelector("#jobDetailsBody .v4cd")); for(var q = 0; q < fresh.length; q++){ if(keyOf(fresh[q]) === nxKey){ nx = fresh[q]; break; } } if(!nx.isConnected){ if(++tries < 6) setTimeout(go, tries === 1 ? 0 : 30); return; } }   /* the change above redrew the card: find the next box again by its name (the date pills are rebuilt a moment after the redraw, so look again shortly) */
+      nx.focus(); try{ if(nx.tagName === "INPUT" && !nx.readOnly) nx.select(); }catch(_){}
+      /* landing on a dropdown opens its menu (Frank Oct 13 5:00 PM); Enter again keeps what it has and moves on */
+      try{ if(nx.id === "tl_billto") nx.click(); }catch(_){}   /* landing on Bill To shows its menu */
+      try{ if(nx.classList.contains("v4dtx") && !nx.disabled){ nx.click(); nx.focus(); } }catch(_){}   /* landing on a date opens its calendar like a click (Frank Oct 13 5:25 PM); Enter again closes it, keeps the date and moves on */
+      try{ if(nx.tagName === "SELECT" && typeof v4DdKind === "function" && v4DdKind(nx) && typeof v4DdOpen === "function"){ v4DdOpen(nx); var keep = function(){ try{ document.querySelectorAll("#v4SrcMenu .c5ms, #v4InsMenu .c5ms").forEach(function(i){ i.dataset.f = "1"; }); nx.focus(); }catch(_){} }; keep(); setTimeout(keep, 0); setTimeout(keep, 80); } }catch(_){} }   /* the menu shows, but the keys stay with the dropdown (the menu's search box would otherwise take them and Enter would pick its first row) */
+    if(t.id === "jd_vin") setTimeout(go, 90); else go();   /* the VIN box decodes on Enter first (its own 60 ms), then we move on */
+  }, true);
+  /* a dropdown opened with the mouse takes the focus (its ring shows, the box that had it lets go) */
+  window.addEventListener("mousedown", function(e){ var t = e.target; if(!t || !t.closest) return; var s = t.closest("#jobDetailsBody select"); if(!s || !card(s)) return; var f = function(){ try{ if(s.classList.contains("v4ddopen") && document.activeElement !== s) s.focus(); }catch(_){} }; setTimeout(f, 0); setTimeout(f, 60); }, true);
+  /* a letter typed while a dropdown has focus must not change its pick (a native select would jump to the first match) */
+  window.addEventListener("keydown", function(e){ var t = e.target; if(!t || t.tagName !== "SELECT" || !t.closest || !card(t)) return; if(e.key && e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey){ e.preventDefault(); e.stopImmediatePropagation(); } }, true);
+})();
 
 /* the ready row: one empty charge row under the list. Typing a name or an amount and pressing Enter, or clicking +, adds a real charge through the app's own + button and moves the words into it. */
 (function(){
@@ -23893,8 +24044,8 @@ window.addEventListener("keydown", function(e){
   build();
 })();
 
-  /* v5.289: exempt is the standard — a total loss made from now on starts with no sales tax (older ones keep whatever they had) */
-  try{ var btl0 = blankTotalLoss; blankTotalLoss = function(){ var r = btl0.apply(this, arguments); try{ if(r && !r.taxMode) r.taxMode = "waived"; }catch(e){} return r; }; }catch(e){ console.warn("v5.289 tax default", e); }
+  /* v5.292 (was 5.289): exempt is the standard — a total loss made from now on starts with no sales tax (older ones keep whatever they had) */
+  try{ var btl0 = blankTotalLoss; blankTotalLoss = function(){ var r = btl0.apply(this, arguments); try{ if(r && !r.taxMode) r.taxMode = "waived"; }catch(e){} return r; }; }catch(e){ console.warn("v5.292 tax default", e); }
   /* HQ v4: display-only touches after the table is drawn. Values and saving are untouched. */
   var V5_MON = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
   function v5Date(v){ if(!/^\d{4}-\d{2}-\d{2}$/.test(v || "")) return ""; var p = v.split("-"); return V5_MON[+p[1]-1] + " " + p[2] + (+p[0] === new Date().getFullYear() ? "" : " \u2019" + p[0].slice(2)); }
@@ -33107,6 +33258,22 @@ window.addEventListener("keydown", function(e){
   window.addEventListener("keydown", function(e){ var t = e.target; if(!t || t.tagName !== "SELECT" || !t.closest || !card(t)) return; if(e.key && e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey){ e.preventDefault(); e.stopImmediatePropagation(); } }, true);
 })();
 
+/* Frank Oct 13 5:39 PM: Adjuster Phone keeps its extension in the line — "(800) 555-0225 ext. 1352190" — no separate Ext pill. The box is re-made without the 5.240 split; the 5.254 formatter still shapes the number as you type, and "Ext" is written "ext." */
+(function(){
+  var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
+  function wire(){
+    var w = ov.querySelector("#jobDetailsBody .c240ph"); if(!w || w.dataset.c5ext) return; w.dataset.c5ext = "1";
+    var real = w.querySelector("#jd_adjusterphone"), old = w.querySelector("input.c240pv"); if(!real || !old) return;
+    var pv = old.cloneNode(false); old.parentNode.replaceChild(pv, old);
+    var show = function(v){ return String(v || "").replace(/\s*(?:x|ext\.?|#|×)\s*(\d+)\s*$/i, " ext. $1"); };
+    pv.value = show(real.value); var last = real.value;
+    pv.addEventListener("input", function(){ var v = pv.value.replace(/\bExt /, "ext. "); if(v !== pv.value){ var at = pv.selectionStart, ix = pv.value.indexOf("Ext "); if(at > ix + 3) at += 1; pv.value = v; try{ pv.setSelectionRange(at, at); }catch(_){} } if(real.value !== pv.value){ real.value = pv.value; real.dispatchEvent(new Event("input", { bubbles:true })); } last = real.value; });
+    pv.addEventListener("blur", function(){ real.dispatchEvent(new Event("change", { bubbles:true })); });
+    var tick = setInterval(function(){ if(!w.isConnected){ clearInterval(tick); return; } if(document.activeElement !== pv && real.value !== last){ pv.value = show(real.value); last = real.value; } }, 400);
+  }
+  new MutationObserver(wire).observe(ov, { childList:true, subtree:true }); wire();
+})();
+
 /* the ready row: one empty charge row under the list. Typing a name or an amount and pressing Enter, or clicking +, adds a real charge through the app's own + button and moves the words into it. */
 (function(){
   var t = null;
@@ -33537,6 +33704,10 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 /* Frank Oct 13 5:29 PM: a dropdown whose menu is open carries the orange ring itself (clicked or reached with Enter), the same 1.5-px ring as a box with focus; the box that had focus before lets go of its ring */
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody select.v4ddopen:not(.v4srcrow select){ box-shadow:inset 0 0 0 1.5px #E8792B !important; outline:0 !important; border-color:transparent !important; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4jobv:has(select.v4ddopen){ box-shadow:none !important; }
+
+/* Frank Oct 13 5:39 PM: no Ext pill in Adjuster Phone — the extension reads in the same line, "(800) 555-0225 ext. 1352190" */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .c240ext{ display:none !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .c240ph.c240x > input.c240pv{ padding-right:16px !important; }
 
 /* ---------- Additional Charges: five ways to add (module). body.c5g1 … c5g5 ---------- */
 /* shared: the ghost row (always one empty row ready to fill) */
