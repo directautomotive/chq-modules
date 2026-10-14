@@ -33412,6 +33412,7 @@ window.addEventListener("keydown", function(e){
       nx.focus(); try{ if(nx.tagName === "INPUT" && !nx.readOnly) nx.select(); }catch(_){}
       /* landing on a dropdown opens its menu (Frank Oct 13 5:00 PM); Enter again keeps what it has and moves on */
       try{ if(nx.id === "tl_billto") nx.click(); }catch(_){}   /* landing on Bill To shows its menu */
+      try{ if(nx.classList.contains("tl-stype")) nx.dispatchEvent(new CustomEvent("c5open")); }catch(_){}   /* landing on Storage shows its menu */
       try{ if(nx.classList.contains("v4dtx") && !nx.disabled){ nx.click(); nx.focus(); } }catch(_){}   /* landing on a date opens its calendar like a click (Frank Oct 13 5:25 PM); Enter again closes it, keeps the date and moves on */
       try{ if(nx.tagName === "SELECT" && typeof v4DdKind === "function" && v4DdKind(nx) && typeof v4DdOpen === "function"){ v4DdOpen(nx); var keep = function(){ try{ document.querySelectorAll("#v4SrcMenu .c5ms, #v4InsMenu .c5ms").forEach(function(i){ i.dataset.f = "1"; }); nx.focus(); }catch(_){} }; keep(); setTimeout(keep, 0); setTimeout(keep, 80); } }catch(_){} }   /* the menu shows, but the keys stay with the dropdown (the menu's search box would otherwise take them and Enter would pick its first row) */
     if(t.id === "jd_vin") setTimeout(go, 90); else go();   /* the VIN box decodes on Enter first (its own 60 ms), then we move on */
@@ -33443,6 +33444,46 @@ window.addEventListener("keydown", function(e){
   var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
   function fix(){ ov.querySelectorAll("#v4JdPay .v4sum select.v4dst").forEach(function(s){ var tr = s.closest("tr"), td = tr && tr.firstElementChild; if(!td || s.closest(".c5dedw")) return; var w = document.createElement("span"); w.className = "c5dedw v4khs"; td.appendChild(w); w.appendChild(s); }); }
   new MutationObserver(fix).observe(ov, { childList:true, subtree:true }); fix();
+})();
+
+/* Storage dropdown (Frank Oct 14 9:49 AM "found one"): the Outdoor / Indoor pill opened the browser's own menu. Now it opens the family menu — the Bill To menu's twin — under the pill; Enter landing on it opens it too, Enter again keeps the pick and moves on. */
+(function(){
+  var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
+  function wire(){
+    var sel = ov.querySelector("#jdTotalLoss select.tl-stype"); if(!sel || sel.parentNode.classList.contains("c5btw")) return;
+    var w = document.createElement("div"); w.className = "c5btw c5stw"; sel.parentNode.insertBefore(w, sel); w.appendChild(sel);
+    var m = document.createElement("div"); m.className = "c5btm c5stm"; w.appendChild(m);
+    function draw(){ var h = ""; for(var i = 0; i < sel.options.length; i++){ var o = sel.options[i]; h += '<button type="button" data-v="' + o.value.replace(/"/g, "&quot;") + '"' + (o.value === sel.value ? ' class="on"' : '') + '>' + o.text.replace(/</g, "&lt;") + '</button>'; } if(m.innerHTML !== h) m.innerHTML = h; }
+    function open(){ draw(); w.classList.add("open"); } function close(){ w.classList.remove("open"); }
+    var byMouse = false;
+    sel.addEventListener("mousedown", function(e){ e.preventDefault(); byMouse = true; sel.focus(); byMouse = false; if(w.classList.contains("open")) close(); else open(); });   /* no browser menu */
+    sel.addEventListener("focus", function(){ if(!byMouse && !w.classList.contains("open")) open(); });   /* reached with Enter: the menu shows */
+    sel.addEventListener("keydown", function(e){ if(e.key === " " || e.key === "ArrowDown" || e.key === "ArrowUp"){ e.preventDefault(); if(!w.classList.contains("open")) open(); } });
+    sel.addEventListener("c5open", function(){ open(); });
+    m.addEventListener("mousedown", function(e){ e.preventDefault(); });
+    m.addEventListener("click", function(e){ var b = e.target.closest("button[data-v]"); if(!b) return; close(); if(sel.value !== b.getAttribute("data-v")){ sel.value = b.getAttribute("data-v"); sel.dispatchEvent(new Event("change", { bubbles:true })); } });
+    document.addEventListener("click", function(e){ if(!w.contains(e.target)) close(); });
+    document.addEventListener("keydown", function(e){ if(e.key === "Escape" && w.classList.contains("open")){ e.stopImmediatePropagation(); close(); } }, true);
+  }
+  new MutationObserver(wire).observe(ov, { childList:true, subtree:true }); wire();
+})();
+
+/* The paid check mark (board card or Payments) on a total loss (Frank Oct 14 9:51 AM): marking it paid means a Check for the full amount — the Payments row fills itself (Check · Full Amount, Current Total Charges); unmarking it clears that payment. Done inside the app's own save, so it lands in the saved job. */
+(function(){
+  try{
+    var vsj0 = v4SaveJob;
+    v4SaveJob = function(job, fn){
+      var before = job ? job.estimate1Paid : null, self = this, args = arguments;
+      return vsj0.call(self, job, function(){
+        var r = typeof fn === "function" ? fn.apply(this, arguments) : undefined;
+        try{ if(job && typeof isTotalLoss === "function" && isTotalLoss(job) && job.estimate1Paid !== before){
+          var tl = ensureTotalLoss(job), has = !!(tl.payment && +tl.payment.amount > 0);
+          if(job.estimate1Paid === "Yes" && !has) tl.payment = { method:"Check", kind:"full", amount:Math.round(totalLossTotal(job) * 100) / 100, on:new Date().toISOString().slice(0, 10) };
+          else if(job.estimate1Paid !== "Yes" && has && tl.payment.kind === "full") tl.payment = { method:"Check", kind:"", amount:0, on:"" };
+        } }catch(e){ console.warn("paid mark → payment", e); }
+        return r; });
+    };
+  }catch(e){}
 })();
 
 /* the ready row: one empty charge row under the list. Typing a name or an amount and pressing Enter, or clicking +, adds a real charge through the app's own + button and moves the words into it. */
@@ -33925,6 +33966,11 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 /* paid in full: the bottom pill goes green (Frank Oct 14 9:26 AM) */
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line.tl-total.c5clear{ background:#E7F4EA !important; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line.tl-total.c5clear > span, html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line.tl-total.c5clear .c5sm > i, html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line.tl-total.c5clear .c5sm > b{ color:#1E7B34 !important; }
+/* the Storage pill's menu (Frank Oct 14 9:49 AM) — the wrapper is the pill's size; the select keeps its own look */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stw{ position:relative; display:block; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stw::after{ display:none; }   /* the select draws its own chevron */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stw > select.tl-stype{ width:100% !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5stw .c5btm{ min-width:100%; }
 
 /* ---------- Additional Charges: five ways to add (module). body.c5g1 … c5g5 ---------- */
 /* shared: the ghost row (always one empty row ready to fill) */
