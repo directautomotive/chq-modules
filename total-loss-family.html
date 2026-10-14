@@ -33101,6 +33101,8 @@ window.addEventListener("keydown", function(e){
       try{ if(nx.tagName === "SELECT" && typeof v4DdKind === "function" && v4DdKind(nx) && typeof v4DdOpen === "function"){ v4DdOpen(nx); var keep = function(){ try{ document.querySelectorAll("#v4SrcMenu .c5ms, #v4InsMenu .c5ms").forEach(function(i){ i.dataset.f = "1"; }); nx.focus(); }catch(_){} }; keep(); setTimeout(keep, 0); setTimeout(keep, 80); } }catch(_){} }   /* the menu shows, but the keys stay with the dropdown (the menu's search box would otherwise take them and Enter would pick its first row) */
     if(t.id === "jd_vin") setTimeout(go, 90); else go();   /* the VIN box decodes on Enter first (its own 60 ms), then we move on */
   }, true);
+  /* a dropdown opened with the mouse takes the focus (its ring shows, the box that had it lets go) */
+  window.addEventListener("mousedown", function(e){ var t = e.target; if(!t || !t.closest) return; var s = t.closest("#jobDetailsBody select"); if(!s || !card(s)) return; var f = function(){ try{ if(s.classList.contains("v4ddopen") && document.activeElement !== s) s.focus(); }catch(_){} }; setTimeout(f, 0); setTimeout(f, 60); }, true);
   /* a letter typed while a dropdown has focus must not change its pick (a native select would jump to the first match) */
   window.addEventListener("keydown", function(e){ var t = e.target; if(!t || t.tagName !== "SELECT" || !t.closest || !card(t)) return; if(e.key && e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey){ e.preventDefault(); e.stopImmediatePropagation(); } }, true);
 })();
@@ -33531,6 +33533,10 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4srcrow .v4jobv{ position:relative; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4srcrow .v4jobv:has(select:focus)::after, html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4srcrow .v4jobv:has(select.v4ddopen)::after{ content:""; position:absolute; inset:0; border-radius:inherit; box-shadow:inset 0 0 0 1.5px #E8792B; pointer-events:none; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4srcrow .v4jobv:has(select:focus), html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4srcrow .v4jobv:has(select.v4ddopen){ box-shadow:none !important; }
+
+/* Frank Oct 13 5:29 PM: a dropdown whose menu is open carries the orange ring itself (clicked or reached with Enter), the same 1.5-px ring as a box with focus; the box that had focus before lets go of its ring */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody select.v4ddopen:not(.v4srcrow select){ box-shadow:inset 0 0 0 1.5px #E8792B !important; outline:0 !important; border-color:transparent !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4jobv:has(select.v4ddopen){ box-shadow:none !important; }
 
 /* ---------- Additional Charges: five ways to add (module). body.c5g1 … c5g5 ---------- */
 /* shared: the ghost row (always one empty row ready to fill) */
