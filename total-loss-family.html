@@ -33661,7 +33661,7 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4box[data-v4box="Total Loss Invoice"] > .v4bh .v4hint{ color:#C0392B !important; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4box[data-v4box="Total Loss Invoice"] > .v4bh .v4tri::after{ background:#C0392B !important; }
 /* Frank Oct 13 4:09 PM: in the Invoice box the thin bars after the names line up — the name column is one width (170); the grey note sits on the same baseline */
-html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line > span:first-child{ display:grid; grid-template-columns:170px auto; align-items:center; flex:1 1 auto; min-width:0; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line > span:first-child{ display:grid; grid-template-columns:210px auto; align-items:center; flex:1 1 auto; min-width:0; white-space:nowrap; }   /* 210 px: "Pre-Scan / Diagnostic Scan" fits on one line (Frank Oct 14 8:57 AM screenshot) */
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line > span:first-child > em{ margin:0 !important; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line.tl-total > span:first-child{ display:block; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4box[data-v4box="Total Loss Invoice"] > .v4bh .v4hsep{ background:#C0392B !important; }   /* the vertical line too (Frank Oct 13 4:11 PM) */
@@ -33853,9 +33853,15 @@ html body.c5g3:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOver
         setTimeout(function(){ var b=document.querySelector('#v4JdMode button[data-v4mode="tl"]'); if(b) b.click();
           setTimeout(function(){ var ok=document.getElementById("confirmOkBtn"); if(ok) ok.click();
             setTimeout(function(){ document.querySelectorAll('#jobDetailsOverlay .v4box[data-v4box="Total Loss Invoice"].v4closed > .v4bh, #jobDetailsOverlay .v4box[data-v4box="Estimates"].v4closed > .v4bh, #jobDetailsOverlay .v4box[data-v4box="Documents"].v4closed > .v4bh, #jobDetailsOverlay .v4box[data-v4box="Notes"]:not(.v4closed) > .v4bh').forEach(function(h){ h.click(); });
-              setTimeout(function(){ setv(document.getElementById("tl_billto"), "Copart"); setv(document.getElementById("tl_start"), iso(new Date(Date.now()-21*864e5))); var tm=document.getElementById("tl_taxmode"); if(tm){ tm.value = tm.options[0].value; tm.value = "waived";   /* a total loss starts tax exempt (Frank Oct 13 2:14 PM) — the + on the row adds the tax */ tm.dispatchEvent(new Event("change",{bubbles:true})); }
-                var add=document.getElementById("tlAddExtra"); if(add) add.click();
-                setTimeout(function(){ setv(document.querySelector('[data-x-desc="0"]'), "Tow"); setv(document.querySelector('[data-x-amt="0"]'), "185"); var body=document.getElementById("jobDetailsBody"); if(body) body.scrollTop=0; }, 300);
+              setTimeout(function(){ /* the standard demo job (Frank Oct 14 8:57 AM): Copart, 8 days indoor at $175, four charges, 11.25 % sales tax — total $2,442.55 */
+                setv(document.getElementById("tl_billto"), "Copart"); setv(document.getElementById("tl_pickup"), "5880 W Centinela Ave Los Angeles CA 90045");
+                setv(document.getElementById("tl_start"), iso(new Date(Date.now()-7*864e5))); setv(document.getElementById("tl_end"), iso(new Date()));
+                var st=document.querySelector("#jdTotalLoss select.tl-stype"); if(st){ for(var i=0;i<st.options.length;i++){ if(/indoor/i.test(st.options[i].text)){ st.value=st.options[i].value; break; } } st.dispatchEvent(new Event("change",{bubbles:true})); }
+                setv(document.getElementById("tl_rate"), "175");
+                var tr=document.getElementById("tl_taxrate"); if(tr) setv(tr, "11.25"); var tm=document.getElementById("tl_taxmode"); if(tm){ tm.value="all"; tm.dispatchEvent(new Event("change",{bubbles:true})); }
+                var CH=[["Tear Down 3 Hours","238.68"],["Pre-Scan / Diagnostic Scan","87.53"],["Labor Inoperable","119.34"],["Tow-In Fee","350"]], k=0;
+                (function next(){ if(k>=CH.length){ var body=document.getElementById("jobDetailsBody"); if(body) body.scrollTop=0; return; } var add=document.getElementById("tlAddExtra"); if(add) add.click();
+                  setTimeout(function(){ setv(document.querySelector('[data-x-desc="'+k+'"]'), CH[k][0]); setv(document.querySelector('[data-x-amt="'+k+'"]'), CH[k][1]); k++; setTimeout(next, 250); }, 250); })();
               }, 400); }, 700); }, 500); }, 1000); }, 2600); }, 300); } else if(n>60) clearInterval(t); }, 250);
 })();
 </script>
