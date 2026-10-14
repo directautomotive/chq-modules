@@ -33169,14 +33169,16 @@ window.addEventListener("keydown", function(e){
   function fmt(t){ return String(t || "").replace(/[^\d.,−-]/g, "") || "0.00"; }
   function build(){
     var pay = document.getElementById("v4JdPay"), sm = document.querySelector("#jdTotalLoss .tl-summary"), ex = document.getElementById("tlExtras"); if(!pay || !sm || !ex) return;
-    var tl = document.querySelector('#v4JdMode button[data-v4mode="tl"].on'); if(!tl){ document.querySelectorAll("#jdTotalLoss .c5paidrow, #jdTotalLoss .c5totrow").forEach(function(x){ x.remove(); }); return; }
+    var tl = document.querySelector('#v4JdMode button[data-v4mode="tl"].on'); if(!tl){ document.querySelectorAll("#jdTotalLoss .c5paidrow, #jdTotalLoss .c5totrow, #jdTotalLoss .c5payhd").forEach(function(x){ x.remove(); }); return; }
     var ck = pay.querySelector('[data-v4ck="e"]'), paid = !!(ck && ck.classList.contains("ok"));
     var tot = sm.querySelector(".tl-line.tl-total .c5sm b") || sm.querySelector(".tl-line.tl-total > span:last-child"), amt = fmt(tot && tot.textContent);
     /* up top: the Current Total Charges row with the paid circle */
-    var host = ex.parentNode, tr = host.querySelector(".c5totrow");
+    var host = ex.parentNode, tr = host.querySelector(".c5totrow"), ph = host.querySelector(".c5payhd");
+    var ch = host.querySelector(".c5chh:not(.c5payhd) .n"); if(ch && ch.textContent === "Charge") ch.textContent = "Additional Charges";   /* the list is the extras — the heading says so (Frank Oct 14 8:56 AM) */
+    if(!ph){ ph = document.createElement("div"); ph.className = "c5chh c5payhd"; ph.innerHTML = '<span class="n">Payments</span><span class="a">Amount</span><span class="x"></span>'; host.appendChild(ph); }   /* the Payments heading: a thin line, then the words, like the Additional Charges heading (Frank Oct 14 8:56 AM) */
     if(!tr){ tr = document.createElement("div"); tr.className = "c5totrow"; tr.innerHTML = '<span class="c5tn">Current Total Charges</span><span class="c5amt c5pc"><input type="text" class="c5totin" readonly tabindex="-1"></span><button type="button" class="c5pd" aria-label="Paid or not"></button>'; host.appendChild(tr);
       tr.querySelector(".c5pd").addEventListener("click", function(){ var x = document.querySelector('#v4JdPay [data-v4ck="e"]'); if(x) x.click(); setTimeout(build, 0); }); }
-    else if(tr !== host.lastElementChild) host.appendChild(tr);   /* always the last row of the list */
+    if(ph.nextElementSibling !== tr || tr !== host.lastElementChild){ host.appendChild(ph); host.appendChild(tr); }   /* always the last two: the heading, then the row */
     tr.classList.toggle("on", paid); var ti = tr.querySelector(".c5totin"); if(ti.value !== amt) ti.value = amt; tr.querySelector(".c5pd").title = paid ? "Paid — click to mark it not paid" : "Not paid — click to mark it paid";
     /* in the box: a plain Paid line above the red total */
     var row = sm.querySelector(".c5paidrow");
@@ -33187,7 +33189,7 @@ window.addEventListener("keydown", function(e){
     if(ws.textContent !== word) ws.textContent = word; if(ab.textContent !== pa) ab.textContent = pa;   /* only written when it changes (a write is a mutation, and the other watchers would answer it forever) */
   }
   var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
-  new MutationObserver(function(ms){ for(var i = 0; i < ms.length; i++){ var tg = ms[i].target; if(tg && tg.closest && tg.closest(".c5paidrow, .c5totrow")) continue; build(); return; } }).observe(ov, { childList:true, subtree:true, attributes:true, attributeFilter:["class"] });
+  new MutationObserver(function(ms){ for(var i = 0; i < ms.length; i++){ var tg = ms[i].target; if(tg && tg.closest && tg.closest(".c5paidrow, .c5totrow, .c5payhd")) continue; build(); return; } }).observe(ov, { childList:true, subtree:true, attributes:true, attributeFilter:["class"] });
   build();
 })();
 /* Negotiated Total as a charge row (Frank Oct 13 3:37 PM): the last fixed row of the charge list, like Sales Tax — outlined and empty ("Full invoice") with a +; type the number agreed with Copart / the insurer and it becomes a filled row with a ×. Behind it one hidden charge, "Negotiated Settlement", holds the difference (a minus), so the Invoice box shows the write-down and Current Total Charges reads the agreed number. × clears it. */
@@ -33317,7 +33319,7 @@ window.addEventListener("keydown", function(e){
   var t = null;
   function build(){
     var fs = document.querySelector("#jdTotalLoss .tl-fieldset:has(#tlAddExtra)"), ex = document.getElementById("tlExtras"); if(!fs || !ex) return;
-    if(!fs.querySelector(".c5chh")){ var h = document.createElement("div"); h.className = "c5chh"; h.innerHTML = '<span class="n">Charge</span><span class="a">Amount</span><span class="x"></span>'; ex.parentNode.insertBefore(h, ex); }
+    if(!fs.querySelector(".c5chh")){ var h = document.createElement("div"); h.className = "c5chh"; h.innerHTML = '<span class="n">Additional Charges</span><span class="a">Amount</span><span class="x"></span>'; ex.parentNode.insertBefore(h, ex); }
     if(fs.querySelector(".c5ghost")) return;
     var g = document.createElement("div"); g.className = "c5ghost";
     g.innerHTML = '<input type="text" class="n" placeholder="Type a charge, or browse the list" autocomplete="off"><span class="c5amt"><input type="text" class="a" placeholder="0.00" inputmode="decimal"></span><button type="button" class="p" aria-label="Add this charge"></button>';
@@ -33773,6 +33775,7 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .c5paidrow em b{ font-weight:600; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .tl-print-row{ justify-content:flex-end !important; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .tl-print-row .c5paid{ display:none !important; }   /* the old pill on the Print row (5.289–5.293) is gone */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5chh.c5payhd{ margin-top:14px; padding-top:12px; border-top:1px solid #E4E5E1; }   /* Payments: a thin line, then the heading */
 
 /* ---------- Additional Charges: five ways to add (module). body.c5g1 … c5g5 ---------- */
 /* shared: the ghost row (always one empty row ready to fill) */
