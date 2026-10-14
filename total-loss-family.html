@@ -33164,40 +33164,54 @@ window.addEventListener("keydown", function(e){
   new MutationObserver(function(ms){ for(var i = 0; i < ms.length; i++){ var tg = ms[i].target; if(tg && tg.closest && tg.closest(".c5taxr")) continue; build(); return; } }).observe(ov, { childList:true, subtree:true });
   build();
 })();
-/* Payment (Frank Oct 14 9:00 AM, 9:08 AM "there is only one payment"): under Additional Charges, a Payments heading and one row in the charge-row shape — a Cash / Check dropdown pill, the amount in a $ pill (reads 0.00 until typed; whatever is in the box is the payment), and a red × that clears it. The Invoice box is a preview: its Paid line shows that amount. The payment lives on the job (totalLoss.payment) and saves with it; the app's Invoice paid mark (job.estimate1Paid) follows — on when the payment covers the total. */
+/* Payment (Frank Oct 14 9:00, 9:08, 9:12 AM): a total loss usually has no payment; the row waits. Under Additional Charges, a Payments heading and one row in the charge-row shape: a dropdown pill that reads "Check" until a payment comes (Check is the standard, 8 of 10 times), the amount in a $ pill (0.00, grey), and a red × that clears it. The menu is the Bill To menu's twin: Check · Full Amount, Cash · Full Amount, a line, Check · Settlement, Cash · Settlement. Full Amount writes Current Total Charges into the box and follows it; Settlement opens the box to type what they paid. The Invoice box is a preview: its Paid line shows the payment. It lives on the job (totalLoss.payment) and saves with it; the app's Invoice paid mark (job.estimate1Paid) follows — on when the payment covers the total. */
 (function(){
   function fmt(n){ n = Math.round((+n || 0) * 100) / 100; var neg = n < 0; n = Math.abs(n); var s = n.toFixed(2); s = s.replace(/\B(?=(\d{3})+(?!\d))/g, ","); return (neg ? "\u2212" : "") + s; }
   function num(t){ return parseFloat(String(t || "").replace(/[^\d.-]/g, "")) || 0; }
   function jobTl(){ try{ var j = findJobById(currentDetailsJobId); return j ? { job:j, tl:ensureTotalLoss(j) } : null; }catch(_){ return null; } }
+  var OPTS = [["Check", "full"], ["Cash", "full"], null, ["Check", "settlement"], ["Cash", "settlement"]];
+  function label(m, k){ return m + (k === "full" ? " \u00b7 Full Amount" : k === "settlement" ? " \u00b7 Settlement" : ""); }
   function build(){
     var sm = document.querySelector("#jdTotalLoss .tl-summary"), ex = document.getElementById("tlExtras"); if(!sm || !ex) return;
     var tl = document.querySelector('#v4JdMode button[data-v4mode="tl"].on'); if(!tl){ document.querySelectorAll("#jdTotalLoss .c5paidrow, #jdTotalLoss .c5payhd, #jdTotalLoss .c5payrow").forEach(function(x){ x.remove(); }); return; }
-    var jt = jobTl(), pay = (jt && jt.tl.payment) || { method:"Cash", amount:0 };
-    var totB = sm.querySelector(".tl-line.tl-total .c5sm b") || sm.querySelector(".tl-line.tl-total > span:last-child"), total = num(totB && totB.textContent), paid = +pay.amount || 0;
+    var jt = jobTl(), pay = (jt && jt.tl.payment) || { method:"Check", kind:"", amount:0 };
+    var totB = sm.querySelector(".tl-line.tl-total .c5sm b") || sm.querySelector(".tl-line.tl-total > span:last-child"), total = num(totB && totB.textContent);
+    if(pay.kind === "full" && jt && Math.abs((+pay.amount || 0) - total) > 0.004){ pay.amount = total; }   /* Full Amount follows Current Total Charges */
+    var paid = +pay.amount || 0;
     var host = ex.parentNode, ph = host.querySelector(".c5payhd"), row = host.querySelector(".c5payrow");
     var ch = host.querySelector(".c5chh:not(.c5payhd) .n"); if(ch && ch.textContent === "Charge") ch.textContent = "Additional Charges";
     if(!ph){ ph = document.createElement("div"); ph.className = "c5chh c5payhd"; ph.innerHTML = '<span class="n">Payments</span><span class="a">Amount</span><span class="x"></span>'; host.appendChild(ph); }
     if(!row){ row = document.createElement("div"); row.className = "c5payrow";
-      row.innerHTML = '<span class="c5pm"><select class="c5paym"><option>Cash</option><option>Check</option></select></span><span class="c5amt c5pc"><input type="text" class="c5payin c5stot" inputmode="decimal" value="0.00"></span><button type="button" class="c5px" aria-label="Clear this payment" title="Clear this payment"></button>';
+      row.innerHTML = '<div class="c5btw c5pmw"><input type="text" class="c5paym" readonly tabindex="-1"><div class="c5btm"></div></div><span class="c5amt c5pc"><input type="text" class="c5payin c5stot" inputmode="decimal" value="0.00"></span><button type="button" class="c5px" aria-label="Clear this payment" title="Clear this payment"></button>';
       host.appendChild(row);
-      var sel = row.querySelector(".c5paym"), inp = row.querySelector(".c5payin");
-      function save(){ var j = jobTl(); if(!j) return; var v = Math.round(num(inp.value) * 100) / 100; j.tl.payment = { method:sel.value, amount:v, on:v ? (j.tl.payment && j.tl.payment.on) || new Date().toISOString().slice(0, 10) : "" }; inp.value = fmt(v); mark(j); build(); }
+      var w = row.querySelector(".c5pmw"), m = row.querySelector(".c5btm"), sel = row.querySelector(".c5paym"), inp = row.querySelector(".c5payin");
+      function cur(){ var j = jobTl(); return (j && j.tl.payment) || { method:"Check", kind:"", amount:0 }; }
+      function draw(){ var c = cur(), h = ""; OPTS.forEach(function(o){ if(!o){ h += "<hr>"; return; } var on = c.method === o[0] && c.kind === o[1]; h += '<button type="button" data-m="' + o[0] + '" data-k="' + o[1] + '"' + (on ? ' class="on"' : '') + '>' + label(o[0], o[1]) + '</button>'; }); if(m.innerHTML !== h) m.innerHTML = h; }
+      function open(){ draw(); w.classList.add("open"); } function close(){ w.classList.remove("open"); }
+      function put(p){ var j = jobTl(); if(!j) return; j.tl.payment = p; mark(j); build(); }
       function mark(j){ var sum = +(j.tl.payment && j.tl.payment.amount) || 0; var want = sum > 0 && sum + 0.005 >= total; var x = document.querySelector('#v4JdPay [data-v4ck="e"]'); if(x && x.classList.contains("ok") !== want) x.click(); }
-      sel.addEventListener("change", save);
+      sel.addEventListener("click", function(){ if(w.classList.contains("open")) close(); else open(); });
+      m.addEventListener("mousedown", function(e){ e.preventDefault(); });
+      m.addEventListener("click", function(e){ var b = e.target.closest("button[data-m]"); if(!b) return; var k = b.getAttribute("data-k"), c = cur(); close();
+        put({ method:b.getAttribute("data-m"), kind:k, amount:k === "full" ? total : (c.kind === "settlement" ? c.amount : 0), on:new Date().toISOString().slice(0, 10) });
+        if(k === "settlement") setTimeout(function(){ var i = row.querySelector(".c5payin"); if(i){ i.focus(); } }, 0); });
+      document.addEventListener("click", function(e){ if(!w.contains(e.target)) close(); });
+      document.addEventListener("keydown", function(e){ if(e.key === "Escape" && w.classList.contains("open")){ e.stopImmediatePropagation(); close(); } }, true);
       inp.addEventListener("focus", function(){ setTimeout(function(){ inp.select(); }, 0); });   /* the whole number is selected, so typing replaces it */
-      inp.addEventListener("blur", save);
+      inp.addEventListener("blur", function(){ var c = cur(), v = Math.round(num(inp.value) * 100) / 100; if(c.kind === "full"){ inp.value = fmt(c.amount); return; } put({ method:c.method || "Check", kind:v ? (c.kind || "settlement") : "", amount:v, on:v ? (c.on || new Date().toISOString().slice(0, 10)) : "" }); });
       inp.addEventListener("keydown", function(e){ if(e.key === "Enter"){ e.preventDefault(); e.stopImmediatePropagation(); inp.blur(); } });
-      row.querySelector(".c5px").addEventListener("click", function(){ inp.value = "0.00"; sel.value = "Cash"; save(); }); }
+      row.querySelector(".c5px").addEventListener("click", function(){ put({ method:"Check", kind:"", amount:0, on:"" }); }); }
     if(ph.nextElementSibling !== row || row !== host.lastElementChild){ host.appendChild(ph); host.appendChild(row); }
-    var sel2 = row.querySelector(".c5paym"), inp2 = row.querySelector(".c5payin");
-    if(sel2.value !== (pay.method || "Cash")) sel2.value = pay.method || "Cash";
+    var sel2 = row.querySelector(".c5paym"), inp2 = row.querySelector(".c5payin"), lab = label(pay.method || "Check", pay.kind || "");
+    if(sel2.value !== lab) sel2.value = lab;
     if(document.activeElement !== inp2 && inp2.value !== fmt(paid)) inp2.value = fmt(paid);
-    row.classList.toggle("c5empty", !(paid > 0));
-    /* in the box: Paid | Cash … $ */
+    inp2.readOnly = pay.kind === "full";   /* Full Amount is written for you */
+    row.classList.toggle("c5empty", !(paid > 0)); row.classList.toggle("c5full", pay.kind === "full");
+    /* in the box: Paid | Check · Full Amount … $ */
     var line = sm.querySelector(".c5paidrow");
     if(!line){ line = document.createElement("div"); line.className = "tl-line c5paidrow"; line.innerHTML = '<span>Paid<em></em></span><span class="c5sm"><i>$</i><b></b></span>'; }
     var tt = sm.querySelector(".tl-line.tl-total"); if(tt && line.nextElementSibling !== tt) sm.insertBefore(line, tt); else if(!tt && line.parentNode !== sm) sm.appendChild(line);
-    var em = line.querySelector("em"), emt = paid > 0 ? (pay.method || "Cash") : "", ab = line.querySelector(".c5sm b"), pa = fmt(paid);
+    var em = line.querySelector("em"), emt = paid > 0 ? label(pay.method || "Check", pay.kind || "") : "", ab = line.querySelector(".c5sm b"), pa = fmt(paid);
     if(em.textContent !== emt) em.textContent = emt; em.style.display = emt ? "" : "none";
     if(ab.textContent !== pa) ab.textContent = pa;   /* only written when it changes (a write is a mutation, and the other watchers would answer it forever) */
     line.classList.toggle("on", paid > 0 && paid + 0.005 >= total);
@@ -33773,11 +33787,12 @@ html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#j
 /* Payments (Frank Oct 14 9:00 AM): rows in the charge-row shape — Cash / Check pill, $ amount pill, red ×; the ready row with the green ✓ */
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5chh.c5payhd{ margin-top:14px; padding-top:12px; border-top:1px solid #E4E5E1; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5payrow{ display:flex; align-items:center; gap:8px; margin-top:8px; }
-html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5payrow > .c5pm{ flex:1; min-width:0; }
-html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5payrow > .c5pm > select{ width:100% !important; height:40px !important; min-height:40px !important; border:0 !important; border-radius:20px !important; background-color:#F2F2F7 !important; box-shadow:none !important; padding:0 40px 0 16px !important; font:400 14px var(--v4-word, Inter, Arial), sans-serif !important; color:#000 !important; -webkit-appearance:none !important; appearance:none !important; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") !important; background-repeat:no-repeat !important; background-position:right 14px center !important; background-size:16px 16px !important; cursor:pointer; }
-html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5payrow > .c5pm > select:focus{ background-color:#fff !important; box-shadow:inset 0 0 0 1.5px #E8792B !important; outline:0 !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5payrow > .c5pmw{ flex:1; min-width:0; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5payrow > .c5pmw > input.c5paym{ width:100% !important; height:40px !important; min-height:40px !important; border:0 !important; border-radius:20px !important; background:#F2F2F7 !important; box-shadow:none !important; padding:0 40px 0 16px !important; font:400 14px var(--v4-word, Inter, Arial), sans-serif !important; color:#000 !important; cursor:pointer; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5payrow > .c5pmw > input.c5paym:focus{ background:#fff !important; box-shadow:inset 0 0 0 1.5px #E8792B !important; outline:0 !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5payrow.c5empty > .c5pmw > input.c5paym{ color:#9A9AA3 !important; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5payrow .c5payamt, html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5payrow .c5payin{ height:40px !important; min-height:40px !important; border:0 !important; border-radius:20px !important; background:#F2F2F7 !important; box-shadow:none !important; text-align:right !important; text-align-last:right !important; font:400 14px var(--v4-num, "Courier New", monospace) !important; color:#000 !important; }
-html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5payrow .c5payamt{ cursor:default; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5payrow.c5full .c5payin{ cursor:default; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5payrow .c5payin:focus{ background:#fff !important; box-shadow:inset 0 0 0 1.5px #E8792B !important; outline:0 !important; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5payrow > .c5px, html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5payrow > .c5payok{ position:relative; width:36px; min-width:36px; height:36px; flex:none; padding:0; border:0; border-radius:50%; cursor:pointer; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5payrow > .c5px{ background:#FBEAEA; }
