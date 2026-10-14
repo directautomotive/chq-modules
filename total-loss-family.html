@@ -33164,16 +33164,16 @@ window.addEventListener("keydown", function(e){
   new MutationObserver(function(ms){ for(var i = 0; i < ms.length; i++){ var tg = ms[i].target; if(tg && tg.closest && tg.closest(".c5taxr")) continue; build(); return; } }).observe(ov, { childList:true, subtree:true });
   build();
 })();
-/* Paid (Frank Oct 13 3:27 PM; reworked Oct 14 8:39 AM "it goes there"): Paid is a fact about the invoice, so it is the last line inside the Invoice box, under the red total — "Paid" at the left, and at the right a green "✓ Paid" or a red "✕ Not Paid" word you click to flip. Print stands alone on its row. The click flips the app's own Invoice paid mark (the [data-v4ck="e"] button inside Payments, job.estimate1Paid), so the board's paid / balance numbers stay right. */
+/* Paid (Frank Oct 13 3:27 PM; reworked Oct 14 8:39 AM "it goes there"): Paid is a fact about the invoice, so it is a line inside the Invoice box, right above the red total (Frank 8:51 AM "it should live above Current Total Charges") — "Paid" at the left, and at the right a green "✓ Paid" or a red "✕ Not Paid" word you click to flip. Print stands alone on its row. The click flips the app's own Invoice paid mark (the [data-v4ck="e"] button inside Payments, job.estimate1Paid), so the board's paid / balance numbers stay right. */
 (function(){
   function build(){
     var pay = document.getElementById("v4JdPay"), sm = document.querySelector("#jdTotalLoss .tl-summary"); if(!pay || !sm) return;
     var tl = document.querySelector('#v4JdMode button[data-v4mode="tl"].on'); if(!tl){ var old = sm.querySelector(".c5paidrow"); if(old) old.remove(); return; }
     var ck = pay.querySelector('[data-v4ck="e"]'), paid = !!(ck && ck.classList.contains("ok"));
     var row = sm.querySelector(".c5paidrow");
-    if(!row){ row = document.createElement("div"); row.className = "tl-line c5paidrow"; row.innerHTML = '<span>Paid<em><button type="button" class="c5paid"><i></i><span></span></button></em></span><span class="c5sm"><i>$</i><b></b></span>'; sm.appendChild(row);
+    if(!row){ row = document.createElement("div"); row.className = "tl-line c5paidrow"; row.innerHTML = '<span>Paid<em><button type="button" class="c5paid"><i></i><span></span></button></em></span><span class="c5sm"><i>$</i><b></b></span>'; var tt = sm.querySelector(".tl-line.tl-total"); if(tt) sm.insertBefore(row, tt); else sm.appendChild(row);
       row.querySelector(".c5paid").addEventListener("click", function(){ var x = document.querySelector('#v4JdPay [data-v4ck="e"]'); if(x) x.click(); setTimeout(build, 0); }); }
-    else if(row !== sm.lastElementChild) sm.appendChild(row);   /* always the last line */
+    else { var tt2 = sm.querySelector(".tl-line.tl-total"); if(tt2 && row.nextElementSibling !== tt2) sm.insertBefore(row, tt2); }   /* always the line right above Current Total Charges (Frank Oct 14 8:51 AM) */
     var b = row.querySelector(".c5paid"), tot = document.querySelector("#jdTotalLoss .tl-line.tl-total .c5sm b, #jdTotalLoss .tl-line.tl-total > span:last-child");
     var word = paid ? "Paid" : "Not Paid", amt = paid && tot ? tot.textContent.replace(/[^\d.,−-]/g, "") : "0.00", ws = b.querySelector("span"), ab = row.querySelector(".c5sm b");
     b.classList.toggle("on", paid); if(ws.textContent !== word) ws.textContent = word; b.title = paid ? "Click to mark it not paid" : "Click to mark it paid";
@@ -33747,7 +33747,7 @@ html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#j
 html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line.tl-total{ padding:0 8px !important; }
 
 /* Paid as the last line of the Invoice box (Frank Oct 14 8:39 AM): a plain row under the red total; the word at the right is the only colored thing — green ✓ Paid, red ✕ Not Paid — and it is the click */
-html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line.c5paidrow{ border-bottom:0 !important; margin-top:6px; min-height:40px; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line.c5paidrow{ min-height:36px; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .c5paidrow .c5paid{ display:inline-flex; align-items:center; justify-content:flex-start; width:auto; gap:7px; height:28px; padding:0 10px; margin-left:-10px; border:0; border-radius:14px; background:transparent; color:#C0392B; font:600 14px var(--v4-word, Inter, Arial), sans-serif; cursor:pointer; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .c5paidrow .c5paid:hover{ background:#FBEAEA; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .c5paidrow .c5paid.on{ color:#1E7B34; }
