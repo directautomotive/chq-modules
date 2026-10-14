@@ -134,6 +134,8 @@ th .g > span{ font:700 13px var(--words); white-space:nowrap; } th .g .s-a{ colo
   <span class="ver">Version 12 · Oct 14, 9:40 AM · one "Dates" column: one box, one X, one width while arranging</span>
   <div class="ctl">
     <div class="ci"><span>Between</span><div class="seg" id="ra"><button type="button" data-v="a" class="on">Arrows</button><button type="button" data-v="l">Lines</button><button type="button" data-v="n">None</button></div></div>
+    <div class="ci"><span>Date In</span><div class="seg" id="din"><button type="button" data-v="1" class="on">On</button><button type="button" data-v="0">Off</button></div></div>
+    <div class="ci"><span>Date Out</span><div class="seg" id="dou"><button type="button" data-v="1" class="on">On</button><button type="button" data-v="0">Off</button></div></div>
     <div class="ci"><span>Days</span><div class="seg" id="dy"><button type="button" data-v="1" class="on">On</button><button type="button" data-v="0">Off</button></div></div>
     <div class="ci"><span>"days" after the number</span><div class="seg" id="wd"><button type="button" data-v="0" class="on">Off</button><button type="button" data-v="1">On</button></div></div>
     <div class="ci"><span>Marker (total loss "!", scheduled calendar)</span><div class="seg" id="mk"><button type="button" data-v="app">On top (app now)</button><button type="button" data-v="slot" class="on">Own slot</button><button type="button" data-v="arrow">In the arrow</button><button type="button" data-v="after">After the date</button><button type="button" data-v="off">Off</button></div></div>
@@ -150,7 +152,7 @@ th .g > span{ font:700 13px var(--words); white-space:nowrap; } th .g .s-a{ colo
 <script>
 var NOW = "2026-10-13";
 var C = { y:4, o:10, r:20, tlRed:1, tlColor:1, tlIcon:1, schColor:1, schIcon:1 }, DEF = JSON.parse(JSON.stringify(C));
-var RA = "a", WORD = 0, DAYS = 1, GAP = 6, MK = "slot", ARR = 0;
+var RA = "a", WORD = 0, DAYS = 1, GAP = 6, MK = "slot", ARR = 0, DIN = 1, DOU = 1;
 /* job #, customer, date in, date out, kind (tl = total loss, end = its pick-up date), estimate, paid */
 var ROWS = [
   [1, "Rachel Chan", "2026-10-06", "", "", 1043.01, 1],
@@ -184,9 +186,9 @@ function draw(){
   /* header: the same pieces and the same gap, so the arrows and words sit over the rows */
   var ha = RA === "a" ? '<i class="ha">\u2192</i>' : RA === "l" ? '<i class="hs"></i>' : '';   /* None hides the separators in the header too */
   var E = '<span class="s-a"></span>';   /* header: same boxes, separator slots left empty so the words have room and still sit dead over their boxes */
-  var hd = '<span class="g"><span class="s-d">Date In</span>' + E + (DAYS ? '<span class="s-n">Days</span>' + E : '') + (MK === "slot" ? '<span class="s-m"></span>' : '') + '<span class="s-d">Date Out</span></span>';   /* the header uses the exact same boxes as the rows, so every line and arrow lines up */
+  var hd = '<span class="g">' + (DIN ? '<span class="s-d">Date In</span>' + (DAYS || DOU ? E : '') : '') + (DAYS ? '<span class="s-n">Days</span>' + (DOU ? E : '') : '') + (DOU ? (MK === "slot" ? '<span class="s-m"></span>' : '') + '<span class="s-d">Date Out</span>' : '') + '</span>';   /* the header uses the exact same boxes as the rows, so every line and arrow lines up */
   var h = '<colgroup><col class="c-no"><col class="c-cu"><col><col class="c-est"></colgroup>' +
-    '<tr><th>' + AX + 'Job #' + AW(56) + '</th><th class="l">' + AX + 'Customer' + AW(150) + '</th><th class="grp">' + AX + '<span class="hl">' + hd + chev + '</span>' + AW(DAYS ? (MK === "slot" ? 254 : 230) : 142) + '</th><th>' + AX + 'Estimate 1' + AW(170) + '</th></tr>';
+    '<tr><th>' + AX + 'Job #' + AW(56) + '</th><th class="l">' + AX + 'Customer' + AW(150) + '</th><th class="grp">' + AX + '<span class="hl">' + hd + chev + '</span>' + AW(14 + (DIN ? 65 : 0) + (DAYS ? 32 : 0) + (DOU ? (MK === "slot" ? 24 : 0) + 65 : 0)) + '</th><th>' + AX + 'Estimate 1' + AW(170) + '</th></tr>';
   h += ROWS.map(function(r, i){
     var din = r[2], dout = r[3], tl = r[4] === "tl", out = dout && dout <= NOW, sch = dout && dout > NOW;
     var n = din ? days(din, out ? dout : NOW) : null, cls = out ? "done" : (tl && C.tlRed) ? "r" : n != null ? band(n) : "";
@@ -198,11 +200,10 @@ function draw(){
     var mkh = MK === "off" ? "" : tl && C.tlIcon ? '<i class="mk tl">!</i>' : sch && C.schIcon ? '<i class="mk sch">' + CALI + '</i>' : "";
     var lastA = MK === "arrow" && mkh ? '<span class="s-a">' + mkh + '</span>' : A(!!din);
     var g = '<span class="g">' +
-      '<span class="s-d cell" data-i="' + i + '" data-f="2" title="Click to set the Date In">' + (din ? fmt(din) : '<b class="nd">\u2013</b>') + '</span>' +
-      A(!!din) +
-      (DAYS ? '<span class="s-n dn ' + cls + (WORD ? " w" : "") + '" title="' + tip + '">' + (n == null ? "" : pad(n)) + '</span>' + lastA : '') +
-      (MK === "slot" ? '<span class="s-m">' + mkh + '</span>' : '') +
-      '<span class="s-d cell' + (MK === "app" && mkh ? " hasmk" : "") + (MK === "after" && mkh ? " mkafter" : "") + '" data-i="' + i + '" data-f="' + (tl ? 7 : 3) + '" style="' + oCol + '" title="' + (tl ? "Total loss: waiting for the insurance company to pick it up" : sch ? "Scheduled: the customer picks it up " + longd(dout) : "Click to set the Date Out") + '">' + (MK === "app" ? mkh : "") + (oTxt || (din ? '<b class="nd">\u2013</b>' : "")) + (MK === "after" ? mkh : "") + '</span>' +
+      (DIN ? '<span class="s-d cell" data-i="' + i + '" data-f="2" title="Click to set the Date In">' + (din ? fmt(din) : '<b class="nd">\u2013</b>') + '</span>' + (DAYS || DOU ? A(!!din) : '') : '') +
+      (DAYS ? '<span class="s-n dn ' + cls + (WORD ? " w" : "") + '" title="' + tip + '">' + (n == null ? "" : pad(n)) + '</span>' + (DOU ? lastA : '') : '') +
+      (DOU && MK === "slot" ? '<span class="s-m">' + mkh + '</span>' : '') + (DOU ? '' : '<!--') +
+      '<span class="s-d cell' + (MK === "app" && mkh ? " hasmk" : "") + (MK === "after" && mkh ? " mkafter" : "") + '" data-i="' + i + '" data-f="' + (tl ? 7 : 3) + '" style="' + oCol + '" title="' + (tl ? "Total loss: waiting for the insurance company to pick it up" : sch ? "Scheduled: the customer picks it up " + longd(dout) : "Click to set the Date Out") + '">' + (MK === "app" ? mkh : "") + (oTxt || (din ? '<b class="nd">\u2013</b>' : "")) + (MK === "after" ? mkh : "") + '</span>' + (DOU ? '' : '-->') +
       '</span>';
     return '<tr class="' + (tl ? "tl" : out ? "done" : "") + '"><td>' + r[0] + '</td><td class="cu">' + r[1] + '</td><td class="grp">' + g + '</td><td>' + money(r[5], r[6]) + '</td></tr>';
   }).join("");
@@ -228,7 +229,7 @@ document.addEventListener("click", function(e){ var p = document.getElementById(
 document.addEventListener("keydown", function(e){ if(e.key === "Escape") closePop(); });
 window.addEventListener("resize", function(){ if(!document.getElementById("pop").hidden) place(); });
 /* switches above the board */
-[["ra", function(v){ RA = v; }], ["dy", function(v){ DAYS = +v; }], ["wd", function(v){ WORD = +v; }], ["mk", function(v){ MK = v; }], ["ar", function(v){ ARR = +v; }]].forEach(function(x){ var g = document.getElementById(x[0]); g.addEventListener("click", function(e){ var b = e.target.closest("button"); if(!b) return; g.querySelectorAll("button").forEach(function(y){ y.classList.toggle("on", y === b); }); x[1](b.dataset.v); closePop(); draw(); }); });
+[["ra", function(v){ RA = v; }], ["dy", function(v){ DAYS = +v; }], ["wd", function(v){ WORD = +v; }], ["mk", function(v){ MK = v; }], ["ar", function(v){ ARR = +v; }], ["din", function(v){ DIN = +v; }], ["dou", function(v){ DOU = +v; }]].forEach(function(x){ var g = document.getElementById(x[0]); g.addEventListener("click", function(e){ var b = e.target.closest("button"); if(!b) return; g.querySelectorAll("button").forEach(function(y){ y.classList.toggle("on", y === b); }); x[1](b.dataset.v); closePop(); draw(); }); });
 document.getElementById("gp").addEventListener("input", function(){ GAP = +this.value; document.getElementById("gpo").textContent = GAP; draw(); });
 /* click a date to change it */
 var pk = document.createElement("input"); pk.type = "date"; pk.id = "pk"; pk.setAttribute("aria-label", "Pick a date"); pk.style.cssText = "position:fixed;opacity:0;pointer-events:none;width:1px;height:1px;"; document.body.appendChild(pk); var at = null;
