@@ -33089,6 +33089,7 @@ window.addEventListener("keydown", function(e){
     e.preventDefault(); e.stopImmediatePropagation();
     if(t.tagName === "INPUT" && !t.readOnly){ try{ t.dispatchEvent(new Event("change", { bubbles:true })); }catch(_){} }
     try{ if(typeof V4DD !== "undefined" && V4DD.sel) v4DdClose(); }catch(_){}   /* a menu that was open keeps its pick and closes */
+    try{ var c5c = document.getElementById("c5Cal"); if(c5c && c5c.classList.contains("show")){ c5c.classList.remove("show"); document.querySelectorAll(".c5date.open").forEach(function(b){ b.classList.remove("open"); }); } if(typeof V4CAL !== "undefined" && V4CAL.inp && typeof v4CalClose === "function") v4CalClose(); }catch(_){}   /* an open calendar closes; the date stays */
     try{ document.querySelectorAll("#jdTotalLoss .c5btw.open").forEach(function(w){ w.classList.remove("open"); }); }catch(_){}   /* the Bill To menu too */
     var nxKey = keyOf(nx), cdId = cd.id || "", tries = 0;
     function go(){ if(!nx){ try{ t.blur(); }catch(_){} return; }
@@ -33096,6 +33097,7 @@ window.addEventListener("keydown", function(e){
       nx.focus(); try{ if(nx.tagName === "INPUT" && !nx.readOnly) nx.select(); }catch(_){}
       /* landing on a dropdown opens its menu (Frank Oct 13 5:00 PM); Enter again keeps what it has and moves on */
       try{ if(nx.id === "tl_billto") nx.click(); }catch(_){}   /* landing on Bill To shows its menu */
+      try{ if(nx.classList.contains("v4dtx") && !nx.disabled){ nx.click(); nx.focus(); } }catch(_){}   /* landing on a date opens its calendar like a click (Frank Oct 13 5:25 PM); Enter again closes it, keeps the date and moves on */
       try{ if(nx.tagName === "SELECT" && typeof v4DdKind === "function" && v4DdKind(nx) && typeof v4DdOpen === "function"){ v4DdOpen(nx); var keep = function(){ try{ document.querySelectorAll("#v4SrcMenu .c5ms, #v4InsMenu .c5ms").forEach(function(i){ i.dataset.f = "1"; }); nx.focus(); }catch(_){} }; keep(); setTimeout(keep, 0); setTimeout(keep, 80); } }catch(_){} }   /* the menu shows, but the keys stay with the dropdown (the menu's search box would otherwise take them and Enter would pick its first row) */
     if(t.id === "jd_vin") setTimeout(go, 90); else go();   /* the VIN box decodes on Enter first (its own 60 ms), then we move on */
   }, true);
