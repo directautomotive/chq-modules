@@ -33164,19 +33164,21 @@ window.addEventListener("keydown", function(e){
   new MutationObserver(function(ms){ for(var i = 0; i < ms.length; i++){ var tg = ms[i].target; if(tg && tg.closest && tg.closest(".c5taxr")) continue; build(); return; } }).observe(ov, { childList:true, subtree:true });
   build();
 })();
-/* Paid / Not Paid (Frank Oct 13 3:27 PM, 3:37 PM): on a Total Loss the Payments section goes away. The Print row carries it: at the left a pill — ✕ Not Paid (red) / ✓ Paid (green), one fixed size — Print stays at the right. The pill flips the app's own Invoice paid mark (the [data-v4ck="e"] button inside Payments, job.estimate1Paid), so the board's paid / balance numbers stay right. */
+/* Paid (Frank Oct 13 3:27 PM; reworked Oct 14 8:39 AM "it goes there"): Paid is a fact about the invoice, so it is the last line inside the Invoice box, under the red total — "Paid" at the left, and at the right a green "✓ Paid" or a red "✕ Not Paid" word you click to flip. Print stands alone on its row. The click flips the app's own Invoice paid mark (the [data-v4ck="e"] button inside Payments, job.estimate1Paid), so the board's paid / balance numbers stay right. */
 (function(){
   function build(){
-    var pay = document.getElementById("v4JdPay"), pr = document.querySelector("#jdTotalLoss .tl-print-row"); if(!pay || !pr) return;
-    var tl = document.querySelector('#v4JdMode button[data-v4mode="tl"].on'); if(!tl){ var old = pr.querySelector(".c5paid"); if(old) old.remove(); return; }
+    var pay = document.getElementById("v4JdPay"), sm = document.querySelector("#jdTotalLoss .tl-summary"); if(!pay || !sm) return;
+    var tl = document.querySelector('#v4JdMode button[data-v4mode="tl"].on'); if(!tl){ var old = sm.querySelector(".c5paidrow"); if(old) old.remove(); return; }
     var ck = pay.querySelector('[data-v4ck="e"]'), paid = !!(ck && ck.classList.contains("ok"));
-    var b = pr.querySelector(".c5paid");
-    if(!b){ b = document.createElement("button"); b.type = "button"; b.className = "c5paid"; b.innerHTML = '<i></i><span></span>'; pr.insertBefore(b, pr.firstChild);
-      b.addEventListener("click", function(){ var x = document.querySelector('#v4JdPay [data-v4ck="e"]'); if(x) x.click(); setTimeout(build, 0); }); }
+    var row = sm.querySelector(".c5paidrow");
+    if(!row){ row = document.createElement("div"); row.className = "tl-line c5paidrow"; row.innerHTML = '<span>Paid</span><button type="button" class="c5paid"><i></i><span></span></button>'; sm.appendChild(row);
+      row.querySelector(".c5paid").addEventListener("click", function(){ var x = document.querySelector('#v4JdPay [data-v4ck="e"]'); if(x) x.click(); setTimeout(build, 0); }); }
+    else if(row !== sm.lastElementChild) sm.appendChild(row);   /* always the last line */
+    var b = row.querySelector(".c5paid");
     b.classList.toggle("on", paid); b.querySelector("span").textContent = paid ? "Paid" : "Not Paid"; b.title = paid ? "Click to mark it not paid" : "Click to mark it paid";
   }
   var ov = document.getElementById("jobDetailsOverlay"); if(!ov) return;
-  new MutationObserver(function(ms){ for(var i = 0; i < ms.length; i++){ var tg = ms[i].target; if(tg && tg.closest && tg.closest(".c5paid")) continue; build(); return; } }).observe(ov, { childList:true, subtree:true, attributes:true, attributeFilter:["class"] });
+  new MutationObserver(function(ms){ for(var i = 0; i < ms.length; i++){ var tg = ms[i].target; if(tg && tg.closest && tg.closest(".c5paidrow")) continue; build(); return; } }).observe(ov, { childList:true, subtree:true, attributes:true, attributeFilter:["class"] });
   build();
 })();
 /* Negotiated Total as a charge row (Frank Oct 13 3:37 PM): the last fixed row of the charge list, like Sales Tax — outlined and empty ("Full invoice") with a +; type the number agreed with Copart / the insurer and it becomes a filled row with a ×. Behind it one hidden charge, "Negotiated Settlement", holds the difference (a minus), so the Invoice box shows the write-down and Current Total Charges reads the agreed number. × clears it. */
@@ -33741,6 +33743,17 @@ html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#j
 
 /* Frank Oct 13 6:22 PM: the red total pill's $ and number line up with the rows above (the pill reaches 8 px past the rows on each side, so its inside padding is 8 px) */
 html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line.tl-total{ padding:0 8px !important; }
+
+/* Paid as the last line of the Invoice box (Frank Oct 14 8:39 AM): a plain row under the red total; the word at the right is the only colored thing — green ✓ Paid, red ✕ Not Paid — and it is the click */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line.c5paidrow{ border-bottom:0 !important; margin-top:6px; min-height:40px; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .tl-line.c5paidrow > span:first-child{ display:block; color:#000 !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .c5paidrow .c5paid{ display:inline-flex; align-items:center; justify-content:flex-end; gap:8px; width:133px; height:32px; padding:0; border:0; border-radius:16px; background:transparent; color:#C0392B; font:600 14px var(--v4-word, Inter, Arial), sans-serif; cursor:pointer; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .c5paidrow .c5paid:hover{ background:#FBEAEA; padding:0 12px; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .c5paidrow .c5paid.on{ color:#1E7B34; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .c5paidrow .c5paid.on:hover{ background:#E7F4EA; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .tl-summary .c5paidrow .c5paid:focus-visible{ box-shadow:inset 0 0 0 1.5px #E8792B; outline:0; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .tl-print-row{ justify-content:flex-end !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdTotalLoss .tl-print-row .c5paid{ display:none !important; }   /* the old pill on the Print row (5.289–5.293) is gone */
 
 /* ---------- Additional Charges: five ways to add (module). body.c5g1 … c5g5 ---------- */
 /* shared: the ghost row (always one empty row ready to fill) */
