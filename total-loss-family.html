@@ -33072,7 +33072,7 @@ window.addEventListener("keydown", function(e){
   function stops(cd){ if(!cd) return [];
     var all = [].slice.call(cd.querySelectorAll("input, select, button, .v4dtx"));
     all = all.filter(function(e){ if(e.disabled || e.hidden) return false; if(e.tagName === "INPUT" && /^(date|hidden|file|checkbox|radio)$/.test(e.type)) return false; if(e.readOnly && !e.classList.contains("v4dtx")) return false; if(e.classList.contains("v4cfb") || e.classList.contains("c219sb") || e.id === "jd_vinDecode" || e.classList.contains("c230pill") || e.id === "jd_created") return false;
-      if(e.tagName === "BUTTON" && !(e.closest(".v4cfadd"))) return false;   /* in the invoice card the lock, the ×s, the +s, Paid and Print are clicks, not stops */
+      if(e.tagName === "BUTTON") return false;   /* + Add Custom Field is not a stop (Frank Oct 13 5:20 PM): after Work File ID (or the last custom field) Enter just stops */   /* in the invoice card the lock, the ×s, the +s, Paid and Print are clicks, not stops */
       if(e.classList.contains("c5hid") || e.classList.contains("c5zero") || e.classList.contains("c5stot") || e.classList.contains("c5taxamt")) return false;
       var r = e.getBoundingClientRect(); return r.width > 0 && r.height > 0 && e.offsetParent !== null; });
     all.sort(function(a, b){ var ra = a.getBoundingClientRect(), rb = b.getBoundingClientRect(); return Math.abs(ra.top - rb.top) > 12 ? ra.top - rb.top : ra.left - rb.left; });
@@ -33523,6 +33523,10 @@ html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOve
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cfld .v4cfb.v4cfx{ width:16px !important; height:16px !important; min-width:0 !important; padding:0 !important; border-radius:0 !important; font-size:0 !important; color:transparent !important; background:#000 !important; -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 6l12 12M18 6L6 18'/%3E%3C/svg%3E") center/16px no-repeat; mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 6l12 12M18 6L6 18'/%3E%3C/svg%3E") center/16px no-repeat; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cfld .v4cfb.v4cfx:hover{ background:#C0392B !important; }
 html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4cfld .v4cfb.v4cfx *{ display:none; }
+
+/* Frank Oct 13 5:19 PM: when Enter lands on Source the pill (1 | icon | name) already carries the orange ring — the dropdown inside it gets none, so there is one ring, not two, and nothing flickers */
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4jobv select:focus, html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4jobv select.v4ddopen{ box-shadow:none !important; border-color:transparent !important; }
+html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4jobv:has(select:focus), html body.c5tlA:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jobDetailsBody .v4jobv:has(select.v4ddopen){ box-shadow:inset 0 0 0 1.5px #E8792B !important; }
 
 /* ---------- Additional Charges: five ways to add (module). body.c5g1 … c5g5 ---------- */
 /* shared: the ghost row (always one empty row ready to fill) */
