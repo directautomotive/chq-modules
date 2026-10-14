@@ -74,6 +74,13 @@ td.out.tlc .dt{ color:var(--tlyel); } td.out.schc .dt{ color:var(--green); }
 .money.g{ color:var(--green); } .money.r{ color:var(--red); }
 .cell{ cursor:pointer; } .cell:hover{ box-shadow:inset 0 0 0 2px rgba(232,121,43,.35); border-radius:12px; }
 
+/* arranging: the orange dotted line, one X and one width pill over the one Dates column */
+.tw.arr{ outline:2px dotted var(--orange); outline-offset:-1px; }
+.tw.arr th{ position:relative; }
+.tw.arr th .ax{ position:absolute; left:50%; top:-13px; transform:translateX(-50%); width:26px; height:26px; border-radius:13px; background:#fff; border:0; box-shadow:0 0 0 .5px rgba(0,0,0,.12), 0 2px 6px rgba(0,0,0,.18); display:grid; place-items:center; z-index:3; cursor:pointer; }
+.tw.arr th .ax svg{ width:12px; height:12px; fill:none; stroke:#16181D; stroke-width:2.6; stroke-linecap:round; }
+.tw.arr th .aw{ position:absolute; left:50%; bottom:-10px; transform:translateX(-50%); height:20px; padding:0 10px; border-radius:10px; background:#fff; color:#16181D; font:700 12px var(--nums); box-shadow:0 0 0 .5px rgba(0,0,0,.12), 0 2px 6px rgba(0,0,0,.18); display:flex; align-items:center; z-index:3; }
+.tw.arr th.grp{ box-shadow:inset 0 0 0 2px rgba(232,121,43,.6); cursor:grab; }
 /* the Date Out marker: 15-pixel round, yellow "!" for a total loss, green calendar for a scheduled pick-up */
 .mk{ width:15px; height:15px; border-radius:8px; display:inline-grid; place-items:center; flex:none; font:800 10.5px/1 var(--words); }
 .mk.tl{ background:#F4C430; color:#3A2A00; } .mk.sch{ background:var(--green); color:#fff; } .mk.sch svg{ width:9px; height:9px; fill:none; stroke:currentColor; stroke-width:1.6; }
@@ -124,25 +131,26 @@ th .g > span{ font:700 13px var(--words); white-space:nowrap; } th .g .s-a{ colo
 <div class="wrap">
   <h1>Dates Board Module</h1>
   <p class="lead">Date In, Days and Date Out as one tight group on the board, with the same gap between every piece.</p>
-  <span class="ver">Version 11 · Oct 13, 6:05 PM · the Date Out marker: where the "!" and the calendar mark sit</span>
+  <span class="ver">Version 12 · Oct 14, 9:40 AM · one "Dates" column: one box, one X, one width while arranging</span>
   <div class="ctl">
     <div class="ci"><span>Between</span><div class="seg" id="ra"><button type="button" data-v="a" class="on">Arrows</button><button type="button" data-v="l">Lines</button><button type="button" data-v="n">None</button></div></div>
     <div class="ci"><span>Days</span><div class="seg" id="dy"><button type="button" data-v="1" class="on">On</button><button type="button" data-v="0">Off</button></div></div>
     <div class="ci"><span>"days" after the number</span><div class="seg" id="wd"><button type="button" data-v="0" class="on">Off</button><button type="button" data-v="1">On</button></div></div>
     <div class="ci"><span>Marker (total loss "!", scheduled calendar)</span><div class="seg" id="mk"><button type="button" data-v="app">On top (app now)</button><button type="button" data-v="slot" class="on">Own slot</button><button type="button" data-v="arrow">In the arrow</button><button type="button" data-v="after">After the date</button><button type="button" data-v="off">Off</button></div></div>
+    <div class="ci"><span>Arranging (unlocked board)</span><div class="seg" id="ar"><button type="button" data-v="0" class="on">Locked</button><button type="button" data-v="1">Unlocked</button></div></div>
     <div class="ci"><span>Spacing</span><label class="gap"><input type="range" id="gp" min="0" max="20" step="1" value="6" aria-label="Spacing between each piece, in pixels"><output id="gpo">6</output><span class="u">pixels</span></label></div>
   </div>
   <div class="stage" id="stage">
     <div class="tw"><table id="t"></table></div>
     <div id="pop" role="dialog" aria-label="Days settings" hidden></div>
   </div>
-  <p class="note">Today is October 13, 2026 here. Marker: "On top" is how the app draws it today (the "!" lands on "Oct 14" when the box is tight); "Own slot" gives the marker its own 18-pixel box before Date Out; "In the arrow" puts it where the second arrow was; "After the date" sets it right of the date. Days: gray 1 to 3, yellow from 4, orange from 10, red from 20 while the car is in; always red on a total loss; light gray once it is out. Date Out: a total loss shows its pick-up date in yellow (today while storage runs); a pick-up after today is green; one dash while the car is here; one dash in Date In when there is no date. Click a date to change it; the chevron opens the color settings.</p>
+  <p class="note">Unlocked: the three dates are ONE column, "Dates" — one box to pick up, one X, one width pill (254 pixels) — instead of three (77 / 100 / 77). The header still sorts by Date In; Days and Date Out sorts live in the chevron. Today is October 13, 2026 here. Marker: "On top" is how the app draws it today (the "!" lands on "Oct 14" when the box is tight); "Own slot" gives the marker its own 18-pixel box before Date Out; "In the arrow" puts it where the second arrow was; "After the date" sets it right of the date. Days: gray 1 to 3, yellow from 4, orange from 10, red from 20 while the car is in; always red on a total loss; light gray once it is out. Date Out: a total loss shows its pick-up date in yellow (today while storage runs); a pick-up after today is green; one dash while the car is here; one dash in Date In when there is no date. Click a date to change it; the chevron opens the color settings.</p>
 </div>
 
 <script>
 var NOW = "2026-10-13";
 var C = { y:4, o:10, r:20, tlRed:1, tlColor:1, tlIcon:1, schColor:1, schIcon:1 }, DEF = JSON.parse(JSON.stringify(C));
-var RA = "a", WORD = 0, DAYS = 1, GAP = 6, MK = "slot";
+var RA = "a", WORD = 0, DAYS = 1, GAP = 6, MK = "slot", ARR = 0;
 /* job #, customer, date in, date out, kind (tl = total loss, end = its pick-up date), estimate, paid */
 var ROWS = [
   [1, "Rachel Chan", "2026-10-06", "", "", 1043.01, 1],
@@ -169,7 +177,8 @@ var CALI = '<svg viewBox="0 0 12 12" aria-hidden="true"><rect x="1.5" y="2.5" wi
 function arr(on){ return '<i class="ar">' + (on ? "→" : "") + '</i>'; }
 function money(v, paid){ if(!v) return ''; return '<span class="money ' + (paid ? "g" : "r") + '"><span>$</span><span>' + v.toLocaleString("en-US", { minimumFractionDigits:2, maximumFractionDigits:2 }) + '</span></span>'; }
 function draw(){
-  var t = document.getElementById("t"); t.style.setProperty("--gap", GAP + "px");
+  var t = document.getElementById("t"); t.style.setProperty("--gap", GAP + "px"); t.parentNode.classList.toggle("arr", !!ARR);
+  var AX = ARR ? '<button type="button" class="ax" title="Remove"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>' : '', AW = function(w){ return ARR ? '<span class="aw">' + w + '</span>' : ''; };
   var chev = '<button type="button" class="chev" id="chev" aria-label="Days settings" aria-expanded="false">' + CHEV + '</button>';
   var A = function(on){ return RA === "a" ? '<span class="s-a">' + (on ? "\u2192" : "") + '</span>' : RA === "l" ? '<span class="s-a">' + (on ? '<i class="vl"></i>' : "") + '</span>' : '<span class="s-a"></span>'; };   /* None keeps an empty slot, so the dates sit in the same spot for Arrows, Lines and None */
   /* header: the same pieces and the same gap, so the arrows and words sit over the rows */
@@ -177,7 +186,7 @@ function draw(){
   var E = '<span class="s-a"></span>';   /* header: same boxes, separator slots left empty so the words have room and still sit dead over their boxes */
   var hd = '<span class="g"><span class="s-d">Date In</span>' + E + (DAYS ? '<span class="s-n">Days</span>' + E : '') + (MK === "slot" ? '<span class="s-m"></span>' : '') + '<span class="s-d">Date Out</span></span>';   /* the header uses the exact same boxes as the rows, so every line and arrow lines up */
   var h = '<colgroup><col class="c-no"><col class="c-cu"><col><col class="c-est"></colgroup>' +
-    '<tr><th>Job #</th><th class="l">Customer</th><th class="grp"><span class="hl">' + hd + chev + '</span></th><th>Estimate 1</th></tr>';
+    '<tr><th>' + AX + 'Job #' + AW(56) + '</th><th class="l">' + AX + 'Customer' + AW(150) + '</th><th class="grp">' + AX + '<span class="hl">' + hd + chev + '</span>' + AW(DAYS ? (MK === "slot" ? 254 : 230) : 142) + '</th><th>' + AX + 'Estimate 1' + AW(170) + '</th></tr>';
   h += ROWS.map(function(r, i){
     var din = r[2], dout = r[3], tl = r[4] === "tl", out = dout && dout <= NOW, sch = dout && dout > NOW;
     var n = din ? days(din, out ? dout : NOW) : null, cls = out ? "done" : (tl && C.tlRed) ? "r" : n != null ? band(n) : "";
@@ -219,7 +228,7 @@ document.addEventListener("click", function(e){ var p = document.getElementById(
 document.addEventListener("keydown", function(e){ if(e.key === "Escape") closePop(); });
 window.addEventListener("resize", function(){ if(!document.getElementById("pop").hidden) place(); });
 /* switches above the board */
-[["ra", function(v){ RA = v; }], ["dy", function(v){ DAYS = +v; }], ["wd", function(v){ WORD = +v; }], ["mk", function(v){ MK = v; }]].forEach(function(x){ var g = document.getElementById(x[0]); g.addEventListener("click", function(e){ var b = e.target.closest("button"); if(!b) return; g.querySelectorAll("button").forEach(function(y){ y.classList.toggle("on", y === b); }); x[1](b.dataset.v); closePop(); draw(); }); });
+[["ra", function(v){ RA = v; }], ["dy", function(v){ DAYS = +v; }], ["wd", function(v){ WORD = +v; }], ["mk", function(v){ MK = v; }], ["ar", function(v){ ARR = +v; }]].forEach(function(x){ var g = document.getElementById(x[0]); g.addEventListener("click", function(e){ var b = e.target.closest("button"); if(!b) return; g.querySelectorAll("button").forEach(function(y){ y.classList.toggle("on", y === b); }); x[1](b.dataset.v); closePop(); draw(); }); });
 document.getElementById("gp").addEventListener("input", function(){ GAP = +this.value; document.getElementById("gpo").textContent = GAP; draw(); });
 /* click a date to change it */
 var pk = document.createElement("input"); pk.type = "date"; pk.id = "pk"; pk.setAttribute("aria-label", "Pick a date"); pk.style.cssText = "position:fixed;opacity:0;pointer-events:none;width:1px;height:1px;"; document.body.appendChild(pk); var at = null;
