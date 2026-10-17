@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Estimates Family v10 — CollisionHQ</title>
+<title>Estimates Family v11 — CollisionHQ</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{ color-scheme:light; --page:#F2F2F7; --card:#fff; --ink:#16181D; --gray:#6C6C73; --soft:#8A8F98; --line:#ECECF0; --fill:#F2F2F7;
@@ -73,11 +73,12 @@ body:not(.pay-switch) .tg{ display:none; }
 .chk .c .who em{ font-style:normal; color:var(--soft); border-left:1px solid #DADBE0; padding-left:12px; }
 .chk .miss{ background:var(--red-tint); color:var(--red); } .chk .got{ background:var(--green-tint); color:var(--green); }
 .chk .line{ display:flex; gap:14px; align-items:center; font:600 15px var(--words); color:var(--gray); padding:4px 0 0 2px; } .chk .line b{ color:var(--red); } .chk .line b.ok{ color:var(--green); }
-.fx{ width:28px; height:28px; border-radius:14px; display:inline-grid; place-items:center; background:rgba(0,0,0,.06); color:var(--ink); margin-right:-8px; } .fx:hover{ background:var(--red-tint); color:var(--red); } .fx.dim{ color:#C4C6CC; pointer-events:none; } .fx .ic{ width:14px; height:14px; }
+.fx{ width:32px; height:32px; border-radius:16px; display:inline-grid; place-items:center; background:transparent; color:#A2A4AB; margin-right:-10px; cursor:pointer; transition:background .12s, color .12s; } .fx:hover{ background:var(--red-tint); color:var(--red); } .fx.dim{ color:#C4C6CC; pointer-events:none; } .fx .ic{ width:16px; height:16px; }
+.ask{ position:fixed; inset:0; background:rgba(0,0,0,.28); display:grid; place-items:center; z-index:20; } .ask .card{ background:#fff; border-radius:24px; padding:26px 28px 24px; width:min(92vw,420px); box-shadow:0 30px 80px rgba(0,0,0,.3); } .ask b{ display:block; font:700 20px var(--words); margin-bottom:6px; } .ask p{ margin:0 0 20px; color:var(--gray); } .ask .bt{ display:flex; gap:10px; justify-content:flex-end; } .ask .bt button{ height:44px; padding:0 20px; border-radius:22px; border:0; font:600 15px var(--words); cursor:pointer; background:var(--fill); color:var(--ink); } .ask .bt button.go{ background:var(--red); color:#fff; }
 .pay-h.sub{ margin:4px 0 12px; } .pay-h.sub b{ font-size:16px; } .chk{ margin-bottom:18px; }
 </style></head>
 <body class="">
-<div class="top"><h1>Estimates Family</h1><span class="ver">Version 10</span>
+<div class="top"><h1>Estimates Family</h1><span class="ver">Version 11</span>
   <span class="sw">Header <span class="seg" data-k="hd-black"><button class="on">Labels</button><button>Black bar</button></span></span>
   
   <span class="sw">Summary <span class="seg" data-k="sum-flat"><button class="on">Boxed</button><button>Flat</button></span></span>
@@ -114,6 +115,7 @@ document.querySelectorAll('.seg').forEach(function(s){ s.querySelectorAll('butto
 <script>
 var P=[{n:"Estimate 1",f:"Estimate · Oct 16",paid:false,bank:"None",amt:10026.25},{n:"Supplement 1",f:"Supplement 1 · Oct 17",paid:true,bank:"Check",amt:2936.14},{n:"Supplement 2",f:"",paid:false,bank:"None",amt:0}];
 var combined=false, ded=500, dedWaived=true, adj=150, BANKS=["None","Check","Card","Cash","Transfer"];
+function ask(t,msg,go){ var d=document.createElement("div"); d.className="ask"; d.innerHTML='<div class="card"><b>'+t+'</b><p>'+msg+'</p><div class="bt"><button data-c>Cancel</button><button class="go">Clear</button></div></div>'; d.addEventListener("click",function(e){ if(e.target.closest(".go")){ go(); d.remove(); } else if(e.target.closest("[data-c]")||e.target===d) d.remove(); }); document.body.appendChild(d); }
 var m=function(n){ return (n<0?"−":"")+Math.abs(n).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2}); };
 var IC={x:'<svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>',ck:'<svg class="ic" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>',doc:'<svg class="ic doc" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>',up:'<svg class="ic doc" viewBox="0 0 24 24" style="color:#B5B7BE"><path d="M12 16V4M6 10l6-6 6 6M4 20h16"/></svg>',chev:'<svg class="ic chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>'};
 function draw(){
@@ -156,7 +158,7 @@ document.addEventListener("click",function(e){
   if(a==="paid"){ p.paid=!p.paid; draw(); }
   else if(a==="rem"){ P.splice(i,1); P.forEach(function(x,k){ if(k) x.n="Supplement "+k; }); draw(); }
   else if(a==="file"){ if(!p.f) p.f=(i?"Supplement "+i:"Estimate")+" · "+new Date().toLocaleDateString("en-US",{month:"short",day:"numeric"}); draw(); }
-  else if(a==="unfile"){ p.f=""; draw(); }
+  else if(a==="unfile"){ ask("Remove this "+(i?"supplement":"estimate")+"?", "The file comes off and the amount goes back to $0.00. "+(i?"The row stays so you can upload again.":""), function(){ p.f=""; p.amt=0; p.paid=false; draw(); }); }
   else if(a==="bank"){ var r=t.getBoundingClientRect(); var d=document.createElement("div"); d.className="menu"; d.style.left=(r.left+window.scrollX)+"px"; d.style.top=(r.bottom+window.scrollY+6)+"px"; d.innerHTML=BANKS.map(function(b){return '<div'+(b===p.bank?' class="on"':'')+'>'+b+'</div>'}).join(""); d.addEventListener("click",function(ev){ var o=ev.target.closest(".menu div"); if(o){ p.bank=o.textContent; draw(); } }); document.body.appendChild(d); }
 });
 document.addEventListener("focusout",function(e){ var t=e.target; if(t.dataset&&t.dataset.a==="amt"){ var row=t.closest(".row"); P[+row.dataset.i].amt=parseFloat(t.textContent.replace(/[^\d.]/g,""))||0; draw(); } },true);
