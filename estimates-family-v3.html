@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Estimates Family v7 — CollisionHQ</title>
+<title>Estimates Family v8 — CollisionHQ</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{ color-scheme:light; --page:#F2F2F7; --card:#fff; --ink:#16181D; --gray:#6C6C73; --soft:#8A8F98; --line:#ECECF0; --fill:#F2F2F7;
@@ -67,9 +67,15 @@ body:not(.pay-switch) .tg{ display:none; }
 .menu div{ height:40px; display:flex; align-items:center; padding:0 14px; border-radius:14px; font:500 15px var(--words); cursor:pointer; } .menu div:hover{ background:var(--fill); } .menu div.on{ background:#FDEEE2; font-weight:700; }
 .box.money [contenteditable]{ outline:0; min-width:40px; text-align:right; } .box.money:focus-within{ background:#fff; box-shadow:inset 0 0 0 1px #CFCFD6, 0 0 0 1.5px var(--orange); }
 .pill.paid, .pill.unpaid, .box.file, .box.empty, .box.bank, .waiv{ cursor:pointer; user-select:none; }
+.chk{ display:flex; flex-direction:column; gap:10px; }
+.chk .c{ display:grid; grid-template-columns:140px minmax(0,1fr) 150px 170px; gap:12px; align-items:center; }
+.chk .c .name{ font:600 16px var(--words); } .chk .c .who{ display:flex; align-items:center; height:48px; padding:0 20px; border-radius:24px; background:var(--fill); font:400 16px var(--words); gap:10px; }
+.chk .c .who em{ font-style:normal; color:var(--soft); border-left:1px solid #DADBE0; padding-left:12px; }
+.chk .miss{ background:var(--red-tint); color:var(--red); } .chk .got{ background:var(--green-tint); color:var(--green); }
+.chk .line{ display:flex; gap:14px; align-items:center; font:600 15px var(--words); color:var(--gray); padding:4px 0 0 2px; } .chk .line b{ color:var(--red); } .chk .line b.ok{ color:var(--green); }
 </style></head>
 <body class="">
-<div class="top"><h1>Estimates Family</h1><span class="ver">Version 7</span>
+<div class="top"><h1>Estimates Family</h1><span class="ver">Version 8</span>
   <span class="sw">Header <span class="seg" data-k="hd-black"><button class="on">Labels</button><button>Black bar</button></span></span>
   <span class="sw">Paid <span class="seg" data-k="pay-switch"><button class="on">Pill</button><button>Switch</button></span></span>
   <span class="sw">Summary <span class="seg" data-k="sum-flat"><button class="on">Boxed</button><button>Flat</button></span></span>
@@ -90,6 +96,11 @@ body:not(.pay-switch) .tg{ display:none; }
 
       <div class="hr"></div>
 
+      <div class="pay-h"><b>Checks</b><em>What Insurance Should Send</em><span class="sw" style="margin-left:auto"><span class="seg" id="combine"><button class="on">One Per Paper</button><button>Combined</button></span></span></div>
+      <div class="chk" id="chk"></div>
+
+      <div class="hr"></div>
+
       <div class="pay-h"><svg class="ic" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg><b>Payments</b><em>Policy</em><span class="pol">Standard<svg class="ic" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></span></div>
       <div class="sum" id="sum"></div>
     </div>
@@ -102,7 +113,7 @@ document.querySelectorAll('.seg').forEach(function(s){ s.querySelectorAll('butto
 </script>
 <script>
 var P=[{n:"Estimate 1",f:"Estimate · Oct 16",paid:false,bank:"None",amt:10026.25},{n:"Supplement 1",f:"Supplement 1 · Oct 17",paid:true,bank:"Check",amt:2936.14},{n:"Supplement 2",f:"",paid:false,bank:"None",amt:0}];
-var ded=500, dedWaived=true, adj=150, BANKS=["None","Check","Card","Cash","Transfer"];
+var combined=false, ded=500, dedWaived=true, adj=150, BANKS=["None","Check","Card","Cash","Transfer"];
 var m=function(n){ return (n<0?"−":"")+Math.abs(n).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2}); };
 var IC={x:'<svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>',ck:'<svg class="ic" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>',doc:'<svg class="ic doc" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>',up:'<svg class="ic doc" viewBox="0 0 24 24" style="color:#B5B7BE"><path d="M12 16V4M6 10l6-6 6 6M4 20h16"/></svg>',chev:'<svg class="ic chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>'};
 function draw(){
@@ -117,6 +128,12 @@ function draw(){
   var paid=owes.reduce(function(a,o){return a+(o.p.paid?o.v:0)},0);
   var total=owes.reduce(function(a,o){return a+o.v},0), balIns=total-paid, balCus=dedWaived?0:ded, tb=balIns+balCus;
   function r(k,em,v,cls,extra){ return '<div class="r'+(extra||"")+'"><div class="k">'+k+(em?'<em>'+em+'</em>':'')+'</div><div class="v'+(cls||"")+'">'+(v==null?'':'<span class="d">$</span>'+v)+'</div></div>'; }
+  var checks = combined ? [{n:"Check 1", who:owes.map(function(o){return o.p.n}).join(" + "), v:total, got:owes.every(function(o){return o.p.paid})}]
+                        : owes.map(function(o,i){ return {n:"Check "+(i+1), who:o.p.n, note:i?"":(dedWaived?"after adjustments":"after deductible and adjustments"), v:o.v, got:o.p.paid}; });
+  var missing=checks.filter(function(c){return !c.got}), missAmt=missing.reduce(function(a,c){return a+c.v},0);
+  document.getElementById("chk").innerHTML=checks.map(function(c){ return '<div class="c"><div class="name">'+c.n+'</div><div class="who">'+c.who+(c.note?'<em>'+c.note+'</em>':'')+'</div>'
+    +'<button class="pill '+(c.got?"got":"miss")+'" data-chk="'+c.n+'">'+(c.got?IC.ck+"Received":IC.x+"Missing")+'</button><div class="box money'+(c.got?"":" soft")+'"><span class="d">$</span>'+m(c.v)+'</div></div>'; }).join("")
+    +'<div class="line">'+(missing.length?('<b>'+missing.length+' of '+checks.length+' checks missing</b> · $'+m(missAmt)+' still to come'):'<b class="ok">All '+checks.length+' checks received</b>')+'</div>';
   document.getElementById("sum").innerHTML=
     r("Approved Total","",m(appr))
     +'<div class="r"><div class="k">Deductible<span class="waiv" id="waiv">'+(dedWaived?"Waived":"Applied")+'</span></div><div class="v'+(dedWaived?" soft":"")+'"><span class="d">$</span>'+m(-ded)+'</div></div>'
@@ -132,6 +149,8 @@ function draw(){
 document.addEventListener("click",function(e){
   var mn=document.querySelector(".menu"); if(mn&&!mn.contains(e.target)) mn.remove();
   var t=e.target.closest("[data-a]"); var row=e.target.closest(".row"); var i=row?+row.dataset.i:-1;
+  var ck=e.target.closest("[data-chk]"); if(ck){ var all=P.every(function(p){return p.paid}); if(combined){ P.forEach(function(p){ p.paid=!all; }); } else { var k=+ck.dataset.chk.replace(/\D/g,"")-1; P[k].paid=!P[k].paid; } draw(); return; }
+  var cb=e.target.closest("#combine button"); if(cb){ var bs=cb.parentNode.querySelectorAll("button"); bs.forEach(function(x){x.classList.remove("on")}); cb.classList.add("on"); combined = cb===bs[1]; draw(); return; }
   if(e.target.closest("#waiv")){ dedWaived=!dedWaived; draw(); return; }
   if(e.target.closest("#addBtn,#addBox")){ if(P.length>=5) return; var v=parseFloat(document.getElementById("addAmt").textContent.replace(/[^\d.]/g,""))||0; P.push({n:"Supplement "+P.length,f:"",paid:false,bank:"None",amt:v}); document.getElementById("addAmt").textContent="0.00"; draw(); return; }
   if(!t||i<0) return; var a=t.dataset.a, p=P[i];
