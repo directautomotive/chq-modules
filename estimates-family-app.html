@@ -8809,6 +8809,11 @@ html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#j
 #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp.empty .v4go{ width:100% !important; flex:1 1 auto !important; }
 #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk td:nth-child(3){ display:table-cell !important; }
 html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp.empty .v4go{ justify-content:flex-start !important; text-align:left !important; }
+/* v16 d: an added supplement row — the slot reads "Upload" in the yellow pill, its × removes the row */
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp .v4slot{ display:flex; align-items:center; flex:1; font:400 16px/1.2 var(--v4-word, Inter, Arial), sans-serif; color:#8A8F98; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp .v4slot::before{ content:""; width:18px; height:18px; margin-right:10px; background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23B5B7BE' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 16V4M6 10l6-6 6 6M4 20h16'/%3E%3C/svg%3E") center/18px no-repeat; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp .v4slot::after{ content:"Upload"; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #v4SupRows .est-doc.v4erow.c5efam{ margin:0 0 12px !important; }
 </style>
 </head>
 <!-- Starts locked so the board never flashes up before we know who this is.
@@ -25242,9 +25247,9 @@ window.addEventListener("keydown", function(e){
     function wrap(){
       document.querySelectorAll(ID + ' .est-doc.v4erow:not(.c5efam)').forEach(function(row){
         row.classList.add("c5efam");
-        var chip = row.querySelector(".v4chip"), go = row.querySelector("[data-doc-add], [data-doc-view]"), x = row.querySelector(".v4xbtn");   /* 5.341: a row with a file has View, not Upload */
+        var chip = row.querySelector(".v4chip"), go = row.querySelector("[data-doc-add], [data-doc-view]") || row.querySelector(".v4slot"), x = row.querySelector(".v4xbtn");   /* 5.341: a row with a file has View, not Upload; an added supplement (v16) has a slot and a remove-row × */
         if(!chip || !go || !x){ row.classList.remove("c5efam"); return; }
-        var fp = document.createElement("div"); fp.className = "c5fp"; chip.parentNode.insertBefore(fp, chip); fp.appendChild(chip); fp.appendChild(go); fp.appendChild(x); x.textContent = ""; x.setAttribute("aria-label", "Remove");
+        var fp = document.createElement("div"); fp.className = "c5fp"; chip.parentNode.insertBefore(fp, chip); fp.appendChild(chip); fp.appendChild(go); fp.appendChild(x); x.textContent = ""; x.setAttribute("aria-label", "Remove"); if(go.tagName === "BUTTON"){ go.style.setProperty("justify-content", "flex-start", "important"); go.style.setProperty("text-align", "left", "important"); go.style.setProperty("width", "100%", "important"); }
       });
       document.querySelectorAll(ID + ' .est-doc.v4erow.c5efam').forEach(function(row){
         var chip = row.querySelector(".v4chip"), fp = row.querySelector(".c5fp"); if(!fp) return;
@@ -25254,10 +25259,11 @@ window.addEventListener("keydown", function(e){
     }
     document.addEventListener("click", function(e){
       var fp = e.target.closest && e.target.closest(ID + " .c5fp"); if(!fp) return;
-      if(e.target.closest(".v4xbtn")){ var b = e.target.closest(".v4xbtn"); if(b.disabled) return; if(!b.dataset.c5ok){ e.stopImmediatePropagation(); e.preventDefault(); var row = fp.closest(".v4erow"), nm = row && row.querySelector(".est-doc-label") ? row.querySelector(".est-doc-label").textContent.trim() : "this file";
+      if(e.target.closest(".v4xbtn")){ var b = e.target.closest(".v4xbtn"); if(b.disabled || b.hasAttribute("data-v4suprm")) return; if(!b.dataset.c5ok){ e.stopImmediatePropagation(); e.preventDefault(); var row = fp.closest(".v4erow"), nm = row && row.querySelector(".est-doc-label") ? row.querySelector(".est-doc-label").textContent.trim() : "this file";
           appConfirm({ title:"Remove " + nm + "?", message:"The file comes off this job. The amount stays until you change it.", okLabel:"Clear", cancelLabel:"Cancel" }).then(function(ok){ if(ok){ b.dataset.c5ok = "1"; b.click(); delete b.dataset.c5ok; } }); } return; }   /* 5.342: the app's own confirm card, never the browser box */
       if(e.target.closest("[data-doc-add], [data-doc-view]")) return;
       var go = fp.querySelector("[data-doc-add], [data-doc-view]"); if(go){ e.preventDefault(); go.click(); }   /* empty pill → Upload; file pill → View */
+      else if(fp.querySelector(".v4slot") && typeof showToast === "function"){ showToast("Supplement PDFs land under Documents — drop the file on this window."); }
     }, true);
     /* Checks list: relabel the Payments card's inner table */
     function checks(){
