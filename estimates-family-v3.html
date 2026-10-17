@@ -128,8 +128,9 @@ function draw(){
   var paid=owes.reduce(function(a,o){return a+(o.p.paid?o.v:0)},0);
   var total=owes.reduce(function(a,o){return a+o.v},0), balIns=total-paid, balCus=dedWaived?0:ded, tb=balIns+balCus;
   function r(k,em,v,cls,extra){ return '<div class="r'+(extra||"")+'"><div class="k">'+k+(em?'<em>'+em+'</em>':'')+'</div><div class="v'+(cls||"")+'">'+(v==null?'':'<span class="d">$</span>'+v)+'</div></div>'; }
-  var checks = combined ? [{n:"Check 1", who:owes.map(function(o){return o.p.n}).join(" + "), v:total, got:owes.every(function(o){return o.p.paid})}]
-                        : owes.map(function(o,i){ return {n:"Check "+(i+1), who:o.p.n, note:i?"":(dedWaived?"after adjustments":"after deductible and adjustments"), v:o.v, got:o.p.paid}; });
+  var due=owes.filter(function(o){ return o.p.amt > 0.004; });   /* a paper with no amount yet is not a check to wait for */
+  var checks = combined ? (due.length ? [{n:"Check 1", who:due.map(function(o){return o.p.n}).join(" + "), v:due.reduce(function(a,o){return a+o.v},0)-paid, got:due.every(function(o){return o.p.paid})}] : [])
+                        : due.map(function(o,i){ return {n:"Check "+(i+1), who:o.p.n, note:i?"":(dedWaived?"after adjustments":"after deductible and adjustments"), v:o.v, got:o.p.paid}; });
   var missing=checks.filter(function(c){return !c.got}), missAmt=missing.reduce(function(a,c){return a+c.v},0);
   document.getElementById("chk").innerHTML=checks.map(function(c){ return '<div class="c"><div class="name">'+c.n+'</div><div class="who">'+c.who+(c.note?'<em>'+c.note+'</em>':'')+'</div>'
     +'<button class="pill '+(c.got?"got":"miss")+'" data-chk="'+c.n+'">'+(c.got?IC.ck+"Received":IC.x+"Missing")+'</button><div class="box money'+(c.got?"":" soft")+'"><span class="d">$</span>'+m(c.v)+'</div></div>'; }).join("")
@@ -149,7 +150,7 @@ function draw(){
 document.addEventListener("click",function(e){
   var mn=document.querySelector(".menu"); if(mn&&!mn.contains(e.target)) mn.remove();
   var t=e.target.closest("[data-a]"); var row=e.target.closest(".row"); var i=row?+row.dataset.i:-1;
-  var ck=e.target.closest("[data-chk]"); if(ck){ var all=P.every(function(p){return p.paid}); if(combined){ P.forEach(function(p){ p.paid=!all; }); } else { var k=+ck.dataset.chk.replace(/\D/g,"")-1; P[k].paid=!P[k].paid; } draw(); return; }
+  var ck=e.target.closest("[data-chk]"); if(ck){ var all=P.every(function(p){return p.paid}); if(combined){ P.forEach(function(p){ p.paid=!all; }); } else { var k=+ck.dataset.chk.replace(/\D/g,"")-1, dueP=P.filter(function(p){return p.amt>0.004}); dueP[k].paid=!dueP[k].paid; } draw(); return; }
   var cb=e.target.closest("#combine button"); if(cb){ var bs=cb.parentNode.querySelectorAll("button"); bs.forEach(function(x){x.classList.remove("on")}); cb.classList.add("on"); combined = cb===bs[1]; draw(); return; }
   if(e.target.closest("#waiv")){ dedWaived=!dedWaived; draw(); return; }
   if(e.target.closest("#addBtn,#addBox")){ if(P.length>=5) return; var v=parseFloat(document.getElementById("addAmt").textContent.replace(/[^\d.]/g,""))||0; P.push({n:"Supplement "+P.length,f:"",paid:false,bank:"None",amt:v}); document.getElementById("addAmt").textContent="0.00"; draw(); return; }
