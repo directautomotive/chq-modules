@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Estimates Family v8 — CollisionHQ</title>
+<title>Estimates Family v9 — CollisionHQ</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{ color-scheme:light; --page:#F2F2F7; --card:#fff; --ink:#16181D; --gray:#6C6C73; --soft:#8A8F98; --line:#ECECF0; --fill:#F2F2F7;
@@ -33,7 +33,7 @@ label.l{ display:block; font:700 14px var(--words); margin:0 0 6px; }
 .circ{ width:48px; height:48px; border-radius:24px; display:inline-grid; place-items:center; border:0; cursor:pointer; flex:none; }
 .circ.rem{ background:var(--red-tint); color:var(--red); } .circ.add{ background:#fff; color:#3A3F47; box-shadow:inset 0 0 0 1px #CFCFD6; } .circ.lock{ background:var(--fill); color:var(--ink); } .circ.dim{ background:var(--fill); color:#C4C6CC; }
 .hr{ border-top:1px solid var(--line); margin:22px 0; }
-.row{ display:grid; grid-template-columns:140px minmax(0,1fr) 140px 150px 170px 48px; gap:12px; align-items:center; margin-bottom:12px; }
+.row{ display:grid; grid-template-columns:140px minmax(0,1fr) 170px 48px; gap:12px; align-items:center; margin-bottom:12px; }
 .row.hd{ margin:0 0 8px; } .row.hd label{ margin:0; }
 .row .name{ font:400 16px var(--words); }
 .box.file{ cursor:pointer; } .box.file .meta{ color:var(--soft); font-size:14px; } .box.file .view{ font:600 14px var(--words); color:var(--ink); }
@@ -75,9 +75,9 @@ body:not(.pay-switch) .tg{ display:none; }
 .chk .line{ display:flex; gap:14px; align-items:center; font:600 15px var(--words); color:var(--gray); padding:4px 0 0 2px; } .chk .line b{ color:var(--red); } .chk .line b.ok{ color:var(--green); }
 </style></head>
 <body class="">
-<div class="top"><h1>Estimates Family</h1><span class="ver">Version 8</span>
+<div class="top"><h1>Estimates Family</h1><span class="ver">Version 9</span>
   <span class="sw">Header <span class="seg" data-k="hd-black"><button class="on">Labels</button><button>Black bar</button></span></span>
-  <span class="sw">Paid <span class="seg" data-k="pay-switch"><button class="on">Pill</button><button>Switch</button></span></span>
+  
   <span class="sw">Summary <span class="seg" data-k="sum-flat"><button class="on">Boxed</button><button>Flat</button></span></span>
 </div>
 
@@ -90,7 +90,7 @@ body:not(.pay-switch) .tg{ display:none; }
     <div class="h"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2v20M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><b>Estimates</b><span>Insurance Paperwork And What Has Been Paid</span><i><svg class="ic" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></i></div>
     <div class="body">
 
-      <div class="row hd"><label class="l">Paper</label><label class="l">File</label><label class="l">Payment</label><label class="l">Bank</label><label class="l" style="text-align:right">Amount</label><span></span></div>
+      <div class="row hd"><label class="l">Paper</label><label class="l">File</label><label class="l" style="text-align:right">Amount</label><span></span></div>
       <div id="rows"></div>
       <div class="addrow"><div class="box typing" id="addBox" style="color:var(--soft); cursor:pointer"><svg class="ic" viewBox="0 0 24 24" style="color:#B5B7BE"><path d="M12 5v14M5 12h14"/></svg>Add Supplement<span class="sp"></span></div><div class="box money soft" style="background:#fff; box-shadow:inset 0 0 0 1px #CFCFD6"><span class="d">$</span><span contenteditable="true" id="addAmt" spellcheck="false">0.00</span></div><button class="circ add" id="addBtn"><svg class="ic" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button></div>
 
@@ -120,8 +120,6 @@ function draw(){
   document.getElementById("rows").innerHTML=P.map(function(p,i){ var parts=p.f.split(" · ");
     return '<div class="row" data-i="'+i+'"><div class="name">'+p.n+'</div>'
     +(p.f?'<div class="box file" data-a="file">'+IC.doc+parts[0]+'<span class="sp"></span><span class="view">View</span></div>':'<div class="box empty" data-a="file">'+IC.up+'Upload</div>')
-    +'<button class="pill '+(p.paid?"paid":"unpaid")+'" data-a="paid">'+(p.paid?IC.ck+"Paid":IC.x+"Unpaid")+'<span class="tg"></span></button>'
-    +'<div class="box bank" data-a="bank">'+(p.bank==="None"?'<span style="color:var(--soft)">None</span>':p.bank)+'<span class="sp"></span>'+IC.chev+'</div>'
     +'<div class="box money'+(p.amt?"":" soft")+'"><span class="d">$</span><span contenteditable="true" spellcheck="false" data-a="amt">'+m(p.amt)+'</span></div>'
     +(i?'<button class="circ rem" data-a="rem">'+IC.x+'</button>':'<span></span>')+'</div>'; }).join("");
   var appr=P.reduce(function(a,p){return a+p.amt},0), owes=P.map(function(p,i){ var v=p.amt-(i?0:(dedWaived?0:ded))+(i?0:adj); return {p:p,v:v}; });
