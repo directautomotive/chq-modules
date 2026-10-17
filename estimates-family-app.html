@@ -8733,6 +8733,62 @@ html body:not(.chq5off) #tableBody td.c5do.c5dtl.c5plan .dfmt.c5dt{ padding-left
 #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp .v4chip .file-icon{ margin-right:6px; }
 #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .est-doc.v4erow.c5efam .v4jmk{ display:none !important; }
 html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp .v4xbtn.btn-danger:not(:hover){ color:#A2A4AB !important; background:transparent !important; }
+
+
+/* ---------- MODULE v14: the Estimates section copies the Total Loss Invoice card's real values (measured in the app at true size):
+   label over a box 600 13px · box 40 tall, radius 20, #F2F2F7, 400 14px, padding 16 · money box 120 wide, Courier New 14px, $ at the left · × 36 round red tint · rows 14px ---------- */
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box[data-v4box="Estimates"] .v4bb{ padding:0 24px 20px !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4ehead, #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .est-doc.v4erow.c5efam, #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #v4SupRows .v4supadd{ grid-template-columns:120px minmax(0,1fr) 120px 36px !important; gap:10px !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4ehead{ margin:16px 0 6px !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4ehead span, #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4ehead::after{ font:600 13px var(--v4-word, Inter, Arial), sans-serif !important; color:#000 !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4ehead span:first-child{ font-size:0 !important; } #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4ehead span:first-child::before{ content:"Estimate"; font:600 13px var(--v4-word, Inter, Arial), sans-serif; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4ehead .v4eamth{ text-align:left !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .est-doc.v4erow.c5efam{ margin:0 0 10px !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .est-doc.v4erow.c5efam .est-doc-label{ font:400 14px/1.2 var(--v4-word, Inter, Arial), sans-serif !important; color:#16181D !important; letter-spacing:0 !important; }
+/* the file box — Bill To's twin */
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp{ height:40px !important; border-radius:20px !important; padding:0 16px !important; gap:8px !important; background:#F2F2F7 !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp.empty{ background:#FFF8D6 !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp .v4chip .file-icon{ display:none !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp .v4chip{ display:inline-flex !important; align-items:center; font:400 14px/1.2 var(--v4-word, Inter, Arial), sans-serif !important; color:#16181D !important; letter-spacing:0 !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp .v4chip.attachment-chip::before{ content:""; width:16px; height:16px; flex:none; margin-right:8px; background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2316181D' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z'/%3E%3Cpath d='M14 3v5h5'/%3E%3C/svg%3E") center/16px no-repeat; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp.empty .v4go{ font:400 14px/1.2 var(--v4-word, Inter, Arial), sans-serif !important; color:#9A9AA3 !important; letter-spacing:0 !important; align-items:center !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp.empty .v4go::before{ content:""; width:16px; height:16px; margin-right:8px; background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239A9AA3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 16V4M6 10l6-6 6 6M4 20h16'/%3E%3C/svg%3E") center/16px no-repeat; }
+/* the × — the invoice's own round red-tint 36 button, outside the box (like the charge rows) */
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp .v4xbtn{ position:absolute; }   /* taken out of the pill flow… */
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .est-doc.v4erow.c5efam{ position:relative; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp .v4xbtn{ right:0; top:50%; transform:translateY(-50%); width:36px !important; height:36px !important; border-radius:18px !important; margin:0 !important; font-size:0 !important; background:#FBEAEA url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C0392B' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 6l12 12M18 6L6 18'/%3E%3C/svg%3E") center/14px no-repeat !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp .v4xbtn:disabled{ background:#F2F2F7 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C4C6CC' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 6l12 12M18 6L6 18'/%3E%3C/svg%3E") center/14px no-repeat !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp .v4xbtn:not(:disabled):hover{ background-color:#F5D5D1 !important; }
+/* the money box — Total's twin: 120 wide, $ at the left in grey, Courier New 14 */
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .est-doc.v4erow.c5efam .v4eamt{ width:120px !important; height:40px !important; border-radius:20px !important; padding:0 14px 0 14px !important; background:#F2F2F7 !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .est-doc.v4erow.c5efam .v4eamt::before{ content:"$"; color:#9A9AA3; font:400 14px var(--v4-num, "Courier New", monospace); margin-right:auto; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .est-doc.v4erow.c5efam .v4eamt input{ width:78px !important; font:400 14px var(--v4-num, "Courier New", monospace) !important; color:#16181D !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .est-doc.v4erow.c5efam .v4eamt input:placeholder-shown{ color:#9A9AA3 !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .est-doc.v4erow.c5efam .v4eamt:focus-within{ background:#fff !important; box-shadow:inset 0 0 0 1px #CFCFD6, 0 0 0 1.5px #E8792B !important; }
+/* Add Supplement — the invoice's ready row: white box with the thin line, 40 tall, 14px, and a white + at the right */
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #v4SupRows .v4supadd{ display:grid !important; margin:0 !important; padding:0 !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #v4SupRows .v4supadd .btn{ grid-column:2; height:40px !important; border-radius:20px !important; padding:0 16px !important; font:400 14px var(--v4-word, Inter, Arial), sans-serif !important; color:#9A9AA3 !important; background:#fff !important; box-shadow:inset 0 0 0 1px #CFCFD6 !important; letter-spacing:0 !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #v4SupRows .v4supadd::after{ content:""; grid-column:3 / span 2; height:40px; border-radius:20px; box-shadow:inset 0 0 0 1px #CFCFD6; background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239A9AA3' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M12 5v14M5 12h14'/%3E%3C/svg%3E") right 11px center/14px no-repeat; }
+/* Payments: a line, then the label like "Invoice" */
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #v4JdPay .v4payh{ margin:16px 0 10px !important; padding:16px 0 0 !important; border-top:1px solid #ECECF0 !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #v4JdPay .v4payh b{ font:600 13px var(--v4-word, Inter, Arial), sans-serif !important; color:#000 !important; }
+/* Checks: the same rows — name box 40 tall, Received / Missing pill 36 tall, money 120 */
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk{ border-collapse:separate !important; border-spacing:0 10px !important; margin:-10px 0 6px !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk th{ font:600 13px var(--v4-word, Inter, Arial), sans-serif !important; color:#000 !important; padding:0 !important; border:0 !important; text-align:left !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk th:nth-child(2){ text-align:left !important; padding-left:10px !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk th:last-child{ width:120px; text-align:left !important; padding-left:10px !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk td{ height:40px !important; padding:0 !important; border:0 !important; font:400 14px var(--v4-word, Inter, Arial), sans-serif !important; color:#16181D !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk td:first-child{ background:#F2F2F7; border-radius:20px; padding:0 16px !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk td:nth-child(2){ width:150px; text-align:left !important; padding-left:10px !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk td.v4amt{ padding-left:10px !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk td.v4amt::before{ content:"$"; color:#9A9AA3; font:400 14px var(--v4-num, "Courier New", monospace); display:inline-block; width:22px; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk td.v4amt{ font:400 14px var(--v4-num, "Courier New", monospace) !important; background:#F2F2F7; border-radius:20px; padding:0 14px !important; width:120px; box-sizing:border-box; text-align:right !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk td.v4amt::before{ float:left; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk .v4st{ height:36px !important; min-width:0 !important; width:140px; padding:0 14px !important; border-radius:18px !important; font:600 13px var(--v4-word, Inter, Arial), sans-serif !important; letter-spacing:0 !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk .v4st .in span::after{ font-size:13px !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp.empty .v4go{ width:100% !important; justify-content:flex-start !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk{ margin:0 0 6px !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk td.v4amt, #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk th:last-child{ width:130px; }
 </style>
 </head>
 <!-- Starts locked so the board never flashes up before we know who this is.
@@ -8769,7 +8825,7 @@ html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#j
          changed width — and the Save label changes width constantly. -->
     <div class="topbar-brand">
       <div class="app-title">Collision<span class="hq">HQ</span>
-        <span class="version-badge" id="versionBadge">HQ v5.341 · Module 12</span></div>
+        <span class="version-badge" id="versionBadge">HQ v5.341 · Module 14</span></div>
     </div>
 
     <div class="topbar-right">
