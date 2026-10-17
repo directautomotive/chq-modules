@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Estimates Family v4 — CollisionHQ</title>
+<title>Estimates Family v5 — CollisionHQ</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{ color-scheme:light; --page:#F2F2F7; --card:#fff; --ink:#16181D; --gray:#6C6C73; --soft:#8A8F98; --line:#ECECF0; --fill:#F2F2F7;
@@ -63,9 +63,13 @@ body.pay-switch .pill .tg{ width:46px; height:28px; border-radius:14px; backgrou
 body.pay-switch .pill.paid .tg{ background:var(--green); } body.pay-switch .pill.paid .tg::after{ left:21px; }
 body:not(.pay-switch) .tg{ display:none; }
 @media (max-width:900px){ .row{ grid-template-columns:1fr 1fr; } .row.hd{ display:none; } .body{ padding:0 16px; } .win{ padding:18px 14px 24px; border-radius:22px; } .sum .r{ grid-template-columns:minmax(0,1fr) 170px; } }
+.menu{ position:absolute; z-index:5; background:#fff; border-radius:18px; padding:6px; box-shadow:0 0 0 .5px rgba(0,0,0,.1), 0 14px 36px rgba(0,0,0,.16); min-width:170px; }
+.menu div{ height:40px; display:flex; align-items:center; padding:0 14px; border-radius:14px; font:500 15px var(--words); cursor:pointer; } .menu div:hover{ background:var(--fill); } .menu div.on{ background:#FDEEE2; font-weight:700; }
+.box.money [contenteditable]{ outline:0; min-width:40px; text-align:right; } .box.money:focus-within{ background:#fff; box-shadow:inset 0 0 0 1px #CFCFD6, 0 0 0 1.5px var(--orange); }
+.pill.paid, .pill.unpaid, .box.file, .box.empty, .box.bank, .waiv{ cursor:pointer; user-select:none; }
 </style></head>
 <body class="">
-<div class="top"><h1>Estimates Family</h1><span class="ver">Version 4</span>
+<div class="top"><h1>Estimates Family</h1><span class="ver">Version 5</span>
   <span class="sw">Header <span class="seg" data-k="hd-black"><button class="on">Labels</button><button>Black bar</button></span></span>
   <span class="sw">Paid <span class="seg" data-k="pay-switch"><button class="on">Pill</button><button>Switch</button></span></span>
   <span class="sw">Summary <span class="seg" data-k="sum-flat"><button class="on">Boxed</button><button>Flat</button></span></span>
@@ -81,52 +85,13 @@ body:not(.pay-switch) .tg{ display:none; }
     <div class="body">
 
       <div class="row hd"><label class="l">Paper</label><label class="l">File</label><label class="l">Payment</label><label class="l">Bank</label><label class="l" style="text-align:right">Amount</label><span></span></div>
-
-      <div class="row">
-        <div class="name">Estimate 1</div>
-        <div class="box file"><svg class="ic doc" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>Estimate<span class="meta">· Oct 16</span><span class="sp"></span><span class="view">View</span></div>
-        <button class="pill unpaid"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>Unpaid<span class="tg"></span></button>
-        <div class="box"><span class="soft" style="color:var(--soft)">None</span><span class="sp"></span><svg class="ic chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
-        <div class="box money"><span class="d">$</span>10,026.25</div>
-        <span></span>
-      </div>
-
-      <div class="row">
-        <div class="name">Supplement 1</div>
-        <div class="box file"><svg class="ic doc" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>Supplement 1<span class="meta">· Oct 17</span><span class="sp"></span><span class="view">View</span></div>
-        <button class="pill paid"><svg class="ic" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>Paid<span class="tg"></span></button>
-        <div class="box">Check<span class="sp"></span><svg class="ic chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
-        <div class="box money"><span class="d">$</span>2,936.14</div>
-        <button class="circ rem"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-      </div>
-
-      <div class="row">
-        <div class="name">Supplement 2</div>
-        <div class="box empty"><svg class="ic doc" viewBox="0 0 24 24" style="color:#B5B7BE"><path d="M12 16V4M6 10l6-6 6 6M4 20h16"/></svg>Upload</div>
-        <button class="pill unpaid"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>Unpaid<span class="tg"></span></button>
-        <div class="box"><span style="color:var(--soft)">None</span><span class="sp"></span><svg class="ic chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
-        <div class="box money soft"><span class="d">$</span>0.00</div>
-        <button class="circ rem"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-      </div>
-
-      <div class="addrow"><div class="box typing" style="color:var(--soft)"><svg class="ic" viewBox="0 0 24 24" style="color:#B5B7BE"><path d="M12 5v14M5 12h14"/></svg>Add Supplement<span class="sp"></span></div><div class="box money soft" style="background:#fff; box-shadow:inset 0 0 0 1px #CFCFD6"><span class="d">$</span>0.00</div><button class="circ add"><svg class="ic" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button></div>
+      <div id="rows"></div>
+      <div class="addrow"><div class="box typing" id="addBox" style="color:var(--soft); cursor:pointer"><svg class="ic" viewBox="0 0 24 24" style="color:#B5B7BE"><path d="M12 5v14M5 12h14"/></svg>Add Supplement<span class="sp"></span></div><div class="box money soft" style="background:#fff; box-shadow:inset 0 0 0 1px #CFCFD6"><span class="d">$</span><span contenteditable="true" id="addAmt" spellcheck="false">0.00</span></div><button class="circ add" id="addBtn"><svg class="ic" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button></div>
 
       <div class="hr"></div>
 
       <div class="pay-h"><svg class="ic" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg><b>Payments</b><em>Policy</em><span class="pol">Standard<svg class="ic" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></span></div>
-      <div class="sum">
-        <div class="r"><div class="k">Approved Total</div><div class="v"><span class="d">$</span>12,962.39</div></div>
-        <div class="r"><div class="k">Deductible<span class="waiv">Waived</span></div><div class="v soft"><span class="d">$</span>−500.00</div></div>
-        <div class="r"><div class="k">Adjustments<em>Allowance / Betterment</em></div><div class="v"><span class="d"></span>+150.00</div></div>
-        <div class="r head"><div class="k">Insurance Owes</div><div class="v"></div></div>
-        <div class="r"><div class="k">Estimate 1<em>10,026.25 − 500.00 Ded. + 150.00 Adj.</em></div><div class="v"><span class="d">$</span>9,676.25</div></div>
-        <div class="r"><div class="k">Supplement 1</div><div class="v"><span class="d">$</span>2,936.14</div></div>
-        <div class="r tot"><div class="k">Total</div><div class="v"><span class="d">$</span>12,612.39</div></div>
-        <div class="r"><div class="k" style="color:var(--green)">Paid</div><div class="v green"><span class="d">$</span>2,936.14</div></div>
-        <div class="r"><div class="k">Balance<em>Insurance</em></div><div class="v"><span class="d">$</span>9,676.25</div></div>
-        <div class="r"><div class="k">Balance<em>Customer</em></div><div class="v green"><span class="d">$</span><span><svg class="ic" viewBox="0 0 24 24" style="width:14px;height:14px;vertical-align:-1px;margin-right:6px"><path d="M5 12l5 5 9-10"/></svg>0.00</span></div></div>
-        <div class="r big red"><div class="k">Total Balance</div><div class="v"><span class="d">$</span>9,676.25</div></div>
-      </div>
+      <div class="sum" id="sum"></div>
     </div>
   </div>
 
@@ -134,5 +99,49 @@ body:not(.pay-switch) .tg{ display:none; }
 </div>
 <script>
 document.querySelectorAll('.seg').forEach(function(s){ s.querySelectorAll('button').forEach(function(b,i){ b.addEventListener('click',function(){ s.querySelectorAll('button').forEach(function(x){x.classList.remove('on')}); b.classList.add('on'); document.body.classList.toggle(s.dataset.k, i===1); }); }); });
+</script>
+<script>
+var P=[{n:"Estimate 1",f:"Estimate · Oct 16",paid:false,bank:"None",amt:10026.25},{n:"Supplement 1",f:"Supplement 1 · Oct 17",paid:true,bank:"Check",amt:2936.14},{n:"Supplement 2",f:"",paid:false,bank:"None",amt:0}];
+var ded=500, dedWaived=true, adj=150, BANKS=["None","Check","Card","Cash","Transfer"];
+var m=function(n){ return (n<0?"−":"")+Math.abs(n).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2}); };
+var IC={x:'<svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>',ck:'<svg class="ic" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>',doc:'<svg class="ic doc" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>',up:'<svg class="ic doc" viewBox="0 0 24 24" style="color:#B5B7BE"><path d="M12 16V4M6 10l6-6 6 6M4 20h16"/></svg>',chev:'<svg class="ic chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>'};
+function draw(){
+  document.getElementById("rows").innerHTML=P.map(function(p,i){ var parts=p.f.split(" · ");
+    return '<div class="row" data-i="'+i+'"><div class="name">'+p.n+'</div>'
+    +(p.f?'<div class="box file" data-a="file">'+IC.doc+parts[0]+'<span class="meta">· '+(parts[1]||"")+'</span><span class="sp"></span><span class="view">View</span></div>':'<div class="box empty" data-a="file">'+IC.up+'Upload</div>')
+    +'<button class="pill '+(p.paid?"paid":"unpaid")+'" data-a="paid">'+(p.paid?IC.ck+"Paid":IC.x+"Unpaid")+'<span class="tg"></span></button>'
+    +'<div class="box bank" data-a="bank">'+(p.bank==="None"?'<span style="color:var(--soft)">None</span>':p.bank)+'<span class="sp"></span>'+IC.chev+'</div>'
+    +'<div class="box money'+(p.amt?"":" soft")+'"><span class="d">$</span><span contenteditable="true" spellcheck="false" data-a="amt">'+m(p.amt)+'</span></div>'
+    +(i?'<button class="circ rem" data-a="rem">'+IC.x+'</button>':'<span></span>')+'</div>'; }).join("");
+  var appr=P.reduce(function(a,p){return a+p.amt},0), owes=P.map(function(p,i){ var v=p.amt-(i?0:(dedWaived?0:ded))+(i?0:adj); return {p:p,v:v}; });
+  var paid=owes.reduce(function(a,o){return a+(o.p.paid?o.v:0)},0);
+  var total=owes.reduce(function(a,o){return a+o.v},0), balIns=total-paid, balCus=dedWaived?0:ded, tb=balIns+balCus;
+  function r(k,em,v,cls,extra){ return '<div class="r'+(extra||"")+'"><div class="k">'+k+(em?'<em>'+em+'</em>':'')+'</div><div class="v'+(cls||"")+'">'+(v==null?'':'<span class="d">$</span>'+v)+'</div></div>'; }
+  document.getElementById("sum").innerHTML=
+    r("Approved Total","",m(appr))
+    +'<div class="r"><div class="k">Deductible<span class="waiv" id="waiv">'+(dedWaived?"Waived":"Applied")+'</span></div><div class="v'+(dedWaived?" soft":"")+'"><span class="d">$</span>'+m(-ded)+'</div></div>'
+    +'<div class="r"><div class="k">Adjustments<em>Allowance / Betterment</em></div><div class="v"><span class="d"></span>+'+m(adj)+'</div></div>'
+    +'<div class="r head"><div class="k">Insurance Owes</div><div class="v"></div></div>'
+    +owes.map(function(o,i){ return r(o.p.n, i?"":(m(o.p.amt)+(dedWaived?"":" − "+m(ded)+" Ded.")+" + "+m(adj)+" Adj."), m(o.v)); }).join("")
+    +r("Total","",m(total),""," tot")
+    +'<div class="r"><div class="k" style="color:var(--green)">Paid</div><div class="v green"><span class="d">$</span>'+m(paid)+'</div></div>'
+    +r("Balance","Insurance",m(balIns), balIns<0.005?" green":"")
+    +r("Balance","Customer",m(balCus), balCus<0.005?" green":"")
+    +'<div class="r big '+(tb<0.005?"green":"red")+'"><div class="k">Total Balance</div><div class="v"><span class="d">$</span>'+m(tb)+'</div></div>';
+}
+document.addEventListener("click",function(e){
+  var mn=document.querySelector(".menu"); if(mn&&!mn.contains(e.target)) mn.remove();
+  var t=e.target.closest("[data-a]"); var row=e.target.closest(".row"); var i=row?+row.dataset.i:-1;
+  if(e.target.closest("#waiv")){ dedWaived=!dedWaived; draw(); return; }
+  if(e.target.closest("#addBtn,#addBox")){ if(P.length>=5) return; var v=parseFloat(document.getElementById("addAmt").textContent.replace(/[^\d.]/g,""))||0; P.push({n:"Supplement "+P.length,f:"",paid:false,bank:"None",amt:v}); document.getElementById("addAmt").textContent="0.00"; draw(); return; }
+  if(!t||i<0) return; var a=t.dataset.a, p=P[i];
+  if(a==="paid"){ p.paid=!p.paid; draw(); }
+  else if(a==="rem"){ P.splice(i,1); P.forEach(function(x,k){ if(k) x.n="Supplement "+k; }); draw(); }
+  else if(a==="file"){ if(!p.f) p.f=(i?"Supplement "+i:"Estimate")+" · "+new Date().toLocaleDateString("en-US",{month:"short",day:"numeric"}); draw(); }
+  else if(a==="bank"){ var r=t.getBoundingClientRect(); var d=document.createElement("div"); d.className="menu"; d.style.left=(r.left+window.scrollX)+"px"; d.style.top=(r.bottom+window.scrollY+6)+"px"; d.innerHTML=BANKS.map(function(b){return '<div'+(b===p.bank?' class="on"':'')+'>'+b+'</div>'}).join(""); d.addEventListener("click",function(ev){ var o=ev.target.closest(".menu div"); if(o){ p.bank=o.textContent; draw(); } }); document.body.appendChild(d); }
+});
+document.addEventListener("focusout",function(e){ var t=e.target; if(t.dataset&&t.dataset.a==="amt"){ var row=t.closest(".row"); P[+row.dataset.i].amt=parseFloat(t.textContent.replace(/[^\d.]/g,""))||0; draw(); } },true);
+document.addEventListener("keydown",function(e){ if(e.key==="Enter"&&e.target.isContentEditable){ e.preventDefault(); e.target.blur(); } });
+draw();
 </script>
 </body></html>
