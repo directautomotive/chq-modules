@@ -8735,74 +8735,80 @@ html body:not(.chq5off) #tableBody td.c5do.c5dtl.c5plan .dfmt.c5dt{ padding-left
 html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp .v4xbtn.btn-danger:not(:hover){ color:#A2A4AB !important; background:transparent !important; }
 
 
-/* ---------- MODULE v14: the Estimates section copies the Total Loss Invoice card's real values (measured in the app at true size):
-   label over a box 600 13px · box 40 tall, radius 20, #F2F2F7, 400 14px, padding 16 · money box 120 wide, Courier New 14px, $ at the left · × 36 round red tint · rows 14px ---------- */
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box[data-v4box="Estimates"] .v4bb{ padding:0 24px 20px !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4ehead, #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .est-doc.v4erow.c5efam, #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #v4SupRows .v4supadd{ grid-template-columns:120px minmax(0,1fr) 120px 36px !important; gap:10px !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4ehead{ margin:16px 0 6px !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4ehead span, #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4ehead::after{ font:600 13px var(--v4-word, Inter, Arial), sans-serif !important; color:#000 !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4ehead span:first-child{ font-size:0 !important; } #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4ehead span:first-child::before{ content:"Estimate"; font:600 13px var(--v4-word, Inter, Arial), sans-serif; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4ehead .v4eamth{ text-align:left !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .est-doc.v4erow.c5efam{ margin:0 0 10px !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .est-doc.v4erow.c5efam .est-doc-label{ font:400 14px/1.2 var(--v4-word, Inter, Arial), sans-serif !important; color:#16181D !important; letter-spacing:0 !important; }
-/* the file box — Bill To's twin */
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp{ height:40px !important; border-radius:20px !important; padding:0 16px !important; gap:8px !important; background:#F2F2F7 !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp.empty{ background:#FFF8D6 !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp .v4chip .file-icon{ display:none !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp .v4chip{ display:inline-flex !important; align-items:center; font:400 14px/1.2 var(--v4-word, Inter, Arial), sans-serif !important; color:#16181D !important; letter-spacing:0 !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp .v4chip.attachment-chip::before{ content:""; width:16px; height:16px; flex:none; margin-right:8px; background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2316181D' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z'/%3E%3Cpath d='M14 3v5h5'/%3E%3C/svg%3E") center/16px no-repeat; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp.empty .v4go{ font:400 14px/1.2 var(--v4-word, Inter, Arial), sans-serif !important; color:#9A9AA3 !important; letter-spacing:0 !important; align-items:center !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp.empty .v4go::before{ content:""; width:16px; height:16px; margin-right:8px; background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239A9AA3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 16V4M6 10l6-6 6 6M4 20h16'/%3E%3C/svg%3E") center/16px no-repeat; }
-/* the × — the invoice's own round red-tint 36 button, outside the box (like the charge rows) */
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp .v4xbtn{ position:absolute; }   /* taken out of the pill flow… */
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .est-doc.v4erow.c5efam{ position:relative; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp .v4xbtn{ right:0; top:50%; transform:translateY(-50%); width:36px !important; height:36px !important; border-radius:18px !important; margin:0 !important; font-size:0 !important; background:#FBEAEA url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C0392B' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 6l12 12M18 6L6 18'/%3E%3C/svg%3E") center/14px no-repeat !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp .v4xbtn:disabled{ background:#F2F2F7 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C4C6CC' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 6l12 12M18 6L6 18'/%3E%3C/svg%3E") center/14px no-repeat !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp .v4xbtn:not(:disabled):hover{ background-color:#F5D5D1 !important; }
-/* the money box — Total's twin: 120 wide, $ at the left in grey, Courier New 14 */
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .est-doc.v4erow.c5efam .v4eamt{ width:120px !important; height:40px !important; border-radius:20px !important; padding:0 14px 0 14px !important; background:#F2F2F7 !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .est-doc.v4erow.c5efam .v4eamt::before{ content:"$"; color:#9A9AA3; font:400 14px var(--v4-num, "Courier New", monospace); margin-right:auto; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .est-doc.v4erow.c5efam .v4eamt input{ width:78px !important; font:400 14px var(--v4-num, "Courier New", monospace) !important; color:#16181D !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .est-doc.v4erow.c5efam .v4eamt input:placeholder-shown{ color:#9A9AA3 !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .est-doc.v4erow.c5efam .v4eamt:focus-within{ background:#fff !important; box-shadow:inset 0 0 0 1px #CFCFD6, 0 0 0 1.5px #E8792B !important; }
-/* Add Supplement — the invoice's ready row: white box with the thin line, 40 tall, 14px, and a white + at the right */
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #v4SupRows .v4supadd{ display:grid !important; margin:0 !important; padding:0 !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #v4SupRows .v4supadd .btn{ grid-column:2; height:40px !important; border-radius:20px !important; padding:0 16px !important; font:400 14px var(--v4-word, Inter, Arial), sans-serif !important; color:#9A9AA3 !important; background:#fff !important; box-shadow:inset 0 0 0 1px #CFCFD6 !important; letter-spacing:0 !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #v4SupRows .v4supadd::after{ content:""; grid-column:3 / span 2; height:40px; border-radius:20px; box-shadow:inset 0 0 0 1px #CFCFD6; background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239A9AA3' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M12 5v14M5 12h14'/%3E%3C/svg%3E") right 11px center/14px no-repeat; }
-/* Payments: a line, then the label like "Invoice" */
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #v4JdPay .v4payh{ margin:16px 0 10px !important; padding:16px 0 0 !important; border-top:1px solid #ECECF0 !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #v4JdPay .v4payh b{ font:600 13px var(--v4-word, Inter, Arial), sans-serif !important; color:#000 !important; }
-/* Checks: the same rows — name box 40 tall, Received / Missing pill 36 tall, money 120 */
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk{ border-collapse:separate !important; border-spacing:0 10px !important; margin:-10px 0 6px !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk th{ font:600 13px var(--v4-word, Inter, Arial), sans-serif !important; color:#000 !important; padding:0 !important; border:0 !important; text-align:left !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk th:nth-child(2){ text-align:left !important; padding-left:10px !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk th:last-child{ width:120px; text-align:left !important; padding-left:10px !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk td{ height:40px !important; padding:0 !important; border:0 !important; font:400 14px var(--v4-word, Inter, Arial), sans-serif !important; color:#16181D !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk td:first-child{ background:#F2F2F7; border-radius:20px; padding:0 16px !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk td:nth-child(2){ width:150px; text-align:left !important; padding-left:10px !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk td.v4amt{ padding-left:10px !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk td.v4amt::before{ content:"$"; color:#9A9AA3; font:400 14px var(--v4-num, "Courier New", monospace); display:inline-block; width:22px; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk td.v4amt{ font:400 14px var(--v4-num, "Courier New", monospace) !important; background:#F2F2F7; border-radius:20px; padding:0 14px !important; width:120px; box-sizing:border-box; text-align:right !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk td.v4amt::before{ float:left; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk .v4st{ height:36px !important; min-width:0 !important; width:140px; padding:0 14px !important; border-radius:18px !important; font:600 13px var(--v4-word, Inter, Arial), sans-serif !important; letter-spacing:0 !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk .v4st .in span::after{ font-size:13px !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp.empty .v4go{ width:100% !important; justify-content:flex-start !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk{ margin:0 0 6px !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk td.v4amt, #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk th:last-child{ width:130px; }
-/* v15: the card's inside spacing measured off the Total Loss card — 29 px from the card's edge to the content, label 16 px under the header line, box 3 px under its label */
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box[data-v4box="Estimates"] .v4bb{ padding:0 29px 20px !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4ehead{ margin:16px 0 3px !important; line-height:15px !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4ehead span, #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4ehead span:first-child::before, #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4ehead::after{ line-height:15px !important; display:block; }
+
+/* ---------- MODULE v16: the app's Estimates = the drawing (estimates-family v10), button for button. Card inset 29 / 16 from the Total Loss card. ---------- */
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box[data-v4box="Estimates"] .v4bb{ padding:16px 19px 22px !important; }
 #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #jdPdfSection{ margin:0 !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4ehead{ margin:0 0 3px !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4ehead span:first-child{ line-height:0 !important; height:15px; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .est-doc.v4erow.c5efam .est-doc-label{ padding:0 !important; margin:0 !important; }
-/* v15 b: measured against the Total Loss card — its content sits 19 px inside the card body (29 from the card edge), its first label 16 px under the header line */
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4box[data-v4box="Estimates"] .v4bb{ padding:16px 19px 20px !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4ehead{ height:15px !important; align-items:start !important; overflow:visible; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4ehead > *{ height:15px; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp.empty .v4go{ display:flex !important; text-align:left !important; justify-content:flex-start !important; margin:0 !important; }
-#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #v4JdPay .v4sumbox{ margin-top:12px !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4ehead, #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .est-doc.v4erow.c5efam, #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #v4SupRows .v4supadd{ grid-template-columns:140px minmax(0,1fr) 170px !important; gap:12px !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4ehead{ margin:0 0 6px !important; height:17px !important; align-items:start !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4ehead span, #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4ehead::after{ font:700 14px/17px var(--v4-word, Inter, Arial), sans-serif !important; color:#16181D !important; display:block; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .v4ehead .v4eamth{ text-align:right !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .est-doc.v4erow.c5efam{ margin:0 0 12px !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .est-doc.v4erow.c5efam .est-doc-label{ font:400 16px/1.2 var(--v4-word, Inter, Arial), sans-serif !important; color:#16181D !important; letter-spacing:0 !important; padding:0 !important; margin:0 !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .est-doc.v4erow.c5efam .v4jmk{ display:none !important; }
+/* file pill: 48 tall, svg icon, name, × as a grey circle inside at the right */
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp{ height:48px !important; border-radius:24px !important; padding:0 10px 0 20px !important; gap:10px !important; background:#F2F2F7 !important; display:flex !important; align-items:center; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp.empty{ background:#FFF6D5 !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp .v4chip .file-icon{ display:none !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp .v4chip{ display:inline-flex !important; align-items:center; flex:1; font:400 16px/1.2 var(--v4-word, Inter, Arial), sans-serif !important; color:#16181D !important; letter-spacing:0 !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp .v4chip.attachment-chip::before{ content:""; width:18px; height:18px; flex:none; margin-right:10px; background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2316181D' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z'/%3E%3Cpath d='M14 3v5h5'/%3E%3C/svg%3E") center/18px no-repeat; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp.empty .v4go{ display:flex !important; flex:1; justify-content:flex-start !important; text-align:left !important; margin:0 !important; font:400 16px/1.2 var(--v4-word, Inter, Arial), sans-serif !important; color:#8A8F98 !important; letter-spacing:0 !important; align-items:center !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp.empty .v4go::before{ content:""; width:18px; height:18px; margin-right:10px; background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23B5B7BE' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 16V4M6 10l6-6 6 6M4 20h16'/%3E%3C/svg%3E") center/18px no-repeat; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp .v4xbtn{ position:static !important; transform:none !important; flex:none; width:32px !important; height:32px !important; min-height:0 !important; margin:0 !important; padding:0 !important; border-radius:16px !important; border:0 !important; box-shadow:none !important; font-size:0 !important; background:rgba(0,0,0,.06) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2316181D' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 6l12 12M18 6L6 18'/%3E%3C/svg%3E") center/14px no-repeat !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp .v4xbtn:not(:disabled):hover{ background-color:#FBE9E7 !important; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C0392B' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 6l12 12M18 6L6 18'/%3E%3C/svg%3E") !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp .v4xbtn:disabled{ opacity:1 !important; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2316181D' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 6l12 12M18 6L6 18'/%3E%3C/svg%3E") !important; }
+/* amount pill: 48 tall, 170 wide, $ grey at the left, 700 16 mono at the right */
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .est-doc.v4erow.c5efam .v4eamt{ display:flex; align-items:center; width:170px !important; height:48px !important; border-radius:24px !important; padding:0 20px !important; background:#F2F2F7 !important; box-sizing:border-box; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .est-doc.v4erow.c5efam .v4eamt::before{ content:"$"; color:#8A8F98; font:400 16px var(--v4-num, "Courier New", monospace); margin-right:auto; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .est-doc.v4erow.c5efam .v4eamt input{ width:104px !important; font:700 16px var(--v4-num, "Courier New", monospace) !important; color:#16181D !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .est-doc.v4erow.c5efam .v4eamt input:placeholder-shown{ font-weight:400 !important; color:#8A8F98 !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .est-doc.v4erow.c5efam .v4eamt:focus-within{ background:#fff !important; box-shadow:inset 0 0 0 1px #CFCFD6, 0 0 0 1.5px #E8792B !important; }
+/* Add Supplement: white outlined row + outlined $ 0.00 box beside it */
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #v4SupRows .v4supadd{ display:grid !important; margin:0 !important; padding:0 !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #v4SupRows .v4supadd .btn{ grid-column:1 / span 2; width:100% !important; height:48px !important; border-radius:24px !important; justify-content:flex-start !important; padding:0 20px !important; background:#fff !important; box-shadow:inset 0 0 0 1px #CFCFD6 !important; color:#8A8F98 !important; font:400 16px var(--v4-word, Inter, Arial), sans-serif !important; letter-spacing:0 !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #v4SupRows .v4supadd::after{ content:"$"; grid-column:3; display:flex; align-items:center; height:48px; border-radius:24px; box-shadow:inset 0 0 0 1px #CFCFD6; background:#fff; padding:0 20px; color:#B5B7BE; font:400 16px var(--v4-num, "Courier New", monospace); }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #v4SupRows .v4supadd::before{ content:"0.00"; grid-column:3; grid-row:1; justify-self:end; align-self:center; margin-right:20px; color:#8A8F98; font:400 16px var(--v4-num, "Courier New", monospace); position:relative; z-index:1; }
+/* line + Payments header, then Checks as its own sub-heading */
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #v4JdPay .v4payh{ margin:22px 0 14px !important; padding:22px 0 0 !important; border-top:1px solid #ECECF0 !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #v4JdPay .v4payh b{ font:700 17px var(--v4-word, Inter, Arial), sans-serif !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5chkh{ display:flex; align-items:center; gap:14px; margin:0 0 12px; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5chkh b{ font:700 16px var(--v4-word, Inter, Arial), sans-serif; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5chkh em{ font:400 15px var(--v4-word, Inter, Arial), sans-serif; font-style:normal; color:#8A8F98; border-left:1px solid #ECECF0; padding-left:14px; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5chkh .seg{ margin-left:auto; display:inline-flex; background:#fff; border-radius:18px; padding:3px; box-shadow:0 0 0 .5px rgba(0,0,0,.08); }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5chkh .seg button{ height:30px !important; min-height:0 !important; padding:0 12px !important; border-radius:15px !important; border:0 !important; background:none !important; box-shadow:none !important; font:600 13px var(--v4-word, Inter, Arial), sans-serif !important; color:#5B6472 !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5chkh .seg button.on{ background:#16181D !important; color:#fff !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk{ width:100% !important; border-collapse:separate !important; border-spacing:0 12px !important; margin:-12px 0 0 !important; table-layout:fixed; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk colgroup{ display:none; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk tr:first-child{ display:none; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk td{ height:48px !important; padding:0 !important; border:0 !important; font:400 16px var(--v4-word, Inter, Arial), sans-serif !important; color:#16181D !important; vertical-align:middle; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk td.c5ckn{ width:140px; font-weight:600 !important; padding-right:12px !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk td.c5ckw{ padding-right:12px !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk td.c5ckw > span{ display:flex; align-items:center; height:48px; padding:0 20px; border-radius:24px; background:#F2F2F7; gap:10px; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk td.c5ckw em{ font-style:normal; color:#8A8F98; border-left:1px solid #DADBE0; padding-left:12px; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk td:nth-child(3){ width:150px; padding-right:12px !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk td:nth-child(4){ display:none !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk .v4st{ width:150px; height:48px !important; min-width:0 !important; padding:0 22px !important; border-radius:24px !important; justify-content:center; font:600 16px var(--v4-word, Inter, Arial), sans-serif !important; letter-spacing:0 !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk .v4st.ok{ background:#E7F4EA !important; color:#1E7B34 !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk .v4st.x{ background:#FBE9E7 !important; color:#C0392B !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk .v4st .in span{ font-size:0 !important; } #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk .v4st .in span::after{ font-size:16px !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk .v4st svg{ width:16px !important; height:16px !important; flex-basis:16px !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk td.v4amt{ width:170px; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk td.v4amt{ font:700 16px var(--v4-num, "Courier New", monospace) !important; background:#F2F2F7; border-radius:24px; padding:0 20px !important; box-sizing:border-box; text-align:right !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk td.v4amt::before{ content:"$"; float:left; color:#8A8F98; font-weight:400; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk tr.c5miss td.v4amt{ color:#8A8F98 !important; font-weight:400 !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk .v4addrow{ display:none !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5chkl{ font:600 15px var(--v4-word, Inter, Arial), sans-serif; color:#6C6C73; margin:4px 0 18px 2px; } #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5chkl b{ color:#C0392B; } #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5chkl b.ok{ color:#1E7B34; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #v4JdPay .v4sumbox{ margin-top:0 !important; }
+/* v16 b */
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp .v4chip{ width:auto !important; max-width:none !important; min-width:0 !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp .v4xbtn::before, #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp .v4xbtn::after{ content:none !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #v4SupRows .v4supadd::before, #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #v4SupRows .v4supadd::after{ grid-row:1 !important; grid-column:3 !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay #v4SupRows .v4supadd{ grid-template-rows:48px !important; }
+/* v16 c */
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp .v4xbtn{ margin-left:auto !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp.empty .v4go{ width:100% !important; flex:1 1 auto !important; }
+#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay table.c5chk td:nth-child(3){ display:table-cell !important; }
+html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay .c5fp.empty .v4go{ justify-content:flex-start !important; text-align:left !important; }
 </style>
 </head>
 <!-- Starts locked so the board never flashes up before we know who this is.
@@ -8839,7 +8845,7 @@ html body:not(.chq5off) #jobDetailsOverlay#jobDetailsOverlay#jobDetailsOverlay#j
          changed width — and the Save label changes width constantly. -->
     <div class="topbar-brand">
       <div class="app-title">Collision<span class="hq">HQ</span>
-        <span class="version-badge" id="versionBadge">HQ v5.341 · Module 14</span></div>
+        <span class="version-badge" id="versionBadge">HQ v5.341 · Module 16</span></div>
     </div>
 
     <div class="topbar-right">
@@ -25238,7 +25244,7 @@ window.addEventListener("keydown", function(e){
         row.classList.add("c5efam");
         var chip = row.querySelector(".v4chip"), go = row.querySelector("[data-doc-add], [data-doc-view]"), x = row.querySelector(".v4xbtn");   /* 5.341: a row with a file has View, not Upload */
         if(!chip || !go || !x){ row.classList.remove("c5efam"); return; }
-        var fp = document.createElement("div"); fp.className = "c5fp"; chip.parentNode.insertBefore(fp, chip); fp.appendChild(chip); fp.appendChild(go); fp.appendChild(x);
+        var fp = document.createElement("div"); fp.className = "c5fp"; chip.parentNode.insertBefore(fp, chip); fp.appendChild(chip); fp.appendChild(go); fp.appendChild(x); x.textContent = ""; x.setAttribute("aria-label", "Remove");
       });
       document.querySelectorAll(ID + ' .est-doc.v4erow.c5efam').forEach(function(row){
         var chip = row.querySelector(".v4chip"), fp = row.querySelector(".c5fp"); if(!fp) return;
@@ -25256,8 +25262,18 @@ window.addEventListener("keydown", function(e){
     /* Checks list: relabel the Payments card's inner table */
     function checks(){
       document.querySelectorAll(ID + ' #v4JdPay table.v4lines:not(.c5chk)').forEach(function(t){ t.classList.add("c5chk");
-        var th = t.querySelectorAll("tr:first-child th"); if(th[0]) th[0].textContent = "Checks"; if(th[1]) th[1].textContent = "Received"; });
+        t.insertAdjacentHTML("beforebegin", '<div class="c5chkh"><b>Checks</b><em>What Insurance Should Send</em><span class="seg"><button type="button" class="on">One Per Paper</button><button type="button">Combined</button></span></div>');
+        t.insertAdjacentHTML("afterend", '<div class="c5chkl"></div>'); });
+      document.querySelectorAll(ID + ' #v4JdPay table.c5chk').forEach(function(t){
+        var rows = [].slice.call(t.querySelectorAll("tr")).filter(function(r){ return r.querySelector(".v4st"); }), n = 0, miss = 0, missAmt = 0;
+        rows.forEach(function(r, i){
+          var first = r.children[0]; if(!r.classList.contains("c5ckd")){ r.classList.add("c5ckd"); var nm = first.textContent.trim(); first.classList.add("c5ckw"); first.innerHTML = '<span>' + nm + (i === 0 ? '<em>after adjustments</em>' : '') + '</span>'; r.insertAdjacentHTML("afterbegin", '<td class="c5ckn">Check ' + (i + 1) + '</td>'); }
+          var amt = r.querySelector(".v4amt"), v = amt ? parseFloat(amt.textContent.replace(/[^\d.-]/g, "")) || 0 : 0; if(Math.abs(v) < 0.005){ r.style.display = "none"; return; } n++;
+          var missing = !!r.querySelector(".v4st.x"); r.classList.toggle("c5miss", missing); if(missing){ miss++; missAmt += v; } });
+        var l = t.nextElementSibling; if(l && l.classList.contains("c5chkl")) l.innerHTML = miss ? '<b>' + miss + ' of ' + n + ' check' + (n === 1 ? "" : "s") + ' missing</b> · $' + missAmt.toLocaleString("en-US", { minimumFractionDigits:2, maximumFractionDigits:2 }) + ' still to come' : '<b class="ok">All ' + n + ' check' + (n === 1 ? "" : "s") + ' received</b>';
+      });
     }
+    document.addEventListener("click", function(e){ var b = e.target.closest && e.target.closest(ID + " .c5chkh .seg button"); if(!b) return; b.parentNode.querySelectorAll("button").forEach(function(x){ x.classList.remove("on"); }); b.classList.add("on"); }, true);
     var q = 0; function soon(){ if(q) return; q = requestAnimationFrame(function(){ q = 0; try{ wrap(); checks(); }catch(e){} }); }
     new MutationObserver(soon).observe(document.documentElement, { childList:true, subtree:true, attributes:true, attributeFilter:["class"] });
   }catch(e){ console.warn("estmod", e); }
