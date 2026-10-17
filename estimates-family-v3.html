@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Estimates Family v5 — CollisionHQ</title>
+<title>Estimates Family v6 — CollisionHQ</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{ color-scheme:light; --page:#F2F2F7; --card:#fff; --ink:#16181D; --gray:#6C6C73; --soft:#8A8F98; --line:#ECECF0; --fill:#F2F2F7;
@@ -69,7 +69,7 @@ body:not(.pay-switch) .tg{ display:none; }
 .pill.paid, .pill.unpaid, .box.file, .box.empty, .box.bank, .waiv{ cursor:pointer; user-select:none; }
 </style></head>
 <body class="">
-<div class="top"><h1>Estimates Family</h1><span class="ver">Version 5</span>
+<div class="top"><h1>Estimates Family</h1><span class="ver">Version 6</span>
   <span class="sw">Header <span class="seg" data-k="hd-black"><button class="on">Labels</button><button>Black bar</button></span></span>
   <span class="sw">Paid <span class="seg" data-k="pay-switch"><button class="on">Pill</button><button>Switch</button></span></span>
   <span class="sw">Summary <span class="seg" data-k="sum-flat"><button class="on">Boxed</button><button>Flat</button></span></span>
@@ -108,7 +108,7 @@ var IC={x:'<svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/><
 function draw(){
   document.getElementById("rows").innerHTML=P.map(function(p,i){ var parts=p.f.split(" · ");
     return '<div class="row" data-i="'+i+'"><div class="name">'+p.n+'</div>'
-    +(p.f?'<div class="box file" data-a="file">'+IC.doc+parts[0]+'<span class="meta">· '+(parts[1]||"")+'</span><span class="sp"></span><span class="view">View</span></div>':'<div class="box empty" data-a="file">'+IC.up+'Upload</div>')
+    +(p.f?'<div class="box file" data-a="file">'+IC.doc+parts[0]+'<span class="sp"></span><span class="view">View</span></div>':'<div class="box empty" data-a="file">'+IC.up+'Upload</div>')
     +'<button class="pill '+(p.paid?"paid":"unpaid")+'" data-a="paid">'+(p.paid?IC.ck+"Paid":IC.x+"Unpaid")+'<span class="tg"></span></button>'
     +'<div class="box bank" data-a="bank">'+(p.bank==="None"?'<span style="color:var(--soft)">None</span>':p.bank)+'<span class="sp"></span>'+IC.chev+'</div>'
     +'<div class="box money'+(p.amt?"":" soft")+'"><span class="d">$</span><span contenteditable="true" spellcheck="false" data-a="amt">'+m(p.amt)+'</span></div>'
