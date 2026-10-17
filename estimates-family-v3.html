@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Estimates Family v3 — CollisionHQ</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{ color-scheme:light; --page:#F2F2F7; --card:#fff; --ink:#16181D; --gray:#6C6C73; --soft:#8A8F98; --line:#ECECF0; --fill:#F2F2F7;
+  --orange:#E8792B; --green:#1E7B34; --green-tint:#E7F4EA; --red:#C0392B; --red-tint:#FBE9E7; --yellow:#FFF6D5;
+  --words:Inter,-apple-system,"Segoe UI",Arial,sans-serif; --nums:"Courier New",Courier,monospace; }
+*{ box-sizing:border-box; } body{ margin:0; background:#D9D9DE; color:var(--ink); font:400 14px/1.5 var(--words); -webkit-font-smoothing:antialiased; }
+.top{ max-width:1180px; margin:0 auto; padding:18px 16px 0; display:flex; flex-wrap:wrap; gap:10px 18px; align-items:center; }
+.top h1{ font:800 22px var(--words); margin:0; letter-spacing:-.02em; } .top .ver{ font:700 13px var(--nums); color:var(--orange); }
+.sw{ display:inline-flex; align-items:center; gap:8px; font:600 13px var(--words); color:#3A3F47; } .sw .seg{ display:inline-flex; background:#fff; border-radius:18px; padding:3px; box-shadow:0 0 0 .5px rgba(0,0,0,.08); }
+.sw .seg button{ height:30px; padding:0 12px; border-radius:15px; background:none; border:0; font:600 13px var(--words); color:#5B6472; cursor:pointer; } .sw .seg button.on{ background:var(--ink); color:#fff; }
+.win{ max-width:1180px; margin:16px auto 40px; background:#fff; border-radius:28px; padding:24px 30px 30px; box-shadow:0 20px 60px rgba(0,0,0,.18); }
+.wh{ display:flex; align-items:center; gap:14px; margin-bottom:18px; } .wh b{ font:800 26px var(--words); } .wh span{ color:var(--ink); font:400 20px var(--words); border-left:1px solid var(--line); padding-left:14px; }
+.x{ margin-left:auto; width:52px; height:52px; border-radius:26px; background:var(--fill); display:grid; place-items:center; border:0; }
+.sec{ border:1px solid var(--line); border-radius:22px; padding:0 0 22px; }
+.sec .h{ display:flex; align-items:center; gap:14px; padding:22px 24px; border-bottom:1px solid var(--line); margin-bottom:22px; }
+.sec .h b{ font:700 19px var(--words); } .sec .h span{ color:var(--ink); font:400 17px var(--words); border-left:1px solid var(--line); padding-left:14px; } .sec .h i{ margin-left:auto; }
+.sec .h .ic{ width:22px; height:22px; }
+.body{ padding:0 42px; } .other{ margin-top:14px; } .other .h{ border:0; margin:0; }
+.ic{ width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; flex:none; }
+label.l{ display:block; font:700 15px var(--words); margin:0 0 8px; }
+.g{ display:grid; gap:14px; align-items:end; } .g > div{ min-width:0; }
+.box{ display:flex; align-items:center; gap:10px; height:56px; padding:0 22px; border-radius:28px; background:var(--fill); font:400 17px var(--words); white-space:nowrap; }
+.box.empty{ background:var(--yellow); color:var(--soft); } .box.typing{ background:#fff; box-shadow:inset 0 0 0 1px #CFCFD6; }
+.box .sp{ flex:1; } .box .chev{ color:var(--ink); } .box .doc{ color:var(--ink); }
+.box.money{ font:700 17px var(--nums); justify-content:flex-end; padding:0 20px; } .box.money .d{ color:var(--soft); font-weight:400; margin-right:auto; }
+.box.money.soft{ color:var(--soft); font-weight:400; } .box.money.soft .d{ color:#B5B7BE; }
+.pill{ display:inline-flex; align-items:center; justify-content:center; gap:8px; height:56px; padding:0 22px; border-radius:28px; font:600 17px var(--words); background:var(--fill); border:0; cursor:pointer; white-space:nowrap; }
+.pill.paid{ background:var(--green-tint); color:var(--green); } .pill.unpaid{ background:var(--red-tint); color:var(--red); }
+.pill.dark{ background:var(--ink); color:#fff; } .pill.orange{ background:var(--orange); color:#fff; }
+.circ{ width:56px; height:56px; border-radius:28px; display:inline-grid; place-items:center; border:0; cursor:pointer; flex:none; }
+.circ.rem{ background:var(--red-tint); color:var(--red); } .circ.add{ background:#fff; color:#3A3F47; box-shadow:inset 0 0 0 1px #CFCFD6; } .circ.lock{ background:var(--fill); color:var(--ink); } .circ.dim{ background:var(--fill); color:#C4C6CC; }
+.hr{ border-top:1px solid var(--line); margin:22px 0; }
+.row{ display:grid; grid-template-columns:150px minmax(0,1fr) 150px 150px 184px 56px; gap:14px; align-items:center; margin-bottom:14px; }
+.row.hd{ margin:0 0 8px; } .row.hd label{ margin:0; }
+.row .name{ font:400 17px var(--words); }
+.box.file{ cursor:pointer; } .box.file .meta{ color:var(--soft); font-size:15px; margin-left:4px; }
+.addrow{ display:grid; grid-template-columns:minmax(0,1fr) 184px 56px; gap:14px; align-items:center; }
+/* summary box */
+.sum{ border:1px solid var(--line); border-radius:22px; padding:0 20px 10px; background:#FAFAFB; }
+.sum .r{ display:grid; grid-template-columns:minmax(0,1fr) 300px; align-items:center; height:54px; border-bottom:1px solid var(--line); }
+.sum .r:last-of-type{ border-bottom:0; }
+.sum .k{ display:flex; align-items:center; gap:14px; font:400 17px var(--words); } .sum .k em{ font-style:normal; color:var(--soft); border-left:1px solid #DADBE0; padding-left:14px; font-size:16px; }
+.sum .k b{ font-weight:700; } .sum .v{ display:flex; justify-content:space-between; font:700 17px var(--nums); padding-left:40px; } .sum .v .d{ color:var(--soft); font-weight:400; }
+.sum .v.soft{ color:var(--soft); font-weight:400; } .sum .v.green{ color:var(--green); } .sum .v.green .d{ color:var(--green); }
+.sum .r.head .k{ font-weight:700; } .sum .r.head{ height:46px; }
+.sum .r.tot{ border-top:2px solid var(--ink); border-bottom:1px solid var(--line); } .sum .r.tot .k{ font-weight:700; }
+.sum .r.big{ margin:12px -8px 2px; padding:0 20px 0 12px; border-radius:18px; height:62px; border:0; }
+.sum .r.big.red{ background:var(--red-tint); color:var(--red); } .sum .r.big.green{ background:var(--green-tint); color:var(--green); }
+.sum .r.big .k{ font:700 19px var(--words); } .sum .r.big .v{ font-size:19px; } .sum .r.big .v .d{ color:inherit; }
+.sum .waiv{ margin-left:auto; height:40px; padding:0 20px; border-radius:20px; background:var(--fill); color:var(--soft); font:600 15px var(--words); display:inline-flex; align-items:center; margin-right:30px; }
+.pol{ display:inline-flex; align-items:center; gap:10px; height:44px; padding:0 18px; border-radius:22px; background:var(--fill); font:600 16px var(--words); }
+.pay-h{ display:flex; align-items:center; gap:14px; margin:0 0 14px; } .pay-h b{ font:700 17px var(--words); } .pay-h em{ font-style:normal; color:var(--soft); border-left:1px solid var(--line); padding-left:14px; }
+.foot{ display:flex; justify-content:flex-end; margin-top:18px; }
+/* switches */
+body.hd-black .row.hd{ background:var(--ink); color:#fff; border-radius:12px; padding:0 22px; height:48px; margin:0 0 10px; }
+body.hd-black .row.hd label{ color:#fff; font-size:15px; }
+body.sum-flat .sum{ border:0; background:transparent; padding:0; }
+body.pay-switch .pill.paid, body.pay-switch .pill.unpaid{ padding:0 8px 0 18px; }
+body.pay-switch .pill .tg{ width:46px; height:28px; border-radius:14px; background:#C9CBD1; position:relative; } body.pay-switch .pill .tg::after{ content:""; position:absolute; top:3px; left:3px; width:22px; height:22px; border-radius:11px; background:#fff; }
+body.pay-switch .pill.paid .tg{ background:var(--green); } body.pay-switch .pill.paid .tg::after{ left:21px; }
+body:not(.pay-switch) .tg{ display:none; }
+@media (max-width:900px){ .row{ grid-template-columns:1fr 1fr; } .row.hd{ display:none; } .body{ padding:0 16px; } .win{ padding:18px 14px 24px; border-radius:22px; } .sum .r{ grid-template-columns:minmax(0,1fr) 170px; } }
+</style></head>
+<body class="">
+<div class="top"><h1>Estimates Family</h1><span class="ver">Version 3</span>
+  <span class="sw">Header <span class="seg" data-k="hd-black"><button class="on">Labels</button><button>Black bar</button></span></span>
+  <span class="sw">Paid <span class="seg" data-k="pay-switch"><button class="on">Pill</button><button>Switch</button></span></span>
+  <span class="sw">Summary <span class="seg" data-k="sum-flat"><button class="on">Boxed</button><button>Flat</button></span></span>
+</div>
+
+<div class="win">
+  <div class="wh"><svg class="ic" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg><b>Details</b><span>2018 Chrysler Pacifica</span><span>Allstate</span><button class="x"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+
+  <div class="sec other"><div class="h"><svg class="ic" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg><b>Customer Details</b><span>Customer, Vehicle And Insurance</span><i><svg class="ic" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></i></div></div>
+
+  <div class="sec" style="margin-top:14px">
+    <div class="h"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2v20M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><b>Estimates</b><span>Insurance Paperwork And What Has Been Paid</span><i><svg class="ic" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></i></div>
+    <div class="body">
+
+      <div class="row hd"><label class="l">Paper</label><label class="l">File</label><label class="l">Payment</label><label class="l">Bank</label><label class="l" style="text-align:right">Amount</label><span></span></div>
+
+      <div class="row">
+        <div class="name">Estimate 1</div>
+        <div class="box file"><svg class="ic doc" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>Estimate <span class="meta">· Oct 16</span><span class="sp"></span><span class="meta">View</span></div>
+        <button class="pill unpaid"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>Unpaid<span class="tg"></span></button>
+        <div class="box"><span class="soft" style="color:var(--soft)">None</span><span class="sp"></span><svg class="ic chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
+        <div class="box money"><span class="d">$</span>10,026.25</div>
+        <button class="circ dim" title="Nothing to remove"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      </div>
+
+      <div class="row">
+        <div class="name">Supplement 1</div>
+        <div class="box file"><svg class="ic doc" viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/></svg>Supplement 1 <span class="meta">· Oct 17</span><span class="sp"></span><span class="meta">View</span></div>
+        <button class="pill paid"><svg class="ic" viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg>Paid<span class="tg"></span></button>
+        <div class="box">Check<span class="sp"></span><svg class="ic chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
+        <div class="box money"><span class="d">$</span>2,936.14</div>
+        <button class="circ rem"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      </div>
+
+      <div class="row">
+        <div class="name">Supplement 2</div>
+        <div class="box empty"><svg class="ic doc" viewBox="0 0 24 24" style="color:#B5B7BE"><path d="M12 5v14M5 12h14"/></svg>Upload the supplement…</div>
+        <button class="pill unpaid"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>Unpaid<span class="tg"></span></button>
+        <div class="box"><span style="color:var(--soft)">None</span><span class="sp"></span><svg class="ic chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
+        <div class="box money soft"><span class="d">$</span>0.00</div>
+        <button class="circ rem"><svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      </div>
+
+      <div class="addrow"><div class="box typing" style="color:var(--soft)">Add Supplement<span class="sp"></span></div><div class="box money soft" style="background:#fff; box-shadow:inset 0 0 0 1px #CFCFD6"><span class="d">$</span>0.00</div><button class="circ add"><svg class="ic" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button></div>
+
+      <div class="hr"></div>
+
+      <div class="pay-h"><svg class="ic" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg><b>Payments</b><em>Policy</em><span class="pol">Standard<svg class="ic" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></span></div>
+      <div class="sum">
+        <div class="r"><div class="k">Approved Total</div><div class="v"><span class="d">$</span>12,962.39</div></div>
+        <div class="r"><div class="k">Deductible<span class="waiv">Waived</span></div><div class="v soft"><span class="d">$</span>−500.00</div></div>
+        <div class="r"><div class="k">Adjustments<em>Allowance / Betterment</em></div><div class="v"><span class="d"></span>+150.00</div></div>
+        <div class="r head"><div class="k">Insurance Owes</div><div class="v"></div></div>
+        <div class="r"><div class="k">Estimate 1<em>10,026.25 − 500.00 Ded. + 150.00 Adj.</em></div><div class="v"><span class="d">$</span>9,676.25</div></div>
+        <div class="r"><div class="k">Supplement 1</div><div class="v"><span class="d">$</span>2,936.14</div></div>
+        <div class="r tot"><div class="k">Total</div><div class="v"><span class="d">$</span>12,612.39</div></div>
+        <div class="r"><div class="k" style="color:var(--green)">Paid</div><div class="v green"><span class="d">$</span>2,936.14</div></div>
+        <div class="r"><div class="k">Balance<em>Insurance</em></div><div class="v"><span class="d">$</span>9,676.25</div></div>
+        <div class="r"><div class="k">Balance<em>Customer</em></div><div class="v green"><span class="d">$</span>✓ 0.00</div></div>
+        <div class="r big red"><div class="k">Total Balance</div><div class="v"><span class="d">$</span>9,676.25</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec other"><div class="h"><svg class="ic" viewBox="0 0 24 24"><path d="M3 17c3 0 3-10 6-10s3 10 6 10 3-10 6-10"/></svg><b>Repair Authorization</b><span>Signed Before Any Work Starts</span><i><svg class="ic" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></i></div></div>
+</div>
+<script>
+document.querySelectorAll('.seg').forEach(function(s){ s.querySelectorAll('button').forEach(function(b,i){ b.addEventListener('click',function(){ s.querySelectorAll('button').forEach(function(x){x.classList.remove('on')}); b.classList.add('on'); document.body.classList.toggle(s.dataset.k, i===1); }); }); });
+</script>
+</body></html>
