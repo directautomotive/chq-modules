@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Estimates Family v9 — CollisionHQ</title>
+<title>Estimates Family v10 — CollisionHQ</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{ color-scheme:light; --page:#F2F2F7; --card:#fff; --ink:#16181D; --gray:#6C6C73; --soft:#8A8F98; --line:#ECECF0; --fill:#F2F2F7;
@@ -33,11 +33,11 @@ label.l{ display:block; font:700 14px var(--words); margin:0 0 6px; }
 .circ{ width:48px; height:48px; border-radius:24px; display:inline-grid; place-items:center; border:0; cursor:pointer; flex:none; }
 .circ.rem{ background:var(--red-tint); color:var(--red); } .circ.add{ background:#fff; color:#3A3F47; box-shadow:inset 0 0 0 1px #CFCFD6; } .circ.lock{ background:var(--fill); color:var(--ink); } .circ.dim{ background:var(--fill); color:#C4C6CC; }
 .hr{ border-top:1px solid var(--line); margin:22px 0; }
-.row{ display:grid; grid-template-columns:140px minmax(0,1fr) 170px 48px; gap:12px; align-items:center; margin-bottom:12px; }
+.row{ display:grid; grid-template-columns:140px minmax(0,1fr) 170px; gap:12px; align-items:center; margin-bottom:12px; }
 .row.hd{ margin:0 0 8px; } .row.hd label{ margin:0; }
 .row .name{ font:400 16px var(--words); }
 .box.file{ cursor:pointer; } .box.file .meta{ color:var(--soft); font-size:14px; } .box.file .view{ font:600 14px var(--words); color:var(--ink); }
-.addrow{ display:grid; grid-template-columns:minmax(0,1fr) 170px 48px; gap:12px; align-items:center; }
+.addrow{ display:grid; grid-template-columns:minmax(0,1fr) 170px; gap:12px; align-items:center; }
 /* summary box */
 .sum{ border:1px solid var(--line); border-radius:22px; padding:0 20px 10px; background:#FAFAFB; }
 .sum .r{ display:grid; grid-template-columns:minmax(0,1fr) 280px; align-items:center; height:50px; border-bottom:1px solid var(--line); }
@@ -73,9 +73,11 @@ body:not(.pay-switch) .tg{ display:none; }
 .chk .c .who em{ font-style:normal; color:var(--soft); border-left:1px solid #DADBE0; padding-left:12px; }
 .chk .miss{ background:var(--red-tint); color:var(--red); } .chk .got{ background:var(--green-tint); color:var(--green); }
 .chk .line{ display:flex; gap:14px; align-items:center; font:600 15px var(--words); color:var(--gray); padding:4px 0 0 2px; } .chk .line b{ color:var(--red); } .chk .line b.ok{ color:var(--green); }
+.fx{ width:28px; height:28px; border-radius:14px; display:inline-grid; place-items:center; background:rgba(0,0,0,.06); color:var(--ink); margin-right:-8px; } .fx:hover{ background:var(--red-tint); color:var(--red); } .fx.dim{ color:#C4C6CC; pointer-events:none; } .fx .ic{ width:14px; height:14px; }
+.pay-h.sub{ margin:4px 0 12px; } .pay-h.sub b{ font-size:16px; } .chk{ margin-bottom:18px; }
 </style></head>
 <body class="">
-<div class="top"><h1>Estimates Family</h1><span class="ver">Version 9</span>
+<div class="top"><h1>Estimates Family</h1><span class="ver">Version 10</span>
   <span class="sw">Header <span class="seg" data-k="hd-black"><button class="on">Labels</button><button>Black bar</button></span></span>
   
   <span class="sw">Summary <span class="seg" data-k="sum-flat"><button class="on">Boxed</button><button>Flat</button></span></span>
@@ -90,18 +92,16 @@ body:not(.pay-switch) .tg{ display:none; }
     <div class="h"><svg class="ic" viewBox="0 0 24 24"><path d="M12 2v20M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg><b>Estimates</b><span>Insurance Paperwork And What Has Been Paid</span><i><svg class="ic" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></i></div>
     <div class="body">
 
-      <div class="row hd"><label class="l">Paper</label><label class="l">File</label><label class="l" style="text-align:right">Amount</label><span></span></div>
+      <div class="row hd"><label class="l">Paper</label><label class="l">File</label><label class="l" style="text-align:right">Amount</label></div>
       <div id="rows"></div>
-      <div class="addrow"><div class="box typing" id="addBox" style="color:var(--soft); cursor:pointer"><svg class="ic" viewBox="0 0 24 24" style="color:#B5B7BE"><path d="M12 5v14M5 12h14"/></svg>Add Supplement<span class="sp"></span></div><div class="box money soft" style="background:#fff; box-shadow:inset 0 0 0 1px #CFCFD6"><span class="d">$</span><span contenteditable="true" id="addAmt" spellcheck="false">0.00</span></div><button class="circ add" id="addBtn"><svg class="ic" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button></div>
-
-      <div class="hr"></div>
-
-      <div class="pay-h"><b>Checks</b><em>What Insurance Should Send</em><span class="sw" style="margin-left:auto"><span class="seg" id="combine"><button class="on">One Per Paper</button><button>Combined</button></span></span></div>
-      <div class="chk" id="chk"></div>
+      <div class="addrow"><div class="box typing" id="addBox" style="color:var(--soft); cursor:pointer"><svg class="ic" viewBox="0 0 24 24" style="color:#B5B7BE"><path d="M12 5v14M5 12h14"/></svg>Add Supplement<span class="sp"></span></div><div class="box money soft" style="background:#fff; box-shadow:inset 0 0 0 1px #CFCFD6"><span class="d">$</span><span contenteditable="true" id="addAmt" spellcheck="false">0.00</span></div></div>
 
       <div class="hr"></div>
 
       <div class="pay-h"><svg class="ic" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg><b>Payments</b><em>Policy</em><span class="pol">Standard<svg class="ic" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></span></div>
+      <div class="pay-h sub"><b>Checks</b><em>What Insurance Should Send</em><span class="sw" style="margin-left:auto"><span class="seg" id="combine"><button class="on">One Per Paper</button><button>Combined</button></span></span></div>
+      <div class="chk" id="chk"></div>
+
       <div class="sum" id="sum"></div>
     </div>
   </div>
@@ -119,9 +119,9 @@ var IC={x:'<svg class="ic" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/><
 function draw(){
   document.getElementById("rows").innerHTML=P.map(function(p,i){ var parts=p.f.split(" · ");
     return '<div class="row" data-i="'+i+'"><div class="name">'+p.n+'</div>'
-    +(p.f?'<div class="box file" data-a="file">'+IC.doc+parts[0]+'<span class="sp"></span><span class="view">View</span></div>':'<div class="box empty" data-a="file">'+IC.up+'Upload</div>')
+    +(p.f?'<div class="box file" data-a="open">'+IC.doc+parts[0]+'<span class="sp"></span><span class="fx" data-a="unfile" title="Remove this file">'+IC.x+'</span></div>':'<div class="box empty" data-a="file">'+IC.up+'Upload<span class="sp"></span><span class="fx'+(i?'':' dim')+'" data-a="'+(i?'rem':'none')+'" title="'+(i?'Remove this supplement':'')+'">'+IC.x+'</span></div>')
     +'<div class="box money'+(p.amt?"":" soft")+'"><span class="d">$</span><span contenteditable="true" spellcheck="false" data-a="amt">'+m(p.amt)+'</span></div>'
-    +(i?'<button class="circ rem" data-a="rem">'+IC.x+'</button>':'<span></span>')+'</div>'; }).join("");
+    +'</div>'; }).join("");
   var appr=P.reduce(function(a,p){return a+p.amt},0), owes=P.map(function(p,i){ var v=p.amt-(i?0:(dedWaived?0:ded))+(i?0:adj); return {p:p,v:v}; });
   var paid=owes.reduce(function(a,o){return a+(o.p.paid?o.v:0)},0);
   var total=owes.reduce(function(a,o){return a+o.v},0), balIns=total-paid, balCus=dedWaived?0:ded, tb=balIns+balCus;
@@ -156,6 +156,7 @@ document.addEventListener("click",function(e){
   if(a==="paid"){ p.paid=!p.paid; draw(); }
   else if(a==="rem"){ P.splice(i,1); P.forEach(function(x,k){ if(k) x.n="Supplement "+k; }); draw(); }
   else if(a==="file"){ if(!p.f) p.f=(i?"Supplement "+i:"Estimate")+" · "+new Date().toLocaleDateString("en-US",{month:"short",day:"numeric"}); draw(); }
+  else if(a==="unfile"){ p.f=""; draw(); }
   else if(a==="bank"){ var r=t.getBoundingClientRect(); var d=document.createElement("div"); d.className="menu"; d.style.left=(r.left+window.scrollX)+"px"; d.style.top=(r.bottom+window.scrollY+6)+"px"; d.innerHTML=BANKS.map(function(b){return '<div'+(b===p.bank?' class="on"':'')+'>'+b+'</div>'}).join(""); d.addEventListener("click",function(ev){ var o=ev.target.closest(".menu div"); if(o){ p.bank=o.textContent; draw(); } }); document.body.appendChild(d); }
 });
 document.addEventListener("focusout",function(e){ var t=e.target; if(t.dataset&&t.dataset.a==="amt"){ var row=t.closest(".row"); P[+row.dataset.i].amt=parseFloat(t.textContent.replace(/[^\d.]/g,""))||0; draw(); } },true);
